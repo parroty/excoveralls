@@ -1,2 +1,2 @@
-defmodule Excoveralls do
+defmodule ExCoveralls do
 end
