@@ -1,0 +1,2 @@
+defmodule Excoveralls do
+end
