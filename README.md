@@ -4,7 +4,7 @@ ExCoveralls [![Build Status](https://secure.travis-ci.org/parroty/excoveralls.pn
 A library to post coverage stats to [coveralls.io](https://coveralls.io/) service.
 It uses Erlang's [cover](http://www.erlang.org/doc/man/cover.html) to generate coverage information, and post it to coveralls' json API.
 
-Curerntly, it's under trial for travis-ci integration.
+Curerntly, it's under trial for travis-ci integration. [coverage_sample](https://github.com/parroty/coverage_sample) is a trial on usage.
 
 # Setting
 ### mix.exs
