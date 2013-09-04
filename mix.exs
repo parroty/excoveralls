@@ -7,7 +7,8 @@ defmodule ExCoveralls.Mixfile do
       elixir: "~> 0.10.3-dev",
       deps: deps,
       env: [
-        coveralls: [test_coverage: test_coveralls]
+        coveralls_travis:  [test_coverage: test_coveralls("travis")]
+        coveralls_general: [test_coverage: test_coveralls("general")]
       ]
     ]
   end
@@ -27,7 +28,7 @@ defmodule ExCoveralls.Mixfile do
   end
 
   ## Returns the option for coveralls module
-  defp test_coveralls do
-    [output: "ebin", tool: ExCoveralls]
+  defp test_coveralls(type) do
+    [output: "ebin", tool: ExCoveralls, type: type]
   end
 end
