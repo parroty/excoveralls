@@ -10,10 +10,9 @@ defmodule ExCoveralls do
 
   def start(compile_path, option) do
     compile(compile_path)
-
     System.at_exit fn(_) ->
       File.mkdir_p!(option[:output])
-      calculate(option)
+      calculate(option[:type])
     end
   end
 
@@ -21,9 +20,9 @@ defmodule ExCoveralls do
     Cover.compile(compile_path)
   end
 
-  def calculate(option) do
+  def calculate(type) do
     Stats.calculate(Cover.modules)
-      |> Generator.execute(option[:type])
+      |> Generator.execute(type)
       |> Poster.execute
   end
 end
