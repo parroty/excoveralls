@@ -33,5 +33,12 @@ after_success:
   - "MIX_ENV=coveralls_travis mix test --cover"
 ```
 
+### post.sh
+Create post.sh with the following contents under project root, and assign executable(+x) permission.
+
+```
+curl "https://coveralls.io/api/v1/jobs" -F json_file=@tmp/post.json
+```
+
 ### TODO
 - It depends on curl command for posting JSON. Replace it with Elixir library.
