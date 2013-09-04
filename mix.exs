@@ -7,7 +7,7 @@ defmodule ExCoveralls.Mixfile do
       elixir: "~> 0.10.3-dev",
       deps: deps,
       env: [
-        coveralls_travis:  [test_coverage: test_coveralls("travis")]
+        coveralls_travis:  [test_coverage: test_coveralls("travis")],
         coveralls_general: [test_coverage: test_coveralls("general")]
       ]
     ]

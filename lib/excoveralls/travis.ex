@@ -2,6 +2,7 @@ defmodule ExCoveralls.Travis do
   @moduledoc """
   Handles travis-ci integration with coveralls.
   """
+  alias ExCoveralls.Utils
 
   def generate_json(source_info) do
     JSON.encode!([
@@ -12,7 +13,7 @@ defmodule ExCoveralls.Travis do
   end
 
   def get_job_id do
-    String.from_char_list!(:os.getenv("TRAVIS_JOB_ID"))
+    Utils.getenv("TRAVIS_JOB_ID")
   end
 
 end

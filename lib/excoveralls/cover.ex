@@ -12,6 +12,10 @@ defmodule ExCoveralls.Cover do
     :cover.modules
   end
 
+  def module_path(module) do
+    String.from_char_list!(module.__info__(:compile)[:source])
+  end
+
   def analyze(module) do
     :cover.analyse(module, :calls, :line)
   end

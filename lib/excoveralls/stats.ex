@@ -2,6 +2,7 @@ defmodule ExCoveralls.Stats do
   @moduledoc """
   Calculate coverage stats
   """
+  alias ExCoveralls.Cover
 
   def calculate(modules) do
     calculate_stats(modules)
