@@ -12,8 +12,13 @@ defmodule ExCoveralls.Cover do
     :cover.modules
   end
 
+  @doc """
+  Returns the relative file path of the specified module.
+  """
   def module_path(module) do
-    String.from_char_list!(module.__info__(:compile)[:source])
+    module.__info__(:compile)[:source]
+      |> String.from_char_list!
+      |> Path.relative_to(File.cwd!)
   end
 
   def analyze(module) do
