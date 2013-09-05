@@ -3,7 +3,7 @@ defmodule ExCoveralls.General do
   Handles general-purpose CI integration with coveralls.
   """
   alias ExCoveralls.Utils
-  @default_name 'local'
+  @default_name "local"
 
   def generate_json(source_info) do
     JSON.encode!([
@@ -13,11 +13,11 @@ defmodule ExCoveralls.General do
     ])
   end
 
-  defp service_name do
-    Utils.getenv("EXCOVERALLS_SERVICE_NAME", @default_name)
+  def service_name do
+    System.get_env("EXCOVERALLS_SERVICE_NAME") || @default_name
   end
 
   def get_repo_token do
-    Utils.getenv("COVERALLS_REPO_TOKEN")
+    System.get_env("COVERALLS_REPO_TOKEN")
   end
 end

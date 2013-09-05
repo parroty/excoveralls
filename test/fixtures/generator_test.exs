@@ -12,8 +12,13 @@ defmodule ExCoveralls.GeneratorTest do
                  coverage: @counts
                ]]
 
-  test_with_mock "generate json", Utils, [getenv: fn("EXCOVERALLS_SERVICE_NAME",_) -> "local" end,
-                                          getenv: fn("COVERALLS_REPO_TOKEN") -> "1234567890" end] do
+  test_with_mock "generate json", System, [get_env:
+      fn(x) -> case x do
+           "EXCOVERALLS_SERVICE_NAME" -> "local"
+           "COVERALLS_REPO_TOKEN" -> "1234567890"
+         end
+      end] do
+
     assert(Generator.execute(@source_info, "general") ==
        "{\"repo_token\":\"1234567890\"," <>
          "\"service_name\":\"local\"," <>

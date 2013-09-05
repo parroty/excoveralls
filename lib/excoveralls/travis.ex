@@ -13,7 +13,7 @@ defmodule ExCoveralls.Travis do
   end
 
   def get_job_id do
-    Utils.getenv("TRAVIS_JOB_ID")
+    System.getenv("TRAVIS_JOB_ID")
   end
 
 end
