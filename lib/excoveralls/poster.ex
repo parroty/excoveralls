@@ -4,7 +4,7 @@ defmodule ExCoveralls.Poster do
   """
   @file_path "."
   @file_name "excoveralls.post.json"
-  @post_cmd  "curl \"https://coveralls.io/api/v1/jobs\" -F json_file=@tmp/post.json"
+  @post_cmd  "curl \"https://coveralls.io/api/v1/jobs\" -F json_file=excoveralls.post.json"
 
   @doc """
   Create a temporarily json file and post it to server using curl command.
