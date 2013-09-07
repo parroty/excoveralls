@@ -1,4 +1,4 @@
-defmodule ExCoveralls.GeneratorTest do
+defmodule ExCoveralls.GeneralTest do
   use ExUnit.Case
   import Mock
   alias ExCoveralls.General
