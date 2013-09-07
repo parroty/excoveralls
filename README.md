@@ -17,9 +17,8 @@ def project do
     elixir: "~> 0.10.3-dev",
     deps: deps,
     env: [
-      coveralls_travis:  [
-        test_coverage: [output: "ebin", tool: ExCoveralls, type: "travis"]
-      ]
+      coveralls_travis:  [test_coverage: [tool: ExCoveralls, type: "travis"]],
+      coveralls_local:   [test_coverage: [tool: ExCoveralls, type: "local"]]
     ]
   ]
 end
@@ -31,6 +30,26 @@ defp deps do
 end
 ```
 
+## Run at Local
+Run the mix test with "coveralls_local" environment variable
+
+```
+$ MIX_ENV=coveralls_local mix test --cover
+...
+----------------
+COV    FILE                                        LINES RELEVANT  COVERED
+ 50.0% lib/excoveralls.ex                             54        8        4
+ 60.0% lib/excoveralls/cover.ex                       27        5        3
+100.0% lib/excoveralls/general.ex                     28        4        4
+ 73.3% lib/excoveralls/local.ex                       43       15       11
+  0.0% lib/excoveralls/poster.ex                      16        3        0
+ 94.7% lib/excoveralls/stats.ex                       70       19       18
+  0.0% lib/excoveralls/travis.ex                      23        3        0
+----------------
+```
+
+
+## Run at Travis-CI
 ### .travis.yml
 Specify "MIX_ENV=coveralls_travis mix test --cover" as after_success section of .travis.yml
 
@@ -48,6 +67,7 @@ after_success:
 ```
 
 ### TODO
+- Remove warning at execution.
 - It depends on curl command for posting JSON. Replace it with Elixir library.
   - Trying to use hackney, but doesn't work well.
 - Find a way to control mix behavior instead of adding custom "MIX_ENV".
