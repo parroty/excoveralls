@@ -19,7 +19,8 @@ defmodule ExCoveralls.LocalTest do
 
   test "display stats" do
     assert Local.format(@source_info) ==
-      " 50.0% test/fixtures/test.ex                           4        2        1"
+      " 50.0% test/fixtures/test.ex                           4        2        1\n"  <>
+      "[TOTAL]  50.0%"
   end
 
   test "display stats fails with invalid data" do
