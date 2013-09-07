@@ -49,5 +49,6 @@ after_success:
 
 ### TODO
 - It depends on curl command for posting JSON. Replace it with Elixir library.
+  - Trying to use hackney, but doesn't work well.
 - Find a way to control mix behavior instead of adding custom "MIX_ENV".
-- Reduce required settings.
+- Simplify mix.exs setting.
