@@ -1,7 +1,28 @@
 defmodule ExCoverallsTest do
   use ExUnit.Case
+  import Mock
 
-  test "the truth" do
-    assert(true)
+  @stats "dummy stats"
+
+  test_with_mock "analyze travis", ExCoveralls.Travis, [execute: fn(_) -> end] do
+    ExCoveralls.analyze(@stats, "travis")
+    assert called ExCoveralls.Travis.execute(@stats)
+  end
+
+  test_with_mock "analyze local", ExCoveralls.Local, [execute: fn(_) -> end] do
+    ExCoveralls.analyze(@stats, "local")
+    assert called ExCoveralls.Local.execute(@stats)
+  end
+
+  test_with_mock "analyze general", ExCoveralls.General, [execute: fn(_) -> end] do
+    ExCoveralls.analyze(@stats, "general")
+    assert called ExCoveralls.General.execute(@stats)
+  end
+
+
+  test "analyze undefined type" do
+    assert_raise RuntimeError, fn ->
+      ExCoveralls.analyze(@stats, "Undefined Type")
+    end
   end
 end

@@ -3,7 +3,13 @@ defmodule ExCoveralls.General do
   Handles general-purpose CI integration with coveralls.
   """
   alias ExCoveralls.Utils
+  alias ExCoveralls.Poster
+
   @default_name "local"
+
+  def execute(stats) do
+    generate_json(stats)
+  end
 
   def generate_json(source_info) do
     JSON.encode!([

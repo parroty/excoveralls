@@ -1,7 +1,7 @@
 defmodule ExCoveralls.GeneratorTest do
   use ExUnit.Case
   import Mock
-  alias ExCoveralls.Generator
+  alias ExCoveralls.General
   alias ExCoveralls.Utils
 
   @content     "defmodule Test do\n  def test do\n  end\nend\n"
@@ -19,7 +19,7 @@ defmodule ExCoveralls.GeneratorTest do
          end
       end] do
 
-    assert(Generator.execute(@source_info, "general") ==
+    assert(General.execute(@source_info) ==
        "{\"repo_token\":\"1234567890\"," <>
          "\"service_name\":\"local\"," <>
          "\"source_files\":" <>

@@ -7,8 +7,8 @@ defmodule ExCoveralls.Mixfile do
       elixir: "~> 0.10.3-dev",
       deps: deps,
       env: [
-        coveralls_travis:  [test_coverage: test_coveralls("travis")],
-        coveralls_general: [test_coverage: test_coveralls("general")]
+        coveralls_travis:  [test_coverage: [tool: ExCoveralls, type: "travis"]],
+        coveralls_local:   [test_coverage: [tool: ExCoveralls, type: "local"]]
       ]
     ]
   end
@@ -25,10 +25,5 @@ defmodule ExCoveralls.Mixfile do
       {:json, github: "cblage/elixir-json"},
       {:mock, ">= 0.0.3", github: "parroty/mock"}
     ]
-  end
-
-  ## Returns the option for coveralls module
-  defp test_coveralls(type) do
-    [output: "ebin", tool: ExCoveralls, type: type]
   end
 end
