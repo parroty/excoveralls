@@ -2,6 +2,7 @@ defmodule ExCoveralls.Local do
   @moduledoc """
   Locally displays the result to screen.
   """
+  import ExPrintf
 
   def execute(stats) do
     IO.puts "----------------"
@@ -17,7 +18,7 @@ defmodule ExCoveralls.Local do
   def format_stat(stat) do
     counts = calculate_count(stat[:coverage])
     coverage = (counts[:covered] / counts[:relevant]) * 100
-    "#{stat[:name]} #{coverage}%"
+    sprintf("%.1f%% %-30s", [coverage, stat[:name]])
   end
 
   def calculate_count(counts) do

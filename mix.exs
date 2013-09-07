@@ -23,7 +23,8 @@ defmodule ExCoveralls.Mixfile do
   defp deps do
     [
       {:json, github: "cblage/elixir-json"},
-      {:mock, ">= 0.0.3", github: "parroty/mock"}
+      {:mock, ">= 0.0.3", github: "parroty/mock"},
+      {:exprintf, github: "parroty/exprintf"}
     ]
   end
 end
