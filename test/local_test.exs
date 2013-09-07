@@ -10,7 +10,7 @@ defmodule ExCoveralls.LocalTest do
                  coverage: @counts
                ]]
 
-  @invalid_counts [0, 1, nil, -1]
+  @invalid_counts [0, 1, nil, "invalid"]
   @invalid_source_info [[name: "test/fixtures/test.ex",
                  source: @content,
                  coverage: @invalid_counts
@@ -18,13 +18,13 @@ defmodule ExCoveralls.LocalTest do
 
 
   test "display stats" do
-    assert Local.execute(@source_info) ==
+    assert Local.format(@source_info) ==
       "test/fixtures/test.ex 50.0%"
   end
 
   test "display stats fails with invalid data" do
     assert_raise RuntimeError, fn ->
-      Local.execute(@invalid_source_info)
+      Local.format(@invalid_source_info)
     end
   end
 end
