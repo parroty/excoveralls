@@ -67,8 +67,10 @@ after_success:
   - "MIX_ENV=coveralls_travis mix test --cover"
 ```
 
+### Notes
+- If meck library is used, it shows some warnings.
+
 ### TODO
-- Remove warning at execution.
 - It depends on curl command for posting JSON. Replace it with Elixir library.
   - Tried to use hackney, but doesn't work well.
 - Find a way to control mix behavior instead of adding custom "MIX_ENV".
