@@ -2,13 +2,18 @@ defmodule ExCoveralls.Poster do
   @moduledoc """
   Post JSON to coveralls server
   """
-  @file_path "tmp"
-  @file_name "post.json"
-  @post_cmd  "post.sh"
+  @file_path "."
+  @file_name "excoveralls.post.json"
+  @post_cmd  "curl \"https://coveralls.io/api/v1/jobs\" -F json_file=@tmp/post.json"
 
+  @doc """
+  Create a temporarily json file and post it to server using curl command.
+  Then, remove the file after it's completed.
+  """
   def execute(json) do
-    File.mkdir_p!(@file_path)
-    File.write!(Path.join([@file_path, @file_name]), json)
-    IO.inspect System.cmd(Path.join([System.cwd, @post_cmd]))
+    path = Path.join([@file_path, @file_name])
+    File.write!(path, json)
+    IO.inspect System.cmd(@post_cmd)
+    File.rm!(path)
   end
 end
