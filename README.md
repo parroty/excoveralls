@@ -8,17 +8,9 @@ Curerntly, it's under trial for travis-ci integration. [coverage_sample](https:/
 
 # Setting
 ### mix.exs
-Add setting parameters in the Mix.Project (excoveralls_setting) as follows, and include :excoveralls in deps.
+Include :excoveralls in the deps section of the file.
 
 ```elixir
-def project do
-  [ app: :coverage_sample,
-    version: "0.0.1",
-    elixir: "~> 0.10.3-dev",
-    deps: deps
-  ]
-end
-
 defp deps do
   [
     {:excoveralls, github: "parroty/excoveralls"}
@@ -70,4 +62,3 @@ after_success:
 - It depends on curl command for posting JSON. Replace it with Elixir library.
   - Tried to use hackney, but doesn't work well.
 - Find a way to control mix behavior instead of adding custom "MIX_ENV".
-- Simplify mix.exs setting.
