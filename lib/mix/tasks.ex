@@ -29,16 +29,16 @@ defmodule Mix.Tasks.Coveralls.Travis do
   end
 end
 
-defmodule Mix.Tasks.Coveralls.Post do
-  @moduledoc """
-  Provides an entry point for posting test coverage to
-  coveralls.io from local server.
-  """
-  use Mix.Task
+# defmodule Mix.Tasks.Coveralls.Post do
+#   @moduledoc """
+#   Provides an entry point for posting test coverage to
+#   coveralls.io from local server.
+#   """
+#   use Mix.Task
 
-  @shortdoc "Post the test coverage to coveralls"
+#   @shortdoc "Post the test coverage to coveralls"
 
-  def run(_) do
-    IO.puts "ExCoveralls - Post"
-  end
-end
+#   def run(_) do
+#     IO.puts "ExCoveralls - Post"
+#   end
+# end
