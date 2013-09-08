@@ -25,6 +25,18 @@ defmodule ExCoveralls.StatsTest do
     assert(Stats.get_source_line_count(@source) == 5)
   end
 
+  test "filter stop words returns value" do
+    info = Stats.filter_stop_words(@source_info, ["defmodule", "end"]) |> Enum.first
+    assert(info[:source]   == "  def test do")
+    assert(info[:coverage] == [1])
+  end
+
+  test "filter stop words return empty" do
+    info = Stats.filter_stop_words(@source_info, ["defmodule", "end", "def"]) |> Enum.first
+    assert(info[:source]   == "")
+    assert(info[:coverage] == [])
+  end
+
   test "read source file" do
     assert(Stats.read_source(@source) == @content)
   end
