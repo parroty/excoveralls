@@ -1,5 +1,6 @@
 defmodule ExCoveralls.LocalTest do
   use ExUnit.Case
+  import ExUnit.CaptureIO
   alias ExCoveralls.Local
 
   @content     "defmodule Test do\n  def test do\n  end\nend\n"
@@ -16,11 +17,15 @@ defmodule ExCoveralls.LocalTest do
                  coverage: @invalid_counts
                ]]
 
-
   test "display stats" do
-    assert Local.format(@source_info) ==
+    assert capture_io(fn ->
+      Local.execute(@source_info)
+    end) ==
+      "----------------\n" <>
+      "COV    FILE                                        LINES RELEVANT  COVERED\n" <>
       " 50.0% test/fixtures/test.ex                           4        2        1\n"  <>
-      "[TOTAL]  50.0%"
+      "[TOTAL]  50.0%\n" <>
+      "----------------\n"
   end
 
   test "display stats fails with invalid data" do
