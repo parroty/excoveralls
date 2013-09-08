@@ -17,7 +17,7 @@ defmodule ExCoveralls.Travis do
     ])
   end
 
-  def get_job_id do
+  defp get_job_id do
     System.get_env("TRAVIS_JOB_ID")
   end
 end
