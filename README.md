@@ -16,7 +16,7 @@ def project do
     version: "0.0.1",
     elixir: "~> 0.10.3-dev",
     deps: deps
-  ] ++ excoveralls_setting
+  ]
 end
 
 defp deps do
@@ -24,25 +24,13 @@ defp deps do
     {:excoveralls, github: "parroty/excoveralls"}
   ]
 end
-
-# Settings for excoveralls
-defp excoveralls_setting do
-  [
-    test_coverage: [tool: ExCoveralls, type: "local"],
-    env: [
-      coveralls_travis:  [test_coverage: [tool: ExCoveralls, type: "travis"]],
-      coveralls_local:   [test_coverage: [tool: ExCoveralls, type: "local"]],
-      coveralls_general: [test_coverage: [tool: ExCoveralls, type: "general"]]
-    ]
-  ]
-end
 ```
 
 ## Run at Local
-Run the mix test with "--cover" option.
+Run the "mix coveralls" task.
 
 ```
-$ mix test --cover
+$ mix coveralls
 ...
 ----------------
 COV    FILE                                        LINES RELEVANT  COVERED
@@ -60,7 +48,7 @@ COV    FILE                                        LINES RELEVANT  COVERED
 
 ## Run at Travis-CI
 ### .travis.yml
-Specify "MIX_ENV=coveralls_travis mix test --cover" as after_success section of .travis.yml
+Specify "mix coveralls.travis" as after_success section of .travis.yml
 
 ```
 language: erlang
@@ -72,7 +60,7 @@ before_install:
 before_script: "export PATH=`pwd`/elixir/bin:$PATH"
 script: "MIX_ENV=test mix do deps.get, test"
 after_success:
-  - "MIX_ENV=coveralls_travis mix test --cover"
+  - "mix coveralls.travis"
 ```
 
 ### Notes
