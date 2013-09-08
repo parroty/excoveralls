@@ -9,7 +9,7 @@ defmodule Mix.Tasks.Coveralls do
 
   def run(args) do
     Mix.env(:test)
-    Code.load_file("projects/mix.local.exs")
+    Code.load_file(Path.dirname(__FILE__) <> "/../../projects/mix.local.exs")
     Mix.Task.run("test", args ++ ["--cover"])
     Mix.Project.pop
   end
@@ -23,7 +23,7 @@ defmodule Mix.Tasks.Coveralls.Travis do
 
   def run(args) do
     Mix.env(:test)
-    Code.load_file("projects/mix.travis.exs")
+    Code.load_file(Path.dirname(__FILE__) <> "/../../projects/mix.travis.exs")
     Mix.Task.run("test", args ++ ["--cover"])
     Mix.Project.pop
   end
