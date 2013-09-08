@@ -8,19 +8,15 @@ Curerntly, it's under trial for travis-ci integration. [coverage_sample](https:/
 
 # Setting
 ### mix.exs
-Add env parameter in project, and include :excoveralls in deps.
+Add setting parameters in the Mix.Project (excoveralls_setting) as follows, and include :excoveralls in deps.
 
 ```elixir
 def project do
   [ app: :coverage_sample,
     version: "0.0.1",
     elixir: "~> 0.10.3-dev",
-    deps: deps,
-    env: [
-      coveralls_travis:  [test_coverage: [tool: ExCoveralls, type: "travis"]],
-      coveralls_local:   [test_coverage: [tool: ExCoveralls, type: "local"]]
-    ]
-  ]
+    deps: deps
+  ] ++ excoveralls_setting
 end
 
 defp deps do
@@ -28,13 +24,25 @@ defp deps do
     {:excoveralls, github: "parroty/excoveralls"}
   ]
 end
+
+# Settings for excoveralls
+defp excoveralls_setting do
+  [
+    test_coverage: [tool: ExCoveralls, type: "local"],
+    env: [
+      coveralls_travis:  [test_coverage: [tool: ExCoveralls, type: "travis"]],
+      coveralls_local:   [test_coverage: [tool: ExCoveralls, type: "local"]],
+      coveralls_general: [test_coverage: [tool: ExCoveralls, type: "general"]]
+    ]
+  ]
+end
 ```
 
 ## Run at Local
-Run the mix test with "coveralls_local" environment variable
+Run the mix test with "--cover" option.
 
 ```
-$ MIX_ENV=coveralls_local mix test --cover
+$ mix test --cover
 ...
 ----------------
 COV    FILE                                        LINES RELEVANT  COVERED
