@@ -14,7 +14,7 @@ defmodule ExCoveralls.Local do
   """
   def execute(stats) do
     IO.puts "----------------"
-    IO.puts sprintf("%-6s %-40s %8s %8s %8s", ["COV", "FILE", "LINES", "RELEVANT", "COVERED"])
+    IO.puts sprintf("%-6s %-40s %8s %8s %8s", ["COV", "FILE", "LINES", "RELEVANT", "MISSED"])
     format(stats) |> IO.puts
     IO.puts "----------------"
   end
@@ -34,7 +34,7 @@ defmodule ExCoveralls.Local do
   defp format_info([stat, count]) do
     coverage = get_coverage(count)
     sprintf("%5.1f%% %-40s %8d %8d %8d",
-      [coverage, stat[:name], count.lines, count.relevant, count.covered])
+      [coverage, stat[:name], count.lines, count.relevant, count.relevant - count.covered])
   end
 
 

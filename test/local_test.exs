@@ -22,7 +22,7 @@ defmodule ExCoveralls.LocalTest do
       Local.execute(@source_info)
     end) ==
       "----------------\n" <>
-      "COV    FILE                                        LINES RELEVANT  COVERED\n" <>
+      "COV    FILE                                        LINES RELEVANT   MISSED\n" <>
       " 50.0% test/fixtures/test.ex                           4        2        1\n"  <>
       "[TOTAL]  50.0%\n" <>
       "----------------\n"
