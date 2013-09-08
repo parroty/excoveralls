@@ -25,15 +25,16 @@ Run the "mix coveralls" task.
 $ mix coveralls
 ...
 ----------------
-COV    FILE                                        LINES RELEVANT  COVERED
- 50.0% lib/excoveralls.ex                             54        8        4
- 60.0% lib/excoveralls/cover.ex                       27        5        3
-100.0% lib/excoveralls/general.ex                     28        4        4
- 77.3% lib/excoveralls/local.ex                       79       22       17
-  0.0% lib/excoveralls/poster.ex                      16        3        0
- 94.7% lib/excoveralls/stats.ex                       70       19       18
-  0.0% lib/excoveralls/travis.ex                      23        3        0
-[TOTAL]  71.9%
+COV    FILE                                        LINES RELEVANT   MISSED
+100.0% lib/excoveralls/general.ex                     28        4        0
+ 75.0% lib/excoveralls.ex                             54        8        2
+ 94.7% lib/excoveralls/stats.ex                       70       19        1
+100.0% lib/excoveralls/poster.ex                      16        3        0
+ 95.5% lib/excoveralls/local.ex                       79       22        1
+100.0% lib/excoveralls/travis.ex                      23        3        0
+100.0% lib/mix/tasks.ex                               44        8        0
+100.0% lib/excoveralls/cover.ex                       32        5        0
+[TOTAL]  94.4%
 ----------------
 ```
 
@@ -61,4 +62,3 @@ after_success:
 ### TODO
 - It depends on curl command for posting JSON. Replace it with Elixir library.
   - Tried to use hackney, but doesn't work well.
-- Find a way to control mix behavior instead of adding custom "MIX_ENV".
