@@ -1,3 +1,4 @@
+
 defmodule Mix.Tasks.Coveralls do
   @moduledoc """
   Provides an entry point for displaying co
@@ -8,24 +9,25 @@ defmodule Mix.Tasks.Coveralls do
   @shortdoc "Display the test coverage"
 
   def run(args) do
+    do_run(args, "/../../projects/mix.local.exs")
+  end
+
+  def do_run(args, mix_file_path) do
     Mix.env(:test)
-    Code.load_file(Path.dirname(__FILE__) <> "/../../projects/mix.local.exs")
+    Code.load_file(Path.dirname(__FILE__) <> mix_file_path)
     Mix.Task.run("test", args ++ ["--cover"])
     Mix.Project.pop
   end
-end
 
-defmodule Mix.Tasks.Coveralls.Travis do
-  @moduledoc """
-  Provides an entry point for travis's script.
-  """
-  use Mix.Task
+  defmodule Travis do
+    @moduledoc """
+    Provides an entry point for travis's script.
+    """
+    use Mix.Task
 
-  def run(args) do
-    Mix.env(:test)
-    Code.load_file(Path.dirname(__FILE__) <> "/../../projects/mix.travis.exs")
-    Mix.Task.run("test", args ++ ["--cover"])
-    Mix.Project.pop
+    def run(args) do
+      Mix.Tasks.Coveralls.do_run(args, "/../../projects/mix.travis.exs")
+    end
   end
 end
 
