@@ -8,6 +8,7 @@ defmodule ExCoveralls.Stats do
     calculate_stats(modules)
       |> generate_coverage
       |> generate_source_info
+      |> ExCoveralls.StopWords.filter
   end
 
   @doc """
@@ -46,34 +47,8 @@ defmodule ExCoveralls.Stats do
   defp do_generate_coverage(_hash, 0, acc),   do: acc
   defp do_generate_coverage(hash, index, acc) do
     count = HashDict.get(hash, index, nil)
+
     do_generate_coverage(hash, index - 1, [count | acc])
-  end
-
-  @doc """
-  Filters out pre-defined stop words
-  """
-  def filter_stop_words(info, words) do
-    Enum.map(info, fn(x) -> do_filter_stop_words(x, words) end)
-  end
-
-  def do_filter_stop_words([{:name, name}, {:source, source}, {:coverage, coverage}], words) do
-    lines = String.split(source, "\n")
-    list = Enum.zip(lines, coverage)
-                           |> Enum.filter(fn(x) -> has_valid_line?(x, words) end)
-                           |> List.unzip
-    [source, coverage] = parse_filter_list(list)
-    [name: name, source: source, coverage: coverage]
-  end
-
-  defp parse_filter_list([]),   do: ["", []]
-  defp parse_filter_list([lines, coverage]), do: [Enum.join(lines, "\n"), coverage]
-
-  def has_valid_line?({line, coverage}, words) do
-    line != nil and coverage != nil and find_stop_words(line, words) == false
-  end
-
-  def find_stop_words(line, words) do
-    Enum.any?(words, fn(word) -> String.contains?(line, word) end)
   end
 
   @doc """
