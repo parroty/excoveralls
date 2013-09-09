@@ -1,5 +1,4 @@
-[ "ex_doc": {:git, "git://github.com/elixir-lang/ex_doc.git", "c13d10aaed19ef05c2c8362b9b555926e9770902", []},
-  "exprintf": {:git, "git://github.com/parroty/exprintf.git", "d4c42a07cf358d359431d20a4aaf6c15f80c79be", []},
+[ "exprintf": {:git, "git://github.com/parroty/exprintf.git", "8c3bf49313f755bc1012c29130de78a6b5d7a79e", []},
   "json": {:git, "git://github.com/cblage/elixir-json.git", "3573eb996c893d384a58ad47e83f48a82fa9d990", []},
   "meck": {:git, "git://github.com/eproxus/meck.git", "1286aba1cb6bbd6c9fc3f817740758b224843ee7", []},
   "mock": {:git, "git://github.com/parroty/mock.git", "e31b21af0117bb26da28d2d38cf7b73fb3b482d9", []} ]
