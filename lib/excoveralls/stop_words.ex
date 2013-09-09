@@ -1,5 +1,6 @@
 defmodule ExCoveralls.StopWords do
   @moduledoc """
+  Handles stop words for filtering the coverage results.
   """
 
   @stop_word_file __DIR__ <> ".coverallsignore"
@@ -11,7 +12,7 @@ defmodule ExCoveralls.StopWords do
     Enum.map(info, fn(x) -> do_filter(x, words) end)
   end
 
-  def do_filter([{:name, name}, {:source, source}, {:coverage, coverage}], words) do
+  defp do_filter([{:name, name}, {:source, source}, {:coverage, coverage}], words) do
     lines = String.split(source, "\n")
     list = Enum.zip(lines, coverage)
                            |> Enum.filter(fn(x) -> has_valid_line?(x, words) end)
@@ -28,12 +29,18 @@ defmodule ExCoveralls.StopWords do
   end
 
   defp find_stop_words(line, words) do
-    Enum.any?(words, fn(word) -> String.contains?(line, word) end)
+    Enum.any?(words, fn(word) -> line =~ word end)
   end
 
-  def get_stop_words do
-    if File.exists?(@stop_word_file) do
-      File.read!(@stop_word_file) |> String.split("\n")
+  @doc """
+  Read stop words from the specified file.
+  The words are taken as regular expression.
+  """
+  def get_stop_words(file // @stop_word_file) do
+    if File.exists?(file) do
+      File.read!(file)
+        |> String.split("\n", trim: true)
+        |> Enum.map(&Regex.compile!/1)
     else
       []
     end
