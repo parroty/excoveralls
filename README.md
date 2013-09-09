@@ -2,7 +2,7 @@ ExCoveralls [![Build Status](https://secure.travis-ci.org/parroty/excoveralls.pn
 ============
 
 A library to post coverage stats to [coveralls.io](https://coveralls.io/) service.
-It uses Erlang's [cover](http://www.erlang.org/doc/man/cover.html) to generate coverage information, and post it to coveralls' json API.
+It uses Erlang's [cover](http://www.erlang.org/doc/man/cover.html) to generate coverage information, and post the result to coveralls.io through the json API.
 
 Curerntly, it's under trial for travis-ci integration. [coverage_sample](https://github.com/parroty/coverage_sample) is an example using from a project.
 
@@ -58,15 +58,16 @@ after_success:
 
 ## Stop Words
 ### .coverallsignore
-Some kernal macros defined in Elixir is not considered "covered" by Erlang's cover library.
-Listed words in .coverallsignore will be excluded from the coverage.
-Also, it can be used to exclude certain statements for any reasons.
+Words listed in ".coverallsignore" will be excluded from the coverage calculation (The file should be placed under mix project root).
+Some kernal macros defined in Elixir is not considered "covered" by Erlang's cover library. It can be used for excluding these macros, or any other reasons.
 
-Example
+The following is an example for the file. The values are taken as regular expressions.
+
 ```
 defmodule
 defrecord
 defimpl
+def.+(.+\/\/.+).+do
 ```
 
 ### Notes
