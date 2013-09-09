@@ -56,8 +56,21 @@ after_success:
   - "mix coveralls.travis"
 ```
 
+## Stop Words
+### .coverallsignore
+Some kernal macros defined in Elixir is not considered "covered" by Erlang's cover library.
+Listed words in .coverallsignore will be excluded from the coverage.
+Also, it can be used to exclude certain statements for any reasons.
+
+Example
+```
+defmodule
+defrecord
+defimpl
+```
+
 ### Notes
-- If meck library is used, it shows some warnings.
+- If meck library is being used, it shows some warnings during execution.
 
 ### TODO
 - It depends on curl command for posting JSON. Replace it with Elixir library.

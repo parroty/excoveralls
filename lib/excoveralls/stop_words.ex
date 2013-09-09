@@ -3,7 +3,9 @@ defmodule ExCoveralls.StopWords do
   Handles stop words for filtering the coverage results.
   """
 
-  @stop_word_file __DIR__ <> ".coverallsignore"
+  def default_stop_word_file do
+    System.cwd <> "/.coverallsignore"
+  end
 
   @doc """
   Filters out pre-defined stop words
@@ -24,7 +26,7 @@ defmodule ExCoveralls.StopWords do
   defp parse_filter_list([]),   do: ["", []]
   defp parse_filter_list([lines, coverage]), do: [Enum.join(lines, "\n"), coverage]
 
-  defp has_valid_line?({line, coverage}, words) do
+  defp has_valid_line?({line, _coverage}, words) do
     find_stop_words(line, words) == false
   end
 
@@ -36,7 +38,7 @@ defmodule ExCoveralls.StopWords do
   Read stop words from the specified file.
   The words are taken as regular expression.
   """
-  def get_stop_words(file // @stop_word_file) do
+  def get_stop_words(file // default_stop_word_file) do
     if File.exists?(file) do
       File.read!(file)
         |> String.split("\n", trim: true)
