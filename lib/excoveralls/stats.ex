@@ -40,7 +40,7 @@ defmodule ExCoveralls.Stats do
   def generate_coverage(hash) do
     Enum.map(hash.keys, fn(file_path) ->
       total = get_source_line_count(file_path)
-      {file_path, do_generate_coverage(HashDict.fetch!(hash, file_path), total - 1, [])}
+      {file_path, do_generate_coverage(HashDict.fetch!(hash, file_path), total, [])}
     end)
   end
 
@@ -86,6 +86,11 @@ defmodule ExCoveralls.Stats do
   Wrapper for reading the specified file
   """
   def read_source(file_path) do
-    File.read!(file_path)
+    File.read!(file_path) |> trim_empty_prefix_and_suffix
+  end
+
+  def trim_empty_prefix_and_suffix(string) do
+    string = Regex.replace(%r/\n\z/m, string, "")
+    Regex.replace(%r/\A\n/m, string, "")
   end
 end
