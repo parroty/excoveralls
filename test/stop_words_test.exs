@@ -3,7 +3,7 @@ defmodule ExCoveralls.StopWordsTest do
   alias ExCoveralls.StopWords
 
   @content     "defmodule Test do\n  def test do\n  end\nend\n"
-  @counts      [0, 1, nil, nil]
+  @counts      [0, 1, nil, nil, nil]
   @coverage    [{"test/fixtures/test.ex", @counts}]
   @source_info [[name: "test/fixtures/test.ex",
                  source: @content,
@@ -12,20 +12,20 @@ defmodule ExCoveralls.StopWordsTest do
 
   test "filter stop words returns valid list" do
     info = StopWords.filter(@source_info, ["defmodule", "end"]) |> Enum.first
-    assert(info[:source]   == "  def test do\n")
-    assert(info[:coverage] == [1, nil])
+    assert(info[:source]   == @content)
+    assert(info[:coverage] == [nil, 1, nil, nil, nil])
   end
 
   test "filter stop words returns empty" do
     info = StopWords.filter(@source_info, ["defmodule", "end", "def"]) |> Enum.first
-    assert(info[:source]   == "")
-    assert(info[:coverage] == [nil])
+    assert(info[:source]   == @content)
+    assert(info[:coverage] == [nil, nil, nil, nil, nil])
   end
 
   test "filter stop words works on regular expression" do
     info = StopWords.filter(@source_info, [%r/^def/]) |> Enum.first
-    assert(info[:source]   == "  def test do\n  end\nend\n")
-    assert(info[:coverage] == [1, nil, nil, nil])
+    assert(info[:source]   == @content)
+    assert(info[:coverage] == [nil, 1, nil, nil, nil])
   end
 
   test "get stop words words" do
