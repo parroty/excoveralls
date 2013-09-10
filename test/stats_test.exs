@@ -26,6 +26,10 @@ defmodule ExCoveralls.StatsTest do
     assert(Stats.get_source_line_count(@source) == 4)
   end
 
+  test_with_mock "read module source", Cover, [module_path: fn(_) -> @source end] do
+    assert(Stats.read_module_source(Stats) == @trimmed)
+  end
+
   test "read source file" do
     assert(Stats.read_source(@source) == @trimmed)
   end
