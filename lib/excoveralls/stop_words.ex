@@ -3,14 +3,10 @@ defmodule ExCoveralls.StopWords do
   Handles stop words for filtering the coverage results.
   """
 
-  def default_stop_word_file do
-    System.cwd <> "/.coverallsignore"
-  end
-
   @doc """
   Filters out pre-defined stop words
   """
-  def filter(info, words // get_stop_words) do
+  def filter(info, words // ExCoveralls.Settings.get_stop_words) do
     Enum.map(info, fn(x) -> do_filter(x, words) end)
   end
 
@@ -38,17 +34,4 @@ defmodule ExCoveralls.StopWords do
     Enum.any?(words, fn(word) -> line =~ word end)
   end
 
-  @doc """
-  Read stop words from the specified file.
-  The words are taken as regular expression.
-  """
-  def get_stop_words(file // default_stop_word_file) do
-    if File.exists?(file) do
-      File.read!(file)
-        |> String.split("\n", trim: true)
-        |> Enum.map(&Regex.compile!/1)
-    else
-      []
-    end
-  end
 end

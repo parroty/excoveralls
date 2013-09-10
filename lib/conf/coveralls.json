@@ -1,0 +1,11 @@
+{
+  "default_stop_words": [
+    "defmodule",
+    "defrecord",
+    "defimpl",
+    "def.+(.+\/\/.+).+do"
+  ],
+
+  "custom_stop_words": [
+  ]
+}

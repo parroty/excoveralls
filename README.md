@@ -56,18 +56,27 @@ after_success:
   - "mix coveralls.travis"
 ```
 
-## Stop Words
-### .coverallsignore
-Words listed in ".coverallsignore" will be excluded from the coverage calculation (The file should be placed under mix project root).
-Some kernal macros defined in Elixir is not considered "covered" by Erlang's cover library. It can be used for excluding these macros, or any other reasons.
+## coveralls.conf
+"coveralls.conf" provides a setting for excoveralls.
 
-The following is an example for the file. The values are taken as regular expressions.
+The default "coveralls.conf" is stored in "deps/excoveralls/lib/conf", and custom "coveralls.conf" can be placed under mix project root. The custom definition is prioritized over default one (if definitions in custom file is not found, definitions in default file is used).
 
+### Stop Words
+Stop words defined in "coveralls.conf" will be excluded from the coverage calculation. Some kernal macros defined in Elixir is not considered "covered" by Erlang's cover library. It can be used for excluding these macros, or any other reasons.
+
+The words are taken as regular expression.
 ```
-defmodule
-defrecord
-defimpl
-def.+(.+\/\/.+).+do
+{
+  "default_stop_words": [
+    "defmodule",
+    "defrecord",
+    "defimpl",
+    "def.+(.+\/\/.+).+do"
+  ],
+
+  "custom_stop_words": [
+  ]
+}
 ```
 
 ### Notes
