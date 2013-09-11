@@ -5,6 +5,7 @@ defmodule Excoveralls.SettingsTest do
 
   @fixture_default Path.dirname(__FILE__) <> "/fixtures/default.json"
   @fixture_custom  Path.dirname(__FILE__) <> "/fixtures/custom.json"
+  @fixture_invalid Path.dirname(__FILE__) <> "/fixtures/invalid.json"
 
   test "returns default file path" do
     assert(Settings.Files.default_file
@@ -44,5 +45,13 @@ defmodule Excoveralls.SettingsTest do
                    [default_file: fn -> @fixture_default end,
                     custom_file:  fn -> "__invalid__" end] do
     assert(Settings.read_config("default_stop_words") == ["a", "b"])
+  end
+
+  test_with_mock "read config fails if JSON file is invalid", Settings.Files,
+                   [default_file: fn -> @fixture_default end,
+                    custom_file:  fn -> @fixture_invalid end] do
+    assert_raise RuntimeError, fn ->
+      Settings.read_config("default_stop_words")
+    end
   end
 end

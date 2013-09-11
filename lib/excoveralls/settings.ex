@@ -20,7 +20,10 @@ defmodule ExCoveralls.Settings do
 
   defp read_config_file(file_name) do
     if File.exists?(file_name) do
-      File.read!(file_name) |> JSON.decode!
+      case File.read!(file_name) |> JSON.decode do
+        {:ok, config} -> config
+        _ -> raise "Failed to parse config file as JSON : #{file_name}"
+      end
     else
       HashDict.new
     end
