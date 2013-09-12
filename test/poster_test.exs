@@ -9,4 +9,11 @@ defmodule PosterTest do
       ExCoveralls.Poster.execute("json")
     end) == @cmd_result <> "\n"
   end
+
+  test_with_mock "post json fails if curl not found", System, [cmd: fn("which curl") -> "" end] do
+    assert_raise RuntimeError, fn ->
+      ExCoveralls.Poster.execute("json")
+    end
+  end
+
 end
