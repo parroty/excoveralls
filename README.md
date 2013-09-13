@@ -20,6 +20,7 @@ end
 
 ## Run at Local
 Run the "mix coveralls" task.
+
 It locally prints out the coverage information. This task doesn't submit the result to server.
 
 ```
@@ -42,6 +43,7 @@ COV    FILE                                        LINES RELEVANT   MISSED
 
 ## Run at Travis-CI
 Specify "mix coveralls.travis" as after_success section of .travis.yml
+
 It is for submiting the result to server when Travis-CI build is executed.
 
 ### .travis.yml
@@ -60,6 +62,7 @@ after_success:
 
 ## Run at Local with detailed information
 Run the "mix coveralls.detail" task.
+
 It displays coverage information at the source-code level in colored strings.
 Green indicates covered line, and red indicates not-covered line.
 If source is large, piping with "less" command may help looking into the detail.
