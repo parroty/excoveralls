@@ -20,6 +20,7 @@ end
 
 ## Run at Local
 Run the "mix coveralls" task.
+It locally prints out the coverage information. This task doesn't submit the result to server.
 
 ```
 $ mix coveralls
@@ -40,9 +41,10 @@ COV    FILE                                        LINES RELEVANT   MISSED
 
 
 ## Run at Travis-CI
-### .travis.yml
 Specify "mix coveralls.travis" as after_success section of .travis.yml
+It is for submiting the result to server when Travis-CI build is executed.
 
+### .travis.yml
 ```
 language: erlang
 otp_release:
@@ -55,6 +57,30 @@ script: "MIX_ENV=test mix do deps.get, test"
 after_success:
   - "mix coveralls.travis"
 ```
+
+## Run at Local with detailed information
+Run the "mix coveralls.detail" task.
+It displays coverage information at the source-code level in colored strings.
+Green indicates covered line, and red indicates not-covered line.
+If source is large, piping with "less" command may help looking into the detail.
+
+```
+$ mix coveralls.detail | less
+...
+----------------
+COV    FILE                                        LINES RELEVANT   MISSED
+100.0% lib/excoveralls/general.ex                     28        4        0
+...
+[TOTAL]  94.4%
+
+--------lib/excoveralls.ex--------
+defmodule ExCoveralls do
+  @moduledoc """
+  Provides the entry point for coverage calculation and output.
+  This module method is called by Mix.Tasks.Test
+...
+```
+
 
 ## coveralls.conf
 "coveralls.conf" provides a setting for excoveralls.
