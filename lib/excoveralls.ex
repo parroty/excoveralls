@@ -15,40 +15,40 @@ defmodule ExCoveralls do
   @doc """
   This method will be called from mix
   """
-  def start(compile_path, option) do
+  def start(compile_path, options) do
     Cover.compile(compile_path)
     System.at_exit fn(_) ->
-      execute(option[:type])
+      execute(options)
     end
   end
 
-  defp execute(type) do
+  defp execute(options) do
     Stats.report(Cover.modules)
-      |> analyze(type)
+      |> analyze(options[:type], options)
   end
 
   @doc """
   Logic for posting from travis-ci server
   """
-  def analyze(stats, @type_travis) do
+  def analyze(stats, @type_travis, _options) do
     ExCoveralls.Travis.execute(stats)
   end
 
   @doc """
   Logic for local stats display, without posting server
   """
-  def analyze(stats, @type_local) do
-    ExCoveralls.Local.execute(stats)
+  def analyze(stats, @type_local, options) do
+    ExCoveralls.Local.execute(stats, options)
   end
 
   @doc """
   Logic for posting from general CI server with token
   """
-  def analyze(stats, @type_general) do
+  def analyze(stats, @type_general, _options) do
     ExCoveralls.General.execute(stats)
   end
 
-  def analyze(_stats, _type) do
+  def analyze(_stats, _type, _options) do
     raise "Undefined type is specified for ExCoveralls"
   end
 end

@@ -12,17 +12,47 @@ defmodule ExCoveralls.Local do
   @doc """
   Provides an entry point for the module
   """
-  def execute(stats) do
+  def execute(stats, options // []) do
     IO.puts "----------------"
     IO.puts sprintf("%-6s %-40s %8s %8s %8s", ["COV", "FILE", "LINES", "RELEVANT", "MISSED"])
-    format(stats) |> IO.puts
+    coverage(stats) |> IO.puts
     IO.puts "----------------"
+
+    if options[:detail] == true do
+      source(stats) |> IO.puts
+    end
+  end
+
+  @doc """
+  Format the source code with color
+  """
+  def source(stats) do
+    Enum.map(stats, &format_source/1) |> Enum.join("\n")
+  end
+
+  defp format_source(stat) do
+    "\n\e[33m--------#{stat[:name]}--------\e[m\n" <> colorize(stat)
+  end
+
+  defp colorize([{:name, _name}, {:source, source}, {:coverage, coverage}]) do
+    lines = String.split(source, "\n")
+    Enum.zip(lines, coverage)
+      |> Enum.map(&do_colorize/1)
+      |> Enum.join("\n")
+  end
+
+  defp do_colorize({line, coverage}) do
+    case coverage do
+      nil -> line
+      0   -> "\e[31m#{line}\e[m"
+      _   -> "\e[32m#{line}\e[m"
+    end
   end
 
   @doc """
   Format the source coverage stats into string
   """
-  def format(stats) do
+  def coverage(stats) do
     count_info = Enum.map(stats, fn(stat) -> [stat, calculate_count(stat[:coverage])] end)
     Enum.join(format_body(count_info), "\n") <> "\n" <> format_total(count_info)
   end

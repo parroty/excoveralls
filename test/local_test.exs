@@ -17,20 +17,38 @@ defmodule ExCoveralls.LocalTest do
                  coverage: @invalid_counts
                ]]
 
-  test "display stats" do
-    assert capture_io(fn ->
-      Local.execute(@source_info)
-    end) ==
+  @stats_result "" <>
       "----------------\n" <>
       "COV    FILE                                        LINES RELEVANT   MISSED\n" <>
       " 50.0% test/fixtures/test.ex                           4        2        1\n"  <>
       "[TOTAL]  50.0%\n" <>
       "----------------\n"
+
+  @source_result "" <>
+      "\n\e[33m--------test/fixtures/test.ex--------\e[m\n" <>
+      "\e[31mdefmodule Test do\e[m\n\e[32m  def test do\e[m\n" <>
+      "  end\n" <>
+      "end\n"
+
+  test "display source information" do
+    assert(Local.source(@source_info) == @source_result)
   end
 
-  test "display stats fails with invalid data" do
+  test "display stats information" do
+    assert capture_io(fn ->
+      Local.execute(@source_info)
+    end) == @stats_result
+  end
+
+  test "display stats information with detail option" do
+    assert capture_io(fn ->
+      Local.execute(@source_info, [detail: true])
+    end) == @stats_result <> @source_result <> "\n"
+  end
+
+  test "display stats information fails with invalid data" do
     assert_raise RuntimeError, fn ->
-      Local.format(@invalid_source_info)
+      Local.coverage(@invalid_source_info)
     end
   end
 end

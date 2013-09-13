@@ -1,7 +1,6 @@
-
 defmodule Mix.Tasks.Coveralls do
   @moduledoc """
-  Provides an entry point for displaying co
+  Provides an entry point for displaying
   coveralls.io from local server.
   """
   use Mix.Task
@@ -17,6 +16,18 @@ defmodule Mix.Tasks.Coveralls do
     Code.load_file(Path.dirname(__FILE__) <> mix_file_path)
     Mix.Task.run("test", args ++ ["--cover"])
     Mix.Project.pop
+  end
+
+  defmodule Detail do
+    @moduledoc """
+    Provides an entry point for displaying coveralls information
+    with source code details.
+    """
+    use Mix.Task
+
+    def run(args) do
+      Mix.Tasks.Coveralls.do_run(args, "/../../projects/mix.detail.exs")
+    end
   end
 
   defmodule Travis do
