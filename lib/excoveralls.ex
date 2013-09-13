@@ -23,7 +23,7 @@ defmodule ExCoveralls do
   end
 
   defp execute(type) do
-    Stats.calculate(Cover.modules)
+    Stats.report(Cover.modules)
       |> analyze(type)
   end
 

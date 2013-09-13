@@ -4,7 +4,10 @@ defmodule ExCoveralls.Stats do
   """
   alias ExCoveralls.Cover
 
-  def calculate(modules) do
+  @doc """
+  Report the statistical information for he specified module.
+  """
+  def report(modules) do
     calculate_stats(modules)
       |> generate_coverage
       |> generate_source_info
