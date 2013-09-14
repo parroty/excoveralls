@@ -110,7 +110,7 @@ The words are taken as regular expression.
 
 ### Notes
 - If meck library is being used, it shows some warnings during execution.
-- When "mix coveralls" fails, "mix test" in advance, might avoid the error.
+- When Erlang clashes at "mix coveralls", executing "mix test" in advance might avoid the error.
 
 ### TODO
 - It depends on curl command for posting JSON. Replace it with Elixir library.
