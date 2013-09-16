@@ -13,7 +13,12 @@ defmodule ExCoveralls.PostTest do
                ]]
 
   test_with_mock "execute", ExCoveralls.Poster, [execute: fn(_) -> "result" end] do
+    original_token = System.get_env("COVERALLS_REPO_TOKEN")
+    System.put_env("COVERALLS_REPO_TOKEN", "dummy_token")
+
     assert(Post.execute(@source_info) == "result")
+
+    System.put_env("COVERALLS_REPO_TOKEN", original_token)
   end
 
   test_with_mock "generate json", System, [get_env:
