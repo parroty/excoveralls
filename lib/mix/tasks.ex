@@ -11,6 +11,9 @@ defmodule Mix.Tasks.Coveralls do
     do_run(args, "/../../projects/mix.local.exs")
   end
 
+  @doc """
+  Provides the logic to switch the Mix.Project parameter.
+  """
   def do_run(args, mix_file_path) do
     Mix.env(:test)
     Code.load_file(Path.dirname(__FILE__) <> mix_file_path)
@@ -24,6 +27,8 @@ defmodule Mix.Tasks.Coveralls do
     with source code details.
     """
     use Mix.Task
+
+    @shortdoc "Display the test coverage with source detail"
 
     def run(args) do
       Mix.Tasks.Coveralls.do_run(args, "/../../projects/mix.detail.exs")
@@ -40,18 +45,20 @@ defmodule Mix.Tasks.Coveralls do
       Mix.Tasks.Coveralls.do_run(args, "/../../projects/mix.travis.exs")
     end
   end
+
+  defmodule Post do
+    @moduledoc """
+    Provides an entry point for posting test coverage to
+    coveralls.io from the local server.
+    """
+    use Mix.Task
+
+    @shortdoc "Post the test coverage to coveralls"
+
+    def run(args) do
+      Mix.Tasks.Coveralls.do_run(args, "/../../projects/mix.post.exs")
+    end
+  end
+
 end
 
-# defmodule Mix.Tasks.Coveralls.Post do
-#   @moduledoc """
-#   Provides an entry point for posting test coverage to
-#   coveralls.io from local server.
-#   """
-#   use Mix.Task
-
-#   @shortdoc "Post the test coverage to coveralls"
-
-#   def run(_) do
-#     IO.puts "ExCoveralls - Post"
-#   end
-# end

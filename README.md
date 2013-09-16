@@ -18,7 +18,7 @@ defp deps do
 end
 ```
 
-## Run at Local
+## Check the coverage at local host
 Run the "mix coveralls" task.
 
 It locally prints out the coverage information. This task doesn't submit the result to server.
@@ -41,10 +41,10 @@ COV    FILE                                        LINES RELEVANT   MISSED
 ```
 
 
-## Run at Travis-CI
+## Post the coverage from Travis-CI
 Specify "mix coveralls.travis" as after_success section of .travis.yml
 
-It is for submiting the result to server when Travis-CI build is executed.
+It is for submiting the result to coveralls server when Travis-CI build is executed.
 
 ### .travis.yml
 ```
@@ -60,8 +60,22 @@ after_success:
   - "mix coveralls.travis"
 ```
 
-## Run at Local with detailed information
-Run the "mix coveralls.detail" task.
+## Post the coverage from local host
+Set coveralls token as environment variable (COVERALLS_REPO_TOKEN), and then run "mix coveralls.post" task.
+
+It is for submiting the result to coveralls server from the local host.
+
+```
+$ mix coveralls.post
+...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 16958  100    64  100 16894     23   6330  0:00:02  0:00:02 --:--:--  7644
+{"message":"Job #xx.1","url":"https://coveralls.io/jobs/xxxx"}
+```
+
+## Check the coverage at local host with detailed information
+Run "mix coveralls.detail" task.
 
 It displays coverage information at the source-code level in colored strings.
 Green indicates covered line, and red indicates not-covered line.
@@ -83,7 +97,6 @@ defmodule ExCoveralls do
   This module method is called by Mix.Tasks.Test
 ...
 ```
-
 
 ## coveralls.conf
 "coveralls.conf" provides a setting for excoveralls.

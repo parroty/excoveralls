@@ -1,7 +1,7 @@
-defmodule ExCoveralls.GeneralTest do
+defmodule ExCoveralls.PostTest do
   use ExUnit.Case
   import Mock
-  alias ExCoveralls.General
+  alias ExCoveralls.Post
   alias ExCoveralls.Utils
 
   @content     "defmodule Test do\n  def test do\n  end\nend\n"
@@ -12,14 +12,18 @@ defmodule ExCoveralls.GeneralTest do
                  coverage: @counts
                ]]
 
+  test_with_mock "execute", ExCoveralls.Poster, [execute: fn(_) -> "result" end] do
+    assert(Post.execute(@source_info) == "result")
+  end
+
   test_with_mock "generate json", System, [get_env:
       fn(x) -> case x do
-           "EXCOVERALLS_SERVICE_NAME" -> "local"
+           "COVERALLS_SERVICE_NAME" -> "local"
            "COVERALLS_REPO_TOKEN" -> "1234567890"
          end
-      end] do
+      end, cmd: fn(_) -> "" end] do
 
-    assert(General.execute(@source_info) ==
+    assert(Post.generate_json(@source_info) ==
        "{\"repo_token\":\"1234567890\"," <>
          "\"service_name\":\"local\"," <>
          "\"source_files\":" <>

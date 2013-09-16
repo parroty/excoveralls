@@ -10,7 +10,7 @@ defmodule ExCoveralls do
 
   @type_travis  "travis"
   @type_local   "local"
-  @type_general "general"
+  @type_post    "post"
 
   @doc """
   This method will be called from mix
@@ -42,10 +42,10 @@ defmodule ExCoveralls do
   end
 
   @doc """
-  Logic for posting from general CI server with token
+  Logic for posting from general CI server with token.
   """
-  def analyze(stats, @type_general, _options) do
-    ExCoveralls.General.execute(stats)
+  def analyze(stats, @type_post, _options) do
+    ExCoveralls.Post.execute(stats)
   end
 
   def analyze(_stats, _type, _options) do

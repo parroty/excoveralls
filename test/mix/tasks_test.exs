@@ -19,4 +19,9 @@ defmodule Mix.Tasks.CoverallsTest do
     assert(called Mix.Task.run("test", ["--cover"]))
   end
 
+  test_with_mock "post", Mix.Task, [run: fn(_, _) -> nil end] do
+    assert(Mix.Tasks.Coveralls.Post.run([]) == ExCoveralls.Post.Mixfile)
+    assert(called Mix.Task.run("test", ["--cover"]))
+  end
+
 end

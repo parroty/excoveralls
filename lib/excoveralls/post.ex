@@ -1,4 +1,4 @@
-defmodule ExCoveralls.General do
+defmodule ExCoveralls.Post do
   @moduledoc """
   Handles general-purpose CI integration with coveralls.
   """
@@ -8,7 +8,7 @@ defmodule ExCoveralls.General do
   @default_name "local"
 
   def execute(stats) do
-    generate_json(stats)
+    generate_json(stats) |> Poster.execute
   end
 
   def generate_json(source_info) do
@@ -20,7 +20,7 @@ defmodule ExCoveralls.General do
   end
 
   def service_name do
-    System.get_env("EXCOVERALLS_SERVICE_NAME") || @default_name
+    System.get_env("COVERALLS_SERVICE_NAME") || @default_name
   end
 
   def get_repo_token do
