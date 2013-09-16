@@ -18,10 +18,11 @@ defp deps do
 end
 ```
 
-## Check the coverage at local host
-Run the "mix coveralls" task.
+# Usage
+## Check coverage at the local host
+Run "mix coveralls" command.
 
-It locally prints out the coverage information. This task doesn't submit the result to server.
+This task locally prints out the coverage information. It doesn't submit the result to server.
 
 ```
 $ mix coveralls
@@ -41,10 +42,10 @@ COV    FILE                                        LINES RELEVANT   MISSED
 ```
 
 
-## Post the coverage from Travis-CI
-Specify "mix coveralls.travis" as after_success section of .travis.yml
+## Post coverage from the Travis-CI server
+Specify "mix coveralls.travis" as after_success section of .travis.yml.
 
-It is for submiting the result to coveralls server when Travis-CI build is executed.
+This task is for submiting the result to coveralls server when Travis-CI build is executed.
 
 ### .travis.yml
 ```
@@ -60,8 +61,8 @@ after_success:
   - "mix coveralls.travis"
 ```
 
-## Post the coverage from local host
-Set coveralls token as environment variable (COVERALLS_REPO_TOKEN), and then run "mix coveralls.post" task.
+## Post coverage from the local host
+Set coveralls token as environment variable (COVERALLS_REPO_TOKEN), and then run "mix coveralls.post" command.
 
 It is for submiting the result to coveralls server from the local host.
 
@@ -74,12 +75,12 @@ $ mix coveralls.post
 {"message":"Job #xx.1","url":"https://coveralls.io/jobs/xxxx"}
 ```
 
-## Check the coverage at local host with detailed information
-Run "mix coveralls.detail" task.
+## Check coverage at the local host with source detail
+Run "mix coveralls.detail" command.
 
-It displays coverage information at the source-code level in colored strings.
+This task displays coverage information at the source-code level with colored text.
 Green indicates covered line, and red indicates not-covered line.
-If source is large, piping with "less" command may help looking into the detail.
+If source is large, piping with "less" command may help looking around the detail.
 
 ```
 $ mix coveralls.detail | less
@@ -98,15 +99,15 @@ defmodule ExCoveralls do
 ...
 ```
 
-## coveralls.conf
-"coveralls.conf" provides a setting for excoveralls.
+## coveralls.json
+"coveralls.json" provides a setting for excoveralls.
 
-The default "coveralls.conf" is stored in "deps/excoveralls/lib/conf", and custom "coveralls.conf" can be placed under mix project root. The custom definition is prioritized over default one (if definitions in custom file is not found, definitions in default file is used).
+The default "coveralls.json" is stored in "deps/excoveralls/lib/conf", and custom "coveralls.json" can be placed under mix project root. The custom definition is prioritized over the default one (if definitions in custom file is not found, then definitions in default file is used).
 
 ### Stop Words
-Stop words defined in "coveralls.conf" will be excluded from the coverage calculation. Some kernal macros defined in Elixir is not considered "covered" by Erlang's cover library. It can be used for excluding these macros, or any other reasons.
+Stop words defined in "coveralls.json" will be excluded from the coverage calculation. Some kernal macros defined in Elixir is not considered "covered" by Erlang's cover library. It can be used for excluding these macros, or any other reasons.
 
-The words are taken as regular expression.
+The words are parsed as regular expression.
 ```
 {
   "default_stop_words": [
@@ -123,8 +124,9 @@ The words are taken as regular expression.
 
 ### Notes
 - If meck library is being used, it shows some warnings during execution.
+    - https://github.com/eproxus/meck/pull/17
 - When Erlang clashes at "mix coveralls", executing "mix test" in advance might avoid the error.
 
-### TODO
+### Todo
 - It depends on curl command for posting JSON. Replace it with Elixir library.
   - Tried to use hackney, but doesn't work well.
