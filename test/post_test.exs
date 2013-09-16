@@ -18,7 +18,9 @@ defmodule ExCoveralls.PostTest do
 
     assert(Post.execute(@source_info) == "result")
 
-    System.put_env("COVERALLS_REPO_TOKEN", original_token)
+    if original_token != nil do
+      System.put_env("COVERALLS_REPO_TOKEN", original_token)
+    end
   end
 
   test_with_mock "generate json", System, [get_env:
