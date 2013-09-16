@@ -24,6 +24,6 @@ defmodule ExCoveralls.Post do
   end
 
   def get_repo_token do
-    System.get_env("COVERALLS_REPO_TOKEN")
+    System.get_env("COVERALLS_REPO_TOKEN") || raise "COVERALLS_REPO_TOKEN is not defined."
   end
 end

@@ -31,5 +31,24 @@ defmodule ExCoveralls.PostTest do
              "\"source\":\"defmodule Test do\\n  def test do\\n  end\\nend\\n\"," <>
              "\"coverage\":[0,1,null,null]}]}")
   end
+
+  test_with_mock "service name returns env", System, [get_env: fn(_) -> "servicename" end] do
+    assert(Post.service_name == "servicename")
+  end
+
+  test_with_mock "service name returns default if env not set", System, [get_env: fn(_) -> nil end] do
+    assert(Post.service_name == "local")
+  end
+
+  test_with_mock "repo token returns env", System, [get_env: fn(_) -> "token" end] do
+    assert(Post.get_repo_token == "token")
+  end
+
+  test_with_mock "repo token raise exception if env not set", System, [get_env: fn(_) -> nil end] do
+    assert_raise RuntimeError, fn ->
+      Post.get_repo_token
+    end
+  end
+
 end
 
