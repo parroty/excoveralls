@@ -83,7 +83,10 @@ defmodule ExCoveralls.Local do
   end
 
   defp get_coverage(count) do
-    (count.covered / count.relevant) * 100
+    case count.relevant do
+      0 -> 0
+      _ -> (count.covered / count.relevant) * 100
+    end
   end
 
   @doc """
