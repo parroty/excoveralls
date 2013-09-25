@@ -34,7 +34,7 @@ defmodule ExCoveralls.PostTest do
        "{\"repo_token\":\"1234567890\"," <>
          "\"service_name\":\"local\"," <>
          "\"source_files\":" <>
-           "[{\"name\":\"test\\/fixtures\\/test.ex\"," <>
+           "[{\"name\":\"test/fixtures/test.ex\"," <>
              "\"source\":\"defmodule Test do\\n  def test do\\n  end\\nend\\n\"," <>
              "\"coverage\":[0,1,null,null]}]}")
   end

@@ -29,7 +29,7 @@ defmodule ExCoveralls.Mixfile do
 
   def deps(:prod) do
     [
-      {:json, github: "cblage/elixir-json"},
+      {:jsex, github: "talentdeficit/jsex"},
       {:exprintf, github: "parroty/exprintf"}
     ]
   end
