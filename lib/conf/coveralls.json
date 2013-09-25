@@ -3,6 +3,8 @@
     "defmodule",
     "defrecord",
     "defimpl",
+    "defexception",
+    "defprotocol",
     "def.+(.+\/\/.+).+do"
   ],
 
