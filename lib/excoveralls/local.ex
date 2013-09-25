@@ -84,7 +84,7 @@ defmodule ExCoveralls.Local do
 
   defp get_coverage(count) do
     case count.relevant do
-      0 -> 0
+      0 -> 0.0
       _ -> (count.covered / count.relevant) * 100
     end
   end
