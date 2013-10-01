@@ -5,7 +5,8 @@
     "defimpl",
     "defexception",
     "defprotocol",
-    "def.+(.+\/\/.+).+do"
+    "def.+(.+\/\/.+).+do",
+    "^\\s+use\\s+"
   ],
 
   "custom_stop_words": [
