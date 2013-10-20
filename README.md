@@ -129,4 +129,6 @@ The words are parsed as regular expression.
 
 ### Todo
 - It depends on curl command for posting JSON. Replace it with Elixir library.
-  - Tried to use hackney, but doesn't work well.
+    - Tried to use hackney, but doesn't work well.
+- It might not work well on the projects which handles multiple project (Mix.Project) files.
+    - Need improvement on file-path handling.
