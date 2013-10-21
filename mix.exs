@@ -29,7 +29,7 @@ defmodule ExCoveralls.Mixfile do
 
   def deps(:prod) do
     [
-      {:jsex, github: "talentdeficit/jsex"},
+      {:jsex, github: "parroty/jsex", branch: "fix"},
       {:exprintf, github: "parroty/exprintf"}
     ]
   end
