@@ -15,11 +15,10 @@ defmodule ExCoveralls do
   @doc """
   This method will be called from mix
   """
-  def start(compile_path, options) do
+  def run(compile_path, _opts, callback) do
     Cover.compile(compile_path)
-    System.at_exit fn(_) ->
-      execute(options)
-    end
+    callback.()
+    execute(ExCoveralls.ConfServer.get)
   end
 
   defp execute(options) do

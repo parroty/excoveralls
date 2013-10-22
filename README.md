@@ -8,15 +8,34 @@ Curerntly, it's under trial for travis-ci integration. [coverage_sample](https:/
 
 # Setting
 ### mix.exs
-Include :excoveralls in the deps section of the file.
+Add the following parameters.
+
+- "test_coverage: [tool: ExCoveralls]" in the project section.
+- ":excoveralls" in the deps section.
 
 ```elixir
-defp deps do
-  [
-    {:excoveralls, github: "parroty/excoveralls"}
+def project do
+  [ app: :excoveralls,
+    version: "0.2.0",
+    elixir: "~> 0.10.3-dev",
+    deps: deps(Mix.env),
+    test_coverage: [tool: ExCoveralls]
   ]
 end
+
+defp deps do
+  [{:excoveralls, github: "parroty/excoveralls"}]
+end
 ```
+
+## Note
+Master branch is updated for elixir/master, and it may not work in older versions. If you're using elixir v0.1.3 or earlier, please use v0.1.5 as deps.
+```elixir
+defp deps do
+  [{:excoveralls, github: "parroty/excoveralls", tag: "v0.1.5"}]
+end
+```
+
 
 # Usage
 ## Check coverage at the local host

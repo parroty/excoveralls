@@ -3,9 +3,10 @@ defmodule ExCoveralls.Mixfile do
 
   def project do
     [ app: :excoveralls,
-      version: "0.1.5",
-      elixir: "~> 0.10.3-dev",
-      deps: deps(Mix.env)
+      version: "0.2.0",
+      elixir: "~> 0.10.4-dev",
+      deps: deps(Mix.env),
+      test_coverage: [tool: ExCoveralls]
     ]
   end
 
@@ -30,7 +31,8 @@ defmodule ExCoveralls.Mixfile do
   def deps(:prod) do
     [
       {:jsex, github: "parroty/jsex", branch: "fix"},
-      {:exprintf, github: "parroty/exprintf"}
+      {:exprintf, github: "parroty/exprintf"},
+      {:exactor, github: "sasa1977/exactor"}
     ]
   end
 end

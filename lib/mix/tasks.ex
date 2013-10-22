@@ -8,17 +8,17 @@ defmodule Mix.Tasks.Coveralls do
   @shortdoc "Display the test coverage"
 
   def run(args) do
-    do_run(args, "/../../projects/mix.local.exs")
+    do_run(args, [type: "local"])
   end
 
   @doc """
-  Provides the logic to switch the Mix.Project parameter.
+  Provides the logic to switch the parameters for ExCoveralls.run/3.
   """
-  def do_run(args, mix_file_path) do
+  def do_run(args, options) do
     Mix.env(:test)
-    Code.load_file(Path.dirname(__FILE__) <> mix_file_path)
+    ExCoveralls.ConfServer.start
+    ExCoveralls.ConfServer.set(options)
     Mix.Task.run("test", args ++ ["--cover"])
-    Mix.Project.pop
   end
 
   defmodule Detail do
@@ -31,7 +31,7 @@ defmodule Mix.Tasks.Coveralls do
     @shortdoc "Display the test coverage with source detail"
 
     def run(args) do
-      Mix.Tasks.Coveralls.do_run(args, "/../../projects/mix.detail.exs")
+      Mix.Tasks.Coveralls.do_run(args, [type: "local", detail: true])
     end
   end
 
@@ -42,7 +42,7 @@ defmodule Mix.Tasks.Coveralls do
     use Mix.Task
 
     def run(args) do
-      Mix.Tasks.Coveralls.do_run(args, "/../../projects/mix.travis.exs")
+      Mix.Tasks.Coveralls.do_run(args, [type: "travis"])
     end
   end
 
@@ -56,7 +56,7 @@ defmodule Mix.Tasks.Coveralls do
     @shortdoc "Post the test coverage to coveralls"
 
     def run(args) do
-      Mix.Tasks.Coveralls.do_run(args, "/../../projects/mix.post.exs")
+      Mix.Tasks.Coveralls.do_run(args, [type: "post"])
     end
   end
 
