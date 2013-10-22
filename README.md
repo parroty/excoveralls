@@ -29,7 +29,8 @@ end
 ```
 
 ## Note
-Master branch is updated for elixir/master, and it may not work in older versions. If you're using elixir v0.1.3 or earlier, please use v0.1.5 as deps.
+Master branch is catching up elixir/master, and it may not work with older versions. If you're using elixir v0.1.3 or earlier, please use v0.1.5 as deps.
+
 ```elixir
 defp deps do
   [{:excoveralls, github: "parroty/excoveralls", tag: "v0.1.5"}]
