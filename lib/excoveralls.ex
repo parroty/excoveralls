@@ -7,6 +7,10 @@ defmodule ExCoveralls do
   alias ExCoveralls.Cover
   alias ExCoveralls.Generator
   alias ExCoveralls.Poster
+  alias ExCoveralls.ConfServer
+  alias ExCoveralls.Travis
+  alias ExCoveralls.Local
+  alias ExCoveralls.Post
 
   @type_travis  "travis"
   @type_local   "local"
@@ -18,7 +22,7 @@ defmodule ExCoveralls do
   def run(compile_path, _opts, callback) do
     Cover.compile(compile_path)
     callback.()
-    execute(ExCoveralls.ConfServer.get)
+    execute(ConfServer.get)
   end
 
   defp execute(options) do
@@ -30,21 +34,21 @@ defmodule ExCoveralls do
   Logic for posting from travis-ci server
   """
   def analyze(stats, @type_travis, _options) do
-    ExCoveralls.Travis.execute(stats)
+    Travis.execute(stats)
   end
 
   @doc """
   Logic for local stats display, without posting server
   """
   def analyze(stats, @type_local, options) do
-    ExCoveralls.Local.execute(stats, options)
+    Local.execute(stats, options)
   end
 
   @doc """
   Logic for posting from general CI server with token.
   """
   def analyze(stats, @type_post, _options) do
-    ExCoveralls.Post.execute(stats)
+    Post.execute(stats)
   end
 
   def analyze(_stats, _type, _options) do
