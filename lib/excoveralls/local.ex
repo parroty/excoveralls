@@ -19,15 +19,23 @@ defmodule ExCoveralls.Local do
     IO.puts "----------------"
 
     if options[:detail] == true do
-      source(stats) |> IO.puts
+      source(stats, options[:args]) |> IO.puts
     end
   end
 
   @doc """
-  Format the source code with color
+  Format the source code with color for the files that matches with
+  the specified patterns.
   """
+  def source(stats, _patterns = nil), do: source(stats)
+  def source(stats, _patterns = []),  do: source(stats)
+  def source(stats, patterns) do
+    Enum.filter(stats, fn(stat) -> String.contains?(stat[:name], patterns) end) |> source
+  end
+
   def source(stats) do
-    Enum.map(stats, &format_source/1) |> Enum.join("\n")
+    stats |> Enum.map(&format_source/1)
+          |> Enum.join("\n")
   end
 
   defp format_source(stat) do

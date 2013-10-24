@@ -34,6 +34,14 @@ defmodule ExCoveralls.LocalTest do
     assert(Local.source(@source_info) == @source_result)
   end
 
+  test "display source information with empty filter" do
+    assert(Local.source(@source_info, []) == @source_result)
+  end
+
+  test "display source information with pattern filter" do
+    assert(Local.source(@source_info, ["test.ex"]) == @source_result)
+  end
+
   test "display stats information" do
     assert capture_io(fn ->
       Local.execute(@source_info)

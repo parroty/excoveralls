@@ -119,6 +119,24 @@ defmodule ExCoveralls do
 ...
 ```
 
+Also, displayed source codes can be filtered by specifying arguments (it will be matched against FILE column value). The following example lists the source codes only for general.ex.
+```
+$ mix coveralls.detail general.ex
+...
+----------------
+COV    FILE                                        LINES RELEVANT   MISSED
+100.0% lib/excoveralls/general.ex                     28        4        0
+...
+[TOTAL]  94.4%
+
+--------lib/excoveralls.ex--------
+defmodule ExCoveralls do
+  @moduledoc """
+  Provides the entry point for coverage calculation and output.
+  This module method is called by Mix.Tasks.Test
+...
+```
+
 ## coveralls.json
 "coveralls.json" provides a setting for excoveralls.
 

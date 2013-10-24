@@ -17,8 +17,8 @@ defmodule Mix.Tasks.Coveralls do
   def do_run(args, options) do
     Mix.env(:test)
     ExCoveralls.ConfServer.start
-    ExCoveralls.ConfServer.set(options)
-    Mix.Task.run("test", args ++ ["--cover"])
+    ExCoveralls.ConfServer.set(options ++ [args: args])
+    Mix.Task.run("test", ["--cover"])
   end
 
   defmodule Detail do
