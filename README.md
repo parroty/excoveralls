@@ -44,7 +44,7 @@ Run "mix coveralls" command.
 
 This task locally prints out the coverage information. It doesn't submit the result to server.
 
-```shell
+```Shell
 $ mix coveralls
 ...
 ----------------
@@ -86,7 +86,7 @@ Set coveralls token as environment variable (COVERALLS_REPO_TOKEN), and then run
 
 It is for submiting the result to coveralls server from the local host.
 
-```shell
+```Shell
 $ mix coveralls.post
 ...
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
@@ -102,7 +102,7 @@ This task displays coverage information at the source-code level with colored te
 Green indicates covered line, and red indicates not-covered line.
 If source is large, piping with "less" command may help looking around the detail.
 
-```elixir
+```Shell
 $ mix coveralls.detail | less
 ...
 ----------------
@@ -120,7 +120,7 @@ defmodule ExCoveralls do
 ```
 
 Also, displayed source codes can be filtered by specifying arguments (it will be matched against FILE column value). The following example lists the source codes only for general.ex.
-```elixir
+```Shell
 $ mix coveralls.detail general.ex
 ...
 ----------------
