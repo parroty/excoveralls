@@ -24,13 +24,13 @@ defmodule ExCoveralls.Mixfile do
   def deps(:dev) do
     deps(:prod) ++
       [
-        {:mock, ">= 0.0.3", github: "parroty/mock"}
+        {:mock, ">= 0.0.3", github: "parroty/mock", branch: "version"}
       ]
   end
 
   def deps(:prod) do
     [
-      {:jsex, github: "parroty/jsex", branch: "fix"},
+      {:jsex, github: "talentdeficit/jsex"},
       {:exprintf, github: "parroty/exprintf"},
       {:exactor, github: "sasa1977/exactor"}
     ]
