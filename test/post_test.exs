@@ -2,7 +2,6 @@ defmodule ExCoveralls.PostTest do
   use ExUnit.Case
   import Mock
   alias ExCoveralls.Post
-  alias ExCoveralls.Utils
 
   @content     "defmodule Test do\n  def test do\n  end\nend\n"
   @counts      [0, 1, nil, nil]

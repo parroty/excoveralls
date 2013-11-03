@@ -5,8 +5,6 @@ defmodule ExCoveralls do
   """
   alias ExCoveralls.Stats
   alias ExCoveralls.Cover
-  alias ExCoveralls.Generator
-  alias ExCoveralls.Poster
   alias ExCoveralls.ConfServer
   alias ExCoveralls.Travis
   alias ExCoveralls.Local

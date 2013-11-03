@@ -2,7 +2,6 @@ defmodule ExCoveralls.Travis do
   @moduledoc """
   Handles travis-ci integration with coveralls.
   """
-  alias ExCoveralls.Utils
   alias ExCoveralls.Poster
 
   def execute(stats) do

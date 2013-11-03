@@ -2,7 +2,6 @@ defmodule ExCoveralls.Post do
   @moduledoc """
   Handles general-purpose CI integration with coveralls.
   """
-  alias ExCoveralls.Utils
   alias ExCoveralls.Poster
 
   @default_name "local"
