@@ -39,9 +39,14 @@ end
 
 
 # Usage
-## Check coverage at the local host
-Run "mix coveralls" command.
+## Mix Tasks
+- [mix coveralls](#mix-coveralls-show-coverage)
+- [mix coveralls.travis](#mix-coverallstravis-post-coverage-from-travis)
+- [mix coveralls.post](#mix-coverallspost-post-coverage-from-localhost)
+- [mix coveralls.detail](#mix-coverallsdetail-show-coverage-with-detail)
 
+### [mix coveralls] Show coverage
+Run "mix coveralls" command to show coverage information at the local host
 This task locally prints out the coverage information. It doesn't submit the result to server.
 
 ```Shell
@@ -61,13 +66,11 @@ COV    FILE                                        LINES RELEVANT   MISSED
 ----------------
 ```
 
-
-## Post coverage from the Travis-CI server
+### [mix coveralls.travis] Post coverage from travis
 Specify "mix coveralls.travis" as after_success section of .travis.yml.
-
 This task is for submiting the result to coveralls server when Travis-CI build is executed.
 
-### .travis.yml
+#### .travis.yml
 ```
 language: erlang
 otp_release:
@@ -81,9 +84,8 @@ after_success:
   - "mix coveralls.travis"
 ```
 
-## Post coverage from the local host
+### [mix coveralls.post] Post coverage from localhost
 Set coveralls token as environment variable (COVERALLS_REPO_TOKEN), and then run "mix coveralls.post" command.
-
 It is for submiting the result to coveralls server from the local host.
 
 ```Shell
@@ -95,9 +97,7 @@ $ mix coveralls.post
 {"message":"Job #xx.1","url":"https://coveralls.io/jobs/xxxx"}
 ```
 
-## Check coverage at the local host with source detail
-Run "mix coveralls.detail" command.
-
+### [mix coveralls.detail] Show coverage with detail
 This task displays coverage information at the source-code level with colored text.
 Green indicates covered line, and red indicates not-covered line.
 If source is large, piping with "less" command may help looking around the detail.
