@@ -6,7 +6,7 @@ defmodule ExCoveralls.Mixfile do
       version: "0.2.0",
       elixir: ">= 0.10.4-dev",
       deps: deps(Mix.env),
-      test_coverage: [tool: ExCoveralls]
+      test_coverage: [tool: ExCoverall]
     ]
   end
 

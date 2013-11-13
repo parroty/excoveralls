@@ -15,6 +15,11 @@ defmodule Mix.Tasks.Coveralls do
   Provides the logic to switch the parameters for ExCoveralls.run/3.
   """
   def do_run(args, options) do
+    if Mix.Project.config[:test_coverage][:tool] != ExCoveralls do
+      raise ExCoveralls.InvalidConfigError.new(
+        message: "Please specify 'test_coverage: [tool: ExCoveralls]' in the 'project' section of mix.exs")
+    end
+
     Mix.env(:test)
     ExCoveralls.ConfServer.start
     ExCoveralls.ConfServer.set(options ++ [args: args])

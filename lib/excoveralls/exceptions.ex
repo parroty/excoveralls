@@ -1,0 +1,1 @@
+defexception ExCoveralls.InvalidConfigError, message: "error"
