@@ -8,7 +8,13 @@ defmodule Mix.Tasks.Coveralls do
   @shortdoc "Display the test coverage"
 
   def run(args) do
-    do_run(args, [type: "local"])
+    {options, _, _} = OptionParser.parse(args, aliases: [h: :help])
+
+    if options[:help] do
+      ExCoveralls.Task.Util.print_help_message
+    else
+      do_run(args, [type: "local"])
+    end
   end
 
   @doc """
