@@ -31,27 +31,27 @@ defmodule ExCoveralls.LocalTest do
       "end"
 
   test "display source information" do
-    assert(Local.source(@source_info) == @source_result)
+    assert(Local.source(@source_info) =~ @source_result)
   end
 
   test "display source information with empty filter" do
-    assert(Local.source(@source_info, []) == @source_result)
+    assert(Local.source(@source_info, []) =~ @source_result)
   end
 
   test "display source information with pattern filter" do
-    assert(Local.source(@source_info, ["test.ex"]) == @source_result)
+    assert(Local.source(@source_info, ["test.ex"]) =~ @source_result)
   end
 
   test "display stats information" do
     assert capture_io(fn ->
       Local.execute(@source_info)
-    end) == @stats_result
+    end) =~ @stats_result
   end
 
   test "display stats information with detail option" do
     assert capture_io(fn ->
       Local.execute(@source_info, [detail: true])
-    end) == @stats_result <> @source_result <> "\n"
+    end) =~ @stats_result <> @source_result <> "\n"
   end
 
   test "display stats information fails with invalid data" do
