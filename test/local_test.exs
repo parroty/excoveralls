@@ -28,7 +28,7 @@ defmodule ExCoveralls.LocalTest do
       "\n\e[33m--------test/fixtures/test.ex--------\e[m\n" <>
       "\e[31mdefmodule Test do\e[m\n\e[32m  def test do\e[m\n" <>
       "  end\n" <>
-      "end\n"
+      "end"
 
   test "display source information" do
     assert(Local.source(@source_info) == @source_result)
