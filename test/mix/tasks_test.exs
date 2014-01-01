@@ -73,7 +73,7 @@ defmodule Mix.Tasks.CoverallsTest do
   end
 
   test_with_mock "extract service name by default", System, [get_env: fn(_) -> nil end] do
-    assert Mix.Tasks.Coveralls.Post.extract_service_name([]) == "local"
+    assert Mix.Tasks.Coveralls.Post.extract_service_name([]) == "excoveralls"
   end
 
   test "extract token by param" do

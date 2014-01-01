@@ -65,7 +65,7 @@ defmodule Mix.Tasks.Coveralls do
     use Mix.Task
 
     @shortdoc "Post the test coverage to coveralls"
-    @default_service_name "local"
+    @default_service_name "excoveralls"
 
     def run(args) do
       {options, params, _} = OptionParser.parse(args, aliases: [n: :name, b: :branch, c: :committer, m: :message])
