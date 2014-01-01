@@ -20,7 +20,11 @@ Usage: mix coveralls.travis
 Usage: mix coveralls.post [options] [coveralls-token]
   Used to post coverage from local server using token
 
-  -n (--name)         Service name ('VIA' column of coveralls page)
+  -n (--name)         Service name ('VIA' column at coveralls page)
+  -b (--branch)       Branch name ('BRANCH' column at coveralls page)
+  -c (--committer)    Committer name ('COMMITTER' column at coveralls page)
+  -m (--message)      Commit message ('COMMIT' column at coveralls page)
+
 """
   end
 end

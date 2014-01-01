@@ -24,13 +24,15 @@ defmodule ExCoveralls.PostTest do
 
   test_with_mock "generate json", System, [cmd: fn(_) -> "" end] do
 
-    assert(Post.generate_json(@source_info, [token: "1234567890", service_name: "local"]) ==
+    assert(Post.generate_json(@source_info, [token: "1234567890", service_name: "local", branch: "", committer: "", message: ""]) ==
        "{\"repo_token\":\"1234567890\"," <>
          "\"service_name\":\"local\"," <>
          "\"source_files\":" <>
            "[{\"name\":\"test/fixtures/test.ex\"," <>
              "\"source\":\"defmodule Test do\\n  def test do\\n  end\\nend\\n\"," <>
-             "\"coverage\":[0,1,null,null]}]}")
+             "\"coverage\":[0,1,null,null]}]," <>
+         "\"git\":{\"head\":{\"committer_name\":\"\",\"message\":\"\"},\"branch\":\"\"}}"
+    )
   end
 end
 

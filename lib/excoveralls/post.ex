@@ -12,7 +12,17 @@ defmodule ExCoveralls.Post do
     JSEX.encode!([
       repo_token: options[:token],
       service_name: options[:service_name],
-      source_files: source_info
+      source_files: source_info,
+      git: generate_git_info(options)
     ])
+  end
+
+  defp generate_git_info(options) do
+    [head: [
+       committer_name: options[:committer],
+       message: options[:message]
+      ],
+      branch: options[:branch]
+    ]
   end
 end
