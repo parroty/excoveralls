@@ -14,9 +14,9 @@ defmodule ExCoverallsTest do
     assert called ExCoveralls.Local.execute(@stats,[])
   end
 
-  test_with_mock "analyze general", ExCoveralls.Post, [execute: fn(_) -> end] do
+  test_with_mock "analyze general", ExCoveralls.Post, [execute: fn(_,_) -> end] do
     ExCoveralls.analyze(@stats, "post", [])
-    assert called ExCoveralls.Post.execute(@stats)
+    assert called ExCoveralls.Post.execute(@stats, [])
   end
 
   test "analyze undefined type" do

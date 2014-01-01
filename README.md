@@ -85,11 +85,13 @@ after_success:
 ```
 
 ### [mix coveralls.post] Post coverage from localhost
-Set coveralls token as environment variable (COVERALLS_REPO_TOKEN), and then run "mix coveralls.post" command.
+Acquire the repository token of coveralls.io in advance, and run "mix coveralls.post" command.
 It is for submiting the result to coveralls server from the local host.
 
+The token can be specified as mix task argument, or as environment variable (COVERALLS_REPO_TOKEN).
+
 ```Shell
-$ mix coveralls.post
+$ mix coveralls.post [YOUR_TOKEN]
 ...
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed

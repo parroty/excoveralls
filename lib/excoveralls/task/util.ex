@@ -17,8 +17,10 @@ Usage: mix coveralls.detail [file-name-pattern]
 Usage: mix coveralls.travis
   Used to post coverage from Travis CI server
 
-Usage: mix coveralls.post
+Usage: mix coveralls.post [options] [coveralls-token]
   Used to post coverage from local server using token
+
+  -n (--name)         Service name ('VIA' column of coveralls page)
 """
   end
 end

@@ -4,25 +4,15 @@ defmodule ExCoveralls.Post do
   """
   alias ExCoveralls.Poster
 
-  @default_name "local"
-
-  def execute(stats) do
-    generate_json(stats) |> Poster.execute
+  def execute(stats, options) do
+    generate_json(stats, options) |> Poster.execute
   end
 
-  def generate_json(source_info) do
+  def generate_json(source_info, options) do
     JSEX.encode!([
-      repo_token: get_repo_token,
-      service_name: service_name,
+      repo_token: options[:token],
+      service_name: options[:service_name],
       source_files: source_info
     ])
-  end
-
-  def service_name do
-    System.get_env("COVERALLS_SERVICE_NAME") || @default_name
-  end
-
-  def get_repo_token do
-    System.get_env("COVERALLS_REPO_TOKEN") || raise "COVERALLS_REPO_TOKEN is not defined."
   end
 end

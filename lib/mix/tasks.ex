@@ -65,11 +65,30 @@ defmodule Mix.Tasks.Coveralls do
     use Mix.Task
 
     @shortdoc "Post the test coverage to coveralls"
+    @default_service_name "local"
 
     def run(args) do
-      Mix.Tasks.Coveralls.do_run(args, [type: "post"])
+      {options, params, _} = OptionParser.parse(args, aliases: [n: :name])
+
+      if Enum.count(params) <= 1 do
+        Mix.Tasks.Coveralls.do_run(args,
+          [ type: "post", token: extract_token(params),
+            service_name: extract_service_name(options) ])
+      else
+        raise ExCoveralls.InvalidOptionError.new(message: "Parameter format is invalid")
+      end
+    end
+
+    def extract_service_name(options) do
+      options[:name] || System.get_env("COVERALLS_SERVICE_NAME") || @default_service_name
+    end
+
+    def extract_token(params) do
+      case Enum.first(params) || System.get_env("COVERALLS_REPO_TOKEN") || "" do
+        "" -> raise ExCoveralls.InvalidOptionError.new(message: "Token is NOT specified in the parameter or environment variable")
+        token -> token
+      end
     end
   end
-
 end
 

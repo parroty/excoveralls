@@ -57,8 +57,8 @@ defmodule ExCoveralls do
   @doc """
   Logic for posting from general CI server with token.
   """
-  def analyze(stats, @type_post, _options) do
-    Post.execute(stats)
+  def analyze(stats, @type_post, options) do
+    Post.execute(stats, options)
   end
 
   def analyze(_stats, _type, _options) do
