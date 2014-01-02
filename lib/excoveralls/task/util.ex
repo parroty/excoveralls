@@ -19,6 +19,8 @@ Usage: mix coveralls.travis
 
 Usage: mix coveralls.post [options] [coveralls-token]
   Used to post coverage from local server using token
+  [coveralls-token] should be specified here or in COVERALLS_REPO_TOKEN
+  environment variable
 
   -n (--name)         Service name ('VIA' column at coveralls page)
   -b (--branch)       Branch name ('BRANCH' column at coveralls page)
