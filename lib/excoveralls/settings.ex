@@ -5,7 +5,7 @@ defmodule ExCoveralls.Settings do
 
   defmodule Files do
     @file_name "coveralls.json"
-    def default_file, do: "#{Path.dirname(__FILE__)}/../conf/#{@file_name}"
+    def default_file, do: "#{Path.dirname(__ENV__.file)}/../conf/#{@file_name}"
     def custom_file,  do: "#{System.cwd}/#{@file_name}"
   end
 

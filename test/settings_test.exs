@@ -3,9 +3,9 @@ defmodule Excoveralls.SettingsTest do
   import Mock
   alias ExCoveralls.Settings
 
-  @fixture_default Path.dirname(__FILE__) <> "/fixtures/default.json"
-  @fixture_custom  Path.dirname(__FILE__) <> "/fixtures/custom.json"
-  @fixture_invalid Path.dirname(__FILE__) <> "/fixtures/invalid.json"
+  @fixture_default Path.dirname(__ENV__.file) <> "/fixtures/default.json"
+  @fixture_custom  Path.dirname(__ENV__.file) <> "/fixtures/custom.json"
+  @fixture_invalid Path.dirname(__ENV__.file) <> "/fixtures/invalid.json"
 
   test "returns default file path" do
     assert(Settings.Files.default_file
