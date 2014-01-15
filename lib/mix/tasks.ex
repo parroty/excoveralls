@@ -88,7 +88,7 @@ defmodule Mix.Tasks.Coveralls do
     end
 
     def extract_token(params) do
-      case Enum.first(params) || System.get_env("COVERALLS_REPO_TOKEN") || "" do
+      case Enum.at(params, 0) || System.get_env("COVERALLS_REPO_TOKEN") || "" do
         "" -> raise ExCoveralls.InvalidOptionError.new(message: "Token is NOT specified in the parameter or environment variable")
         token -> token
       end
