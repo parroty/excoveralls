@@ -15,5 +15,6 @@ defmodule ExCoveralls.ConfServer do
 
   def set(value) do
     :ets.insert(@ets_table, {@ets_key, value})
+    value
   end
 end

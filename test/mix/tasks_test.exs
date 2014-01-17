@@ -14,6 +14,7 @@ defmodule Mix.Tasks.CoverallsTest do
   # restore the original config
   teardown meta do
     ExCoveralls.ConfServer.set(meta[:from_setup])
+    :ok
   end
 
   test_with_mock "local", Mix.Task, [run: fn(_, _) -> nil end] do
