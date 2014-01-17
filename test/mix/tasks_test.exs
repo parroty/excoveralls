@@ -1,7 +1,7 @@
 Code.require_file "../test_helper.exs", __DIR__
 
 defmodule Mix.Tasks.CoverallsTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
   import Mock
   import ExUnit.CaptureIO
 
