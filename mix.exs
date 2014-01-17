@@ -31,8 +31,7 @@ defmodule ExCoveralls.Mixfile do
   def deps(:prod) do
     [
       {:jsex, github: "talentdeficit/jsex"},
-      {:exprintf, github: "parroty/exprintf"},
-      {:exactor, github: "sasa1977/exactor"}
+      {:exprintf, github: "parroty/exprintf"}
     ]
   end
 end
