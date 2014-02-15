@@ -12,7 +12,7 @@ defmodule ExCoveralls.Local do
   @doc """
   Provides an entry point for the module
   """
-  def execute(stats, options // []) do
+  def execute(stats, options \\ []) do
     IO.puts "----------------"
     IO.puts sprintf("%-6s %-40s %8s %8s %8s", ["COV", "FILE", "LINES", "RELEVANT", "MISSED"])
     coverage(stats) |> IO.puts

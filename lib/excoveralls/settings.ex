@@ -32,7 +32,7 @@ defmodule ExCoveralls.Settings do
   @doc """
   Reads the value for the specified key defined in the json file.
   """
-  def read_config(key, default // nil) do
+  def read_config(key, default \\ nil) do
     case (read_config_file(Files.custom_file) |> HashDict.get(key)) do
       nil    -> read_config_file(Files.default_file) |> HashDict.get(key, default)
       config -> config

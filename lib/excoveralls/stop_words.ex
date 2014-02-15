@@ -6,7 +6,7 @@ defmodule ExCoveralls.StopWords do
   @doc """
   Filters out pre-defined stop words
   """
-  def filter(info, words // ExCoveralls.Settings.get_stop_words) do
+  def filter(info, words \\ ExCoveralls.Settings.get_stop_words) do
     Enum.map(info, fn(x) -> do_filter(x, words) end)
   end
 
