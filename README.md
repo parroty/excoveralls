@@ -94,7 +94,7 @@ Usage: mix coveralls.post [options] [coveralls-token]
 ```
 
 ### [mix coveralls.travis] Post coverage from travis
-Specify "mix coveralls.travis" as after_success section of .travis.yml.
+Specify "mix compile && mix coveralls.travis" as after_success section of .travis.yml.
 This task is for submiting the result to coveralls server when Travis-CI build is executed.
 
 #### .travis.yml
@@ -108,7 +108,7 @@ before_install:
 before_script: "export PATH=`pwd`/elixir/bin:$PATH"
 script: "MIX_ENV=test mix do deps.get, test"
 after_success:
-  - "mix coveralls.travis"
+  - "mix compile && mix coveralls.travis"
 ```
 
 ### [mix coveralls.post] Post coverage from localhost
