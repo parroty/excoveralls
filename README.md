@@ -94,7 +94,7 @@ Usage: mix coveralls.post [options] [coveralls-token]
 ```
 
 ### [mix coveralls.travis] Post coverage from travis
-Specify "mix compile && mix coveralls.travis" as after_success section of .travis.yml.
+Specify `mix compile && mix coveralls.travis` as after_success section of .travis.yml.
 This task is for submiting the result to coveralls server when Travis-CI build is executed.
 
 #### .travis.yml
