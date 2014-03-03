@@ -1,10 +1,10 @@
 defmodule ExCoveralls.Cover do
   @moduledoc """
-  Wrapper class for Erlang's cover tool
+  Wrapper class for Erlang's cover tool.
   """
 
   @doc """
-  Compile the beam files for coverage analysis
+  Compile the beam files for coverage analysis.
   """
   def compile(compile_path) do
     :cover.start

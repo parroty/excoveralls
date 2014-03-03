@@ -5,14 +5,14 @@ defmodule ExCoveralls.PathReader do
   """
 
   @doc """
-  Returns the Mix.Project base path
+  Returns the Mix.Project base path.
   """
   def base_path do
     Enum.at(Mix.Project.config_files, 0) |> Path.dirname
   end
 
   @doc """
-  Expand path relative to the Mix.Project base path
+  Expand path relative to the Mix.Project base path.
   """
   def expand_path(path) do
     Path.expand(path, base_path)

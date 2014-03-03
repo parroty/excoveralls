@@ -1,6 +1,6 @@
 defmodule ExCoveralls.Stats do
   @moduledoc """
-  Calculate coverage stats
+  Provide calculation logics of coverage stats.
   """
   alias ExCoveralls.Cover
 
@@ -86,7 +86,7 @@ defmodule ExCoveralls.Stats do
   end
 
   @doc """
-  Wrapper for reading the specified file
+  Wrapper for reading the specified file.
   """
   def read_source(file_path) do
     ExCoveralls.PathReader.expand_path(file_path) |> File.read! |> trim_empty_prefix_and_suffix

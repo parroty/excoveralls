@@ -5,12 +5,12 @@ defmodule ExCoveralls.Local do
   import ExPrintf
 
   @doc """
-  Stores count information for calculating coverage values
+  Stores count information for calculating coverage values.
   """
   defrecord Count, lines: 0, relevant: 0, covered: 0
 
   @doc """
-  Provides an entry point for the module
+  Provides an entry point for the module.
   """
   def execute(stats, options \\ []) do
     IO.puts "----------------"
@@ -58,7 +58,7 @@ defmodule ExCoveralls.Local do
   end
 
   @doc """
-  Format the source coverage stats into string
+  Format the source coverage stats into string.
   """
   def coverage(stats) do
     count_info = Enum.map(stats, fn(stat) -> [stat, calculate_count(stat[:coverage])] end)
@@ -98,7 +98,7 @@ defmodule ExCoveralls.Local do
   end
 
   @doc """
-  Calucate counts information from thhe coverage stats
+  Calucate count information from thhe coverage stats.
   """
   def calculate_count(coverage) do
     do_calculate_count(coverage, 0, 0, 0)

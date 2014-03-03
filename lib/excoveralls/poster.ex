@@ -1,6 +1,6 @@
 defmodule ExCoveralls.Poster do
   @moduledoc """
-  Post JSON to coveralls server
+  Post JSON to coveralls server.
   """
   @file_name "excoveralls.post.json"
   @post_cmd  "curl \"https://coveralls.io/api/v1/jobs\" -F json_file=@#{@file_name}"
