@@ -1,6 +1,6 @@
 [ "exactor": {:git, "git://github.com/sasa1977/exactor.git", "91029ecf3c0e3a58cf2002f0c7b67244536fccc7", []},
   "exprintf": {:git, "git://github.com/parroty/exprintf.git", "586c8e07c65805cf8e53d5855bbb7fd1472b777a", []},
-  "jsex": {:git, "git://github.com/talentdeficit/jsex.git", "3db1d520e00fb28c3eee4e5b30645d5878037c38", []},
+  "jsex": {:git, "git://github.com/talentdeficit/jsex.git", "65aa6ae7c1543a0c4e83032c04626af7be7a7f3e", []},
   "jsx": {:git, "git://github.com/talentdeficit/jsx.git", "e50af6e109cb03bd26acf715cbc77de746507d1d", [tag: "v1.4.3"]},
-  "meck": {:git, "git://github.com/eproxus/meck.git", "1286aba1cb6bbd6c9fc3f817740758b224843ee7", []},
-  "mock": {:git, "git://github.com/parroty/mock.git", "9ccf26715f1d03e780c2caf7d8023535df631845", [branch: "version"]} ]
+  "meck": {:git, "git://github.com/eproxus/meck.git", "2447206f201bab1054c49cd32621eee23fa0ee3b", [tag: "0.7.2"]},
+  "mock": {:git, "git://github.com/jjh42/mock.git", "0f9b4d16884ddc112ddc694622f95b61973fddd8", []} ]

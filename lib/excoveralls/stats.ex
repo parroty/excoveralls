@@ -93,7 +93,7 @@ defmodule ExCoveralls.Stats do
   end
 
   def trim_empty_prefix_and_suffix(string) do
-    string = Regex.replace(%r/\n\z/m, string, "")
-    Regex.replace(%r/\A\n/m, string, "")
+    string = Regex.replace(~r/\n\z/m, string, "")
+    Regex.replace(~r/\A\n/m, string, "")
   end
 end

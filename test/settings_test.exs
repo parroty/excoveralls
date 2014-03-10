@@ -32,7 +32,7 @@ defmodule Excoveralls.SettingsTest do
   test_with_mock "get stop words returns merged default and custom stop words", Settings.Files,
                    [default_file: fn -> @fixture_default end,
                     custom_file:  fn -> @fixture_custom end] do
-    assert(Settings.get_stop_words == [%r"a", %r"b", %r"aa", %r"bb"])
+    assert(Settings.get_stop_words == [~r"a", ~r"b", ~r"aa", ~r"bb"])
   end
 
   test_with_mock "read config returns nil when default file is not found", Settings.Files,

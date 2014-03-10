@@ -23,7 +23,7 @@ defmodule ExCoveralls.StopWordsTest do
   end
 
   test "filter stop words works on regular expression" do
-    info = StopWords.filter(@source_info, [%r/^def/]) |> Enum.at(0)
+    info = StopWords.filter(@source_info, [~r/^def/]) |> Enum.at(0)
     assert(info[:source]   == @content)
     assert(info[:coverage] == [nil, 1, nil, nil, nil])
   end

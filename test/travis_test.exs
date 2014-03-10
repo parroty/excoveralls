@@ -17,9 +17,9 @@ defmodule ExCoveralls.TravisTest do
 
   test "generate json for travis" do
     json = Travis.generate_json(@source_info)
-    assert(json =~ %r/service_job_id/)
-    assert(json =~ %r/service_name/)
-    assert(json =~ %r/source_files/)
+    assert(json =~ ~r/service_job_id/)
+    assert(json =~ ~r/service_name/)
+    assert(json =~ ~r/source_files/)
   end
 
 end
