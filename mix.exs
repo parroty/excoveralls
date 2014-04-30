@@ -24,7 +24,7 @@ defmodule ExCoveralls.Mixfile do
   def deps(:dev) do
     deps(:prod) ++
       [
-        {:mock, github: "jjh42/mock" }
+        {:mock, github: "parroty/mock", ref: "version" }
       ]
   end
 
