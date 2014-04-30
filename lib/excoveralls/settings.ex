@@ -21,7 +21,7 @@ defmodule ExCoveralls.Settings do
   defp read_config_file(file_name) do
     if File.exists?(file_name) do
       case File.read!(file_name) |> JSEX.decode do
-        {:ok, config} -> HashDict.new(config)
+        {:ok, config} -> Enum.into(config, HashDict.new)
         _ -> raise "Failed to parse config file as JSON : #{file_name}"
       end
     else
