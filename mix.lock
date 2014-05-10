@@ -1,6 +1,6 @@
 %{"exactor": {:git, "git://github.com/sasa1977/exactor.git", "91029ecf3c0e3a58cf2002f0c7b67244536fccc7", []},
   "exprintf": {:git, "git://github.com/parroty/exprintf.git", "ab5acce111e9f3400f036ff43ef777a652b47347", []},
-  "jsex": {:git, "git://github.com/talentdeficit/jsex.git", "03ad4ff0967331afd01464857d41e5e497ed198c", []},
-  "jsx": {:git, "git://github.com/talentdeficit/jsx.git", "507fa4c41db33c81e925ab53f4d789d234aaff2f", [tag: "v2.0.1"]},
+  "jsex": {:package, "2.0.0"},
+  "jsx": {:package, "2.0.2"},
   "meck": {:git, "git://github.com/eproxus/meck.git", "9987eea73dab37ce014dbd4fa715a31cc07d351e", []},
   "mock": {:git, "git://github.com/parroty/mock.git", "c3b1abae5ba40241d1a676175a7693eb0766df62", [ref: "version"]}}
