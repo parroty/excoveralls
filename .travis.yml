@@ -5,6 +5,7 @@ before_install:
   - mkdir -p vendor/elixir
   - wget -q https://github.com/elixir-lang/elixir/releases/download/v0.13.1/Precompiled.zip && unzip -qq Precompiled.zip -d vendor/elixir
   - export PATH="$PATH:$PWD/vendor/elixir/bin"
+  - mix local.hex --force
 script: "MIX_ENV=test mix do deps.get, test"
 after_success:
   - "mix compile && mix coveralls.travis"
