@@ -16,7 +16,7 @@ defmodule ExCoveralls.Cover do
   """
   def module_path(module) do
     module.__info__(:compile)[:source]
-      |> String.from_char_list!
+      |> String.from_char_data!
       |> Path.relative_to(ExCoveralls.PathReader.base_path)
   end
 

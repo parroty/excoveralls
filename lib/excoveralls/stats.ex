@@ -41,7 +41,8 @@ defmodule ExCoveralls.Stats do
   Generate coverage, based on the pre-calculated statistic information.
   """
   def generate_coverage(hash) do
-    Enum.map(hash.keys, fn(file_path) ->
+    keys = HashDict.keys(hash)
+    Enum.map(keys, fn(file_path) ->
       total = get_source_line_count(file_path)
       {file_path, do_generate_coverage(HashDict.fetch!(hash, file_path), total, [])}
     end)

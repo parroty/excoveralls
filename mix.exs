@@ -4,8 +4,10 @@ defmodule ExCoveralls.Mixfile do
   def project do
     [ app: :excoveralls,
       version: "0.2.0",
-      elixir: ">= 0.13.1",
+      elixir: "~> 0.13.1",
       deps: deps(Mix.env),
+      description: description,
+      package: package,
       test_coverage: [tool: ExCoveralls]
     ]
   end
@@ -23,15 +25,23 @@ defmodule ExCoveralls.Mixfile do
 
   def deps(:dev) do
     deps(:prod) ++
-      [
-        {:mock, github: "parroty/mock", ref: "version" }
-      ]
+      [ {:mock, github: "parroty/mock", ref: "version" } ]
   end
 
   def deps(:prod) do
-    [
-      {:jsex, "~> 2.0"},
-      {:exprintf, github: "parroty/exprintf"}
-    ]
+    [ {:jsex, "~> 2.0"},
+      {:exprintf, "~> 0.1.0"} ]
+  end
+
+  defp description do
+    """
+    Coverage report tool for Elixir with coveralls.io integration.
+    """
+  end
+
+  defp package do
+    [ contributors: ["parroty"],
+      license: ["MIT"],
+      links: [ { "GitHub", "https://github.com/parroty/excoveralls" } ] ]
   end
 end
