@@ -15,22 +15,11 @@ defmodule ExCoveralls do
   @type_post    "post"
 
   @doc """
-  This method will be called from mix.
-  (either run or start depending on elixir version)
-  """
-  def run(compile_path, _opts, callback) do
-    Cover.compile(compile_path)
-    callback.()
-    execute(ConfServer.get)
-  end
-
-  @doc """
-  This method will be called from mix.
-  (either run or start depending on elixir version)
+  This method will be called from mix to trigger coverage analysis.
   """
   def start(compile_path, _opts) do
     Cover.compile(compile_path)
-    System.at_exit fn(_) ->
+    fn() ->
       execute(ConfServer.get)
     end
   end
