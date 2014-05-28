@@ -22,8 +22,8 @@ defmodule Mix.Tasks.Coveralls do
   """
   def do_run(args, options) do
     if Mix.Project.config[:test_coverage][:tool] != ExCoveralls do
-      raise ExCoveralls.InvalidConfigError.new(
-        message: "Please specify 'test_coverage: [tool: ExCoveralls]' in the 'project' section of mix.exs")
+      raise %ExCoveralls.InvalidConfigError{
+        message: "Please specify 'test_coverage: [tool: ExCoveralls]' in the 'project' section of mix.exs" }
     end
 
     Mix.env(:test)
@@ -79,7 +79,7 @@ defmodule Mix.Tasks.Coveralls do
             committer:    options[:committer] || "",
             message:      options[:message] || "[no commit message]" ])
       else
-        raise ExCoveralls.InvalidOptionError.new(message: "Parameter format is invalid")
+        raise %ExCoveralls.InvalidOptionError{message: "Parameter format is invalid"}
       end
     end
 
@@ -89,7 +89,7 @@ defmodule Mix.Tasks.Coveralls do
 
     def extract_token(params) do
       case Enum.at(params, 0) || System.get_env("COVERALLS_REPO_TOKEN") || "" do
-        "" -> raise ExCoveralls.InvalidOptionError.new(message: "Token is NOT specified in the parameter or environment variable")
+        "" -> raise %ExCoveralls.InvalidOptionError{message: "Token is NOT specified in the parameter or environment variable"}
         token -> token
       end
     end

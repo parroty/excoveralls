@@ -7,7 +7,9 @@ defmodule ExCoveralls.Local do
   @doc """
   Stores count information for calculating coverage values.
   """
-  defrecord Count, lines: 0, relevant: 0, covered: 0
+  defmodule Count do
+    defstruct lines: 0, relevant: 0, covered: 0
+  end
 
   @doc """
   Provides an entry point for the module.
@@ -77,17 +79,17 @@ defmodule ExCoveralls.Local do
 
 
   defp format_total(info) do
-    totals   = Enum.reduce(info, Count.new, fn([_, count], acc) -> append(count, acc) end)
+    totals   = Enum.reduce(info, %Count{}, fn([_, count], acc) -> append(count, acc) end)
     coverage = get_coverage(totals)
     sprintf("[TOTAL] %5.1f%%", [coverage])
   end
 
   defp append(a, b) do
-    Count.new(
+    %Count{
       lines: a.lines + b.lines,
       relevant: a.relevant + b.relevant,
       covered: a.covered  + b.covered
-    )
+    }
   end
 
   defp get_coverage(count) do
@@ -105,7 +107,7 @@ defmodule ExCoveralls.Local do
   end
 
   defp do_calculate_count([], lines, relevant, covered) do
-    Count.new(lines: lines, relevant: relevant, covered: covered)
+    %Count{lines: lines, relevant: relevant, covered: covered}
   end
 
   defp do_calculate_count([h|t], lines, relevant, covered) do
