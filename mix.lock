@@ -1,5 +1,5 @@
 %{"exactor": {:git, "git://github.com/sasa1977/exactor.git", "91029ecf3c0e3a58cf2002f0c7b67244536fccc7", []},
-  "exprintf": {:package, "0.1.1"},
+  "exprintf": {:package, "0.1.2"},
   "jsex": {:package, "2.0.0"},
   "jsx": {:package, "2.0.2"},
   "meck": {:git, "git://github.com/eproxus/meck.git", "dde759050eff19a1a80fd854d7375174b191665d", [tag: "0.8.2"]},

@@ -4,7 +4,7 @@ defmodule ExCoveralls.Mixfile do
   def project do
     [ app: :excoveralls,
       version: "0.2.2",
-      elixir: "~> 0.13.2",
+      elixir: "~> 0.14.0",
       deps: deps(Mix.env),
       description: description,
       package: package,
@@ -30,7 +30,7 @@ defmodule ExCoveralls.Mixfile do
 
   def deps(:prod) do
     [ {:jsex, "~> 2.0"},
-      {:exprintf, "~> 0.1.0"} ]
+      {:exprintf, "~> 0.1"} ]
   end
 
   defp description do

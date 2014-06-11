@@ -1,2 +1,7 @@
-defexception ExCoveralls.InvalidConfigError, message: "error"
-defexception ExCoveralls.InvalidOptionError, message: "error"
+defmodule ExCoveralls.InvalidConfigError do
+  defexception [message: "error"]
+end
+
+defmodule ExCoveralls.InvalidOptionError do
+  defexception [message: "error"]
+end
