@@ -7,13 +7,22 @@ defmodule ExCoveralls.ConfServer do
   @ets_key :config_key
 
   @doc """
-  Initializa the data-store table.
+  Initialize the data-store table.
   """
   def start do
     if :ets.info(@ets_table) == :undefined do
       :ets.new(@ets_table, [:set, :public, :named_table])
     end
     :ok
+  end
+
+  @doc """
+  Clear all the data in data-store table.
+  """
+  def clear do
+    if :ets.info(@ets_table) != :undefined do
+      :ets.delete_all_objects(@ets_table)
+    end
   end
 
   @doc """

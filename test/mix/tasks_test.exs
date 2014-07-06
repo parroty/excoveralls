@@ -6,14 +6,14 @@ defmodule Mix.Tasks.CoverallsTest do
   import ExUnit.CaptureIO
 
   # backup the original config
-  setup do
+  setup_all do
     ExCoveralls.ConfServer.start
-    {:ok, from_setup: ExCoveralls.ConfServer.get}
+    :ok
   end
 
   # restore the original config
-  teardown meta do
-    ExCoveralls.ConfServer.set(meta[:from_setup])
+  setup do
+    ExCoveralls.ConfServer.clear
     :ok
   end
 
