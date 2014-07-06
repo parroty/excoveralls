@@ -5,6 +5,7 @@
     "defimpl",
     "defexception",
     "defprotocol",
+    "defstruct",
     "def.+(.+\/\/.+).+do",
     "^\\s+use\\s+"
   ],
