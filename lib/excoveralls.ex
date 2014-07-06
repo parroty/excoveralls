@@ -50,7 +50,7 @@ defmodule ExCoveralls do
     Post.execute(stats, options)
   end
 
-  def analyze(_stats, _type, _options) do
-    raise "Undefined type is specified for ExCoveralls"
+  def analyze(_stats, type, _options) do
+    raise "Undefined type (#{type}) is specified for ExCoveralls"
   end
 end

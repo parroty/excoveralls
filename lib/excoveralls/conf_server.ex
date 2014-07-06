@@ -29,6 +29,7 @@ defmodule ExCoveralls.ConfServer do
   Get the configuration value.
   """
   def get do
+    start
     :ets.lookup(@ets_table, @ets_key)[@ets_key] || []
   end
 
@@ -36,6 +37,7 @@ defmodule ExCoveralls.ConfServer do
   Set the configuration value.
   """
   def set(value) do
+    start
     :ets.insert(@ets_table, {@ets_key, value})
     value
   end

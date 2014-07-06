@@ -5,13 +5,19 @@ defmodule Mix.Tasks.CoverallsTest do
   import Mock
   import ExUnit.CaptureIO
 
-  # backup the original config
+  # backup and restore the original config
   setup_all do
     ExCoveralls.ConfServer.start
+
+    value = ExCoveralls.ConfServer.get
+    on_exit(value, fn ->
+      ExCoveralls.ConfServer.set(value)
+      :ok
+    end)
     :ok
   end
 
-  # restore the original config
+  # clear the config each time
   setup do
     ExCoveralls.ConfServer.clear
     :ok
