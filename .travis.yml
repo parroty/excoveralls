@@ -3,7 +3,7 @@ otp_release:
   - 17.0
 before_install:
   - mkdir -p vendor/elixir
-  - wget -q https://github.com/elixir-lang/elixir/releases/download/v0.14.2/Precompiled.zip && unzip -qq Precompiled.zip -d vendor/elixir
+  - wget -q https://github.com/elixir-lang/elixir/releases/download/v0.14.3/Precompiled.zip && unzip -qq Precompiled.zip -d vendor/elixir
   - export PATH="$PATH:$PWD/vendor/elixir/bin"
   - mix local.hex --force
 script: "MIX_ENV=test mix do deps.get, test && mix compile && mix coveralls.travis"
