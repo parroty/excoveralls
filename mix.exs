@@ -29,8 +29,7 @@ defmodule ExCoveralls.Mixfile do
   end
 
   def deps(:prod) do
-    [ {:jsex, "~> 2.0"},
-      {:exprintf, "~> 0.1"} ]
+    [ {:jsex, "~> 2.0"} ]
   end
 
   defp description do
