@@ -5,7 +5,7 @@ defmodule ExCoveralls.Mixfile do
     [ app: :excoveralls,
       version: "0.3.1",
       elixir: "~> 0.14.0",
-      deps: deps(Mix.env),
+      deps: deps,
       description: description,
       package: package,
       test_coverage: [tool: ExCoveralls]
@@ -19,17 +19,11 @@ defmodule ExCoveralls.Mixfile do
 
   # Returns the list of dependencies in the format:
   # { :foobar, "~> 0.1", git: "https://github.com/elixir-lang/foobar.git" }
-  def deps(:test) do
-    deps(:dev)
-  end
-
-  def deps(:dev) do
-    deps(:prod) ++
-      [ {:mock, github: "parroty/mock", ref: "version" } ]
-  end
-
-  def deps(:prod) do
-    [ {:jsex, "~> 2.0"} ]
+  def deps do
+    [
+      {:mock, github: "parroty/mock", ref: "version", only: :test},
+      {:jsex, "~> 2.0"}
+    ]
   end
 
   defp description do
