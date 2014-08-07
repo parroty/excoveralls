@@ -16,27 +16,17 @@ Add the following parameters.
 ```elixir
 def project do
   [ app: :excoveralls,
-    version: "0.2.0",
-    elixir: "~> 0.10.3-dev",
+    version: "1.0.0",
+    elixir: "~> 0.xx.yy",
     deps: deps(Mix.env),
     test_coverage: [tool: ExCoveralls]
   ]
 end
 
 defp deps do
-  [{:excoveralls, github: "parroty/excoveralls"}]
+  [{:excoveralls, "~> 0.3", only: :dev}]
 end
 ```
-
-## Note
-Master branch is catching up elixir/master, and it may not work with older versions. If you're using elixir v0.1.3 or earlier, please use v0.1.5 as deps.
-
-```elixir
-defp deps do
-  [{:excoveralls, github: "parroty/excoveralls", tag: "v0.1.5"}]
-end
-```
-
 
 # Usage
 ## Mix Tasks
@@ -169,7 +159,7 @@ defmodule ExCoveralls do
 ## coveralls.json
 "coveralls.json" provides a setting for excoveralls.
 
-The default "coveralls.json" is stored in "deps/excoveralls/lib/conf", and custom "coveralls.json" can be placed under mix project root. The custom definition is prioritized over the default one (if definitions in custom file is not found, then definitions in default file is used).
+The default `coveralls.json` is stored in `deps/excoveralls/lib/conf`, and custom `coveralls.json` can be placed under mix project root. The custom definition is prioritized over the default one (if definitions in custom file is not found, then definitions in default file is used).
 
 ### Stop Words
 Stop words defined in "coveralls.json" will be excluded from the coverage calculation. Some kernal macros defined in Elixir is not considered "covered" by Erlang's cover library. It can be used for excluding these macros, or any other reasons.
@@ -192,7 +182,7 @@ The words are parsed as regular expression.
 ### Notes
 - If meck library is being used, it shows some warnings during execution.
     - https://github.com/eproxus/meck/pull/17
-- When Erlang clashes at "mix coveralls", executing "mix test" in advance might avoid the error.
+- In case Erlang clashes at `mix coveralls`, executing `mix test` in advance might avoid the error.
 
 ### Todo
 - It depends on curl command for posting JSON. Replace it with Elixir library.
