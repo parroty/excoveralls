@@ -62,6 +62,7 @@ defmodule ExCoveralls.Local do
   Format the source coverage stats into string.
   """
   def coverage(stats) do
+    stats = Enum.sort(stats, fn(x, y) -> x[:name] <= y[:name] end)
     count_info = Enum.map(stats, fn(stat) -> [stat, calculate_count(stat[:coverage])] end)
     Enum.join(format_body(count_info), "\n") <> "\n" <> format_total(count_info)
   end

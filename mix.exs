@@ -21,7 +21,7 @@ defmodule ExCoveralls.Mixfile do
   # { :foobar, "~> 0.1", git: "https://github.com/elixir-lang/foobar.git" }
   def deps do
     [
-      {:mock, github: "parroty/mock", ref: "version", only: :test},
+      {:mock, github: "parroty/mock", ref: "version", only: [:dev, :test]},
       {:jsex, "~> 2.0"}
     ]
   end
