@@ -1,4 +1,4 @@
 %{"jsex": {:package, "2.0.0"},
   "jsx": {:package, "2.0.4"},
-  "meck": {:git, "git://github.com/eproxus/meck.git", "dde759050eff19a1a80fd854d7375174b191665d", [tag: "0.8.2"]},
-  "mock": {:git, "git://github.com/parroty/mock.git", "cd6ddd5c37a9da2d2da72f1f3060a7336ef4c7f5", [ref: "version"]}}
+  "meck": {:package, "0.8.2"},
+  "mock": {:git, "git://github.com/parroty/mock.git", "33d095a9b028f9f97f6d506ae6b2feb34630fdc5", [ref: "fix"]}}
