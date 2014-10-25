@@ -25,8 +25,9 @@ defmodule ExCoveralls do
   end
 
   defp execute(options) do
+    type = options[:type] || "local"
     Stats.report(Cover.modules)
-      |> analyze(options[:type], options)
+      |> analyze(type, options)
   end
 
   @doc """
