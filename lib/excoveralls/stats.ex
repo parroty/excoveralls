@@ -11,6 +11,7 @@ defmodule ExCoveralls.Stats do
     calculate_stats(modules)
       |> generate_coverage
       |> generate_source_info
+      |> skip_files
       |> ExCoveralls.StopWords.filter
   end
 
@@ -96,5 +97,12 @@ defmodule ExCoveralls.Stats do
   def trim_empty_prefix_and_suffix(string) do
     string = Regex.replace(~r/\n\z/m, string, "")
     Regex.replace(~r/\A\n/m, string, "")
+  end
+
+  def skip_files(converage) do
+    skip = ExCoveralls.Settings.get_skip_files
+    Enum.reject(converage, fn cov ->
+      Enum.any?(skip, &Regex.match?(&1, cov[:name]))
+    end)
   end
 end
