@@ -30,6 +30,14 @@ defmodule ExCoveralls.Settings do
   end
 
   @doc """
+  Get skip files from the json file.
+  """
+  def get_skip_files do
+    read_config("skip_files", [])
+    |> Enum.map(&Regex.compile!/1)
+  end
+
+  @doc """
   Reads the value for the specified key defined in the json file.
   """
   def read_config(key, default \\ nil) do
