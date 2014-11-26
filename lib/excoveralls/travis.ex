@@ -9,7 +9,7 @@ defmodule ExCoveralls.Travis do
   end
 
   def generate_json(stats) do
-    JSEX.encode!([
+    JSX.encode!([
       service_job_id: get_job_id,
       service_name: "travis-ci",
       source_files: stats

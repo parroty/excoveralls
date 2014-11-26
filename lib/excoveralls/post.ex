@@ -9,7 +9,7 @@ defmodule ExCoveralls.Post do
   end
 
   def generate_json(source_info, options) do
-    JSEX.encode!([
+    JSX.encode!([
       repo_token: options[:token],
       service_name: options[:service_name],
       source_files: source_info,
