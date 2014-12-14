@@ -22,7 +22,8 @@ defmodule ExCoveralls.Mixfile do
   def deps do
     [
       {:mock, github: "parroty/mock", ref: "fix", only: [:dev, :test]},
-      {:exjsx, "~> 3.0"}
+      {:exjsx, "~> 3.0"},
+      {:hackney, ">= 0.12.0"}
     ]
   end
 

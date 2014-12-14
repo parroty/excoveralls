@@ -5,31 +5,33 @@ defmodule ExCoveralls.Poster do
   @file_name "excoveralls.post.json"
 
   @doc """
-  Create a temporarily json file and post it to server using curl command.
+  Create a temporarily json file and post it to server using hackney library.
   Then, remove the file after it's completed.
-  It raises error if 'which curl' returns empty.
   """
   def execute(json) do
-    if is_cmd_available do
-      File.write!(@file_name, json)
-      run_command(@file_name)
-      File.rm!(@file_name)
-    else
-      raise "Posting json requires curl, but it's not found."
-    end
+    File.write!(@file_name, json)
+    send_file(@file_name)
+    File.rm!(@file_name)
   end
 
-  defp is_cmd_available do
-    try do
-      {_result, exit_status} = System.cmd("which", ["curl"])
-      exit_status == 0
-    rescue
-      _ -> false
+  defp send_file(file_name) do
+    :hackney.start
+    response = :hackney.request(:post, "https://coveralls.io/api/v1/jobs", [],
+      {:multipart, [
+        {:file, file_name,
+          {"form-data", [{"name", "json_file"}, {"filename", file_name}]},
+          [{"Content-Type", "application/json"}]
+        }
+      ]}
+    )
+    case response do
+      {:ok, status_code, _, _} when status_code in 200..299 ->
+        IO.puts "Finished to post a json file"
+      {:ok, status_code, _, client} ->
+        {:ok, body} = :hackney.body(client)
+        raise "Failed to posting a json file: status_code: #{status_code} body: #{body}"
+      {:error, reason} ->
+        raise "Failed to posting a json file: #{reason}"
     end
-  end
-
-  defp run_command(file_name) do
-    {result, _exit_status} = System.cmd("curl", ["https://coveralls.io/api/v1/jobs", "-F", "json_file=@#{file_name}"])
-    IO.puts result
   end
 end
