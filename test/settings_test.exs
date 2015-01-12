@@ -35,6 +35,13 @@ defmodule Excoveralls.SettingsTest do
     assert(Settings.get_stop_words == [~r"a", ~r"b", ~r"aa", ~r"bb"])
   end
 
+
+  test_with_mock "get coverage options returns options as Map", Settings.Files,
+                   [default_file: fn -> @fixture_default end,
+                    custom_file:  fn -> @fixture_custom end] do
+    assert(Settings.get_coverage_options == %{"f" => true})
+  end
+
   test_with_mock "read config returns nil when default file is not found", Settings.Files,
                    [default_file: fn -> "__invalid__" end,
                     custom_file:  fn -> "__invalid__" end] do

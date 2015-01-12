@@ -18,6 +18,13 @@ defmodule ExCoveralls.Settings do
       |> Enum.map(&Regex.compile!/1)
   end
 
+  @doc """
+  Get coverage options from the json file.
+  """
+  def get_coverage_options do
+    read_config("coverage_options")
+  end
+
   defp read_config_file(file_name) do
     if File.exists?(file_name) do
       case File.read!(file_name) |> JSX.decode do

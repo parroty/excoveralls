@@ -7,5 +7,9 @@
   "custom_stop_words": [
     "d",
     "e"
-  ]
+  ],
+
+  "coverage_options": {
+    "f": true
+  }
 }

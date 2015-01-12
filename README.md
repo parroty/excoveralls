@@ -161,10 +161,13 @@ defmodule ExCoveralls do
 
 The default `coveralls.json` is stored in `deps/excoveralls/lib/conf`, and custom `coveralls.json` can be placed under mix project root. The custom definition is prioritized over the default one (if definitions in custom file is not found, then definitions in default file is used).
 
-### Stop Words
-Stop words defined in "coveralls.json" will be excluded from the coverage calculation. Some kernal macros defined in Elixir is not considered "covered" by Erlang's cover library. It can be used for excluding these macros, or any other reasons.
+#### Stop Words
+Stop words defined in "coveralls.json" will be excluded from the coverage calculation. Some kernal macros defined in Elixir is not considered "covered" by Erlang's cover library. It can be used for excluding these macros, or any other reasons. The words are parsed as regular expression.
 
-The words are parsed as regular expression.
+#### Coverage Options
+- treat_no_relevant_lines_as_covered
+   - By default, coverage for [files with no relevant lines] are displayed as 0% for aligning with coveralls.io behavior. But, if `treat_no_relevant_lines_as_covered` is set as `true`, it will be displayed as 100%.
+
 ```javascript
 {
   "default_stop_words": [
@@ -175,9 +178,16 @@ The words are parsed as regular expression.
   ],
 
   "custom_stop_words": [
-  ]
+  ],
+
+  "coverage_options": {
+    "treat_no_relevant_lines_as_covered": true
+  }
 }
 ```
+
+
+
 
 ### Notes
 - If meck library is being used, it shows some warnings during execution.
