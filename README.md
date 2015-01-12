@@ -10,8 +10,8 @@ Curerntly, it's under trial for travis-ci integration. [coverage_sample](https:/
 ### mix.exs
 Add the following parameters.
 
-- "test_coverage: [tool: ExCoveralls]" in the project section.
-- ":excoveralls" in the deps section.
+- `test_coverage: [tool: ExCoveralls]` in the project function.
+- `:excoveralls` in the deps function.
 
 ```elixir
 def project do
@@ -157,9 +157,9 @@ defmodule ExCoveralls do
 ```
 
 ## coveralls.json
-"coveralls.json" provides a setting for excoveralls.
+`coveralls.json` provides a setting for excoveralls.
 
-The default `coveralls.json` is stored in `deps/excoveralls/lib/conf`, and custom `coveralls.json` can be placed under mix project root. The custom definition is prioritized over the default one (if definitions in custom file is not found, then definitions in default file is used).
+The default `coveralls.json` is stored in `deps/excoveralls/lib/conf`, and custom `coveralls.json` can be placed just under mix project root. The custom definition is prioritized over the default one (if definitions in custom file is not found, then definitions in default file is used).
 
 #### Stop Words
 Stop words defined in "coveralls.json" will be excluded from the coverage calculation. Some kernal macros defined in Elixir is not considered "covered" by Erlang's cover library. It can be used for excluding these macros, or any other reasons. The words are parsed as regular expression.
