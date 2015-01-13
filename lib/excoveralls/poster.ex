@@ -10,8 +10,13 @@ defmodule ExCoveralls.Poster do
   """
   def execute(json) do
     File.write!(@file_name, json)
-    send_file(@file_name)
+    response = send_file(@file_name)
     File.rm!(@file_name)
+
+    case response do
+      {:ok, message} -> IO.puts message
+      {:error, message} -> raise message
+    end
   end
 
   defp send_file(file_name) do
@@ -26,12 +31,14 @@ defmodule ExCoveralls.Poster do
     )
     case response do
       {:ok, status_code, _, _} when status_code in 200..299 ->
-        IO.puts "Finished to post a json file"
+        {:ok, "Finished to post a json file"}
+
       {:ok, status_code, _, client} ->
         {:ok, body} = :hackney.body(client)
-        raise "Failed to posting a json file: status_code: #{status_code} body: #{body}"
+        {:error, "Failed to posting a json file: status_code: #{status_code} body: #{body}"}
+
       {:error, reason} ->
-        raise "Failed to posting a json file: #{reason}"
+        {:error, "Failed to posting a json file: #{reason}"}
     end
   end
 end
