@@ -16,5 +16,4 @@ defmodule PosterTest do
       ExCoveralls.Poster.execute("json")
     end
   end
-
 end

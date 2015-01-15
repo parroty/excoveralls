@@ -1,5 +1,6 @@
 defmodule ExCoveralls.LocalTest do
   use ExUnit.Case
+  import Mock
   import ExUnit.CaptureIO
   alias ExCoveralls.Local
 
@@ -16,6 +17,14 @@ defmodule ExCoveralls.LocalTest do
                  source: @content,
                  coverage: @invalid_counts
                ]]
+
+  @empty_counts [nil, nil, nil, nil]
+  @empty_source_info [[name: "test/fixtures/test.ex",
+                 source: @content,
+                 coverage: @empty_counts
+               ]]
+  @empty_result "" <>
+      "  0.0% test/fixtures/test.ex                           4        0        0\n[TOTAL]   0.0%"
 
   @stats_result "" <>
       "----------------\n" <>
@@ -58,6 +67,16 @@ defmodule ExCoveralls.LocalTest do
     assert_raise RuntimeError, fn ->
       Local.coverage(@invalid_source_info)
     end
+  end
+
+  test "Empty (no relevant lines) file is calculated as 0.0%" do
+    assert String.ends_with?(Local.coverage(@empty_source_info), "[TOTAL]   0.0%")
+  end
+
+  test_with_mock "Empty (no relevant lines) file with treat_no_relevant_lines_as_covered option is calculated as 100.0%",
+    ExCoveralls.Settings, [get_coverage_options: fn -> %{"treat_no_relevant_lines_as_covered" => true} end] do
+
+    assert String.ends_with?(Local.coverage(@empty_source_info), "[TOTAL] 100.0%")
   end
 end
 
