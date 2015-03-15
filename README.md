@@ -24,7 +24,7 @@ def project do
 end
 
 defp deps do
-  [{:excoveralls, "~> 0.3", only: :dev}]
+  [{:excoveralls, "~> 0.3", only: [:dev, :test]}]
 end
 ```
 
