@@ -22,7 +22,7 @@ defmodule ExCoveralls.Settings do
   Get coverage options from the json file.
   """
   def get_coverage_options do
-    read_config("coverage_options")
+    read_config("coverage_options") |> Enum.into(HashDict.new)
   end
 
   defp read_config_file(file_name) do
