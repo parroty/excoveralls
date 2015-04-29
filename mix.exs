@@ -35,7 +35,7 @@ defmodule ExCoveralls.Mixfile do
 
   defp package do
     [ contributors: ["parroty"],
-      license: ["MIT"],
+      licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/parroty/excoveralls"} ]
   end
 end
