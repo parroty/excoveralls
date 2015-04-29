@@ -29,7 +29,7 @@ defmodule Mix.Tasks.Coveralls do
     Mix.env(:test)
     ExCoveralls.ConfServer.start
     ExCoveralls.ConfServer.set(options ++ [args: args])
-    Mix.Task.run("test", ["--cover"])
+    Mix.Task.run("test", ["--cover"] ++ args)
   end
 
   defmodule Detail do
