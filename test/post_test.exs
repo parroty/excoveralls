@@ -35,4 +35,3 @@ defmodule ExCoveralls.PostTest do
     )
   end
 end
-

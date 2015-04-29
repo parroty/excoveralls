@@ -79,4 +79,3 @@ defmodule ExCoveralls.LocalTest do
     assert String.ends_with?(Local.coverage(@empty_source_info), "[TOTAL] 100.0%")
   end
 end
-

@@ -35,7 +35,6 @@ defmodule Excoveralls.SettingsTest do
     assert(Settings.get_stop_words == [~r"a", ~r"b", ~r"aa", ~r"bb"])
   end
 
-
   test_with_mock "get coverage options returns options as Dict", Settings.Files,
                    [default_file: fn -> @fixture_default end,
                     custom_file:  fn -> @fixture_custom end] do

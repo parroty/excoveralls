@@ -21,6 +21,4 @@ defmodule ExCoveralls.TravisTest do
     assert(json =~ ~r/service_name/)
     assert(json =~ ~r/source_files/)
   end
-
 end
-
