@@ -194,6 +194,7 @@ Stop words defined in "coveralls.json" will be excluded from the coverage calcul
     - https://github.com/eproxus/meck/pull/17
 - In case Erlang clashes at `mix coveralls`, executing `mix test` in advance might avoid the error.
 - When erlang version 17.3 is used, an error message `(MatchError) no match of right hand side value: ""` can be shown. Refer to issue #14 for the details.
+    - https://github.com/parroty/excoveralls/issues/14
 
 ### Todo
 - It might not work well on the projects which handles multiple project (Mix.Project) files.
