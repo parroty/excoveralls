@@ -1,12 +1,12 @@
 ExCoveralls [![Build Status](https://secure.travis-ci.org/parroty/excoveralls.png?branch=master "Build Status")](http://travis-ci.org/parroty/excoveralls) [![Coverage Status](https://coveralls.io/repos/parroty/excoveralls/badge.png?branch=master)](https://coveralls.io/r/parroty/excoveralls?branch=master) [![hex.pm version](https://img.shields.io/hexpm/v/excoveralls.svg)](https://hex.pm/packages/excoveralls) [![hex.pm downloads](https://img.shields.io/hexpm/dt/excoveralls.svg)](https://hex.pm/packages/excoveralls)
 ============
 
-An elixir library to report coverage stats, with a capability to post it to [coveralls.io](https://coveralls.io/) service.
-It uses Erlang's [cover](http://www.erlang.org/doc/man/cover.html) to generate coverage information, and post the result to coveralls.io through the json API.
+An elixir library that reports test coverage statistics, with the option to post to [coveralls.io](https://coveralls.io/) service.
+It uses Erlang's [cover](http://www.erlang.org/doc/man/cover.html) to generate coverage information, and posts the test coverage results to coveralls.io through the json API.
 
-Curerntly, it's under trial for travis-ci integration. [coverage_sample](https://github.com/parroty/coverage_sample) is an example using from a project.
+Currently, it's under trial for travis-ci integration. [coverage_sample](https://github.com/parroty/coverage_sample) is an example using from a project.
 
-# Setting
+# Settings
 ### mix.exs
 Add the following parameters.
 
@@ -36,8 +36,8 @@ end
 - [mix coveralls.detail](#mix-coverallsdetail-show-coverage-with-detail)
 
 ### [mix coveralls] Show coverage
-Run "mix coveralls" command to show coverage information at the local host
-This task locally prints out the coverage information. It doesn't submit the result to server.
+Run the `mix coveralls` command to show coverage information on localhost.
+This task locally prints out the coverage information. It doesn't submit the results to the server.
 
 ```Shell
 $ mix coveralls
@@ -56,7 +56,7 @@ COV    FILE                                        LINES RELEVANT   MISSED
 ----------------
 ```
 
-Specifying the --help option displays the option lists for available tasks.
+Specifying the --help option displays the options list for available tasks.
 
 ```Shell
 $ mix coveralls --help
@@ -70,12 +70,12 @@ Usage: mix coveralls.detail [file-name-pattern]
   [file-name-pattern] can be used to limit the target files
 
 Usage: mix coveralls.travis
-  Used to post coverage from Travis CI server
+  Used to post coverage to Travis CI server
 
 Usage: mix coveralls.post [options] [coveralls-token]
-  Used to post coverage from local server using token
-  [coveralls-token] should be specified here or in COVERALLS_REPO_TOKEN
-  environment variable
+  Used to post coverage from local server using a token.
+  The [coveralls-token] should be specified here or in the COVERALLS_REPO_TOKEN
+  environment variable.
 
   -n (--name)         Service name ('VIA' column at coveralls page)
   -b (--branch)       Branch name ('BRANCH' column at coveralls page)
@@ -83,9 +83,9 @@ Usage: mix coveralls.post [options] [coveralls-token]
   -m (--message)      Commit message ('COMMIT' column at coveralls page)
 ```
 
-### [mix coveralls.travis] Post coverage from travis
-Specify `mix compile && mix coveralls.travis` as after_success section of .travis.yml.
-This task is for submiting the result to coveralls server when Travis-CI build is executed.
+### [mix coveralls.travis] Post coverage to travis
+Specify `mix compile && mix coveralls.travis` in the `after_success` section of `.travis.yml`.
+This task is for submiting the result to the coveralls server when Travis-CI build is executed.
 
 #### .travis.yml
 ```
@@ -102,10 +102,10 @@ after_success:
 ```
 
 ### [mix coveralls.post] Post coverage from localhost
-Acquire the repository token of coveralls.io in advance, and run "mix coveralls.post" command.
-It is for submiting the result to coveralls server from the local host.
+Acquire the repository token of coveralls.io in advance, and run the `mix coveralls.post` command.
+It is for submitting the result to coveralls server from localhost.
 
-The token can be specified as mix task argument, or as environment variable (COVERALLS_REPO_TOKEN).
+The token can be specified as a mix task argument, or as an environment variable (`COVERALLS_REPO_TOKEN`).
 
 ```Shell
 $ mix coveralls.post [YOUR_TOKEN]
@@ -118,8 +118,8 @@ $ mix coveralls.post [YOUR_TOKEN]
 
 ### [mix coveralls.detail] Show coverage with detail
 This task displays coverage information at the source-code level with colored text.
-Green indicates covered line, and red indicates not-covered line.
-If source is large, piping with "less" command may help looking around the detail.
+Green indicates a tested line, and red indicates lines which are not tested.
+If the source is large, piping with the "less" command might help with details.
 
 ```Shell
 $ mix coveralls.detail | less
@@ -138,7 +138,7 @@ defmodule ExCoveralls do
 ...
 ```
 
-Also, displayed source codes can be filtered by specifying arguments (it will be matched against FILE column value). The following example lists the source codes only for general.ex.
+Also, displayed source code can be filtered by specifying arguments (it will be matched against the FILE column value). The following example lists the source code only for general.ex.
 ```Shell
 $ mix coveralls.detail general.ex
 ...
@@ -159,14 +159,14 @@ defmodule ExCoveralls do
 ## coveralls.json
 `coveralls.json` provides a setting for excoveralls.
 
-The default `coveralls.json` is stored in `deps/excoveralls/lib/conf`, and custom `coveralls.json` can be placed just under mix project root. The custom definition is prioritized over the default one (if definitions in custom file is not found, then definitions in default file is used).
+The default `coveralls.json` file is stored in `deps/excoveralls/lib/conf`, and custom `coveralls.json` files can be placed in the mix project root. The custom definition is prioritized over the default one (if definitions in custom file are not found, then the definitions in the default file are used).
 
 #### Stop Words
-Stop words defined in "coveralls.json" will be excluded from the coverage calculation. Some kernal macros defined in Elixir is not considered "covered" by Erlang's cover library. It can be used for excluding these macros, or any other reasons. The words are parsed as regular expression.
+Stop words defined in `coveralls.json` will be excluded from the coverage calculation. Some kernal macros defined in Elixir are not considered "covered" by Erlang's cover library. It can be used for excluding these macros, or for any other reasons. The words are parsed as regular expression.
 
 #### Coverage Options
 - treat_no_relevant_lines_as_covered
-   - By default, coverage for [files with no relevant lines] are displayed as 0% for aligning with coveralls.io behavior. But, if `treat_no_relevant_lines_as_covered` is set as `true`, it will be displayed as 100%.
+   - By default, coverage for [files with no relevant lines] are displayed as 0% for aligning with coveralls.io behavior. But, if `treat_no_relevant_lines_as_covered` is set to `true`, it will be displayed as 100%.
 
 ```javascript
 {
@@ -190,12 +190,12 @@ Stop words defined in "coveralls.json" will be excluded from the coverage calcul
 
 
 ### Notes
-- If meck library is being used, it shows some warnings during execution.
+- If mock library is used, it will show some warnings during execution.
     - https://github.com/eproxus/meck/pull/17
 - In case Erlang clashes at `mix coveralls`, executing `mix test` in advance might avoid the error.
 - When erlang version 17.3 is used, an error message `(MatchError) no match of right hand side value: ""` can be shown. Refer to issue #14 for the details.
     - https://github.com/parroty/excoveralls/issues/14
 
 ### Todo
-- It might not work well on the projects which handles multiple project (Mix.Project) files.
-    - Need improvement on file-path handling.
+- It might not work well on projects which handle multiple project (Mix.Project) files.
+    - Needs improvement on file-path handling.
