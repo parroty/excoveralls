@@ -36,8 +36,8 @@ end
 - [mix coveralls.detail](#mix-coverallsdetail-show-coverage-with-detail)
 
 ### [mix coveralls] Show coverage
-Run `mix coveralls` command to show coverage information on localhost.
-This task locally prints out the coverage information. It doesn't submit the results to  the server.
+Run the `mix coveralls` command to show coverage information on localhost.
+This task locally prints out the coverage information. It doesn't submit the results to the server.
 
 ```Shell
 $ mix coveralls
@@ -83,7 +83,7 @@ Usage: mix coveralls.post [options] [coveralls-token]
   -m (--message)      Commit message ('COMMIT' column at coveralls page)
 ```
 
-### [mix coveralls.travis] Post coverage from travis
+### [mix coveralls.travis] Post coverage to travis
 Specify `mix compile && mix coveralls.travis` in the `after_success` section of `.travis.yml`.
 This task is for submiting the result to the coveralls server when Travis-CI build is executed.
 
