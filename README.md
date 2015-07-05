@@ -24,7 +24,7 @@ def project do
 end
 
 defp deps do
-  [{:excoveralls, "~> 0.3", only: [:dev, :test]}]
+  [{:excoveralls, "~> 0.3", only: :test}]
 end
 ```
 
@@ -36,11 +36,11 @@ end
 - [mix coveralls.detail](#mix-coverallsdetail-show-coverage-with-detail)
 
 ### [mix coveralls] Show coverage
-Run the `mix coveralls` command to show coverage information on localhost.
+Run the `MIX_ENV=test mix coveralls` command to show coverage information on localhost.
 This task locally prints out the coverage information. It doesn't submit the results to the server.
 
 ```Shell
-$ mix coveralls
+$ MIX_ENV=test mix coveralls
 ...
 ----------------
 COV    FILE                                        LINES RELEVANT   MISSED
@@ -59,7 +59,7 @@ COV    FILE                                        LINES RELEVANT   MISSED
 Specifying the --help option displays the options list for available tasks.
 
 ```Shell
-$ mix coveralls --help
+$ MIX_ENV=test mix coveralls --help
 Usage: mix coveralls
   Used to display coverage
 
@@ -84,7 +84,7 @@ Usage: mix coveralls.post [options] [coveralls-token]
 ```
 
 ### [mix coveralls.travis] Post coverage to travis
-Specify `mix compile && mix coveralls.travis` in the `after_success` section of `.travis.yml`.
+Specify `mix coveralls.travis` in the `.travis.yml`.
 This task is for submiting the result to the coveralls server when Travis-CI build is executed.
 
 #### .travis.yml
@@ -96,9 +96,8 @@ before_install:
   - git clone https://github.com/elixir-lang/elixir
   - cd elixir && make && cd ..
 before_script: "export PATH=`pwd`/elixir/bin:$PATH"
-script: "MIX_ENV=test mix do deps.get, test"
-after_success:
-  - "mix compile && mix coveralls.travis"
+script:
+  - "MIX_ENV=test mix do deps.get, compile, coveralls.travis"
 ```
 
 ### [mix coveralls.post] Post coverage from localhost
@@ -108,7 +107,7 @@ It is for submitting the result to coveralls server from localhost.
 The token can be specified as a mix task argument, or as an environment variable (`COVERALLS_REPO_TOKEN`).
 
 ```Shell
-$ mix coveralls.post [YOUR_TOKEN]
+$ MIX_ENV=test mix coveralls.post [YOUR_TOKEN]
 ...
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
@@ -122,7 +121,7 @@ Green indicates a tested line, and red indicates lines which are not tested.
 If the source is large, piping with the "less" command might help with details.
 
 ```Shell
-$ mix coveralls.detail | less
+$ MIX_ENV=test mix coveralls.detail | less
 ...
 ----------------
 COV    FILE                                        LINES RELEVANT   MISSED
@@ -140,7 +139,7 @@ defmodule ExCoveralls do
 
 Also, displayed source code can be filtered by specifying arguments (it will be matched against the FILE column value). The following example lists the source code only for general.ex.
 ```Shell
-$ mix coveralls.detail general.ex
+$ MIX_ENV=test mix coveralls.detail general.ex
 ...
 ----------------
 COV    FILE                                        LINES RELEVANT   MISSED
@@ -185,9 +184,6 @@ Stop words defined in `coveralls.json` will be excluded from the coverage calcul
   }
 }
 ```
-
-
-
 
 ### Notes
 - If mock library is used, it will show some warnings during execution.
