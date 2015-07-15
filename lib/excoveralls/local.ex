@@ -20,7 +20,7 @@ defmodule ExCoveralls.Local do
     IO.puts "----------------"
 
     if options[:detail] == true do
-      source(stats, options[:args]) |> IO.puts
+      source(stats, options[:filter]) |> IO.puts
     end
   end
 

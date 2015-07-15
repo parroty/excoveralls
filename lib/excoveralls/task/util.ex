@@ -10,9 +10,9 @@ Usage: mix coveralls
 
   -h (--help)         Show helps for excoveralls mix tasks
 
-Usage: mix coveralls.detail [file-name-pattern]
+Usage: mix coveralls.detail [--filter file-name-pattern]
   Used to display coverage with detail
-  [file-name-pattern] can be used to limit the target files
+  [--filter file-name-pattern] can be used to limit the files to be displayed in detail
 
 Usage: mix coveralls.travis
   Used to post coverage from Travis CI server

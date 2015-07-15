@@ -38,7 +38,7 @@ defmodule Mix.Tasks.CoverallsTest do
   test_with_mock "detail", Mix.Task, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Detail.run([])
     assert(called Mix.Task.run("test", ["--cover"]))
-    assert(ExCoveralls.ConfServer.get == [type: "local", detail: true, args: []])
+    assert(ExCoveralls.ConfServer.get == [type: "local", detail: true, filter: [], args: []])
   end
 
   test_with_mock "travis", Mix.Task, [run: fn(_, _) -> nil end] do

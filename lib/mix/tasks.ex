@@ -42,7 +42,12 @@ defmodule Mix.Tasks.Coveralls do
     @shortdoc "Display the test coverage with source detail"
 
     def run(args) do
-      Mix.Tasks.Coveralls.do_run(args, [type: "local", detail: true])
+      {parsed, _, _} = OptionParser.parse(args, aliases: [f: :filter])
+
+      Mix.Tasks.Coveralls.do_run(args,
+        [ type: "local",
+          detail: true,
+          filter: parsed[:filter] || [] ])
     end
   end
 
