@@ -118,10 +118,10 @@ $ MIX_ENV=test mix coveralls.post [YOUR_TOKEN]
 ### [mix coveralls.detail] Show coverage with detail
 This task displays coverage information at the source-code level with colored text.
 Green indicates a tested line, and red indicates lines which are not tested.
-If the source is large, piping with the "less" command might help with details.
+When reviewing many source files, pipe the output to the `less` program (with the `-R` option for color) to paginate the results.
 
 ```Shell
-$ MIX_ENV=test mix coveralls.detail | less
+$ MIX_ENV=test mix coveralls.detail | less -R
 ...
 ----------------
 COV    FILE                                        LINES RELEVANT   MISSED
