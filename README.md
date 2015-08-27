@@ -11,6 +11,7 @@ Currently, it's under trial for travis-ci integration. [coverage_sample](https:/
 Add the following parameters.
 
 - `test_coverage: [tool: ExCoveralls]` in the project function.
+- `test_coverage: [task: "espec"]` if you use Espec.
 - `:excoveralls` in the deps function.
 
 ```elixir
