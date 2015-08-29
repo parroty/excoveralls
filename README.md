@@ -11,7 +11,7 @@ Currently, it's under trial for travis-ci integration. [coverage_sample](https:/
 Add the following parameters.
 
 - `test_coverage: [tool: ExCoveralls]` for using ExCoveralls for coverage reporting.
-- `preferred_cli_env: [coveralls: :test]` for running `mix coveralls` in `:test` env by default.
+- `preferred_cli_env: [coveralls: :test]` for running `mix coveralls` in `:test` env by default (optional setting).
 - `test_coverage: [test_task: "espec"]` if you use Espec instead of default ExUnit.
 - `:excoveralls` in the deps function.
 
