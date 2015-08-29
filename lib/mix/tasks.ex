@@ -26,10 +26,12 @@ defmodule Mix.Tasks.Coveralls do
         message: "Please specify 'test_coverage: [tool: ExCoveralls]' in the 'project' section of mix.exs" }
     end
 
+    test_task = Mix.Project.config[:test_coverage][:test_task] || "test"
+    
     Mix.env(:test)
     ExCoveralls.ConfServer.start
     ExCoveralls.ConfServer.set(options ++ [args: args])
-    Mix.Task.run("test", ["--cover"] ++ args)
+    Mix.Task.run(test_task, ["--cover"] ++ args)
   end
 
   defmodule Detail do
