@@ -10,17 +10,21 @@ Currently, it's under trial for travis-ci integration. [coverage_sample](https:/
 ### mix.exs
 Add the following parameters.
 
-- `test_coverage: [tool: ExCoveralls]` in the project function.
-- `test_coverage: [test_task: "espec"]` if you use Espec.
+- `test_coverage: [tool: ExCoveralls]` for using ExCoveralls for coverage reporting.
+- `preferred_cli_env: [coveralls: :test]` for running `mix coveralls` in `:test` env by default.
+- `test_coverage: [test_task: "espec"]` if you use Espec instead of default ExUnit.
 - `:excoveralls` in the deps function.
 
 ```elixir
 def project do
   [ app: :excoveralls,
     version: "1.0.0",
-    elixir: "~> 0.xx.yy",
+    elixir: "~> 1.0.0",
     deps: deps(Mix.env),
-    test_coverage: [tool: ExCoveralls]
+    test_coverage: [tool: ExCoveralls],
+    preferred_cli_env: [coveralls: :test]
+    # if you want to use espec,
+    # test_coverage: [tool: ExCoveralls, test_task: "espec"]
   ]
 end
 
