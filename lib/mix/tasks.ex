@@ -26,12 +26,38 @@ defmodule Mix.Tasks.Coveralls do
         message: "Please specify 'test_coverage: [tool: ExCoveralls]' in the 'project' section of mix.exs" }
     end
 
+    {args, options} = parse_common_options(args, options)
     test_task = Mix.Project.config[:test_coverage][:test_task] || "test"
-    
+
     Mix.env(:test)
+
+    if options[:umbrella] do
+      sub_apps = ExCoveralls.SubApps.parse(Mix.Dep.Umbrella.loaded)
+      options = options ++ [sub_apps: sub_apps]
+    end
+
     ExCoveralls.ConfServer.start
     ExCoveralls.ConfServer.set(options ++ [args: args])
+    ExCoveralls.StatServer.start
+
     Mix.Task.run(test_task, ["--cover"] ++ args)
+
+    System.at_exit(fn(_) ->
+      if options[:umbrella] do
+        analyze_sub_apps(options)
+      end
+    end)
+  end
+
+  defp parse_common_options(args, options) do
+    {common_options, args, _} = OptionParser.parse(args, aliases: [u: :umbrella])
+    {args, options ++ common_options}
+  end
+
+  defp analyze_sub_apps(options) do
+    type = options[:type] || "local"
+    stats = ExCoveralls.StatServer.get |> Set.to_list
+    ExCoveralls.analyze(stats, type, options)
   end
 
   defmodule Detail do

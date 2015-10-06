@@ -70,6 +70,15 @@ defmodule ExCoveralls.Stats do
   end
 
   @doc """
+  Append the name of the sub app to the source info stats.
+  """
+  def append_sub_app_name(stats, sub_app_name) do
+    Enum.map(stats, fn([{:name, name}, {:source, source}, {:coverage, coverage}]) ->
+      [{:name, "#{sub_app_name}/#{name}"}, {:source, source}, {:coverage, coverage}]
+    end)
+  end
+
+  @doc """
   Returns total line counts of the specified source file.
   """
   def get_source_line_count(file_path) do

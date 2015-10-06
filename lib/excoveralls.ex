@@ -6,6 +6,7 @@ defmodule ExCoveralls do
   alias ExCoveralls.Stats
   alias ExCoveralls.Cover
   alias ExCoveralls.ConfServer
+  alias ExCoveralls.StatServer
   alias ExCoveralls.Travis
   alias ExCoveralls.Local
   alias ExCoveralls.Post
@@ -20,14 +21,25 @@ defmodule ExCoveralls do
   def start(compile_path, _opts) do
     Cover.compile(compile_path)
     fn() ->
-      execute(ConfServer.get)
+      execute(ConfServer.get, compile_path)
     end
   end
 
-  defp execute(options) do
-    type = options[:type] || "local"
-    Stats.report(Cover.modules)
-      |> analyze(type, options)
+  def execute(options, compile_path) do
+    stats = Stats.report(Cover.modules)
+
+    if options[:umbrella] do
+      store_stats(stats, options, compile_path)
+    else
+      analyze(stats, options[:type] || "local", options)
+    end
+  end
+
+  defp store_stats(stats, options, compile_path) do
+    {sub_app_name, _sub_app_path} =
+      ExCoveralls.SubApps.find(options[:sub_apps], compile_path)
+    stats = Stats.append_sub_app_name(stats, sub_app_name)
+    Enum.each(stats, fn(stat) -> StatServer.add(stat) end)
   end
 
   @doc """
