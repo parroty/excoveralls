@@ -42,11 +42,9 @@ defmodule Mix.Tasks.Coveralls do
 
     Mix.Task.run(test_task, ["--cover"] ++ args)
 
-    System.at_exit(fn(_) ->
-      if options[:umbrella] do
-        analyze_sub_apps(options)
-      end
-    end)
+    if options[:umbrella] do
+      analyze_sub_apps(options)
+    end
   end
 
   defp parse_common_options(args, options) do

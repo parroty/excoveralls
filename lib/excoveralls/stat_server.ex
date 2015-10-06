@@ -4,7 +4,7 @@ defmodule ExCoveralls.StatServer do
   """
 
   def start do
-    Agent.start_link(fn -> HashSet.new end, name: __MODULE__)
+    Agent.start(fn -> HashSet.new end, name: __MODULE__)
   end
 
   def stop do

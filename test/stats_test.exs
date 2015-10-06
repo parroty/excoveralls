@@ -45,6 +45,11 @@ defmodule ExCoveralls.StatsTest do
     assert(Stats.generate_source_info(@coverage) == @source_info)
   end
 
+  test_with_mock "append sub app name", Cover, [module_path: fn(_) -> @source end] do
+    stats = Stats.append_sub_app_name(@source_info, "subapp")
+    assert(List.first(stats)[:name] == "subapp/test/fixtures/test.ex")
+  end
+
   test "trim empty suffix and prefix" do
     assert(Stats.trim_empty_prefix_and_suffix("\naaa\nbbb\n") == "aaa\nbbb")
   end

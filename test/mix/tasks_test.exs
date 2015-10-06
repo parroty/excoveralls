@@ -8,10 +8,12 @@ defmodule Mix.Tasks.CoverallsTest do
   # backup and restore the original config
   setup_all do
     ExCoveralls.ConfServer.start
+    ExCoveralls.StatServer.start
 
     value = ExCoveralls.ConfServer.get
     on_exit(value, fn ->
       ExCoveralls.ConfServer.set(value)
+      ExCoveralls.StatServer.stop
       :ok
     end)
     :ok
@@ -35,6 +37,15 @@ defmodule Mix.Tasks.CoverallsTest do
     end) != ""
   end
 
+  test_with_mock "local with umbrella option", Mix.Task, [run: fn(_, _) -> nil end] do
+    capture_io(fn ->
+      Mix.Tasks.Coveralls.run(["--umbrella"])
+      assert(called Mix.Task.run("test", ["--cover"]))
+      assert(ExCoveralls.ConfServer.get ==
+        [type: "local", umbrella: true, sub_apps: [], args: []])
+    end)
+  end
+
   test_with_mock "detail", Mix.Task, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Detail.run([])
     assert(called Mix.Task.run("test", ["--cover"]))
@@ -56,11 +67,11 @@ defmodule Mix.Tasks.CoverallsTest do
 
     args = ["-b", "branch", "-c", "committer", "-m", "message"]
     Mix.Tasks.Coveralls.Post.run(args)
-    assert(called Mix.Task.run("test", ["--cover"] ++ args))
+    assert(called Mix.Task.run("test", ["--cover"]))
     assert(ExCoveralls.ConfServer.get ==
              [type: "post", token: "dummy_token", service_name: "dummy_service_name",
               branch: "branch", committer: "committer", message: "message",
-              args: ["-b", "branch", "-c", "committer", "-m", "message"]])
+              args: []])
 
     System.put_env("COVERALLS_REPO_TOKEN", org_token)
     System.put_env("COVERALLS_SERVICE_NAME", org_name)
