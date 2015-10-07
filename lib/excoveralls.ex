@@ -45,8 +45,8 @@ defmodule ExCoveralls do
   @doc """
   Logic for posting from travis-ci server
   """
-  def analyze(stats, @type_travis, _options) do
-    Travis.execute(stats)
+  def analyze(stats, @type_travis, options) do
+    Travis.execute(stats, options)
   end
 
   @doc """

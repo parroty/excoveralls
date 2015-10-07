@@ -12,7 +12,7 @@ defmodule ExCoveralls.TravisTest do
                ]]
 
   test_with_mock "execute", ExCoveralls.Poster, [execute: fn(_) -> "result" end] do
-    assert(Travis.execute(@source_info) == "result")
+    assert(Travis.execute(@source_info,[]) == "result")
   end
 
   test "generate json for travis" do

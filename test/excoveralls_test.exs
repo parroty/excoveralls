@@ -4,9 +4,9 @@ defmodule ExCoverallsTest do
 
   @stats "dummy stats"
 
-  test_with_mock "analyze travis", ExCoveralls.Travis, [execute: fn(_) -> end] do
+  test_with_mock "analyze travis", ExCoveralls.Travis, [execute: fn(_,_) -> end] do
     ExCoveralls.analyze(@stats, "travis", [])
-    assert called ExCoveralls.Travis.execute(@stats)
+    assert called ExCoveralls.Travis.execute(@stats,[])
   end
 
   test_with_mock "analyze local", ExCoveralls.Local, [execute: fn(_,_) -> end] do
