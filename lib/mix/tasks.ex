@@ -48,7 +48,7 @@ defmodule Mix.Tasks.Coveralls do
   end
 
   defp parse_common_options(args, options) do
-    {common_options, args, _} = OptionParser.parse(args, aliases: [u: :umbrella])
+    {common_options, args, _} = OptionParser.parse(args, aliases: [u: :umbrella, v: :verbose])
     {args, options ++ common_options}
   end
 

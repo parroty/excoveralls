@@ -5,7 +5,11 @@ defmodule ExCoveralls.Post do
   alias ExCoveralls.Poster
 
   def execute(stats, options) do
-    generate_json(stats, options) |> Poster.execute
+    json = generate_json(stats, options)
+    if options[:verbose] do
+      IO.puts JSX.prettify!(json)
+    end
+    Poster.execute(json)
   end
 
   def generate_json(source_info, options) do
