@@ -4,7 +4,9 @@ ExCoveralls [![Build Status](https://secure.travis-ci.org/parroty/excoveralls.pn
 An elixir library that reports test coverage statistics, with the option to post to [coveralls.io](https://coveralls.io/) service.
 It uses Erlang's [cover](http://www.erlang.org/doc/man/cover.html) to generate coverage information, and posts the test coverage results to coveralls.io through the json API.
 
-Currently, it's under trial for travis-ci integration. [coverage_sample](https://github.com/parroty/coverage_sample) is an example using from a project.
+Currently, it's under trial for travis-ci integration.
+  - [coverage_sample](https://github.com/parroty/coverage_sample) is a basic example project.
+  - [excoveralls_umbrella](https://github.com/parroty/excoveralls_umbrella) is an example on umbrella project.
 
 # Settings
 ### mix.exs
@@ -64,23 +66,27 @@ COV    FILE                                        LINES RELEVANT   MISSED
 Specifying the --help option displays the options list for available tasks.
 
 ```Shell
-$ MIX_ENV=test mix coveralls --help
 Usage: mix coveralls
   Used to display coverage
 
   -h (--help)         Show helps for excoveralls mix tasks
+
+  Common options across coveralls mix tasks
+
+  -u (--umbrella)     Show overall coverage for umbrella project.
+  -v (--verbose)      Show json string for posting.
 
 Usage: mix coveralls.detail [--filter file-name-pattern]
   Used to display coverage with detail
   [--filter file-name-pattern] can be used to limit the files to be displayed in detail
 
 Usage: mix coveralls.travis
-  Used to post coverage to Travis CI server
+  Used to post coverage from Travis CI server
 
 Usage: mix coveralls.post [options] [coveralls-token]
-  Used to post coverage from local server using a token.
-  The [coveralls-token] should be specified here or in the COVERALLS_REPO_TOKEN
-  environment variable.
+  Used to post coverage from local server using token
+  [coveralls-token] should be specified here or in COVERALLS_REPO_TOKEN
+  environment variable
 
   -n (--name)         Service name ('VIA' column at coveralls page)
   -b (--branch)       Branch name ('BRANCH' column at coveralls page)

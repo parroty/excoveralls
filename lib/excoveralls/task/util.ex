@@ -10,6 +10,11 @@ Usage: mix coveralls
 
   -h (--help)         Show helps for excoveralls mix tasks
 
+  Common options across coveralls mix tasks
+
+  -u (--umbrella)     Show overall coverage for umbrella project.
+  -v (--verbose)      Show json string for posting.
+
 Usage: mix coveralls.detail [--filter file-name-pattern]
   Used to display coverage with detail
   [--filter file-name-pattern] can be used to limit the files to be displayed in detail
