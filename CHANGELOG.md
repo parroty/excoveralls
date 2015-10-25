@@ -1,3 +1,8 @@
+0.4.1
+------
+#### Changes
+* Skip a module without __info__/1 function for avoiding UndefinedFunctionError (#33).
+
 0.4.0
 ------
 #### Enhancements
