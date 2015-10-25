@@ -23,7 +23,17 @@ defmodule ExCoveralls.Cover do
 
   @doc "Wrapper for :cover.modules"
   def modules do
-    :cover.modules
+    :cover.modules |> Enum.filter(&has_compile_info?/1)
+  end
+
+  defp has_compile_info?(module) do
+    try do
+      module.__info__(:compile) != nil
+    rescue
+      _e in UndefinedFunctionError ->
+        IO.puts :stderr, "[warning] skipping the module '#{module}' because source information for the module is not available."
+        false
+    end
   end
 
   @doc "Wrapper for :cover.analyse"
