@@ -11,7 +11,7 @@ defmodule ExCoveralls.PostTest do
                  coverage: @counts
                ]]
 
-  test_with_mock "execute", ExCoveralls.Poster, [execute: fn(_) -> "result" end] do
+  test_with_mock "execute", ExCoveralls.Poster, [execute: fn(_, _) -> "result" end] do
     original_token = System.get_env("COVERALLS_REPO_TOKEN")
     System.put_env("COVERALLS_REPO_TOKEN", "dummy_token")
 

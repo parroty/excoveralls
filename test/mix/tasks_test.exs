@@ -69,9 +69,9 @@ defmodule Mix.Tasks.CoverallsTest do
     Mix.Tasks.Coveralls.Post.run(args)
     assert(called Mix.Task.run("test", ["--cover"]))
     assert(ExCoveralls.ConfServer.get ==
-             [type: "post", token: "dummy_token", service_name: "dummy_service_name",
-              branch: "branch", committer: "committer", message: "message",
-              args: []])
+             [type: "post", endpoint: nil, token: "dummy_token",
+              service_name: "dummy_service_name", branch: "branch",
+              committer: "committer", message: "message", args: []])
 
     System.put_env("COVERALLS_REPO_TOKEN", org_token)
     System.put_env("COVERALLS_SERVICE_NAME", org_name)

@@ -104,6 +104,7 @@ defmodule Mix.Tasks.Coveralls do
       if Enum.count(params) <= 1 do
         Mix.Tasks.Coveralls.do_run(args,
           [ type:         "post",
+            endpoint:     Application.get_env(:excoveralls, :endpoint),
             token:        extract_token(params),
             service_name: extract_service_name(options),
             branch:       options[:branch] || "",
@@ -126,4 +127,3 @@ defmodule Mix.Tasks.Coveralls do
     end
   end
 end
-

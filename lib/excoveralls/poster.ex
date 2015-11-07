@@ -8,9 +8,9 @@ defmodule ExCoveralls.Poster do
   Create a temporarily json file and post it to server using hackney library.
   Then, remove the file after it's completed.
   """
-  def execute(json) do
+  def execute(json, options \\ []) do
     File.write!(@file_name, json)
-    response = send_file(@file_name)
+    response = send_file(@file_name, options)
     File.rm!(@file_name)
 
     case response do
@@ -19,9 +19,10 @@ defmodule ExCoveralls.Poster do
     end
   end
 
-  defp send_file(file_name) do
+  defp send_file(file_name, options) do
     :hackney.start
-    response = :hackney.request(:post, "https://coveralls.io/api/v1/jobs", [],
+    endpoint = options[:endpoint] || "https://coveralls.io"
+    response = :hackney.request(:post, "#{endpoint}/api/v1/jobs", [],
       {:multipart, [
         {:file, file_name,
           {"form-data", [{"name", "json_file"}, {"filename", file_name}]},
