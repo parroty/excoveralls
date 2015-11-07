@@ -9,7 +9,7 @@ defmodule ExCoveralls.Post do
     if options[:verbose] do
       IO.puts JSX.prettify!(json)
     end
-    Poster.execute(json)
+    Poster.execute(json, options)
   end
 
   def generate_json(source_info, options) do
