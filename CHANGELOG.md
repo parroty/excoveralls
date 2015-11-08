@@ -1,3 +1,8 @@
+0.4.2
+------
+#### Changes
+* Allow to override coveralls endpoint (#34).
+
 0.4.1
 ------
 #### Changes
