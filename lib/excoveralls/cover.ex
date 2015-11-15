@@ -17,8 +17,8 @@ defmodule ExCoveralls.Cover do
   """
   def module_path(module) do
     module.__info__(:compile)[:source]
-      |> List.to_string
-      |> Path.relative_to(ExCoveralls.PathReader.base_path)
+    |> List.to_string
+    |> Path.relative_to(ExCoveralls.PathReader.base_path)
   end
 
   @doc "Wrapper for :cover.modules"

@@ -46,8 +46,8 @@ defmodule ExCoveralls.Local do
   defp colorize([{:name, _name}, {:source, source}, {:coverage, coverage}]) do
     lines = String.split(source, "\n")
     Enum.zip(lines, coverage)
-      |> Enum.map(&do_colorize/1)
-      |> Enum.join("\n")
+    |> Enum.map(&do_colorize/1)
+    |> Enum.join("\n")
   end
 
   defp do_colorize({line, coverage}) do

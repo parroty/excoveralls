@@ -9,10 +9,10 @@ defmodule ExCoveralls.Stats do
   """
   def report(modules) do
     calculate_stats(modules)
-      |> generate_coverage
-      |> generate_source_info
-      |> skip_files
-      |> ExCoveralls.StopWords.filter
+    |> generate_coverage
+    |> generate_source_info
+    |> skip_files
+    |> ExCoveralls.StopWords.filter
   end
 
   @doc """
