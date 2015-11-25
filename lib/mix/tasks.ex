@@ -99,7 +99,7 @@ defmodule Mix.Tasks.Coveralls do
     @default_service_name "excoveralls"
 
     def run(args) do
-      {options, params, _} = OptionParser.parse(args, aliases: [n: :name, b: :branch, c: :committer, m: :message])
+      {options, params, _} = OptionParser.parse(args, aliases: [n: :name, b: :branch, c: :committer, m: :message, s: :sha])
 
       if Enum.count(params) <= 1 do
         Mix.Tasks.Coveralls.do_run(args,
@@ -109,6 +109,7 @@ defmodule Mix.Tasks.Coveralls do
             service_name: extract_service_name(options),
             branch:       options[:branch] || "",
             committer:    options[:committer] || "",
+            sha:          options[:sha] || "",
             message:      options[:message] || "[no commit message]" ])
       else
         raise %ExCoveralls.InvalidOptionError{message: "Parameter format is invalid"}
