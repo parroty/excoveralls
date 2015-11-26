@@ -93,6 +93,7 @@ Usage: mix coveralls.post [options] [coveralls-token]
   -b (--branch)       Branch name ('BRANCH' column at coveralls page)
   -c (--committer)    Committer name ('COMMITTER' column at coveralls page)
   -m (--message)      Commit message ('COMMIT' column at coveralls page)
+  -s (--sha)          Commit SHA (required when not using Travis) 
 ```
 
 ### [mix coveralls.travis] Post coverage to travis

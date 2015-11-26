@@ -24,7 +24,8 @@ defmodule ExCoveralls.Post do
   defp generate_git_info(options) do
     [head: [
        committer_name: options[:committer],
-       message: options[:message]
+       message: options[:message],
+       id: options[:sha]
       ],
       branch: options[:branch]
     ]
