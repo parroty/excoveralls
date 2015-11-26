@@ -1,3 +1,8 @@
+0.4.3
+------
+#### Enhancements
+* Add --sha parameter for non-Travis compatibility (#36).
+
 0.4.2
 ------
 #### Changes
