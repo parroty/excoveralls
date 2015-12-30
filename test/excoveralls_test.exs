@@ -4,17 +4,17 @@ defmodule ExCoverallsTest do
 
   @stats "dummy stats"
 
-  test_with_mock "analyze travis", ExCoveralls.Travis, [execute: fn(_,_) -> end] do
+  test_with_mock "analyze travis", ExCoveralls.Travis, [execute: fn(_,_) -> nil end] do
     ExCoveralls.analyze(@stats, "travis", [])
     assert called ExCoveralls.Travis.execute(@stats,[])
   end
 
-  test_with_mock "analyze local", ExCoveralls.Local, [execute: fn(_,_) -> end] do
+  test_with_mock "analyze local", ExCoveralls.Local, [execute: fn(_,_) -> nil end] do
     ExCoveralls.analyze(@stats, "local", [])
     assert called ExCoveralls.Local.execute(@stats,[])
   end
 
-  test_with_mock "analyze general", ExCoveralls.Post, [execute: fn(_,_) -> end] do
+  test_with_mock "analyze general", ExCoveralls.Post, [execute: fn(_,_) -> nil end] do
     ExCoveralls.analyze(@stats, "post", [])
     assert called ExCoveralls.Post.execute(@stats, [])
   end

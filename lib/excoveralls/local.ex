@@ -3,10 +3,11 @@ defmodule ExCoveralls.Local do
   Locally displays the result to screen.
   """
 
-  @doc """
-  Stores count information for calculating coverage values.
-  """
   defmodule Count do
+    @moduledoc """
+    Stores count information for calculating coverage values.
+    """
+
     defstruct lines: 0, relevant: 0, covered: 0
   end
 
