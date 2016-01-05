@@ -21,4 +21,15 @@ defmodule ExCoveralls.TravisTest do
     assert(json =~ ~r/service_name/)
     assert(json =~ ~r/source_files/)
   end
+
+  test "submits as `travis-ci` by default" do
+    parsed = Travis.generate_json(@source_info) |> JSX.decode!
+    assert(%{ "service_name" => "travis-ci" } = parsed)
+  end
+
+  test "can be overriden to submit as `travis-pro`" do
+    parsed = Travis.generate_json(@source_info, %{ pro: true, another_key: 3 }) |> JSX.decode!
+    assert(%{ "service_name" => "travis-pro" } = parsed)
+    assert("repo_token" in Map.keys(parsed))
+  end
 end

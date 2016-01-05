@@ -113,6 +113,11 @@ script:
   - "MIX_ENV=test mix do deps.get, compile, coveralls.travis"
 ```
 
+If you're using [Travis Pro](https://travis-ci.com/) for a private
+project, Use `coveralls.travis --pro` and ensure your coveralls.io
+repo token is available via the `COVERALLS_REPO_TOKEN` environment
+variable.
+
 ### [mix coveralls.post] Post coverage from localhost
 Acquire the repository token of coveralls.io in advance, and run the `mix coveralls.post` command.
 It is for submitting the result to coveralls server from localhost.

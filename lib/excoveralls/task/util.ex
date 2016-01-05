@@ -19,8 +19,8 @@ Usage: mix coveralls.detail [--filter file-name-pattern]
   Used to display coverage with detail
   [--filter file-name-pattern] can be used to limit the files to be displayed in detail
 
-Usage: mix coveralls.travis
-  Used to post coverage from Travis CI server
+Usage: mix coveralls.travis [--pro]
+  Used to post coverage from Travis CI server.
 
 Usage: mix coveralls.post [options] [coveralls-token]
   Used to post coverage from local server using token
