@@ -1,3 +1,9 @@
+0.4.4
+------
+#### Enhancements
+* Support travis pro (#37).
+  - Add `coveralls.travis --pro` option.
+
 0.4.3
 ------
 #### Enhancements
