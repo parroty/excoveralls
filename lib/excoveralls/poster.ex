@@ -14,8 +14,10 @@ defmodule ExCoveralls.Poster do
     File.rm!(@file_name)
 
     case response do
-      {:ok, message} -> IO.puts message
-      {:error, message} -> raise message
+      {:ok, message} ->
+        IO.puts message
+      {:error, message} ->
+        raise %ExCoveralls.ReportUploadError{message: message}
     end
   end
 
@@ -32,14 +34,14 @@ defmodule ExCoveralls.Poster do
     )
     case response do
       {:ok, status_code, _, _} when status_code in 200..299 ->
-        {:ok, "Finished to post a json file"}
+        {:ok, "Successfully uploaded the report to '#{endpoint}'."}
 
       {:ok, status_code, _, client} ->
         {:ok, body} = :hackney.body(client)
-        {:error, "Failed to posting a json file: status_code: #{status_code} body: #{body}"}
+        {:error, "Failed to upload the report to '#{endpoint}' (reason: status_code = #{status_code}, body = #{body})."}
 
       {:error, reason} ->
-        {:error, "Failed to posting a json file: #{reason}"}
+        {:error, "Failed to upload the report to '#{endpoint}' (reason: #{reason})."}
     end
   end
 end
