@@ -67,33 +67,36 @@ COV    FILE                                        LINES RELEVANT   MISSED
 Specifying the --help option displays the options list for available tasks.
 
 ```Shell
-Usage: mix coveralls
+Usage: mix coveralls <Options>
   Used to display coverage
 
-  -h (--help)         Show helps for excoveralls mix tasks
+  <Options>
+    -h (--help)         Show helps for excoveralls mix tasks
 
-  Common options across coveralls mix tasks
+    Common options across coveralls mix tasks
 
-  -u (--umbrella)     Show overall coverage for umbrella project.
-  -v (--verbose)      Show json string for posting.
+    -u (--umbrella)     Show overall coverage for umbrella project.
+    -v (--verbose)      Show json string for posting.
 
 Usage: mix coveralls.detail [--filter file-name-pattern]
   Used to display coverage with detail
-  [--filter file-name-pattern] can be used to limit the files to be displayed in detail
+  [--filter file-name-pattern] can be used to limit the files to be displayed in detail.
 
-Usage: mix coveralls.travis
-  Used to post coverage from Travis CI server
+Usage: mix coveralls.travis [--pro]
+  Used to post coverage from Travis CI server.
 
-Usage: mix coveralls.post [options] [coveralls-token]
-  Used to post coverage from local server using token
-  [coveralls-token] should be specified here or in COVERALLS_REPO_TOKEN
-  environment variable
+Usage: mix coveralls.post <Options>
+  Used to post coverage from local server using token.
+  The token should be specified in the argument or in COVERALLS_REPO_TOKEN
+  environment variable.
 
-  -n (--name)         Service name ('VIA' column at coveralls page)
-  -b (--branch)       Branch name ('BRANCH' column at coveralls page)
-  -c (--committer)    Committer name ('COMMITTER' column at coveralls page)
-  -m (--message)      Commit message ('COMMIT' column at coveralls page)
-  -s (--sha)          Commit SHA (required when not using Travis) 
+  <Options>
+    -t (--token)        Repository token ('REPO TOKEN' of coveralls.io)
+    -n (--name)         Service name ('VIA' column at coveralls.io page)
+    -b (--branch)       Branch name ('BRANCH' column at coveralls.io page)
+    -c (--committer)    Committer name ('COMMITTER' column at coveralls.io page)
+    -m (--message)      Commit message ('COMMIT' column at coveralls.io page)
+    -s (--sha)          Commit SHA (required when not using Travis)
 ```
 
 ### [mix coveralls.travis] Post coverage to travis
@@ -118,20 +121,23 @@ project, Use `coveralls.travis --pro` and ensure your coveralls.io
 repo token is available via the `COVERALLS_REPO_TOKEN` environment
 variable.
 
-### [mix coveralls.post] Post coverage from localhost
+### [mix coveralls.post] Post coverage from any host
 Acquire the repository token of coveralls.io in advance, and run the `mix coveralls.post` command.
-It is for submitting the result to coveralls server from localhost.
+It is for submitting the result to coveralls server from any host.
 
-The token can be specified as a mix task argument, or as an environment variable (`COVERALLS_REPO_TOKEN`).
+The token can be specified as a mix task option (`--token`), or as an environment variable (`COVERALLS_REPO_TOKEN`).
 
 ```Shell
-$ MIX_ENV=test mix coveralls.post [YOUR_TOKEN]
-...
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100 16958  100    64  100 16894     23   6330  0:00:02  0:00:02 --:--:--  7644
-{"message":"Job #xx.1","url":"https://coveralls.io/jobs/xxxx"}
+MIX_ENV=test mix coveralls.post --token [YOUR_TOKEN] --branch "master" --name "local host" --commiter "committer name" --sha "fd80a4c" --message "commit message"
+....................................................................................................
+
+Finished in 6.3 seconds (0.7s on load, 5.6s on tests)
+100 tests, 0 failures
+
+Randomized with seed 800810
+Successfully uploaded the report to 'https://coveralls.io'.
 ```
+For the detailed option description, check [mix coveralls --help](#mix-coveralls-show-coverage) task.
 
 ### [mix coveralls.detail] Show coverage with detail
 This task displays coverage information at the source-code level with colored text.
