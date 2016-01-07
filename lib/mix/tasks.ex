@@ -99,30 +99,29 @@ defmodule Mix.Tasks.Coveralls do
     @default_service_name "excoveralls"
 
     def run(args) do
-      {options, params, _} = OptionParser.parse(args, aliases: [n: :name, b: :branch, c: :committer, m: :message, s: :sha])
+      {options, params, _} =
+        OptionParser.parse(args,
+          aliases: [n: :name, b: :branch, c: :committer, m: :message, s: :sha, t: :token])
 
-      if Enum.count(params) <= 1 do
-        Mix.Tasks.Coveralls.do_run(args,
-          [ type:         "post",
-            endpoint:     Application.get_env(:excoveralls, :endpoint),
-            token:        extract_token(params),
-            service_name: extract_service_name(options),
-            branch:       options[:branch] || "",
-            committer:    options[:committer] || "",
-            sha:          options[:sha] || "",
-            message:      options[:message] || "[no commit message]" ])
-      else
-        raise %ExCoveralls.InvalidOptionError{message: "Parameter format is invalid"}
-      end
+      Mix.Tasks.Coveralls.do_run(params,
+        [ type:         "post",
+          endpoint:     Application.get_env(:excoveralls, :endpoint),
+          token:        extract_token(options),
+          service_name: extract_service_name(options),
+          branch:       options[:branch] || "",
+          committer:    options[:committer] || "",
+          sha:          options[:sha] || "",
+          message:      options[:message] || "[no commit message]" ])
     end
 
     def extract_service_name(options) do
       options[:name] || System.get_env("COVERALLS_SERVICE_NAME") || @default_service_name
     end
 
-    def extract_token(params) do
-      case Enum.at(params, 0) || System.get_env("COVERALLS_REPO_TOKEN") || "" do
-        "" -> raise %ExCoveralls.InvalidOptionError{message: "Token is NOT specified in the parameter or environment variable"}
+    def extract_token(options) do
+      case options[:token] || System.get_env("COVERALLS_REPO_TOKEN") || "" do
+        "" -> raise %ExCoveralls.InvalidOptionError{
+                      message: "Token is NOT specified in the parameter or environment variable"}
         token -> token
       end
     end

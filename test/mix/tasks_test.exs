@@ -83,12 +83,6 @@ defmodule Mix.Tasks.CoverallsTest do
     System.put_env("COVERALLS_SERVICE_NAME", org_name)
   end
 
-  test "post fails with invalid param param" do
-    assert_raise ExCoveralls.InvalidOptionError, fn ->
-      Mix.Tasks.Coveralls.Post.run(["aaa", "bbb"])
-    end
-  end
-
   test "extract service name by param" do
     assert Mix.Tasks.Coveralls.Post.extract_service_name([name: "local_param"]) == "local_param"
   end
@@ -102,7 +96,7 @@ defmodule Mix.Tasks.CoverallsTest do
   end
 
   test "extract token by param" do
-    assert Mix.Tasks.Coveralls.Post.extract_token(["param_token"]) == "param_token"
+    assert Mix.Tasks.Coveralls.Post.extract_token(token: "param_token") == "param_token"
   end
 
   test_with_mock "extract token by environment variable", System, [get_env: fn(_) -> "token_env" end] do
@@ -114,5 +108,4 @@ defmodule Mix.Tasks.CoverallsTest do
       Mix.Tasks.Coveralls.Post.extract_token([])
     end
   end
-
 end
