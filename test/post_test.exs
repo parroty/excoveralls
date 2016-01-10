@@ -22,8 +22,7 @@ defmodule ExCoveralls.PostTest do
     end
   end
 
-  test_with_mock "generate json", System, [cmd: fn(_, _) -> "" end] do
-
+  test "generate json" do
     assert(Post.generate_json(@source_info, [token: "1234567890", service_name: "local", branch: "", committer: "", message: "", sha: ""]) ==
        "{\"repo_token\":\"1234567890\"," <>
          "\"service_name\":\"local\"," <>
