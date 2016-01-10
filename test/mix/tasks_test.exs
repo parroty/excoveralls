@@ -64,7 +64,7 @@ defmodule Mix.Tasks.CoverallsTest do
     assert(ExCoveralls.ConfServer.get == [type: "travis", pro: true, args: []])
   end
 
-  test_with_mock "post", Mix.Task, [run: fn(_, _) -> nil end] do
+  test_with_mock "post with env vars", Mix.Task, [run: fn(_, _) -> nil end] do
     org_token = System.get_env("COVERALLS_REPO_TOKEN") || ""
     org_name  = System.get_env("COVERALLS_SERVICE_NAME") || ""
 
@@ -81,6 +81,29 @@ defmodule Mix.Tasks.CoverallsTest do
 
     System.put_env("COVERALLS_REPO_TOKEN", org_token)
     System.put_env("COVERALLS_SERVICE_NAME", org_name)
+  end
+
+  test_with_mock "post without env vars", Mix.Task, [run: fn(_, _) -> nil end] do
+    org_token = System.get_env("COVERALLS_REPO_TOKEN")
+    org_name  = System.get_env("COVERALLS_SERVICE_NAME")
+
+    System.delete_env("COVERALLS_REPO_TOKEN")
+    System.delete_env("COVERALLS_SERVICE_NAME")
+
+    args = ["-t", "token"]
+    Mix.Tasks.Coveralls.Post.run(args)
+    assert(called Mix.Task.run("test", ["--cover"]))
+    assert(ExCoveralls.ConfServer.get ==
+             [type: "post", endpoint: nil, token: "token",
+              service_name: "excoveralls", branch: "",
+              committer: "", sha: "", message: "[no commit message]", args: []])
+
+    if org_token != nil do
+      System.put_env("COVERALLS_REPO_TOKEN", org_token)
+    end
+    if org_name != nil do
+      System.put_env("COVERALLS_SERVICE_NAME", org_name)
+    end
   end
 
   test "extract service name by param" do
