@@ -110,25 +110,57 @@ defmodule Mix.Tasks.CoverallsTest do
     assert Mix.Tasks.Coveralls.Post.extract_service_name([name: "local_param"]) == "local_param"
   end
 
-  test_with_mock "extract service name by environment variable", System, [get_env: fn(_) -> "local_env" end] do
+  test "extract service name by environment variable" do
+    org_name = System.get_env("COVERALLS_SERVICE_NAME")
+    System.put_env("COVERALLS_SERVICE_NAME", "local_env")
+
     assert Mix.Tasks.Coveralls.Post.extract_service_name([]) == "local_env"
+
+    if org_name != nil do
+      System.put_env("COVERALLS_SERVICE_NAME", org_name)
+    else
+      System.delete_env("COVERALLS_SERVICE_NAME")
+    end
   end
 
-  test_with_mock "extract service name by default", System, [get_env: fn(_) -> nil end] do
+  test "extract service name by default" do
+    org_name = System.get_env("COVERALLS_SERVICE_NAME")
+    System.delete_env("COVERALLS_SERVICE_NAME")
+
     assert Mix.Tasks.Coveralls.Post.extract_service_name([]) == "excoveralls"
+
+    if org_name != nil do
+      System.put_env("COVERALLS_SERVICE_NAME", org_name)
+    end
   end
 
   test "extract token by param" do
     assert Mix.Tasks.Coveralls.Post.extract_token(token: "param_token") == "param_token"
   end
 
-  test_with_mock "extract token by environment variable", System, [get_env: fn(_) -> "token_env" end] do
+  test "extract token by environment variable" do
+    org_name = System.get_env("COVERALLS_REPO_TOKEN")
+    System.put_env("COVERALLS_REPO_TOKEN", "token_env")
+
     assert Mix.Tasks.Coveralls.Post.extract_token([]) == "token_env"
+
+    if org_name != nil do
+      System.put_env("COVERALLS_REPO_TOKEN", org_name)
+    else
+      System.delete_env("COVERALLS_REPO_TOKEN")
+    end
   end
 
-  test_with_mock "extract token by default raise error", System, [get_env: fn(_) -> nil end] do
+  test "extract token by default raise error" do
+    org_name = System.get_env("COVERALLS_REPO_TOKEN")
+    System.delete_env("COVERALLS_REPO_TOKEN")
+
     assert_raise ExCoveralls.InvalidOptionError, fn ->
       Mix.Tasks.Coveralls.Post.extract_token([])
+    end
+
+    if org_name != nil do
+      System.put_env("COVERALLS_REPO_TOKEN", org_name)
     end
   end
 end
