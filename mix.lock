@@ -2,6 +2,6 @@
   "hackney": {:hex, :hackney, "1.1.0"},
   "idna": {:hex, :idna, "1.0.2"},
   "jsx": {:hex, :jsx, "2.4.0"},
-  "meck": {:hex, :meck, "0.8.2"},
+  "meck": {:hex, :meck, "0.8.4"},
   "mock": {:git, "https://github.com/parroty/mock.git", "33d095a9b028f9f97f6d506ae6b2feb34630fdc5", [ref: "fix"]},
   "ssl_verify_hostname": {:hex, :ssl_verify_hostname, "1.0.4"}}
