@@ -1,3 +1,9 @@
+0.4.5
+------
+#### Changes
+* Fix `mix coveralls.post` task error when passing token argument (#38).
+  - Use `--token` option for specifying token.
+
 0.4.4
 ------
 #### Enhancements
