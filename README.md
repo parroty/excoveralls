@@ -43,6 +43,7 @@ end
 - [mix coveralls.circle](#mix-coverallscircle-post-coverage-from-circle)
 - [mix coveralls.post](#mix-coverallspost-post-coverage-from-localhost)
 - [mix coveralls.detail](#mix-coverallsdetail-show-coverage-with-detail)
+- [mix coveralls.html](#mix-coverallshtml-show-coverage-as-html-report)
 
 ### [mix coveralls] Show coverage
 Run the `MIX_ENV=test mix coveralls` command to show coverage information on localhost.
@@ -197,6 +198,20 @@ defmodule ExCoveralls do
 ...
 ```
 
+### [mix coveralls.html] Show coverage as HTML report
+This task displays coverage information at the source-code level formatted as an HTML page.
+The report follows the format inspired by HTMLCov from the Mocha testing library in JS.
+Output to the shell is the same as running the command `mix coveralls`. In a similar manner to `mix coveralls.detail`, reported source code can be filtered by specifying arguments using the `--filter` flag.
+
+```Shell
+$ MIX_ENV=test mix coveralls.html
+```
+![HTML Report](./README/html_report.jpg?raw=true "HTML Report")
+
+Output reports are written to `cover/excoveralls.html` by default, however, the path can be specified by overwriting the `"output_dir"` coverage option.
+Custom reports can be created and utilized by defining `template_path` in `coveralls.json`. This directory should
+contain an eex template named `coverage.html.eex`.
+
 ## coveralls.json
 `coveralls.json` provides a setting for excoveralls.
 
@@ -207,7 +222,11 @@ Stop words defined in `coveralls.json` will be excluded from the coverage calcul
 
 #### Coverage Options
 - treat_no_relevant_lines_as_covered
-   - By default, coverage for [files with no relevant lines] are displayed as 0% for aligning with coveralls.io behavior. But, if `treat_no_relevant_lines_as_covered` is set to `true`, it will be displayed as 100%.
+  - By default, coverage for [files with no relevant lines] are displayed as 0% for aligning with coveralls.io behavior. But, if `treat_no_relevant_lines_as_covered` is set to `true`, it will be displayed as 100%.
+- output_dir
+  - The directory which the HTML report will output to. Defaulted to `cover/`.
+- template_path
+  - A custom path for html reports. This defaults to the htmlcov report in the excoveralls lib.
 
 ```javascript
 {
@@ -222,7 +241,9 @@ Stop words defined in `coveralls.json` will be excluded from the coverage calcul
   ],
 
   "coverage_options": {
-    "treat_no_relevant_lines_as_covered": true
+    "treat_no_relevant_lines_as_covered": true,
+    "output_dir": "cover/",
+    "template_path": "custom/path/to/template/"
   }
 }
 ```

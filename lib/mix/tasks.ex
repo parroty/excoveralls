@@ -77,6 +77,24 @@ defmodule Mix.Tasks.Coveralls do
     end
   end
 
+  defmodule Html do
+    @moduledoc """
+    Provides an entry point for displaying coveralls information
+    with source code details as an HTML report.
+    """
+    use Mix.Task
+
+    @shortdoc "Display the test coverage with source detail as an HTML report"
+
+    def run(args) do
+      {parsed, _, _} = OptionParser.parse(args, aliases: [f: :filter])
+
+      Mix.Tasks.Coveralls.do_run(args,
+        [ type: "html",          
+          filter: parsed[:filter] || [] ])
+    end
+  end
+
   defmodule Travis do
     @moduledoc """
     Provides an entry point for travis's script.

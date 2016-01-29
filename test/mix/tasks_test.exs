@@ -52,6 +52,12 @@ defmodule Mix.Tasks.CoverallsTest do
     assert(ExCoveralls.ConfServer.get == [type: "local", detail: true, filter: [], args: []])
   end
 
+  test_with_mock "html", Mix.Task, [run: fn(_, _) -> nil end] do
+    Mix.Tasks.Coveralls.Html.run([])
+    assert(called Mix.Task.run("test", ["--cover"]))
+    assert(ExCoveralls.ConfServer.get == [type: "html", filter: [], args: []])
+  end
+
   test_with_mock "travis", Mix.Task, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Travis.run([])
     assert(called Mix.Task.run("test", ["--cover"]))
