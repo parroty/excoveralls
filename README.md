@@ -40,6 +40,7 @@ end
 ## Mix Tasks
 - [mix coveralls](#mix-coveralls-show-coverage)
 - [mix coveralls.travis](#mix-coverallstravis-post-coverage-from-travis)
+- [mix coveralls.circle](#mix-coverallscircle-post-coverage-from-circle)
 - [mix coveralls.post](#mix-coverallspost-post-coverage-from-localhost)
 - [mix coveralls.detail](#mix-coverallsdetail-show-coverage-with-detail)
 
@@ -99,9 +100,9 @@ Usage: mix coveralls.post <Options>
     -s (--sha)          Commit SHA (required when not using Travis)
 ```
 
-### [mix coveralls.travis] Post coverage to travis
+### [mix coveralls.travis] Post coverage from travis
 Specify `mix coveralls.travis` in the `.travis.yml`.
-This task is for submiting the result to the coveralls server when Travis-CI build is executed.
+This task is for submitting the result to the coveralls server when Travis-CI build is executed.
 
 #### .travis.yml
 ```
@@ -119,6 +120,20 @@ script:
 If you're using [Travis Pro](https://travis-ci.com/) for a private
 project, Use `coveralls.travis --pro` and ensure your coveralls.io
 repo token is available via the `COVERALLS_REPO_TOKEN` environment
+variable.
+
+### [mix coveralls.circle] Post coverage from circle
+Specify `mix coveralls.circle` in the `circle.yml`.
+This task is for submitting the result to the coveralls server when Circle-CI build is executed.
+
+#### circle.yml
+```
+test:
+  override:    
+    - mix coveralls.circle
+```
+
+Ensure your coveralls.io repo token is available via the `COVERALLS_REPO_TOKEN` environment
 variable.
 
 ### [mix coveralls.post] Post coverage from any host
