@@ -88,6 +88,17 @@ defmodule Mix.Tasks.Coveralls do
     end
   end
 
+  defmodule Circle do
+    @moduledoc """
+    Provides an entry point for CircleCI's script.
+    """
+    use Mix.Task
+
+    def run(args) do
+      Mix.Tasks.Coveralls.do_run(args, [type: "circle"])
+    end
+  end
+
   defmodule Post do
     @moduledoc """
     Provides an entry point for posting test coverage to

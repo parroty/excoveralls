@@ -9,6 +9,11 @@ defmodule ExCoverallsTest do
     assert called ExCoveralls.Travis.execute(@stats,[])
   end
 
+  test_with_mock "analyze circle", ExCoveralls.Circle, [execute: fn(_,_) -> nil end] do
+    ExCoveralls.analyze(@stats, "circle", [])
+    assert called ExCoveralls.Circle.execute(@stats,[])
+  end
+
   test_with_mock "analyze local", ExCoveralls.Local, [execute: fn(_,_) -> nil end] do
     ExCoveralls.analyze(@stats, "local", [])
     assert called ExCoveralls.Local.execute(@stats,[])

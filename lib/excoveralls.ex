@@ -8,10 +8,12 @@ defmodule ExCoveralls do
   alias ExCoveralls.ConfServer
   alias ExCoveralls.StatServer
   alias ExCoveralls.Travis
+  alias ExCoveralls.Circle
   alias ExCoveralls.Local
   alias ExCoveralls.Post
 
   @type_travis  "travis"
+  @type_circle  "circle"
   @type_local   "local"
   @type_post    "post"
 
@@ -47,6 +49,13 @@ defmodule ExCoveralls do
   """
   def analyze(stats, @type_travis, options) do
     Travis.execute(stats, options)
+  end
+
+  @doc """
+  Logic for posting from circle-ci server
+  """
+  def analyze(stats, @type_circle, options) do
+    Circle.execute(stats, options)
   end
 
   @doc """
