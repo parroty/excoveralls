@@ -1,3 +1,9 @@
+0.4.6
+------
+#### Enhancements
+* Add CircleCI integration (#39).
+  - Support `mix coveralls.circle` task.
+
 0.4.5
 ------
 #### Changes
