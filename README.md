@@ -101,20 +101,23 @@ Usage: mix coveralls.post <Options>
 ```
 
 ### [mix coveralls.travis] Post coverage from travis
-Specify `mix coveralls.travis` in the `.travis.yml`.
-This task is for submitting the result to the coveralls server when Travis-CI build is executed.
+Specify `mix coveralls.travis` as the build script in the `.travis.yml` and explicitly set the `MIX_ENV` environment to `TEST`.
+This task submits the result to Coveralls when the build is executed on Travis CI.
 
 #### .travis.yml
-```
-language: erlang
+```yml
+language: elixir
+
+elixir:
+  - 1.2.0
+
 otp_release:
-  - R16B
-before_install:
-  - git clone https://github.com/elixir-lang/elixir
-  - cd elixir && make && cd ..
-before_script: "export PATH=`pwd`/elixir/bin:$PATH"
-script:
-  - "MIX_ENV=test mix do deps.get, compile, coveralls.travis"
+  - 18.0
+
+env:
+  - MIX_ENV=test
+
+script: mix coveralls.travis
 ```
 
 If you're using [Travis Pro](https://travis-ci.com/) for a private
@@ -127,9 +130,9 @@ Specify `mix coveralls.circle` in the `circle.yml`.
 This task is for submitting the result to the coveralls server when Circle-CI build is executed.
 
 #### circle.yml
-```
+```yml
 test:
-  override:    
+  override:
     - mix coveralls.circle
 ```
 
