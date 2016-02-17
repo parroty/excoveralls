@@ -10,8 +10,12 @@ defmodule ExCoveralls.SubApps do
   end
 
   def parse(deps) do
-    Enum.map(deps, fn(dep) ->
-      {dep.app, dep.opts[:build]}
+    deps
+    |> Enum.map(&({&1.app, &1.opts[:build]}))
+    |> Enum.sort(fn ({_app1, build_path1}, {_app2, build_path2}) ->
+      # sort the longest paths first to avoid matching a path that contains another
+      # example "./apps/myapp_server" would contain path "./apps/myapp"
+      String.length(build_path1) > String.length(build_path2)
     end)
   end
 end
