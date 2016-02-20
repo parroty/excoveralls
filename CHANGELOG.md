@@ -1,3 +1,8 @@
+0.5.1
+------
+#### Changes
+* Fix umbrella source paths in report (#42).
+
 0.5.0
 ------
 #### Enhancements
