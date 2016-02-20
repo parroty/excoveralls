@@ -10,7 +10,7 @@ defmodule ExCoveralls.Mixfile do
       package: package,
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: cli_env_for(:test, [
-        "coveralls", "coveralls.detail", "coveralls.post",
+        "coveralls", "coveralls.detail", "coveralls.html", "coveralls.post",
       ])
     ]
   end
@@ -28,7 +28,7 @@ defmodule ExCoveralls.Mixfile do
   # { :foobar, "~> 0.1", git: "https://github.com/elixir-lang/foobar.git" }
   def deps do
     [
-      {:mock, github: "parroty/mock", ref: "fix", only: :test},
+      {:mock, "~> 0.1.1", only: :test},
       {:meck, "~> 0.8.4", only: :test},
       {:exjsx, "~> 3.0"},
       {:hackney, ">= 0.12.0"}

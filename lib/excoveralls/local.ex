@@ -15,10 +15,7 @@ defmodule ExCoveralls.Local do
   Provides an entry point for the module.
   """
   def execute(stats, options \\ []) do
-    IO.puts "----------------"
-    IO.puts print_string("~-6s ~-40s ~8s ~8s ~8s", ["COV", "FILE", "LINES", "RELEVANT", "MISSED"])
-    coverage(stats) |> IO.puts
-    IO.puts "----------------"
+    print_summary(stats)
 
     if options[:detail] == true do
       source(stats, options[:filter]) |> IO.puts
@@ -38,6 +35,16 @@ defmodule ExCoveralls.Local do
   def source(stats) do
     stats |> Enum.map(&format_source/1)
           |> Enum.join("\n")
+  end
+
+  @doc """
+  Prints summary statistics for given coverage.
+  """
+  def print_summary(stats) do
+    IO.puts "----------------"
+    IO.puts print_string("~-6s ~-40s ~8s ~8s ~8s", ["COV", "FILE", "LINES", "RELEVANT", "MISSED"])
+    coverage(stats) |> IO.puts
+    IO.puts "----------------"
   end
 
   defp format_source(stat) do

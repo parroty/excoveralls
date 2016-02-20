@@ -10,11 +10,13 @@ defmodule ExCoveralls do
   alias ExCoveralls.Travis
   alias ExCoveralls.Circle
   alias ExCoveralls.Local
+  alias ExCoveralls.Html
   alias ExCoveralls.Post
 
   @type_travis  "travis"
   @type_circle  "circle"
   @type_local   "local"
+  @type_html    "html"
   @type_post    "post"
 
   @doc """
@@ -63,6 +65,13 @@ defmodule ExCoveralls do
   """
   def analyze(stats, @type_local, options) do
     Local.execute(stats, options)
+  end
+
+  @doc """
+  Logic for html stats display, without posting server
+  """
+  def analyze(stats, @type_html, options) do
+    Html.execute(stats, options)
   end
 
   @doc """

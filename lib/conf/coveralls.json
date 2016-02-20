@@ -14,6 +14,7 @@
   ],
 
   "coverage_options": {
-    "treat_no_relevant_lines_as_covered": false
+    "treat_no_relevant_lines_as_covered": false,
+    "output_dir": "cover/"    
   }
 }
