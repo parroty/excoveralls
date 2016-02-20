@@ -1,3 +1,9 @@
+0.5.0
+------
+#### Enhancements
+* Add HTMLCov style reports (#40).
+  - Support `mix coveralls.html` task.
+
 0.4.6
 ------
 #### Enhancements

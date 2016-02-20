@@ -20,6 +20,9 @@ Usage: mix coveralls.detail [--filter file-name-pattern]
   Used to display coverage with detail
   [--filter file-name-pattern] can be used to limit the files to be displayed in detail.
 
+Usage: mix coveralls.html
+  Used to display coverage information at the source-code level formatted as an HTML page.
+
 Usage: mix coveralls.travis [--pro]
   Used to post coverage from Travis CI server.
 
