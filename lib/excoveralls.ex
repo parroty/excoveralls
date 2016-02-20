@@ -42,7 +42,7 @@ defmodule ExCoveralls do
   defp store_stats(stats, options, compile_path) do
     {sub_app_name, _sub_app_path} =
       ExCoveralls.SubApps.find(options[:sub_apps], compile_path)
-    stats = Stats.append_sub_app_name(stats, sub_app_name)
+    stats = Stats.append_sub_app_name(stats, sub_app_name, options[:apps_path])
     Enum.each(stats, fn(stat) -> StatServer.add(stat) end)
   end
 

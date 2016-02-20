@@ -42,7 +42,7 @@ defmodule Mix.Tasks.CoverallsTest do
       Mix.Tasks.Coveralls.run(["--umbrella"])
       assert(called Mix.Task.run("test", ["--cover"]))
       assert(ExCoveralls.ConfServer.get ==
-        [type: "local", umbrella: true, sub_apps: [], args: []])
+        [type: "local", umbrella: true, sub_apps: [], apps_path: nil, args: []])
     end)
   end
 

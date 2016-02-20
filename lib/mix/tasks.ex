@@ -33,7 +33,7 @@ defmodule Mix.Tasks.Coveralls do
 
     if options[:umbrella] do
       sub_apps = ExCoveralls.SubApps.parse(Mix.Dep.Umbrella.loaded)
-      options = options ++ [sub_apps: sub_apps]
+      options = options ++ [sub_apps: sub_apps, apps_path: Mix.Project.config[:apps_path]]
     end
 
     ExCoveralls.ConfServer.start

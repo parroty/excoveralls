@@ -20,8 +20,8 @@ defmodule ExCoveralls.SubAppsTest do
   ]
 
   @parsed_subapps [
-      subapp0: "/Users/dummy/excoveralls/_build/dev/lib/subapp0",
-      subapp1: "/Users/dummy/excoveralls/_build/dev/lib/subapp1"
+      subapp1: "/Users/dummy/excoveralls/_build/dev/lib/subapp1",
+      subapp0: "/Users/dummy/excoveralls/_build/dev/lib/subapp0"
   ]
 
   test "parse returns sub apps" do
