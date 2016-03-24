@@ -16,7 +16,7 @@ defmodule ExCoveralls.Cover do
   Returns the relative file path of the specified module.
   """
   def module_path(module) do
-    module.__info__(:compile)[:source]
+    module.module_info(:compile)[:source]
     |> List.to_string
     |> Path.relative_to(ExCoveralls.PathReader.base_path)
   end
@@ -28,7 +28,7 @@ defmodule ExCoveralls.Cover do
 
   defp has_compile_info?(module) do
     try do
-      module.__info__(:compile) != nil
+      module.module_info(:compile) != nil
     rescue
       _e in UndefinedFunctionError ->
         IO.puts :stderr, "[warning] skipping the module '#{module}' because source information for the module is not available."
