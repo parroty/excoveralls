@@ -227,6 +227,8 @@ Stop words defined in `coveralls.json` will be excluded from the coverage calcul
   - The directory which the HTML report will output to. Defaulted to `cover/`.
 - template_path
   - A custom path for html reports. This defaults to the htmlcov report in the excoveralls lib.
+- minimum_coverage
+  - When set to a number greater than 0, this setting causes the `mix coveralls` and `mix coveralls.html` tasks to exit with a status code of 1 when test coverage falls below the specified threshold (defaults to 0). This is useful to interrupt CI pipelines with strict code coverage rules.
 
 ```javascript
 {
