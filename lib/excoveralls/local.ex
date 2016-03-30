@@ -1,5 +1,4 @@
 defmodule ExCoveralls.Local do
-  require IEx
   @moduledoc """
   Locally displays the result to screen.
   """
