@@ -2,7 +2,8 @@ defmodule ExCoveralls.Stats do
   @moduledoc """
   Provide calculation logics of coverage stats.
   """
-  alias ExCoveralls.{Cover, Settings}
+  alias ExCoveralls.Cover
+  alias ExCoveralls.Settings
 
   defmodule Source do
     @moduledoc """
