@@ -201,4 +201,21 @@ defmodule ExCoveralls.Stats do
     %Line{coverage: Enum.at(coverage, i) , source: line}
   end
 
+  @doc """
+  Exit the process with a status of 1 if coverage is below the minimum.
+  """
+  def ensure_minimum_coverage(stats) do
+    coverage_options = ExCoveralls.Settings.get_coverage_options
+    minimum_coverage = coverage_options["minimum_coverage"] || 0
+    if minimum_coverage > 0, do: check_coverage_threshold(stats, minimum_coverage)
+  end
+
+  defp check_coverage_threshold(stats, minimum_coverage) do
+    result = source(stats)
+    if result.coverage < minimum_coverage do
+      IO.puts "FAILED: Expected minimum coverage of #{minimum_coverage}%, got #{result.coverage}%."
+      exit({:shutdown, 1})
+    end
+  end
+
 end

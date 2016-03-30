@@ -22,17 +22,7 @@ defmodule ExCoveralls.Local do
       source(stats, options[:filter]) |> IO.puts
     end
 
-    coverage_options = ExCoveralls.Settings.get_coverage_options
-    minimum_coverage = coverage_options["minimum_coverage"] || 0
-    if minimum_coverage > 0, do: ensure_minimum_coverage(stats, minimum_coverage)
-  end
-
-  defp ensure_minimum_coverage(stats, minimum_coverage) do
-    result = ExCoveralls.Stats.source(stats)
-    if result.coverage < minimum_coverage do
-      IO.puts "FAILED: Expected minimum coverage of #{minimum_coverage}%, got #{result.coverage}%."
-      exit({:shutdown, 1})
-    end
+    ExCoveralls.Stats.ensure_minimum_coverage(stats)
   end
 
   @doc """

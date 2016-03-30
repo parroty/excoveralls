@@ -15,6 +15,8 @@ defmodule ExCoveralls.Html do
     ExCoveralls.Local.print_summary(stats)
 
     Stats.source(stats, options[:filter]) |> generate_report
+
+    Stats.ensure_minimum_coverage(stats)
   end
 
   defp generate_report(map) do
