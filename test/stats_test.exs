@@ -21,6 +21,44 @@ defmodule ExCoveralls.StatsTest do
   @fixture_default Path.dirname(__ENV__.file) <> "/fixtures/default.json"
   @fixture_custom  Path.dirname(__ENV__.file) <> "/fixtures/skip_files.json"
 
+  @invalid_counts [0, 1, nil, "invalid"]
+  @invalid_source_info [[name: "test/fixtures/test.ex",
+                 source: @content,
+                 coverage: @invalid_counts
+               ]]
+
+  @empty_counts [nil, nil, nil, nil]
+  @empty_source_info [[name: "test/fixtures/test.ex",
+                 source: @content,
+                 coverage: @empty_counts
+               ]]
+
+  @source_result %{
+    coverage: 50,
+    files: [
+      %ExCoveralls.Stats.Source{
+        coverage: 50,
+        filename: "test/fixtures/test.ex",
+        hits: 1,
+        misses: 1,
+        sloc: 2,
+        source: [
+          %ExCoveralls.Stats.Line{coverage: 0, source: "defmodule Test do"},
+          %ExCoveralls.Stats.Line{coverage: 1, source: "  def test do"},
+          %ExCoveralls.Stats.Line{coverage: nil, source: "  end"},
+          %ExCoveralls.Stats.Line{coverage: nil, source: "end"}]}],
+    hits: 1,
+    misses: 1,
+    sloc: 2}
+
+  @fractional_counts [0, 1, 1, nil, nil]
+  @fractional_source "defmodule Test do\n  def test do\n  foo = true\nend\nend"
+
+  @fractional_source_info [[name: "test/fixtures/test.ex",
+                     source: @trimmed,
+                     coverage: @fractional_counts
+                   ]]
+
   test_with_mock "calculate stats", Cover, [analyze: fn(_) -> {:ok, @stats} end, module_path: fn(_) -> @source end] do
     assert(Stats.calculate_stats([Stats]) == @module_hash)
   end
@@ -60,4 +98,44 @@ defmodule ExCoveralls.StatsTest do
                     custom_file:  fn -> @fixture_custom end] do
     assert Stats.skip_files(@source_info) == []
   end
+
+  test "display source information" do
+    assert(Stats.source(@source_info) == @source_result)
+  end
+
+  test "display source information with nil filter" do
+    assert(Stats.source(@source_info, nil) == @source_result)
+  end
+
+  test "display source information with empty filter" do
+    assert(Stats.source(@source_info, []) == @source_result)
+  end
+
+  test "display source information with pattern filter" do
+    assert(Stats.source(@source_info, ["test.ex"]) == @source_result)
+  end
+
+  test "display stats information fails with invalid data" do
+    assert_raise ArithmeticError, fn ->
+      Stats.source(@invalid_source_info)
+    end
+  end
+
+  test "Empty (no relevant lines) file is calculated as 0.0%" do
+    results = Stats.source(@empty_source_info)
+    assert(results.coverage == 0)
+  end
+
+  test_with_mock "Empty (no relevant lines) file with treat_no_relevant_lines_as_covered option is calculated as 100.0%",
+    ExCoveralls.Settings, [default_coverage_value: fn -> 100 end] do
+
+    results = Stats.source(@empty_source_info)
+    assert(results.coverage == 100)
+  end
+
+  test "coverage stats are rounded to one decimal place" do
+    results = Stats.source(@fractional_source_info)
+    assert(results.coverage == 66.7)
+  end
+
 end
