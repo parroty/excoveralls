@@ -78,4 +78,13 @@ defmodule ExCoveralls.LocalTest do
 
     assert String.ends_with?(Local.coverage(@empty_source_info), "[TOTAL] 100.0%")
   end
+
+  test_with_mock "Exit status code is 1 when actual coverage does not reach the minimum",
+    ExCoveralls.Settings, [get_coverage_options: fn -> %{"minimum_coverage" => 100} end] do
+    output = capture_io(fn ->
+      assert catch_exit(Local.execute(@source_info)) == {:shutdown, 1}
+    end)
+    assert String.ends_with?(output, "FAILED: Expected minimum coverage of 100%, got 50.0%.\n")
+  end
+
 end

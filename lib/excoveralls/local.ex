@@ -1,4 +1,5 @@
 defmodule ExCoveralls.Local do
+  require IEx
   @moduledoc """
   Locally displays the result to screen.
   """
@@ -19,6 +20,22 @@ defmodule ExCoveralls.Local do
 
     if options[:detail] == true do
       source(stats, options[:filter]) |> IO.puts
+    end
+
+    ensure_minimum_coverage(stats)
+  end
+
+  defp ensure_minimum_coverage(stats) do
+    coverage_options = ExCoveralls.Settings.get_coverage_options
+    minimum_coverage = coverage_options["minimum_coverage"] || 0
+    if minimum_coverage > 0 do
+      info = Enum.map(stats, fn(stat) -> [stat, calculate_count(stat[:coverage])] end)
+      totals   = Enum.reduce(info, %Count{}, fn([_, count], acc) -> append(count, acc) end)
+      actual_coverage = get_coverage(totals)
+      if actual_coverage < minimum_coverage do
+        IO.puts "FAILED: Expected minimum coverage of #{minimum_coverage}%, got #{actual_coverage}%."
+        exit({:shutdown, 1})
+      end
     end
   end
 

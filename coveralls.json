@@ -6,6 +6,7 @@
   "coverage_options": {
     "treat_no_relevant_lines_as_covered": false,
     "output_dir": "cover/",
-    "template_path": "lib/templates/html/htmlcov/"    
+    "template_path": "lib/templates/html/htmlcov/",
+    "minimum_coverage": 0
   }
 }
