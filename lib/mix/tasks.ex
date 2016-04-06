@@ -31,10 +31,14 @@ defmodule Mix.Tasks.Coveralls do
 
     Mix.env(:test)
 
-    if options[:umbrella] do
-      sub_apps = ExCoveralls.SubApps.parse(Mix.Dep.Umbrella.loaded)
-      options = options ++ [sub_apps: sub_apps, apps_path: Mix.Project.config[:apps_path]]
-    end
+
+    options =
+      if options[:umbrella] do
+        sub_apps = ExCoveralls.SubApps.parse(Mix.Dep.Umbrella.loaded)
+        options ++ [sub_apps: sub_apps, apps_path: Mix.Project.config[:apps_path]]
+      else
+        options
+      end
 
     ExCoveralls.ConfServer.start
     ExCoveralls.ConfServer.set(options ++ [args: args])
@@ -90,7 +94,7 @@ defmodule Mix.Tasks.Coveralls do
       {parsed, _, _} = OptionParser.parse(args, aliases: [f: :filter])
 
       Mix.Tasks.Coveralls.do_run(args,
-        [ type: "html",          
+        [ type: "html",
           filter: parsed[:filter] || [] ])
     end
   end
