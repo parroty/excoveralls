@@ -1,3 +1,8 @@
+0.5.2
+------
+#### Enhancements
+* Add support for minimum coverage (#45).
+
 0.5.1
 ------
 #### Changes
