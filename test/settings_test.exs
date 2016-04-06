@@ -6,6 +6,8 @@ defmodule Excoveralls.SettingsTest do
   @fixture_default Path.dirname(__ENV__.file) <> "/fixtures/default.json"
   @fixture_custom  Path.dirname(__ENV__.file) <> "/fixtures/custom.json"
   @fixture_invalid Path.dirname(__ENV__.file) <> "/fixtures/invalid.json"
+  @fixture_not_covered Path.dirname(__ENV__.file) <> "/fixtures/no_relevant_lines_not_covered.json"
+  @fixture_covered Path.dirname(__ENV__.file) <> "/fixtures/no_relevant_lines_are_covered.json"
 
   test "returns default file path" do
     assert(Settings.Files.default_file
@@ -60,4 +62,21 @@ defmodule Excoveralls.SettingsTest do
       Settings.read_config("default_stop_words")
     end
   end
+
+  test_with_mock "default coverage value returns 100 when treating irrelevant lines as covered",
+    Settings.Files, [
+      default_file: fn -> @fixture_default end,
+      custom_file:  fn -> @fixture_covered end
+    ] do
+    assert Settings.default_coverage_value == 100
+  end
+
+  test_with_mock "default coverage value returns 0 when treating irrelevant lines as not covered",
+    Settings.Files, [
+      default_file: fn -> @fixture_default end,
+      custom_file:  fn -> @fixture_not_covered end
+    ] do
+    assert Settings.default_coverage_value == 0
+  end
+
 end

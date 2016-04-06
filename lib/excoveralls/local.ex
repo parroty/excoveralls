@@ -20,6 +20,8 @@ defmodule ExCoveralls.Local do
     if options[:detail] == true do
       source(stats, options[:filter]) |> IO.puts
     end
+
+    ExCoveralls.Stats.ensure_minimum_coverage(stats)
   end
 
   @doc """

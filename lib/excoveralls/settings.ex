@@ -25,6 +25,17 @@ defmodule ExCoveralls.Settings do
     read_config("coverage_options") |> Enum.into(HashDict.new)
   end
 
+  @doc """
+  Get default coverage value for lines marked as not relevant.
+  """
+  def default_coverage_value do
+    case Dict.fetch(get_coverage_options, "treat_no_relevant_lines_as_covered") do
+      {:ok, true} -> 100.0
+      _           -> 0.0
+    end
+  end
+
+
   defp read_config_file(file_name) do
     if File.exists?(file_name) do
       case File.read!(file_name) |> JSX.decode do

@@ -39,18 +39,18 @@ defmodule ExCoveralls.HtmlTest do
   @empty_result %{
     coverage: 0,
     files: [
-      %ExCoveralls.Html.Source{
+      %ExCoveralls.Stats.Source{
         coverage: 0,
         filename: "test/fixtures/test.ex",
         hits: 0,
         misses: 0,
         sloc: 0,
         source: [
-          %ExCoveralls.Html.Line{coverage: nil, source: "defmodule Test do"},
-          %ExCoveralls.Html.Line{coverage: nil, source: "  def test do"},
-          %ExCoveralls.Html.Line{coverage: nil, source: "  end"},
-          %ExCoveralls.Html.Line{coverage: nil, source: "end"},
-          %ExCoveralls.Html.Line{coverage: nil, source: ""}]}],
+          %ExCoveralls.Stats.Line{coverage: nil, source: "defmodule Test do"},
+          %ExCoveralls.Stats.Line{coverage: nil, source: "  def test do"},
+          %ExCoveralls.Stats.Line{coverage: nil, source: "  end"},
+          %ExCoveralls.Stats.Line{coverage: nil, source: "end"},
+          %ExCoveralls.Stats.Line{coverage: nil, source: ""}]}],
     hits: 0,
     misses: 0,
     sloc: 0}
@@ -58,37 +58,21 @@ defmodule ExCoveralls.HtmlTest do
   @source_result %{
     coverage: 50,
     files: [
-      %ExCoveralls.Html.Source{
+      %ExCoveralls.Stats.Source{
         coverage: 50,
         filename: "test/fixtures/test.ex",
         hits: 1,
         misses: 1,
         sloc: 2,
         source: [
-          %ExCoveralls.Html.Line{coverage: 0, source: "defmodule Test do"},
-          %ExCoveralls.Html.Line{coverage: 1, source: "  def test do"},
-          %ExCoveralls.Html.Line{coverage: nil, source: "  end"},
-          %ExCoveralls.Html.Line{coverage: nil, source: "end"},
-          %ExCoveralls.Html.Line{coverage: nil, source: ""}]}],
+          %ExCoveralls.Stats.Line{coverage: 0, source: "defmodule Test do"},
+          %ExCoveralls.Stats.Line{coverage: 1, source: "  def test do"},
+          %ExCoveralls.Stats.Line{coverage: nil, source: "  end"},
+          %ExCoveralls.Stats.Line{coverage: nil, source: "end"},
+          %ExCoveralls.Stats.Line{coverage: nil, source: ""}]}],
     hits: 1,
     misses: 1,
     sloc: 2}
-
-  test "display source information" do
-    assert(Html.source(@source_info) == @source_result)
-  end
-
-  test "display source information with nil filter" do
-    assert(Html.source(@source_info, nil) == @source_result)
-  end
-
-  test "display source information with empty filter" do
-    assert(Html.source(@source_info, []) == @source_result)
-  end
-
-  test "display source information with pattern filter" do
-    assert(Html.source(@source_info, ["test.ex"]) == @source_result)
-  end
 
   setup do
     path = Path.expand(@file_name, @test_output_dir)
@@ -118,21 +102,27 @@ defmodule ExCoveralls.HtmlTest do
     assert(size == @file_size)
   end
 
-  test "display stats information fails with invalid data" do
-    assert_raise ArithmeticError, fn ->
-      Html.source(@invalid_source_info)
-    end
+  test_with_mock "Exit status code is 1 when actual coverage does not reach the minimum",
+    ExCoveralls.Settings, [get_coverage_options: fn -> coverage_options(100) end] do
+    output = capture_io(fn ->
+      assert catch_exit(Html.execute(@source_info)) == {:shutdown, 1}
+    end)
+    assert String.ends_with?(output, "\e[31m\e[1mFAILED: Expected minimum coverage of 100%, got 50%.\e[0m\n")
   end
 
-  test "Empty (no relevant lines) file is calculated as 0.0%" do
-    results = Html.source(@empty_source_info)
-    assert(results.coverage == 0)
+  test_with_mock "Exit status code is 0 when actual coverage reaches the minimum",
+    ExCoveralls.Settings, [get_coverage_options: fn -> coverage_options(49.9) end] do
+    assert capture_io(fn ->
+      Html.execute(@source_info)
+    end) =~ @stats_result
   end
 
-  test_with_mock "Empty (no relevant lines) file with treat_no_relevant_lines_as_covered option is calculated as 100.0%",
-    ExCoveralls.Settings, [get_coverage_options: fn -> %{"treat_no_relevant_lines_as_covered" => true} end] do
-
-    results = Html.source(@empty_source_info)
-    assert(results.coverage == 100)
+  defp coverage_options(minimum_coverage) do
+    %{
+      "minimum_coverage" => minimum_coverage,
+      "output_dir" => @test_output_dir,
+      "template_path" => @test_template_path
+    }
   end
+
 end

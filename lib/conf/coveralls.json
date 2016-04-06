@@ -15,6 +15,7 @@
 
   "coverage_options": {
     "treat_no_relevant_lines_as_covered": false,
-    "output_dir": "cover/"    
+    "output_dir": "cover/",
+    "minimum_coverage": 0
   }
 }
