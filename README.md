@@ -220,6 +220,19 @@ The default `coveralls.json` file is stored in `deps/excoveralls/lib/conf`, and 
 #### Stop Words
 Stop words defined in `coveralls.json` will be excluded from the coverage calculation. Some kernal macros defined in Elixir are not considered "covered" by Erlang's cover library. It can be used for excluding these macros, or for any other reasons. The words are parsed as regular expression.
 
+#### Exclude Files
+
+If you want to exclude files from the coverage calculation add the `skip_files` key in the `coveralls.json` file. `skip_files` takes an array of file paths, for example:
+
+```javascript
+{
+  "skip_files": [
+    "folder_to_skip",
+    "folder/file_to_skip.ex"
+  ]
+}
+```
+
 #### Coverage Options
 - treat_no_relevant_lines_as_covered
   - By default, coverage for [files with no relevant lines] are displayed as 0% for aligning with coveralls.io behavior. But, if `treat_no_relevant_lines_as_covered` is set to `true`, it will be displayed as 100%.
