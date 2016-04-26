@@ -52,8 +52,10 @@ defmodule Mix.Tasks.Coveralls do
   end
 
   defp parse_common_options(args, options) do
-    {common_options, args, _} = OptionParser.parse(args, aliases: [u: :umbrella, v: :verbose])
-    {args, options ++ common_options}
+    {common_options, _remaining, unknown_args} = OptionParser.parse(args,
+      strict: [umbrella: :boolean, verbose: :boolean, pro: :boolean, parallel: :boolean],
+      aliases: [u: :umbrella, v: :verbose])
+    {unknown_args |> Enum.map(fn({k, _}) -> k end), options ++ common_options}
   end
 
   defp analyze_sub_apps(options) do
