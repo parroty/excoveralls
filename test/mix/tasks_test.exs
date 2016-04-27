@@ -46,6 +46,16 @@ defmodule Mix.Tasks.CoverallsTest do
     end)
   end
 
+  test_with_mock "--no-start propagates to mix task", Mix.Task, [run: fn(_, _) -> nil end] do
+    Mix.Tasks.Coveralls.run(["--no-start"])
+    assert(called Mix.Task.run("test", ["--cover", "--no-start"]))
+  end
+
+  test_with_mock "--unknown_arg withvalue", Mix.Task, [run: fn(_, _) -> nil end] do
+    Mix.Tasks.Coveralls.run(["--unknown_arg withvalue", "--second"])
+    assert(called Mix.Task.run("test", ["--cover", "--unknown_arg withvalue", "--second"]))
+  end
+
   test_with_mock "detail", Mix.Task, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Detail.run([])
     assert(called Mix.Task.run("test", ["--cover"]))
