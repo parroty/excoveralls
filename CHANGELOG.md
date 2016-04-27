@@ -1,3 +1,8 @@
+0.5.3
+------
+#### Changes
+* Make sure additional args can be passed to mix (#50).
+
 0.5.2
 ------
 #### Enhancements
