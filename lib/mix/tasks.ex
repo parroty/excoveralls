@@ -123,6 +123,17 @@ defmodule Mix.Tasks.Coveralls do
     end
   end
 
+  defmodule Semaphore do
+    @moduledoc """
+    Provides an entry point for SemaphoreCI's script.
+    """
+    use Mix.Task
+
+    def run(args) do
+      Mix.Tasks.Coveralls.do_run(args, [type: "semaphore"])
+    end
+  end
+
   defmodule Post do
     @moduledoc """
     Provides an entry point for posting test coverage to
