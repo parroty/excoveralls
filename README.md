@@ -41,6 +41,7 @@ end
 - [mix coveralls](#mix-coveralls-show-coverage)
 - [mix coveralls.travis](#mix-coverallstravis-post-coverage-from-travis)
 - [mix coveralls.circle](#mix-coverallscircle-post-coverage-from-circle)
+- [mix coveralls.semaphore](#mix-coverallssemaphore-post-coverage-from-semaphore)
 - [mix coveralls.post](#mix-coverallspost-post-coverage-from-localhost)
 - [mix coveralls.detail](#mix-coverallsdetail-show-coverage-with-detail)
 - [mix coveralls.html](#mix-coverallshtml-show-coverage-as-html-report)
@@ -135,6 +136,18 @@ This task is for submitting the result to the coveralls server when Circle-CI bu
 test:
   override:
     - mix coveralls.circle
+```
+
+Ensure your coveralls.io repo token is available via the `COVERALLS_REPO_TOKEN` environment
+variable.
+
+### [mix coveralls.semaphore] Post coverage from semaphore
+Specify `mix coveralls.semaphore` in the build command prompt for instructions in semaphore.
+This task is for submitting the result to the coveralls server when Semaphore-CI build is executed.
+
+#### semaphore build instructions
+```
+mix coveralls.semaphore
 ```
 
 Ensure your coveralls.io repo token is available via the `COVERALLS_REPO_TOKEN` environment
