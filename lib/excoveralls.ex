@@ -9,15 +9,17 @@ defmodule ExCoveralls do
   alias ExCoveralls.StatServer
   alias ExCoveralls.Travis
   alias ExCoveralls.Circle
+  alias ExCoveralls.Semaphore
   alias ExCoveralls.Local
   alias ExCoveralls.Html
   alias ExCoveralls.Post
 
-  @type_travis  "travis"
-  @type_circle  "circle"
-  @type_local   "local"
-  @type_html    "html"
-  @type_post    "post"
+  @type_travis      "travis"
+  @type_circle      "circle"
+  @type_semaphore   "semaphore"
+  @type_local       "local"
+  @type_html        "html"
+  @type_post        "post"
 
   @doc """
   This method will be called from mix to trigger coverage analysis.
@@ -58,6 +60,13 @@ defmodule ExCoveralls do
   """
   def analyze(stats, @type_circle, options) do
     Circle.execute(stats, options)
+  end
+
+  @doc """
+  Logic for posting from semaphore-ci server
+  """
+  def analyze(stats, @type_semaphore, options) do
+    Semaphore.execute(stats, options)
   end
 
   @doc """
