@@ -1,3 +1,8 @@
+0.5.4
+------
+#### Enhancements
+* Add Support to SemaphoreCI (#54).
+
 0.5.3
 ------
 #### Changes
