@@ -5,10 +5,10 @@ An elixir library that reports test coverage statistics, with the option to post
 It uses Erlang's [cover](http://www.erlang.org/doc/man/cover.html) to generate coverage information, and posts the test coverage results to coveralls.io through the json API.
 
 The followings are example projects.
-  - [coverage_sample](https://github.com/parroty/coverage_sample) is a basic example project for Travis CI.
-  - [circle_sample](https://github.com/parroty/circle_sample) is a basic example project for CircleCI.
-  - [semaphore_sample](https://github.com/parroty/semaphore_sample) is a basic example project for Semaphore CI.
-  - [excoveralls_umbrella](https://github.com/parroty/excoveralls_umbrella) is an example for umbrella project.
+  - [coverage_sample](https://github.com/parroty/coverage_sample) is for Travis CI.
+  - [circle_sample](https://github.com/parroty/circle_sample) is for CircleCI .
+  - [semaphore_sample](https://github.com/parroty/semaphore_sample) is for Semaphore CI.
+  - [excoveralls_umbrella](https://github.com/parroty/excoveralls_umbrella) is for umbrella project.
 
 # Settings
 ### mix.exs
