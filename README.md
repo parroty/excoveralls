@@ -4,9 +4,11 @@ ExCoveralls [![Build Status](https://secure.travis-ci.org/parroty/excoveralls.pn
 An elixir library that reports test coverage statistics, with the option to post to [coveralls.io](https://coveralls.io/) service.
 It uses Erlang's [cover](http://www.erlang.org/doc/man/cover.html) to generate coverage information, and posts the test coverage results to coveralls.io through the json API.
 
-Currently, it's under trial for travis-ci integration.
-  - [coverage_sample](https://github.com/parroty/coverage_sample) is a basic example project.
-  - [excoveralls_umbrella](https://github.com/parroty/excoveralls_umbrella) is an example on umbrella project.
+The followings are example projects.
+  - [coverage_sample](https://github.com/parroty/coverage_sample) is a basic example project for Travis CI.
+  - [circle_sample](https://github.com/parroty/circle_sample) is a basic example project for CircleCI.
+  - [semaphore_sample](https://github.com/parroty/semaphore_sample) is a basic example project for Semaphore CI.
+  - [excoveralls_umbrella](https://github.com/parroty/excoveralls_umbrella) is an example for umbrella project.
 
 # Settings
 ### mix.exs
