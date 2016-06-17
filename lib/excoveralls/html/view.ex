@@ -9,7 +9,7 @@ defmodule ExCoveralls.Html.View do
 
   defmodule PathHelper do
     def template_path(template) do
-      template |> Path.expand(get_template_path)
+      template |> Path.expand(get_template_path())
     end
 
     defp get_template_path() do

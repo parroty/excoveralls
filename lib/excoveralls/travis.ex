@@ -15,15 +15,15 @@ defmodule ExCoveralls.Travis do
   def generate_json(stats, options \\ %{})
   def generate_json(stats, %{ pro: true }) do
     JSX.encode!([
-      service_job_id: get_job_id,
+      service_job_id: get_job_id(),
       service_name: "travis-pro",
-      repo_token: get_repo_token,
+      repo_token: get_repo_token(),
       source_files: stats
     ])
   end
   def generate_json(stats, _options) do
     JSX.encode!([
-      service_job_id: get_job_id,
+      service_job_id: get_job_id(),
       service_name: "travis-ci",
       source_files: stats
     ])

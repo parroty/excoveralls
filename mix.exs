@@ -5,9 +5,9 @@ defmodule ExCoveralls.Mixfile do
     [ app: :excoveralls,
       version: "0.5.5",
       elixir: "~> 1.0",
-      deps: deps,
-      description: description,
-      package: package,
+      deps: deps(),
+      description: description(),
+      package: package(),
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: cli_env_for(:test, [
         "coveralls", "coveralls.detail", "coveralls.html", "coveralls.post",

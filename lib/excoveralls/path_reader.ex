@@ -15,6 +15,6 @@ defmodule ExCoveralls.PathReader do
   Expand path relative to the Mix.Project base path.
   """
   def expand_path(path) do
-    Path.expand(path, base_path)
+    Path.expand(path, base_path())
   end
 end

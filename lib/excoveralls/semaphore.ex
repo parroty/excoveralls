@@ -15,23 +15,23 @@ defmodule ExCoveralls.Semaphore do
   def generate_json(stats, options \\ %{})
   def generate_json(stats, options) do
     JSX.encode!([
-      repo_token: get_repo_token,
+      repo_token: get_repo_token(),
       service_name: "semaphore",
-      service_number: get_build_num,
-      service_job_id: get_build_num,
-      service_pull_request: get_pull_request,
+      service_number: get_build_num(),
+      service_job_id: get_build_num(),
+      service_pull_request: get_pull_request(),
       source_files: stats,
-      git: generate_git_info,
+      git: generate_git_info(),
       parallel: options[:parallel]
     ])
   end
 
   defp generate_git_info do
     [head: [
-       message: get_message!,
-       id: get_sha
+       message: get_message!(),
+       id: get_sha()
       ],
-      branch: get_branch
+      branch: get_branch()
     ]
   end
 
