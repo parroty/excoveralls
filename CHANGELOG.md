@@ -1,3 +1,8 @@
+0.5.5
+------
+#### Changes
+* Fix Elixir 1.4 warnings (#56).
+
 0.5.4
 ------
 #### Enhancements
