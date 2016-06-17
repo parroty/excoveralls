@@ -33,7 +33,7 @@ defmodule ExCoveralls.Html do
   end
 
   defp write_file(content) do
-    file_path = output_dir
+    file_path = output_dir()
     unless File.exists?(file_path) do
       File.mkdir!(file_path)
     end
