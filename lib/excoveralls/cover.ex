@@ -9,7 +9,7 @@ defmodule ExCoveralls.Cover do
   def compile(compile_path) do
     :cover.stop
     :cover.start
-    :cover.compile_beam_directory(compile_path |> to_char_list)
+    :cover.compile_beam_directory(compile_path |> String.to_char_list)
   end
 
   @doc """

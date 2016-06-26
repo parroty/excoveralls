@@ -103,7 +103,7 @@ defmodule ExCoveralls.Stats do
   end
 
   defp count_lines(string) do
-    1 + Enum.count(to_char_list(string), fn(x) -> x == ?\n end)
+    1 + Enum.count(String.to_char_list(string), fn(x) -> x == ?\n end)
   end
 
   @doc """
