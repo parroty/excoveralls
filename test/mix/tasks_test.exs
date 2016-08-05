@@ -4,6 +4,7 @@ defmodule Mix.Tasks.CoverallsTest do
   use ExUnit.Case, async: false
   import Mock
   import ExUnit.CaptureIO
+  alias Mix.Tasks.Coveralls.Runner
 
   # backup and restore the original config
   setup_all do
@@ -25,9 +26,9 @@ defmodule Mix.Tasks.CoverallsTest do
     :ok
   end
 
-  test_with_mock "local", Mix.Task, [run: fn(_, _) -> nil end] do
+  test_with_mock "local", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.run([])
-    assert(called Mix.Task.run("test", ["--cover"]))
+    assert(called Runner.run("test", ["--cover"]))
     assert(ExCoveralls.ConfServer.get == [type: "local", args: []])
   end
 
@@ -37,68 +38,68 @@ defmodule Mix.Tasks.CoverallsTest do
     end) != ""
   end
 
-  test_with_mock "local with umbrella option", Mix.Task, [run: fn(_, _) -> nil end] do
+  test_with_mock "local with umbrella option", Runner, [run: fn(_, _) -> nil end] do
     capture_io(fn ->
       Mix.Tasks.Coveralls.run(["--umbrella"])
-      assert(called Mix.Task.run("test", ["--cover"]))
+      assert(called Runner.run("test", ["--cover"]))
       assert(ExCoveralls.ConfServer.get ==
         [type: "local", umbrella: true, sub_apps: [], apps_path: nil, args: []])
     end)
   end
 
-  test_with_mock "--no-start propagates to mix task", Mix.Task, [run: fn(_, _) -> nil end] do
+  test_with_mock "--no-start propagates to mix task", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.run(["--no-start"])
-    assert(called Mix.Task.run("test", ["--cover", "--no-start"]))
+    assert(called Runner.run("test", ["--cover", "--no-start"]))
   end
 
-  test_with_mock "--unknown_arg withvalue", Mix.Task, [run: fn(_, _) -> nil end] do
+  test_with_mock "--unknown_arg withvalue", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.run(["--unknown_arg withvalue", "--second"])
-    assert(called Mix.Task.run("test", ["--cover", "--unknown_arg withvalue", "--second"]))
+    assert(called Runner.run("test", ["--cover", "--unknown_arg withvalue", "--second"]))
   end
 
-  test_with_mock "detail", Mix.Task, [run: fn(_, _) -> nil end] do
+  test_with_mock "detail", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Detail.run([])
-    assert(called Mix.Task.run("test", ["--cover"]))
+    assert(called Runner.run("test", ["--cover"]))
     assert(ExCoveralls.ConfServer.get == [type: "local", detail: true, filter: [], args: []])
   end
 
-  test_with_mock "html", Mix.Task, [run: fn(_, _) -> nil end] do
+  test_with_mock "html", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Html.run([])
-    assert(called Mix.Task.run("test", ["--cover"]))
+    assert(called Runner.run("test", ["--cover"]))
     assert(ExCoveralls.ConfServer.get == [type: "html", filter: [], args: []])
   end
 
-  test_with_mock "travis", Mix.Task, [run: fn(_, _) -> nil end] do
+  test_with_mock "travis", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Travis.run([])
-    assert(called Mix.Task.run("test", ["--cover"]))
+    assert(called Runner.run("test", ["--cover"]))
     assert(ExCoveralls.ConfServer.get == [type: "travis", args: []])
   end
 
-  test_with_mock "travis --pro", Mix.Task, [run: fn(_, _) -> nil end] do
+  test_with_mock "travis --pro", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Travis.run(["--pro"])
-    assert(called Mix.Task.run("test", ["--cover"]))
+    assert(called Runner.run("test", ["--cover"]))
     assert(ExCoveralls.ConfServer.get == [type: "travis", pro: true, args: []])
   end
 
-  test_with_mock "circle", Mix.Task, [run: fn(_, _) -> nil end] do
+  test_with_mock "circle", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Circle.run([])
-    assert(called Mix.Task.run("test", ["--cover"]))
+    assert(called Runner.run("test", ["--cover"]))
     assert(ExCoveralls.ConfServer.get == [type: "circle", args: []])
   end
 
-  test_with_mock "circle --parallel", Mix.Task, [run: fn(_, _) -> nil end] do
+  test_with_mock "circle --parallel", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Circle.run(["--parallel"])
-    assert(called Mix.Task.run("test", ["--cover"]))
+    assert(called Runner.run("test", ["--cover"]))
     assert(ExCoveralls.ConfServer.get == [type: "circle", parallel: true, args: []])
   end
 
-  test_with_mock "semaphore", Mix.Task, [run: fn(_, _) -> nil end] do
+  test_with_mock "semaphore", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Semaphore.run([])
-    assert(called Mix.Task.run("test", ["--cover"]))
+    assert(called Runner.run("test", ["--cover"]))
     assert(ExCoveralls.ConfServer.get == [type: "semaphore", args: []])
   end
 
-  test_with_mock "post with env vars", Mix.Task, [run: fn(_, _) -> nil end] do
+  test_with_mock "post with env vars", Runner, [run: fn(_, _) -> nil end] do
     org_token = System.get_env("COVERALLS_REPO_TOKEN") || ""
     org_name  = System.get_env("COVERALLS_SERVICE_NAME") || ""
 
@@ -107,7 +108,7 @@ defmodule Mix.Tasks.CoverallsTest do
 
     args = ["-b", "branch", "-c", "committer", "-m", "message", "-s", "asdf"]
     Mix.Tasks.Coveralls.Post.run(args)
-    assert(called Mix.Task.run("test", ["--cover"]))
+    assert(called Runner.run("test", ["--cover"]))
     assert(ExCoveralls.ConfServer.get ==
              [type: "post", endpoint: nil, token: "dummy_token",
               service_name: "dummy_service_name", branch: "branch",
@@ -117,7 +118,7 @@ defmodule Mix.Tasks.CoverallsTest do
     System.put_env("COVERALLS_SERVICE_NAME", org_name)
   end
 
-  test_with_mock "post without env vars", Mix.Task, [run: fn(_, _) -> nil end] do
+  test_with_mock "post without env vars", Runner, [run: fn(_, _) -> nil end] do
     org_token = System.get_env("COVERALLS_REPO_TOKEN")
     org_name  = System.get_env("COVERALLS_SERVICE_NAME")
 
@@ -126,7 +127,7 @@ defmodule Mix.Tasks.CoverallsTest do
 
     args = ["-t", "token"]
     Mix.Tasks.Coveralls.Post.run(args)
-    assert(called Mix.Task.run("test", ["--cover"]))
+    assert(called Runner.run("test", ["--cover"]))
     assert(ExCoveralls.ConfServer.get ==
              [type: "post", endpoint: nil, token: "token",
               service_name: "excoveralls", branch: "",
