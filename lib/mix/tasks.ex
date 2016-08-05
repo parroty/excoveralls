@@ -7,6 +7,12 @@ defmodule Mix.Tasks.Coveralls do
 
   @shortdoc "Display the test coverage"
 
+  defmodule Runner do
+    def run(task, args) do
+      Mix.Task.run(task, args)
+    end
+  end
+
   def run(args) do
     {options, _, _} = OptionParser.parse(args, aliases: [h: :help])
 
@@ -44,7 +50,7 @@ defmodule Mix.Tasks.Coveralls do
     ExCoveralls.ConfServer.set(options ++ [args: args])
     ExCoveralls.StatServer.start
 
-    Mix.Task.run(test_task, ["--cover"] ++ args)
+    Runner.run(test_task, ["--cover"] ++ args)
 
     if options[:umbrella] do
       analyze_sub_apps(options)
