@@ -17,7 +17,7 @@ defmodule ExCoveralls.Poster do
       {:ok, message} ->
         IO.puts message
       {:error, message} ->
-        raise %ExCoveralls.ReportUploadError{message: message}
+        raise ExCoveralls.ReportUploadError, message: message
     end
   end
 

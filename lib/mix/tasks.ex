@@ -28,8 +28,8 @@ defmodule Mix.Tasks.Coveralls do
   """
   def do_run(args, options) do
     if Mix.Project.config[:test_coverage][:tool] != ExCoveralls do
-      raise %ExCoveralls.InvalidConfigError{
-        message: "Please specify 'test_coverage: [tool: ExCoveralls]' in the 'project' section of mix.exs" }
+      raise ExCoveralls.InvalidConfigError,
+        message: "Please specify 'test_coverage: [tool: ExCoveralls]' in the 'project' section of mix.exs"
     end
 
     {args, options} = parse_common_options(args, options)
