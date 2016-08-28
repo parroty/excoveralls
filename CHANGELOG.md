@@ -1,3 +1,9 @@
+0.5.6
+------
+#### Changes
+* Fix test errors with Elixir 13 (#56).
+* Update dependencies.
+
 0.5.5
 ------
 #### Changes
