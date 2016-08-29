@@ -2,6 +2,7 @@
 ------
 #### Changes
 * Fix test errors with Elixir 13 (#56).
+* Fix for .eex template error: no function clause matching in Enum.reverse_slice/3 (#67).
 * Update dependencies.
 
 0.5.5
