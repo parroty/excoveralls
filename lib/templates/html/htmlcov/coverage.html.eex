@@ -14,7 +14,7 @@
           <li>
             <span class='cov <%= coverage_class(file.coverage) %>'><%= file.coverage || 0 %></span>
             <a href='#<%= file.filename %>'>
-              <% [b | s] = String.split(file.filename, "/") |> Enum.reverse |> Enum.reverse_slice(1, &(&1.length)) %>
+              <% parts = String.split(file.filename, "/") %><% [b | s] = parts |> Enum.reverse |> Enum.reverse_slice(1, Enum.count(parts)) %>
               <%= if Enum.count(s) do %>
                 <span class='dirname'><%= Enum.join(s, "/") <> "/" %></span>
               <% end %>
