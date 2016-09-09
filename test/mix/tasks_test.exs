@@ -57,10 +57,20 @@ defmodule Mix.Tasks.CoverallsTest do
     assert(called Runner.run("test", ["--cover", "--unknown_arg withvalue", "--second"]))
   end
 
+  test_with_mock "--include remote", Runner, [run: fn(_, _) -> nil end] do
+    Mix.Tasks.Coveralls.run(["--include", "remote"])
+    assert(called Runner.run("test", ["--cover", "--include", "remote"]))
+  end
+
+  test_with_mock "doesn't pass through coveralls args", Runner, [run: fn(_, _) -> nil end] do
+    Mix.Tasks.Coveralls.run(["--include", "remote", "-x", "--unknown", "value", "--verbose", "-u", "--filter", "x"])
+    assert(called Runner.run("test", ["--cover", "--include", "remote", "-x", "--unknown", "value"]))
+  end
+
   test_with_mock "detail", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Detail.run([])
     assert(called Runner.run("test", ["--cover"]))
-    assert(ExCoveralls.ConfServer.get == [type: "local", detail: true, filter: [], args: []])
+    assert(ExCoveralls.ConfServer.get == [type: "local", detail: true, args: []])
   end
 
   test_with_mock "detail and filter", Runner, [run: fn(_, _) -> nil end] do
@@ -72,13 +82,13 @@ defmodule Mix.Tasks.CoverallsTest do
   test_with_mock "html", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Html.run([])
     assert(called Runner.run("test", ["--cover"]))
-    assert(ExCoveralls.ConfServer.get == [type: "html", filter: [], args: []])
+    assert(ExCoveralls.ConfServer.get == [type: "html", args: []])
   end
 
   test_with_mock "json", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Json.run([])
     assert(called Runner.run("test", ["--cover"]))
-    assert(ExCoveralls.ConfServer.get == [type: "json", filter: [], args: []])
+    assert(ExCoveralls.ConfServer.get == [type: "json", args: []])
   end
 
   test_with_mock "travis", Runner, [run: fn(_, _) -> nil end] do
