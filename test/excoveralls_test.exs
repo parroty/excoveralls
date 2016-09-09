@@ -29,6 +29,11 @@ defmodule ExCoverallsTest do
     assert called ExCoveralls.Html.execute(@stats,[])
   end
 
+  test_with_mock "analyze json", ExCoveralls.Json, [execute: fn(_,_) -> nil end] do
+    ExCoveralls.analyze(@stats, "json", [])
+    assert called ExCoveralls.Json.execute(@stats,[])
+  end
+
   test_with_mock "analyze general", ExCoveralls.Post, [execute: fn(_,_) -> nil end] do
     ExCoveralls.analyze(@stats, "post", [])
     assert called ExCoveralls.Post.execute(@stats, [])
