@@ -59,8 +59,8 @@ defmodule Mix.Tasks.Coveralls do
 
   defp parse_common_options(args, options) do
     {common_options, _remaining, unknown_args} = OptionParser.parse(args,
-      strict: [umbrella: :boolean, verbose: :boolean, pro: :boolean, parallel: :boolean],
-      aliases: [u: :umbrella, v: :verbose])
+      strict: [filter: :string, umbrella: :boolean, verbose: :boolean, pro: :boolean, parallel: :boolean],
+      aliases: [f: :filter, u: :umbrella, v: :verbose])
     {unknown_args |> Enum.map(fn({k, _}) -> k end), options ++ common_options}
   end
 
