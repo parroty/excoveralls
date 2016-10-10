@@ -22,7 +22,7 @@ defmodule ExCoveralls.Settings do
   Get coverage options from the json file.
   """
   def get_coverage_options do
-    read_config("coverage_options") |> Enum.into(HashDict.new)
+    read_config("coverage_options") |> Enum.into(Map.new)
   end
 
   @doc """
@@ -39,11 +39,11 @@ defmodule ExCoveralls.Settings do
   defp read_config_file(file_name) do
     if File.exists?(file_name) do
       case File.read!(file_name) |> JSX.decode do
-        {:ok, config} -> Enum.into(config, HashDict.new)
+        {:ok, config} -> Enum.into(config, Map.new)
         _ -> raise "Failed to parse config file as JSON : #{file_name}"
       end
     else
-      HashDict.new
+      Map.new
     end
   end
 
@@ -59,8 +59,8 @@ defmodule ExCoveralls.Settings do
   Reads the value for the specified key defined in the json file.
   """
   def read_config(key, default \\ nil) do
-    case (read_config_file(Files.custom_file) |> HashDict.get(key)) do
-      nil    -> read_config_file(Files.default_file) |> HashDict.get(key, default)
+    case (read_config_file(Files.custom_file) |> Map.get(key)) do
+      nil    -> read_config_file(Files.default_file) |> Map.get(key, default)
       config -> config
     end
   end
