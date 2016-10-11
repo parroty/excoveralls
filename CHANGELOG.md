@@ -1,3 +1,11 @@
+0.5.7
+------
+#### Enhancements
+* add json task (for Codecov.io support) (#71)
+
+#### Changes
+* Fix --filter/-f for coveralls.detail (#79)
+
 0.5.6
 ------
 #### Changes
