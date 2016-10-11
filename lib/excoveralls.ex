@@ -12,6 +12,7 @@ defmodule ExCoveralls do
   alias ExCoveralls.Semaphore
   alias ExCoveralls.Local
   alias ExCoveralls.Html
+  alias ExCoveralls.Json
   alias ExCoveralls.Post
 
   @type_travis      "travis"
@@ -19,6 +20,7 @@ defmodule ExCoveralls do
   @type_semaphore   "semaphore"
   @type_local       "local"
   @type_html        "html"
+  @type_json        "json"
   @type_post        "post"
 
   @doc """
@@ -81,6 +83,13 @@ defmodule ExCoveralls do
   """
   def analyze(stats, @type_html, options) do
     Html.execute(stats, options)
+  end
+
+  @doc """
+  Logic for JSON output, without posting server
+  """
+  def analyze(stats, @type_json, options) do
+    Json.execute(stats, options)
   end
 
   @doc """
