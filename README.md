@@ -9,6 +9,7 @@ The followings are example projects.
   - [circle_sample](https://github.com/parroty/circle_sample) is for CircleCI .
   - [semaphore_sample](https://github.com/parroty/semaphore_sample) is for Semaphore CI.
   - [excoveralls_umbrella](https://github.com/parroty/excoveralls_umbrella) is for umbrella project.
+  - [gitlab_sample](https://gitlab.com/zj/gitlab_sample) is for GitLab CI.
 
 # Settings
 ### mix.exs

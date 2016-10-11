@@ -37,7 +37,7 @@ defmodule ExCoveralls.Stats do
   It uses :cover.analyse for getting the information.
   """
   def calculate_stats(modules) do
-    Enum.reduce(modules, HashDict.new, fn(module, dict) ->
+    Enum.reduce(modules, Map.new, fn(module, dict) ->
       {:ok, lines} = Cover.analyze(module)
       analyze_lines(lines, dict)
     end)
@@ -51,24 +51,24 @@ defmodule ExCoveralls.Stats do
 
   defp add_counts(module_hash, module, line, count) do
     path = Cover.module_path(module)
-    count_hash = HashDict.get(module_hash, path, HashDict.new)
-    HashDict.put(module_hash, path, HashDict.put(count_hash, line, count))
+    count_hash = Map.get(module_hash, path, Map.new)
+    Map.put(module_hash, path, Map.put(count_hash, line, count))
   end
 
   @doc """
   Generate coverage, based on the pre-calculated statistic information.
   """
   def generate_coverage(hash) do
-    keys = HashDict.keys(hash)
+    keys = Map.keys(hash)
     Enum.map(keys, fn(file_path) ->
       total = get_source_line_count(file_path)
-      {file_path, do_generate_coverage(HashDict.fetch!(hash, file_path), total, [])}
+      {file_path, do_generate_coverage(Map.fetch!(hash, file_path), total, [])}
     end)
   end
 
   defp do_generate_coverage(_hash, 0, acc),   do: acc
   defp do_generate_coverage(hash, index, acc) do
-    count = HashDict.get(hash, index, nil)
+    count = Map.get(hash, index, nil)
 
     do_generate_coverage(hash, index - 1, [count | acc])
   end

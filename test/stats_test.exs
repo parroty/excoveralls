@@ -10,8 +10,8 @@ defmodule ExCoveralls.StatsTest do
   @source          "test/fixtures/test.ex"
   @content         "defmodule Test do\n  def test do\n  end\nend\n"
   @trimmed         "defmodule Test do\n  def test do\n  end\nend"
-  @count_hash      Enum.into([{1, 0}, {2, 1}], HashDict.new)
-  @module_hash     Enum.into([{"test/fixtures/test.ex", @count_hash}], HashDict.new)
+  @count_hash      Enum.into([{1, 0}, {2, 1}], Map.new)
+  @module_hash     Enum.into([{"test/fixtures/test.ex", @count_hash}], Map.new)
   @counts          [0, 1, nil, nil]
   @coverage        [{"test/fixtures/test.ex", @counts}]
   @source_info     [[name: "test/fixtures/test.ex",

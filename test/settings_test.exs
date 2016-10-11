@@ -40,7 +40,7 @@ defmodule Excoveralls.SettingsTest do
   test_with_mock "get coverage options returns options as Dict", Settings.Files,
                    [default_file: fn -> @fixture_default end,
                     custom_file:  fn -> @fixture_custom end] do
-    assert(inspect(Settings.get_coverage_options) == "#HashDict<[{\"f\", true}]>")
+    assert(inspect(Settings.get_coverage_options) == "%{\"f\" => true}")
   end
 
   test_with_mock "read config returns nil when default file is not found", Settings.Files,
