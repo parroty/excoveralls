@@ -58,13 +58,28 @@ defmodule Mix.Tasks.Coveralls do
   end
 
   defp parse_common_options(args, options) do
-    {common_options, _remaining, unknown_args} = OptionParser.parse(args,
-      strict: [filter: :string, umbrella: :boolean, verbose: :boolean, pro: :boolean, parallel: :boolean],
-      aliases: [f: :filter, u: :umbrella, v: :verbose])
-    {
-      Keyword.keys(unknown_args),
-      Keyword.merge(options, common_options)
-    }
+    switches = [filter: :string, umbrella: :boolean, verbose: :boolean, pro: :boolean, parallel: :boolean]
+    aliases = [f: :filter, u: :umbrella, v: :verbose]
+    {common_options, _remaining, _invalid} = OptionParser.parse(args, switches: switches, aliases: aliases)
+
+    # the switches that excoveralls supports
+    supported_switches = Enum.map(Keyword.keys(switches), fn(s) -> "--#{s}" end)
+      ++ Enum.map(Keyword.keys(aliases), fn(s) -> "-#{s}" end)
+
+    # Get the remaining args to pass onto cover, excluding ExCoveralls-specific args.
+    # Not using OptionParser for this because it splits things up in unfortunate ways.
+    {remaining, _} = List.foldl(args, {[], nil}, fn(arg, {acc, last}) ->
+      cond do
+      # don't include switches for ExCoveralls
+      Enum.member?(supported_switches, arg) -> {acc, arg}
+      # also drop any values that follow ExCoveralls switches
+      !String.starts_with?(arg, "-") && Enum.member?(supported_switches, last) -> {acc, nil}
+      # leaving just the switches and values intended for cover
+      true -> {acc ++ [arg], nil}
+      end
+    end)
+
+    {remaining, options ++ common_options}
   end
 
   defp analyze_sub_apps(options) do
@@ -83,12 +98,7 @@ defmodule Mix.Tasks.Coveralls do
     @shortdoc "Display the test coverage with source detail"
 
     def run(args) do
-      {parsed, _, _} = OptionParser.parse(args, aliases: [f: :filter])
-
-      Mix.Tasks.Coveralls.do_run(args,
-        [ type: "local",
-          detail: true,
-          filter: parsed[:filter] || [] ])
+      Mix.Tasks.Coveralls.do_run(args, [ type: "local", detail: true ])
     end
   end
 
@@ -102,11 +112,7 @@ defmodule Mix.Tasks.Coveralls do
     @shortdoc "Display the test coverage with source detail as an HTML report"
 
     def run(args) do
-      {parsed, _, _} = OptionParser.parse(args, aliases: [f: :filter])
-
-      Mix.Tasks.Coveralls.do_run(args,
-        [ type: "html",
-          filter: parsed[:filter] || [] ])
+      Mix.Tasks.Coveralls.do_run(args, [ type: "html" ])
     end
   end
 
@@ -120,11 +126,7 @@ defmodule Mix.Tasks.Coveralls do
     @shortdoc "Output the test coverage as a JSON file"
 
     def run(args) do
-      {parsed, _, _} = OptionParser.parse(args, aliases: [f: :filter])
-
-      Mix.Tasks.Coveralls.do_run(args,
-        [ type: "json",
-          filter: parsed[:filter] || [] ])
+      Mix.Tasks.Coveralls.do_run(args, [ type: "json" ])
     end
   end
 
