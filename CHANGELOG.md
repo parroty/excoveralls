@@ -2,6 +2,7 @@
 ------
 #### Enhancements
 * add json task (for Codecov.io support) (#71)
+* pass through args to cover (#72)
 
 #### Changes
 * Fix --filter/-f for coveralls.detail (#79)
