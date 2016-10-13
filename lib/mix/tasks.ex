@@ -195,8 +195,8 @@ defmodule Mix.Tasks.Coveralls do
 
     def extract_token(options) do
       case options[:token] || System.get_env("COVERALLS_REPO_TOKEN") || "" do
-        "" -> raise %ExCoveralls.InvalidOptionError{
-                      message: "Token is NOT specified in the argument nor environment variable."}
+        "" -> raise ExCoveralls.InvalidOptionError,
+                      message: "Token is NOT specified in the argument nor environment variable."
         token -> token
       end
     end
