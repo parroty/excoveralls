@@ -22,7 +22,7 @@ defmodule ExCoveralls.Json do
 
   defp output_dir do
     options = ExCoveralls.Settings.get_coverage_options
-    case Dict.fetch(options, "output_dir") do
+    case Map.fetch(options, "output_dir") do
       {:ok, val} -> val
       _ -> "cover/"
     end

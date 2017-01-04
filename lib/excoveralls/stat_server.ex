@@ -4,7 +4,7 @@ defmodule ExCoveralls.StatServer do
   """
 
   def start do
-    Agent.start(fn -> HashSet.new end, name: __MODULE__)
+    Agent.start(fn -> MapSet.new end, name: __MODULE__)
   end
 
   def stop do
@@ -12,7 +12,7 @@ defmodule ExCoveralls.StatServer do
   end
 
   def add(report) do
-    Agent.update(__MODULE__, &Set.put(&1, report))
+    Agent.update(__MODULE__, &MapSet.put(&1, report))
   end
 
   def get do

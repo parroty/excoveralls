@@ -84,7 +84,7 @@ defmodule Mix.Tasks.Coveralls do
 
   defp analyze_sub_apps(options) do
     type = options[:type] || "local"
-    stats = ExCoveralls.StatServer.get |> Set.to_list
+    stats = ExCoveralls.StatServer.get |> MapSet.to_list
     ExCoveralls.analyze(stats, type, options)
   end
 
