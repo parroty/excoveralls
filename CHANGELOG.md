@@ -1,3 +1,9 @@
+0.6.0
+------
+#### Changes
+* Favor MapSet over Dict (elixir 1.2 deprecations) (#91).
+   - Requires elixir v1.2 or later.
+
 0.5.7
 ------
 #### Enhancements
