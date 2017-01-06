@@ -3,6 +3,8 @@
 #### Changes
 * Favor MapSet over Dict (elixir 1.2 deprecations) (#91).
    - Requires elixir v1.2 or later.
+* Report 0 lines file (no relevant line) as 100.0% by default (#87).
+   - If `treat_no_relevant_lines_as_covered=false option` is specified, it's reported as 0.0%.
 
 0.5.7
 ------

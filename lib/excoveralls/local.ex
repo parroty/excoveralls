@@ -112,8 +112,8 @@ defmodule ExCoveralls.Local do
   defp default_coverage_value do
     options = ExCoveralls.Settings.get_coverage_options
     case Map.fetch(options, "treat_no_relevant_lines_as_covered") do
-      {:ok, true} -> 100.0
-      _           -> 0.0
+      {:ok, false} -> 0.0
+      _            -> 100.0
     end
   end
 

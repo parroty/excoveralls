@@ -70,13 +70,17 @@ defmodule ExCoveralls.LocalTest do
   end
 
   test "Empty (no relevant lines) file is calculated as 0.0%" do
-    assert String.ends_with?(Local.coverage(@empty_source_info), "[TOTAL]   0.0%")
+    assert String.ends_with?(Local.coverage(@empty_source_info), "[TOTAL] 100.0%")
   end
 
-  test_with_mock "Empty (no relevant lines) file with treat_no_relevant_lines_as_covered option is calculated as 100.0%",
+  test_with_mock "Empty (no relevant lines) file with treat_no_relevant_lines_as_covered=true option is calculated as 100.0%",
     ExCoveralls.Settings, [get_coverage_options: fn -> %{"treat_no_relevant_lines_as_covered" => true} end] do
-
     assert String.ends_with?(Local.coverage(@empty_source_info), "[TOTAL] 100.0%")
+  end
+
+  test_with_mock "Empty (no relevant lines) file with treat_no_relevant_lines_as_covered=false option is calculated as 0.0%",
+    ExCoveralls.Settings, [get_coverage_options: fn -> %{"treat_no_relevant_lines_as_covered" => false} end] do
+    assert String.ends_with?(Local.coverage(@empty_source_info), "[TOTAL]   0.0%")
   end
 
   test_with_mock "Exit status code is 1 when actual coverage does not reach the minimum",
