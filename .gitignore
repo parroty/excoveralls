@@ -5,3 +5,4 @@ erl_crash.dump
 /cover
 /tmp
 /_build
+/doc
