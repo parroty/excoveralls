@@ -14,7 +14,7 @@ defmodule ExCoveralls.Html do
   def execute(stats, options \\ []) do
     ExCoveralls.Local.print_summary(stats)
 
-    Stats.source(stats, options[:filter]) |> generate_report
+    Stats.source(stats, options[:filter]) |> generate_report()
 
     Stats.ensure_minimum_coverage(stats)
   end
@@ -25,8 +25,8 @@ defmodule ExCoveralls.Html do
   end
 
   defp output_dir do
-    options = ExCoveralls.Settings.get_coverage_options
-    case Dict.fetch(options, "output_dir") do
+    options = ExCoveralls.Settings.get_coverage_options()
+    case Map.fetch(options, "output_dir") do
       {:ok, val} -> val
       _ -> "cover/"
     end

@@ -14,7 +14,7 @@ defmodule ExCoveralls.Html.View do
 
     defp get_template_path() do
       options = ExCoveralls.Settings.get_coverage_options
-      case Dict.fetch(options, "template_path") do
+      case Map.fetch(options, "template_path") do
         {:ok, path} -> path
         _ -> Path.expand("excoveralls/lib/templates/html/htmlcov/", Mix.Project.deps_path())
       end
