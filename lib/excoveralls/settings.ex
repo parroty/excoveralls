@@ -46,7 +46,7 @@ defmodule ExCoveralls.Settings do
   Get column width to use for the report from the json file
   """
   def get_file_col_width do
-    case Map.fetch(get_terminal_options(), "width") do
+    case Map.fetch(get_terminal_options(), "file_column_width") do
       {:ok, val} when is_binary(val) ->
         case Integer.parse(val) do
           :error -> 40
