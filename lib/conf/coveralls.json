@@ -17,5 +17,10 @@
     "treat_no_relevant_lines_as_covered": false,
     "output_dir": "cover/",
     "minimum_coverage": 0
+  },
+
+  "terminal_options": {
+    "file_column_width": 40
   }
 }
+
