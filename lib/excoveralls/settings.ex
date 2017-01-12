@@ -35,6 +35,27 @@ defmodule ExCoveralls.Settings do
     end
   end
 
+  @doc """
+  Get terminal output options from the json file.
+  """
+  def get_terminal_options do
+    read_config("terminal_options") |> Enum.into(Map.new)
+  end
+
+  @doc """
+  Get column width to use for the report from the json file
+  """
+  def get_file_col_width do
+    case Map.fetch(get_terminal_options(), "file_column_width") do
+      {:ok, val} when is_binary(val) ->
+        case Integer.parse(val) do
+          :error -> 40
+          {int, _} -> int
+        end
+      {:ok, val} when is_integer(val) -> val
+      _ -> 40
+    end
+  end
 
   defp read_config_file(file_name) do
     if File.exists?(file_name) do
@@ -65,3 +86,4 @@ defmodule ExCoveralls.Settings do
     end
   end
 end
+

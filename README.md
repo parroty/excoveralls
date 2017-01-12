@@ -251,6 +251,18 @@ If you want to exclude files from the coverage calculation add the `skip_files` 
 
 Note that this doesn't work directly in an umbrella project. If you need to exclude files within an app, you should create a separate `coveralls.json` at the root of the app's folder and add a `skip_files` key to _that_ file. Paths should be relative to that file, not the umbrella project.
 
+#### Terminal Report Output
+When using in umbrella projects the default report may trim files names when viewing report in terminal.
+
+If you want to change the column width used for file names add the `file_column_width` key to the `terminal_options` key in the `coveralls.json`, for example:
+
+```javascript
+{
+  "terminal_options": {
+    "file_column_width": 40
+  }
+}
+```
 #### Coverage Options
 - treat_no_relevant_lines_as_covered
   - By default, coverage for [files with no relevant lines] are displayed as 0% for aligning with coveralls.io behavior. But, if `treat_no_relevant_lines_as_covered` is set to `true`, it will be displayed as 100%.
@@ -292,3 +304,4 @@ Note that this doesn't work directly in an umbrella project. If you need to excl
 ### Todo
 - It might not work well on projects which handle multiple project (Mix.Project) files.
     - Needs improvement on file-path handling.
+

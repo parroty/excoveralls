@@ -8,6 +8,8 @@ defmodule Excoveralls.SettingsTest do
   @fixture_invalid Path.dirname(__ENV__.file) <> "/fixtures/invalid.json"
   @fixture_not_covered Path.dirname(__ENV__.file) <> "/fixtures/no_relevant_lines_not_covered.json"
   @fixture_covered Path.dirname(__ENV__.file) <> "/fixtures/no_relevant_lines_are_covered.json"
+  @fixture_column_default Path.dirname(__ENV__.file) <> "/fixtures/terminal_options1.json"
+  @fixture_column_integer Path.dirname(__ENV__.file) <> "/fixtures/terminal_options2.json"
 
   test "returns default file path" do
     assert(Settings.Files.default_file
@@ -41,6 +43,12 @@ defmodule Excoveralls.SettingsTest do
                    [default_file: fn -> @fixture_default end,
                     custom_file:  fn -> @fixture_custom end] do
     assert(inspect(Settings.get_coverage_options) == "%{\"f\" => true}")
+  end
+
+  test_with_mock "get terminal width for file column", Settings.Files,
+                  [default_file: fn -> @fixture_column_default end,
+                   custom_file:  fn -> @fixture_column_integer end] do
+    assert(inspect(Settings.get_file_col_width) == "40")
   end
 
   test_with_mock "read config returns nil when default file is not found", Settings.Files,
@@ -80,3 +88,4 @@ defmodule Excoveralls.SettingsTest do
   end
 
 end
+
