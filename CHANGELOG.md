@@ -1,3 +1,9 @@
+0.6.1
+------
+#### Changes
+* Add optional width to column to present filename (#93).
+* Update dependencies.
+
 0.6.0
 ------
 #### Changes
