@@ -6,7 +6,6 @@ defmodule ExCoveralls.LocalTest do
 
   @content     "defmodule Test do\n  def test do\n  end\nend\n"
   @counts      [0, 1, nil, nil]
-  @source      "test/fixtures/test.ex"
   @source_info [[name: "test/fixtures/test.ex",
                  source: @content,
                  coverage: @counts
@@ -23,8 +22,6 @@ defmodule ExCoveralls.LocalTest do
                  source: @content,
                  coverage: @empty_counts
                ]]
-  @empty_result "" <>
-      "  0.0% test/fixtures/test.ex                           4        0        0\n[TOTAL]   0.0%"
 
   @stats_result "" <>
       "----------------\n" <>

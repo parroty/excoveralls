@@ -13,7 +13,7 @@ defmodule ExCoveralls.StatServerTest do
     StatServer.add(:key1)
     StatServer.add(:key2)
 
-    keys = StatServer.get |> Set.to_list |> Enum.sort
+    keys = StatServer.get |> MapSet.to_list |> Enum.sort
     assert(keys == [:key1, :key2])
   end
 end

@@ -6,7 +6,6 @@ defmodule ExCoveralls.StatsTest do
   alias ExCoveralls.Settings
 
   @stats           [{{Stats, 1}, 0}, {{Stats, 2}, 1}]
-  @modules         [Stats]
   @source          "test/fixtures/test.ex"
   @content         "defmodule Test do\n  def test do\n  end\nend\n"
   @trimmed         "defmodule Test do\n  def test do\n  end\nend"
@@ -52,8 +51,6 @@ defmodule ExCoveralls.StatsTest do
     sloc: 2}
 
   @fractional_counts [0, 1, 1, nil, nil]
-  @fractional_source "defmodule Test do\n  def test do\n  foo = true\nend\nend"
-
   @fractional_source_info [[name: "test/fixtures/test.ex",
                      source: @trimmed,
                      coverage: @fractional_counts

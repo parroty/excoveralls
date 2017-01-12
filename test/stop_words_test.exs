@@ -4,7 +4,6 @@ defmodule ExCoveralls.StopWordsTest do
 
   @content     "defmodule Test do\n  def test do\n  end\nend\n"
   @counts      [0, 1, nil, nil, nil]
-  @coverage    [{"test/fixtures/test.ex", @counts}]
   @source_info [[name: "test/fixtures/test.ex",
                  source: @content,
                  coverage: @counts
