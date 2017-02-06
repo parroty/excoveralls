@@ -22,7 +22,7 @@ defmodule ExCoveralls.Settings do
   Get coverage options from the json file.
   """
   def get_coverage_options do
-    read_config("coverage_options") |> Enum.into(Map.new)
+    read_config("coverage_options", []) |> Enum.into(Map.new)
   end
 
   @doc """
@@ -39,7 +39,7 @@ defmodule ExCoveralls.Settings do
   Get terminal output options from the json file.
   """
   def get_terminal_options do
-    read_config("terminal_options") |> Enum.into(Map.new)
+    read_config("terminal_options", []) |> Enum.into(Map.new)
   end
 
   @doc """
