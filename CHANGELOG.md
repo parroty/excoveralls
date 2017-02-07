@@ -1,3 +1,8 @@
+0.6.2
+------
+#### Changes
+* Fix default handling for missing options (#86).
+
 0.6.1
 ------
 #### Changes
