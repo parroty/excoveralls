@@ -6,6 +6,7 @@ defmodule Mix.Tasks.Coveralls do
   use Mix.Task
 
   @shortdoc "Display the test coverage"
+  @preferred_cli_env :test
 
   defmodule Runner do
     def run(task, args) do
@@ -96,6 +97,7 @@ defmodule Mix.Tasks.Coveralls do
     use Mix.Task
 
     @shortdoc "Display the test coverage with source detail"
+    @preferred_cli_env :test
 
     def run(args) do
       Mix.Tasks.Coveralls.do_run(args, [ type: "local", detail: true ])
@@ -110,6 +112,7 @@ defmodule Mix.Tasks.Coveralls do
     use Mix.Task
 
     @shortdoc "Display the test coverage with source detail as an HTML report"
+    @preferred_cli_env :test
 
     def run(args) do
       Mix.Tasks.Coveralls.do_run(args, [ type: "html" ])
@@ -124,6 +127,7 @@ defmodule Mix.Tasks.Coveralls do
     use Mix.Task
 
     @shortdoc "Output the test coverage as a JSON file"
+    @preferred_cli_env :test
 
     def run(args) do
       Mix.Tasks.Coveralls.do_run(args, [ type: "json" ])
@@ -136,6 +140,8 @@ defmodule Mix.Tasks.Coveralls do
     """
     use Mix.Task
 
+    @preferred_cli_env :test
+
     def run(args) do
       Mix.Tasks.Coveralls.do_run(args, [type: "travis"])
     end
@@ -147,6 +153,8 @@ defmodule Mix.Tasks.Coveralls do
     """
     use Mix.Task
 
+    @preferred_cli_env :test
+
     def run(args) do
       Mix.Tasks.Coveralls.do_run(args, [type: "circle"])
     end
@@ -157,6 +165,8 @@ defmodule Mix.Tasks.Coveralls do
     Provides an entry point for SemaphoreCI's script.
     """
     use Mix.Task
+
+    @preferred_cli_env :test
 
     def run(args) do
       Mix.Tasks.Coveralls.do_run(args, [type: "semaphore"])
@@ -172,6 +182,7 @@ defmodule Mix.Tasks.Coveralls do
 
     @shortdoc "Post the test coverage to coveralls"
     @default_service_name "excoveralls"
+    @preferred_cli_env :test
 
     def run(args) do
       {options, params, _} =
