@@ -1,3 +1,9 @@
+0.6.3
+------
+#### Changes
+* Use `@preferred_cli_env` (#96) supported by elixir v1.3 or later.
+   - Remove the `preferred_cli_env` in the `mix.exs`.
+
 0.6.2
 ------
 #### Changes

@@ -39,6 +39,8 @@ defp deps do
 end
 ```
 
+**Note:** If you're using earlier than `elixir v1.3`, `MIX_ENV=test` or `preferred_cli_env` may be required for running mix tasks. Refer to [PR#96](https://github.com/parroty/excoveralls/pull/96) for the details.
+
 # Usage
 ## Mix Tasks
 - [mix coveralls](#mix-coveralls-show-coverage)
