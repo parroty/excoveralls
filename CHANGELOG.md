@@ -1,3 +1,8 @@
+0.6.4
+------
+#### Changes
+* Upgrade dependencies (#98).
+
 0.6.3
 ------
 #### Changes
