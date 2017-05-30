@@ -21,7 +21,7 @@ defmodule ExCoveralls.Mixfile do
 
   # Configuration for the OTP application
   def application do
-    []
+    [applications: [:hackney]]
   end
 
   # Returns the list of dependencies in the format:
