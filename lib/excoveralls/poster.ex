@@ -22,7 +22,7 @@ defmodule ExCoveralls.Poster do
   end
 
   defp send_file(file_name, options) do
-    :hackney.start
+    Application.ensure_all_started(:hackney)
     endpoint = options[:endpoint] || "https://coveralls.io"
     response = :hackney.request(:post, "#{endpoint}/api/v1/jobs", [],
       {:multipart, [
