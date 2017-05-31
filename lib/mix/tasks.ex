@@ -36,9 +36,6 @@ defmodule Mix.Tasks.Coveralls do
     {args, options} = parse_common_options(args, options)
     test_task = Mix.Project.config[:test_coverage][:test_task] || "test"
 
-    Mix.env(:test)
-
-
     options =
       if options[:umbrella] do
         sub_apps = ExCoveralls.SubApps.parse(Mix.Dep.Umbrella.loaded)
