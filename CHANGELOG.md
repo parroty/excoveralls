@@ -1,3 +1,8 @@
+0.7.0
+------
+#### Changes
+* Do not force mix env when running tests (#101).
+
 0.6.5
 ------
 #### Changes
