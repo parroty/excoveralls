@@ -1,10 +1,10 @@
 ExCoveralls [![Build Status](https://secure.travis-ci.org/parroty/excoveralls.svg?branch=master "Build Status")](http://travis-ci.org/parroty/excoveralls) [![Coverage Status](https://coveralls.io/repos/parroty/excoveralls/badge.svg?branch=master)](https://coveralls.io/r/parroty/excoveralls?branch=master) [![hex.pm version](https://img.shields.io/hexpm/v/excoveralls.svg)](https://hex.pm/packages/excoveralls) [![hex.pm downloads](https://img.shields.io/hexpm/dt/excoveralls.svg)](https://hex.pm/packages/excoveralls) [![Deps Status](https://beta.hexfaktor.org/badge/all/github/parroty/excoveralls.svg)](https://beta.hexfaktor.org/github/parroty/excoveralls)
 ============
 
-An elixir library that reports test coverage statistics, with the option to post to [coveralls.io](https://coveralls.io/) service.
+An Elixir library that reports test coverage statistics, with the option to post to [coveralls.io](https://coveralls.io/) service.
 It uses Erlang's [cover](http://www.erlang.org/doc/man/cover.html) to generate coverage information, and posts the test coverage results to coveralls.io through the json API.
 
-The followings are example projects.
+The following are example projects.
   - [coverage_sample](https://github.com/parroty/coverage_sample) is for Travis CI.
   - [circle_sample](https://github.com/parroty/circle_sample) is for CircleCI .
   - [semaphore_sample](https://github.com/parroty/semaphore_sample) is for Semaphore CI.
@@ -37,7 +37,7 @@ end
 
 defp deps do
   [
-    {:excoveralls, "~> 0.6", only: :test}
+    {:excoveralls, "~> 0.7", only: :test}
   ]
 end
 ```
