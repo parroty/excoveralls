@@ -1,3 +1,8 @@
+0.7.1
+------
+#### Changes
+* Take the highest coverage count for a single line (#102).
+
 0.7.0
 ------
 #### Changes
