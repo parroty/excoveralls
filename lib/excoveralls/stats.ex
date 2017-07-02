@@ -52,7 +52,7 @@ defmodule ExCoveralls.Stats do
   defp add_counts(module_hash, module, line, count) do
     path = Cover.module_path(module)
     count_hash = Map.get(module_hash, path, Map.new)
-    Map.put(module_hash, path, Map.put(count_hash, line, count))
+    Map.put(module_hash, path, Map.put(count_hash, line, max(Map.get(count_hash, line, 0), count)))
   end
 
   @doc """
