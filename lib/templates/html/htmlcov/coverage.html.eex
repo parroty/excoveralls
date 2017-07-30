@@ -2,8 +2,8 @@
 <html>
   <head>
     <title>Coverage</title>
-    <%= partial "_style.html.eex" %>
-    <%= partial "_script.html.eex" %>
+    <%= ExCoveralls.Html.View.partial "_style.html.eex" %>
+    <%= ExCoveralls.Html.View.partial "_script.html.eex" %>
   </head>
   <body>
     <div id='coverage'>
@@ -12,7 +12,7 @@
         <li><a href='#overview'>overview</a></li>
         <%= for file <- @cov.files do %>
           <li>
-            <span class='cov <%= coverage_class(file.coverage) %>'><%= file.coverage || 0 %></span>
+            <span class='cov <%= ExCoveralls.Html.View.coverage_class(file.coverage) %>'><%= file.coverage || 0 %></span>
             <a href='#<%= file.filename %>'>
               <% parts = String.split(file.filename, "/") %><% [b | s] = parts |> Enum.reverse |> Enum.reverse_slice(1, Enum.count(parts)) %>
               <%= if Enum.count(s) do %>
@@ -24,7 +24,7 @@
         <% end %>
       </div>
 
-      <div id='stats' class='<%= coverage_class(@cov.coverage) %>'>
+      <div id='stats' class='<%= ExCoveralls.Html.View.coverage_class(@cov.coverage) %>'>
         <div class='percentage'><%= @cov.coverage || 0 %></div>
         <div class='sloc'><%= @cov.sloc %></div>
         <div class='hits'><%= @cov.hits %></div>
@@ -34,7 +34,7 @@
         <%= for file <- @cov.files do %>
           <div class='file'>
             <h2 id='<%= file.filename %>'><%= file.filename %></h1>
-            <div id='stats' class='<%= coverage_class(file.coverage) %>'>
+            <div id='stats' class='<%= ExCoveralls.Html.View.coverage_class(file.coverage) %>'>
               <div class='percentage'><%= file.coverage || 0 %></div>
               <div class='sloc'><%= file.sloc %></div>
               <div class='hits'><%= file.hits %></div>
@@ -54,19 +54,19 @@
                       <tr class='hit'>
                         <td class='line'><%= number %></td>
                         <td class='hits'><%= line.coverage %></td>
-                        <td class='source'><%= safe line.source %></td>
+                        <td class='source'><%= ExCoveralls.Html.View.safe line.source %></td>
                       </tr>
                     <%= 0 == line.coverage -> %>
                       <tr class='miss'>
                         <td class='line'><%= number %></td>
                         <td class='hits'>0</td>
-                        <td class='source'><%= safe line.source %></td>
+                        <td class='source'><%= ExCoveralls.Html.View.safe line.source %></td>
                       </tr>
                     <%= true -> %>
                       <tr>
                         <td class='line'><%= number %></td>
                         <td class='hits'></td>
-                        <td class='source'><%= safe(line.source || ' ')  %></td>
+                        <td class='source'><%= ExCoveralls.Html.View.safe(line.source || ' ')  %></td>
                       </tr>
                   <% end %>
                 <% end %>

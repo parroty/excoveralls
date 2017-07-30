@@ -23,7 +23,9 @@ defmodule ExCoveralls.Html.View do
 
   @template "coverage.html.eex"
 
-  EEx.function_from_file(:def, :render, PathHelper.template_path(@template), [:assigns])
+  def render(assigns \\ []) do
+    EEx.eval_file(PathHelper.template_path(@template), assigns: assigns)
+  end
 
   def partial(template, assigns \\ []) do
     EEx.eval_file(PathHelper.template_path(template), assigns: assigns)
