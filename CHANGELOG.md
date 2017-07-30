@@ -1,3 +1,8 @@
+0.7.2
+------
+#### Changes
+* Fix html template is ignoring template_path from options (#105).
+
 0.7.1
 ------
 #### Changes
