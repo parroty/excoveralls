@@ -50,19 +50,19 @@
               <tbody>
                 <%= for {line, number} <- Enum.with_index(file.source) do %>
                   <%= cond do %>
-                    <%= line.coverage > 0 && line.coverage != nil -> %>
+                    <% line.coverage > 0 && line.coverage != nil -> %>
                       <tr class='hit'>
                         <td class='line'><%= number %></td>
                         <td class='hits'><%= line.coverage %></td>
                         <td class='source'><%= ExCoveralls.Html.View.safe line.source %></td>
                       </tr>
-                    <%= 0 == line.coverage -> %>
+                    <% 0 == line.coverage -> %>
                       <tr class='miss'>
                         <td class='line'><%= number %></td>
                         <td class='hits'>0</td>
                         <td class='source'><%= ExCoveralls.Html.View.safe line.source %></td>
                       </tr>
-                    <%= true -> %>
+                    <% true -> %>
                       <tr>
                         <td class='line'><%= number %></td>
                         <td class='hits'></td>
