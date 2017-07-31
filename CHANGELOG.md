@@ -1,3 +1,8 @@
+0.7.3
+------
+#### Changes
+* Fix EEx template warnings when using elixir 1.5 (#106).
+
 0.7.2
 ------
 #### Changes
