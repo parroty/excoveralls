@@ -103,7 +103,7 @@ defmodule ExCoveralls.Stats do
   end
 
   defp count_lines(string) do
-    1 + Enum.count(String.to_char_list(string), fn(x) -> x == ?\n end)
+    1 + Enum.count(string_to_charlist(string), fn(x) -> x == ?\n end)
   end
 
   @doc """
@@ -220,4 +220,9 @@ defmodule ExCoveralls.Stats do
     end
   end
 
+  if Version.compare(System.version, "1.3.0") == :lt do
+    defp string_to_charlist(string), do: String.to_char_list(string)
+  else
+    defp string_to_charlist(string), do: String.to_charlist(string)
+  end
 end

@@ -9,7 +9,7 @@ defmodule ExCoveralls.Cover do
   def compile(compile_path) do
     :cover.stop
     :cover.start
-    :cover.compile_beam_directory(compile_path |> String.to_char_list)
+    :cover.compile_beam_directory(compile_path |> string_to_charlist)
   end
 
   @doc """
@@ -39,5 +39,11 @@ defmodule ExCoveralls.Cover do
   @doc "Wrapper for :cover.analyse"
   def analyze(module) do
     :cover.analyse(module, :calls, :line)
+  end
+
+  if Version.compare(System.version, "1.3.0") == :lt do
+    defp string_to_charlist(string), do: String.to_char_list(string)
+  else
+    defp string_to_charlist(string), do: String.to_charlist(string)
   end
 end
