@@ -234,16 +234,16 @@ Custom reports can be created and utilized by defining `template_path` in `cover
 contain an eex template named `coverage.html.eex`.
 
 ## coveralls.json
-`coveralls.json` provides a setting for excoveralls.
+`coveralls.json` provides settings for excoveralls.
 
-The default `coveralls.json` file is stored in `deps/excoveralls/lib/conf`, and custom `coveralls.json` files can be placed in the mix project root. The custom definition is prioritized over the default one (if definitions in custom file are not found, then the definitions in the default file are used).
+The default `coveralls.json` file is stored in `deps/excoveralls/lib/conf`, and custom `coveralls.json` files can be placed in the mix project root. The custom definition is prioritized over the default one (if definitions in the custom file are not found, then the definitions in the default file are used).
 
 #### Stop Words
-Stop words defined in `coveralls.json` will be excluded from the coverage calculation. Some kernal macros defined in Elixir are not considered "covered" by Erlang's cover library. It can be used for excluding these macros, or for any other reasons. The words are parsed as regular expression.
+Stop words defined in `coveralls.json` will be excluded from the coverage calculation. Some kernel macros defined in Elixir are not considered "covered" by Erlang's cover library. It can be used for excluding these macros, or for any other reasons. The words are parsed as regular expression.
 
 #### Exclude Files
 
-If you want to exclude files from the coverage calculation add the `skip_files` key in the `coveralls.json` file. `skip_files` takes an array of file paths, for example:
+If you want to exclude/ignore files from the coverage calculation add the `skip_files` key in the `coveralls.json` file. `skip_files` takes an array of file paths, for example:
 
 ```javascript
 {
