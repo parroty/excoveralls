@@ -182,9 +182,12 @@ defmodule Mix.Tasks.Coveralls do
     @preferred_cli_env :test
 
     def run(args) do
+      switches = [filter: :string, umbrella: :boolean, verbose: :boolean, pro: :boolean, parallel: :boolean]
+      aliases = [f: :filter, u: :umbrella, v: :verbose]
       {options, params, _} =
         OptionParser.parse(args,
-          aliases: [n: :name, b: :branch, c: :committer, m: :message, s: :sha, t: :token])
+          switches: switches,
+          aliases: aliases ++ [n: :name, b: :branch, c: :committer, m: :message, s: :sha, t: :token])
 
       Mix.Tasks.Coveralls.do_run(params,
         [ type:         "post",
@@ -194,7 +197,10 @@ defmodule Mix.Tasks.Coveralls do
           branch:       options[:branch] || "",
           committer:    options[:committer] || "",
           sha:          options[:sha] || "",
-          message:      options[:message] || "[no commit message]" ])
+          message:      options[:message] || "[no commit message]",
+          umbrella:     options[:umbrella],
+          verbose:      options[:verbose]
+        ])
     end
 
     def extract_service_name(options) do
