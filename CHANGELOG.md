@@ -1,3 +1,10 @@
+
+0.7.4
+------
+#### Changes
+* Fix for Coveralls Badge only Displays Last App Tested in Umbrella App (#76).
+    - Changes the behavior of mix coveralls.post so that it recognizes (#116).
+
 0.7.3
 ------
 #### Changes
