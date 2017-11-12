@@ -1,3 +1,7 @@
+0.7.5
+------
+#### Enhancements
+* Support for ~/.excoversalls/coveralls.json (#120).
 
 0.7.4
 ------
