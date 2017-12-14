@@ -92,7 +92,8 @@ defmodule ExCoveralls.StatsTest do
 
   test_with_mock "skip files", Settings.Files,
                    [default_file: fn -> @fixture_default end,
-                    custom_file:  fn -> @fixture_custom end] do
+                    custom_file:  fn -> @fixture_custom end,
+                    dot_file:  fn -> "__invalid__" end] do
     assert Stats.skip_files(@source_info) == []
   end
 
