@@ -94,8 +94,14 @@ defmodule ExCoveralls.Settings do
   end
 
   defp merge(left, right) when is_map(left) and is_map(right) do
-    Enum.reduce(right, %{}, fn {k,v}, new_map ->
-      merged = if Map.has_key?(left, k), do: merge(Map.get(left,k), v), else: v
+    keys = Map.keys(left) ++ Map.keys(right)
+    Enum.reduce(keys, %{}, fn k, new_map ->
+      merged = cond do
+        Map.has_key?(left, k) and Map.has_key?(right, k) -> merge(Map.get(left, k), Map.get(right, k))
+        Map.has_key?(left, k) == false and Map.has_key?(right, k) -> Map.get(right, k)
+        Map.has_key?(left, k) and Map.has_key?(right, k) == false -> Map.get(left, k)
+        true -> %{}
+      end
       Map.put(new_map, k, merged)
     end)
   end
