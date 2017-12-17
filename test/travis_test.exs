@@ -21,6 +21,15 @@ defmodule ExCoveralls.TravisTest do
     assert(json =~ ~r/source_files/)
   end
 
+  test "generate from env vars" do
+    System.put_env("TRAVIS_BRANCH", "branch")
+    {:ok, payload} = JSX.decode(Travis.generate_json(@source_info))
+    %{"git" =>
+      %{"branch" => branch}
+    } = payload
+    assert(branch == "branch")
+  end
+
   test "submits as `travis-ci` by default" do
     parsed = Travis.generate_json(@source_info) |> JSX.decode!
     assert(%{ "service_name" => "travis-ci" } = parsed)
