@@ -56,7 +56,7 @@ defmodule Mix.Tasks.Coveralls do
   end
 
   defp parse_common_options(args, options) do
-    switches = [filter: :string, umbrella: :boolean, verbose: :boolean, pro: :boolean, parallel: :boolean]
+    switches = [filter: :string, umbrella: :boolean, verbose: :boolean, pro: :boolean, parallel: :boolean, sort: :string]
     aliases = [f: :filter, u: :umbrella, v: :verbose]
     {common_options, _remaining, _invalid} = OptionParser.parse(args, switches: switches, aliases: aliases)
 
