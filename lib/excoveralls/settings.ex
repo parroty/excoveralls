@@ -106,6 +106,6 @@ defmodule ExCoveralls.Settings do
     end)
   end
   defp merge(left, right) when is_list(left) and is_list(right), do: Enum.uniq(left ++ right)
-  defp merge(left, right), do: right
+  defp merge(_left, right), do: right
 end
 
