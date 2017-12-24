@@ -1,3 +1,9 @@
+0.8.0
+------
+#### Enhancements
+* Add --sort option to local runner (#125).
+* Merge dot file settings and project settings (#122).
+
 0.7.5
 ------
 #### Enhancements
