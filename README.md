@@ -50,7 +50,7 @@ end
 - [mix coveralls.travis](#mix-coverallstravis-post-coverage-from-travis)
 - [mix coveralls.circle](#mix-coverallscircle-post-coverage-from-circle)
 - [mix coveralls.semaphore](#mix-coverallssemaphore-post-coverage-from-semaphore)
-- [mix coveralls.post](#mix-coverallspost-post-coverage-from-localhost)
+- [mix coveralls.post](#mix-coverallspost-post-coverage-from-any-host)
 - [mix coveralls.detail](#mix-coverallsdetail-show-coverage-with-detail)
 - [mix coveralls.html](#mix-coverallshtml-show-coverage-as-html-report)
 
