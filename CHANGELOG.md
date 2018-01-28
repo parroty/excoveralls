@@ -1,3 +1,9 @@
+0.8.1
+------
+#### Changes
+- Bump meck to 0.8.9 (#129).
+    - Fix for Got error while mocking a method using espec (#107).
+
 0.8.0
 ------
 #### Enhancements
