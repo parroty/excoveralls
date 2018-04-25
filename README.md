@@ -53,6 +53,7 @@ end
 - [mix coveralls.post](#mix-coverallspost-post-coverage-from-any-host)
 - [mix coveralls.detail](#mix-coverallsdetail-show-coverage-with-detail)
 - [mix coveralls.html](#mix-coverallshtml-show-coverage-as-html-report)
+- [mix coveralls.json](#mix-coverallsjson-show-coverage-as-json-report)
 
 ### [mix coveralls] Show coverage
 Run the `MIX_ENV=test mix coveralls` command to show coverage information on localhost.
@@ -232,6 +233,16 @@ $ MIX_ENV=test mix coveralls.html
 Output reports are written to `cover/excoveralls.html` by default, however, the path can be specified by overwriting the `"output_dir"` coverage option.
 Custom reports can be created and utilized by defining `template_path` in `coveralls.json`. This directory should
 contain an eex template named `coverage.html.eex`.
+
+### [mix coveralls.json] Show coverage as JSON report
+This task displays coverage information at the source-code level formatted as a JSON document.
+The report follows a format supported by several code coverage services, including Codecov and Code Climate.
+Output to the shell is the same as running the command `mix coveralls`. In a similar manner to `mix coveralls.detail`, reported source code can be filtered by specifying arguments using the `--filter` flag.
+
+Upload a coverage report to Codecov using their [bash uploader](https://docs.codecov.io/docs/about-the-codecov-bash-uploader)
+or to Code Climate using their [test-reporter](https://docs.codeclimate.com/docs/configuring-test-coverage).
+
+Output reports are written to `cover/excoveralls.json` by default, however, the path can be specified by overwriting the `"output_dir"` coverage option.
 
 ## coveralls.json
 `coveralls.json` provides settings for excoveralls.
