@@ -26,14 +26,22 @@ defmodule ExCoveralls.Cover do
     :cover.modules |> Enum.filter(&has_compile_info?/1)
   end
 
-  defp has_compile_info?(module) do
-    try do
-      module.module_info(:compile) != nil
-    rescue
-      _e in UndefinedFunctionError ->
-        IO.puts :stderr, "[warning] skipping the module '#{module}' because source information for the module is not available."
-        false
+  def has_compile_info?(module) do
+    case module.module_info(:compile) do
+      nil -> false
+      info ->
+        path = Keyword.get(info, :source)
+        if File.exists?(path) do
+          true
+        else
+          log_missing_source(module)
+          false
+        end
     end
+  rescue
+    _e in UndefinedFunctionError ->
+      log_missing_source(module)
+      false
   end
 
   @doc "Wrapper for :cover.analyse"
@@ -45,5 +53,9 @@ defmodule ExCoveralls.Cover do
     defp string_to_charlist(string), do: String.to_char_list(string)
   else
     defp string_to_charlist(string), do: String.to_charlist(string)
+  end
+
+  defp log_missing_source(module) do
+    IO.puts :stderr, "[warning] skipping the module '#{module}' because source information for the module is not available."
   end
 end

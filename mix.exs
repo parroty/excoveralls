@@ -5,6 +5,7 @@ defmodule ExCoveralls.Mixfile do
     [ app: :excoveralls,
       version: "0.8.1",
       elixir: "~> 1.2",
+      elixirc_paths: elixirc_paths(Mix.env()),
       deps: deps(),
       description: description(),
       package: package(),
@@ -23,6 +24,10 @@ defmodule ExCoveralls.Mixfile do
   def application do
     []
   end
+
+  # Specifies which paths to compile per environment.
+  defp elixirc_paths(:test), do: ["lib", "test/fixtures/test_missing.ex"]
+  defp elixirc_paths(_), do: ["lib"]
 
   # Returns the list of dependencies in the format:
   # { :foobar, "~> 0.1", git: "https://github.com/elixir-lang/foobar.git" }
