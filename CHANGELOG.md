@@ -1,3 +1,8 @@
+0.8.2
+------
+#### Changes
+- Ensure missing source from dirty build dir is not reported (#134).
+
 0.8.1
 ------
 #### Changes
