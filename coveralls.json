@@ -7,5 +7,9 @@
     "output_dir": "cover/",
     "template_path": "lib/templates/html/htmlcov/",
     "minimum_coverage": 0
-  }
+  },
+
+  "skip_files": [
+    "test/fixtures/test_missing.ex"
+  ]
 }
