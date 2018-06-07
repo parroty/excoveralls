@@ -7,28 +7,28 @@ defmodule ExCoveralls.Travis do
   def execute(stats, options) do
     json = generate_json(stats, Enum.into(options, %{}))
     if options[:verbose] do
-      IO.puts JSX.prettify!(json)
+      IO.puts json
     end
     Poster.execute(json)
   end
 
   def generate_json(stats, options \\ %{})
   def generate_json(stats, %{ pro: true }) do
-    JSX.encode!([
+    Jason.encode!(%{
       service_job_id: get_job_id(),
       service_name: "travis-pro",
       repo_token: get_repo_token(),
       source_files: stats,
       git: generate_git_info()
-    ])
+    })
   end
   def generate_json(stats, _options) do
-    JSX.encode!([
+    Jason.encode!(%{
       service_job_id: get_job_id(),
       service_name: "travis-ci",
       source_files: stats,
       git: generate_git_info()
-    ])
+    })
   end
 
   defp get_job_id do
@@ -44,8 +44,6 @@ defmodule ExCoveralls.Travis do
   end
 
   defp generate_git_info do
-    [
-      branch: get_branch()
-    ]
+    %{branch: get_branch()}
   end
 end

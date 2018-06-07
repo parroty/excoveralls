@@ -60,7 +60,7 @@ defmodule ExCoveralls.Settings do
 
   defp read_config_file(file_name) do
     if File.exists?(file_name) do
-      case File.read!(file_name) |> JSX.decode do
+      case File.read!(file_name) |> Jason.decode do
         {:ok, config} -> Enum.into(config, Map.new)
         _ -> raise "Failed to parse config file as JSON : #{file_name}"
       end

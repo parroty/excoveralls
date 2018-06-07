@@ -5,10 +5,10 @@ defmodule ExCoveralls.PostTest do
 
   @content     "defmodule Test do\n  def test do\n  end\nend\n"
   @counts      [0, 1, nil, nil]
-  @source_info [[name: "test/fixtures/test.ex",
-                 source: @content,
-                 coverage: @counts
-               ]]
+  @source_info [%{name: "test/fixtures/test.ex",
+                  source: @content,
+                  coverage: @counts
+               }]
 
   test_with_mock "execute", ExCoveralls.Poster, [execute: fn(_, _) -> "result" end] do
     original_token = System.get_env("COVERALLS_REPO_TOKEN")
@@ -22,14 +22,23 @@ defmodule ExCoveralls.PostTest do
   end
 
   test "generate json" do
-    assert(Post.generate_json(@source_info, [token: "1234567890", service_name: "local", branch: "", committer: "", message: "", sha: ""]) ==
-       "{\"repo_token\":\"1234567890\"," <>
+    json =
+      Post.generate_json(@source_info, [
+        token: "1234567890",
+        service_name: "local",
+        branch: "",
+        committer: "",
+        message: "",
+        sha: ""
+      ])
+
+    assert json ==
+       "{\"git\":{\"branch\":\"\",\"head\":{\"committer_name\":\"\",\"id\":\"\",\"message\":\"\"}}," <>
+         "\"repo_token\":\"1234567890\"," <>
          "\"service_name\":\"local\"," <>
          "\"source_files\":" <>
-           "[{\"name\":\"test/fixtures/test.ex\"," <>
-             "\"source\":\"defmodule Test do\\n  def test do\\n  end\\nend\\n\"," <>
-             "\"coverage\":[0,1,null,null]}]," <>
-         "\"git\":{\"head\":{\"committer_name\":\"\",\"message\":\"\",\"id\":\"\"},\"branch\":\"\"}}"
-    )
+           "[{\"coverage\":[0,1,null,null]," <>
+             "\"name\":\"test/fixtures/test.ex\"," <>
+             "\"source\":\"defmodule Test do\\n  def test do\\n  end\\nend\\n\"}]}"
   end
 end

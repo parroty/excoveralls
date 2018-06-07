@@ -34,7 +34,7 @@ defmodule ExCoveralls do
   end
 
   def execute(options, compile_path) do
-    stats = Stats.report(Cover.modules)
+    stats = Cover.modules() |> Stats.report() |> Enum.map(&Enum.into(&1, %{}))
 
     if options[:umbrella] do
       store_stats(stats, options, compile_path)
