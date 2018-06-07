@@ -61,7 +61,7 @@ defmodule ExCoveralls.Settings do
   defp read_config_file(file_name) do
     if File.exists?(file_name) do
       case File.read!(file_name) |> Jason.decode do
-        {:ok, config} -> Enum.into(config, Map.new)
+        {:ok, config} -> config
         _ -> raise "Failed to parse config file as JSON : #{file_name}"
       end
     else
@@ -108,4 +108,3 @@ defmodule ExCoveralls.Settings do
   defp merge(left, right) when is_list(left) and is_list(right), do: Enum.uniq(left ++ right)
   defp merge(_left, right), do: right
 end
-
