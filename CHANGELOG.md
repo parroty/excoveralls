@@ -1,3 +1,9 @@
+0.9.0
+------
+#### Enhancements
+- Replace JSX with Jason (#137).
+
+
 0.8.2
 ------
 #### Changes
