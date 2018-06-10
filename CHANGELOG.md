@@ -3,6 +3,8 @@
 #### Enhancements
 - Replace JSX with Jason (#137).
 
+#### Changes
+- Make the minimum elixir version v1.3.
 
 0.8.2
 ------
