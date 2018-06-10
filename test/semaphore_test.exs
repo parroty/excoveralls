@@ -5,10 +5,10 @@ defmodule ExCoveralls.SemaphoreTest do
 
   @content     "defmodule Test do\n  def test do\n  end\nend\n"
   @counts      [0, 1, nil, nil]
-  @source_info [[name: "test/fixtures/test.ex",
+  @source_info [%{name: "test/fixtures/test.ex",
                  source: @content,
                  coverage: @counts
-               ]]
+               }]
 
   setup do
     # Capture existing values
@@ -44,7 +44,7 @@ defmodule ExCoveralls.SemaphoreTest do
   end
 
   test "submits as `semaphore-ci` by default" do
-    parsed = Semaphore.generate_json(@source_info) |> JSX.decode!
+    parsed = Semaphore.generate_json(@source_info) |> Jason.decode!
     assert(%{ "service_name" => "semaphore" } = parsed)
   end
 
@@ -55,7 +55,7 @@ defmodule ExCoveralls.SemaphoreTest do
     System.put_env("SEMAPHORE_BUILD_NUMBER", "0")
     System.put_env("COVERALLS_REPO_TOKEN", "token")
 
-    {:ok, payload} = JSX.decode(Semaphore.generate_json(@source_info))
+    {:ok, payload} = Jason.decode(Semaphore.generate_json(@source_info))
     %{"git" =>
       %{"branch" => branch,
         "head" => %{ "id" => id}}} = payload

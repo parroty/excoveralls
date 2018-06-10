@@ -35,7 +35,7 @@ defmodule ExCoveralls.Mixfile do
     [
       {:mock, "~> 0.2.1", only: :test},
       {:meck, "~> 0.8.9", only: :test},
-      {:exjsx, ">= 3.0.0"},
+      {:jason, "~> 1.0"},
       {:hackney, ">= 0.12.0"},
       {:ex_doc, ">= 0.0.0", only: :dev}
     ]

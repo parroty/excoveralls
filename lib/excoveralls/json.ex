@@ -15,9 +15,9 @@ defmodule ExCoveralls.Json do
   end
 
   def generate_json(stats, _options) do
-    JSX.encode!([
+    Jason.encode!(%{
       source_files: stats
-    ])
+    })
   end
 
   defp output_dir do

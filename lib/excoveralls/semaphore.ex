@@ -7,14 +7,14 @@ defmodule ExCoveralls.Semaphore do
   def execute(stats, options) do
     json = generate_json(stats, Enum.into(options, %{}))
     if options[:verbose] do
-      IO.puts JSX.prettify!(json)
+      IO.puts json
     end
     Poster.execute(json)
   end
 
   def generate_json(stats, options \\ %{})
   def generate_json(stats, options) do
-    JSX.encode!([
+    Jason.encode!(%{
       repo_token: get_repo_token(),
       service_name: "semaphore",
       service_number: get_build_num(),
@@ -23,16 +23,16 @@ defmodule ExCoveralls.Semaphore do
       source_files: stats,
       git: generate_git_info(),
       parallel: options[:parallel]
-    ])
+    })
   end
 
   defp generate_git_info do
-    [head: [
+    %{head: %{
        message: get_message!(),
        id: get_sha()
-      ],
+      },
       branch: get_branch()
-    ]
+    }
   end
 
   defp get_pull_request do

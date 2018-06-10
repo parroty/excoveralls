@@ -10,10 +10,10 @@ defmodule ExCoveralls.JsonTest do
 
   @content     "defmodule Test do\n  def test do\n  end\nend\n"
   @counts      [0, 1, nil, nil]
-  @source_info [[name: "test/fixtures/test.ex",
-                 source: @content,
-                 coverage: @counts
-               ]]
+  @source_info [%{name: "test/fixtures/test.ex",
+                  source: @content,
+                  coverage: @counts
+               }]
 
   @stats_result "" <>
     "----------------\n" <>
@@ -45,10 +45,9 @@ defmodule ExCoveralls.JsonTest do
       Json.execute(@source_info)
     end) =~ @stats_result
 
-    assert(File.read!(report) =~ ~s({"source_files":[{"name":"test/fixtures/test.ex","source":"defmodule Test do\\n  def test do\\n  end\\nend\\n","coverage":[0,1,null,null]}]}))
+    assert(File.read!(report) =~ ~s({"source_files":[{"coverage":[0,1,null,null],"name":"test/fixtures/test.ex","source":"defmodule Test do\\n  def test do\\n  end\\nend\\n"}]}))
     %{size: size} = File.stat! report
     assert(size == @file_size)
   end
 
 end
-
