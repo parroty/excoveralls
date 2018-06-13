@@ -90,9 +90,7 @@ defmodule ExCoveralls.Stats do
   Append the name of the sub app to the source info stats.
   """
   def append_sub_app_name(stats, sub_app_name, apps_path) do
-    Enum.map(stats, fn([{:name, name}, {:source, source}, {:coverage, coverage}]) ->
-      [{:name, "#{apps_path}/#{sub_app_name}/#{name}"}, {:source, source}, {:coverage, coverage}]
-    end)
+    Enum.map(stats, &expand_name(apps_path, sub_app_name, &1))
   end
 
   @doc """
@@ -218,6 +216,13 @@ defmodule ExCoveralls.Stats do
       IO.puts IO.ANSI.format([:red, :bright, message])
       exit({:shutdown, 1})
     end
+  end
+
+  defp expand_name(apps_path, sub_app_name, %{name: name, source: source, coverage: coverage}) do
+    [{:name, "#{apps_path}/#{sub_app_name}/#{name}"}, {:source, source}, {:coverage, coverage}]
+  end
+  defp expand_name(apps_path, sub_app_name, [{:name, name}, {:source, source}, {:coverage, coverage}]) do
+    [{:name, "#{apps_path}/#{sub_app_name}/#{name}"}, {:source, source}, {:coverage, coverage}]
   end
 
   if Version.compare(System.version, "1.3.0") == :lt do
