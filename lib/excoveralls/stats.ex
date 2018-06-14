@@ -78,11 +78,11 @@ defmodule ExCoveralls.Stats do
   """
   def generate_source_info(coverage) do
     Enum.map(coverage, fn({file_path, stats}) ->
-      [
+      %{
         name: file_path,
         source: read_source(file_path),
         coverage: stats
-      ]
+      }
     end)
   end
 
@@ -90,7 +90,7 @@ defmodule ExCoveralls.Stats do
   Append the name of the sub app to the source info stats.
   """
   def append_sub_app_name(stats, sub_app_name, apps_path) do
-    Enum.map(stats, fn([{:name, name}, {:source, source}, {:coverage, coverage}]) ->
+    Enum.map(stats, fn(%{name: name, source: source, coverage: coverage}) ->
       [{:name, "#{apps_path}/#{sub_app_name}/#{name}"}, {:source, source}, {:coverage, coverage}]
     end)
   end
