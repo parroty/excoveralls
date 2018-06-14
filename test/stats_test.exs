@@ -13,10 +13,7 @@ defmodule ExCoveralls.StatsTest do
   @module_hash     Enum.into([{"test/fixtures/test.ex", @count_hash}], Map.new)
   @counts          [0, 1, nil, nil]
   @coverage        [{"test/fixtures/test.ex", @counts}]
-  @source_info     [[name: "test/fixtures/test.ex",
-                     source: @trimmed,
-                     coverage: @counts
-                   ]]
+  @source_info     [%{name: "test/fixtures/test.ex", source: @trimmed, coverage: @counts}]
   @fixture_default Path.dirname(__ENV__.file) <> "/fixtures/default.json"
   @fixture_custom  Path.dirname(__ENV__.file) <> "/fixtures/skip_files.json"
 
