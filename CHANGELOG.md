@@ -1,3 +1,8 @@
+0.9.1
+------
+#### Changes
+- Fix umbrella stats and make source consistent (#141).
+
 0.9.0
 ------
 #### Enhancements
