@@ -4,10 +4,10 @@ defmodule ExCoveralls.StopWordsTest do
 
   @content     "defmodule Test do\n  def test do\n  end\nend\n"
   @counts      [0, 1, nil, nil, nil]
-  @source_info [[name: "test/fixtures/test.ex",
+  @source_info [%{name: "test/fixtures/test.ex",
                  source: @content,
                  coverage: @counts
-               ]]
+               }]
 
   test "filter stop words returns valid list" do
     info = StopWords.filter(@source_info, ["defmodule", "end"]) |> Enum.at(0)

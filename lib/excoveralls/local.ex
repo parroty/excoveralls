@@ -54,7 +54,7 @@ defmodule ExCoveralls.Local do
     "\n\e[33m--------#{stat[:name]}--------\e[m\n" <> colorize(stat)
   end
 
-  defp colorize([{:name, _name}, {:source, source}, {:coverage, coverage}]) do
+  defp colorize(%{name: _name, source: source, coverage: coverage}) do
     lines = String.split(source, "\n")
     Enum.zip(lines, coverage)
     |> Enum.map(&do_colorize/1)
@@ -191,4 +191,3 @@ defmodule ExCoveralls.Local do
     List.to_string(char_list)
   end
 end
-

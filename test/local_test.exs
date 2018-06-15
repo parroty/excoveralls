@@ -6,22 +6,22 @@ defmodule ExCoveralls.LocalTest do
 
   @content     "defmodule Test do\n  def test do\n  end\nend\n"
   @counts      [0, 1, nil, nil]
-  @source_info [[name: "test/fixtures/test.ex",
+  @source_info [%{name: "test/fixtures/test.ex",
                  source: @content,
                  coverage: @counts
-               ]]
+               }]
 
   @invalid_counts [0, 1, nil, "invalid"]
-  @invalid_source_info [[name: "test/fixtures/test.ex",
+  @invalid_source_info [%{name: "test/fixtures/test.ex",
                  source: @content,
                  coverage: @invalid_counts
-               ]]
+               }]
 
   @empty_counts [nil, nil, nil, nil]
-  @empty_source_info [[name: "test/fixtures/test.ex",
+  @empty_source_info [%{name: "test/fixtures/test.ex",
                  source: @content,
                  coverage: @empty_counts
-               ]]
+               }]
 
   @stats_result "" <>
       "----------------\n" <>
@@ -95,4 +95,3 @@ defmodule ExCoveralls.LocalTest do
     end) =~ @stats_result
   end
 end
-
