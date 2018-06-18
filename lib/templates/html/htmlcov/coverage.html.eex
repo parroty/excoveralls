@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Coverage</title>
+    <meta charset="utf-8" />
     <%= ExCoveralls.Html.View.partial "_style.html.eex" %>
     <%= ExCoveralls.Html.View.partial "_script.html.eex" %>
   </head>
