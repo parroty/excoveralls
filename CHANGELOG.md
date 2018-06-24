@@ -1,3 +1,8 @@
+0.9.2
+------
+#### Changes
+- Add meta tag for utf-8 charset to coverage.html (#144).
+
 0.9.1
 ------
 #### Changes
