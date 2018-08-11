@@ -2,6 +2,8 @@
 ------
 #### Changes
 - Add meta tag for utf-8 charset to coverage.html (#144).
+- Fix warnings for elixir v1.7
+    - Pass switches to OptionParser.parse opts (#150).
 
 0.9.1
 ------
