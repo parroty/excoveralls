@@ -15,7 +15,7 @@ defmodule Mix.Tasks.Coveralls do
   end
 
   def run(args) do
-    {options, _, _} = OptionParser.parse(args, aliases: [h: :help])
+    {options, _, _} = OptionParser.parse(args, switches: [help: :boolean], aliases: [h: :help])
 
     if options[:help] do
       ExCoveralls.Task.Util.print_help_message
