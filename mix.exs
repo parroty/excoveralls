@@ -33,11 +33,11 @@ defmodule ExCoveralls.Mixfile do
   # { :foobar, "~> 0.1", git: "https://github.com/elixir-lang/foobar.git" }
   def deps do
     [
-      {:mock, "~> 0.2.1", only: :test},
-      {:meck, "~> 0.8.9", only: :test},
+      {:mock, "~> 0.2", only: :test},
+      {:meck, "~> 0.8", only: :test},
       {:jason, "~> 1.0"},
-      {:hackney, ">= 0.12.0"},
-      {:ex_doc, ">= 0.0.0", only: :dev}
+      {:hackney, "~> 1.13"},
+      {:ex_doc, "~> 0.19", only: :dev}
     ]
   end
 
