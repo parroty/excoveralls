@@ -6,7 +6,7 @@ defmodule ExCoveralls.Settings do
   defmodule Files do
     @filename "coveralls.json"
     def default_file, do: "#{Path.dirname(__ENV__.file)}/../conf/#{@filename}"
-    def custom_file, do: "#{System.cwd}/#{@filename}"
+    def custom_file, do: Application.get_env(:excoveralls, :config_file, "#{System.cwd}/#{@filename}")
     def dot_file, do: Path.expand("~/.excoveralls/#{@filename}")
   end
 
@@ -77,6 +77,10 @@ defmodule ExCoveralls.Settings do
     |> Enum.map(&Regex.compile!/1)
   end
 
+  def get_print_summary do
+    read_config("print_summary", true)
+  end
+
   @doc """
   Reads the value for the specified key defined in the json file.
   """
@@ -88,9 +92,8 @@ defmodule ExCoveralls.Settings do
   end
 
   defp read_merged_config(dot, custom) do
-    dot_config = read_config_file(dot)
-    project_config = read_config_file(custom)
-    merge(dot_config, project_config)
+    read_config_file(dot)
+    |> merge(read_config_file(custom))
   end
 
   defp merge(left, right) when is_map(left) and is_map(right) do

@@ -11,6 +11,7 @@ defmodule Excoveralls.SettingsTest do
   @fixture_covered Path.dirname(__ENV__.file) <> "/fixtures/no_relevant_lines_are_covered.json"
   @fixture_column_default Path.dirname(__ENV__.file) <> "/fixtures/terminal_options1.json"
   @fixture_column_integer Path.dirname(__ENV__.file) <> "/fixtures/terminal_options2.json"
+  @fixture_no_summary Path.dirname(__ENV__.file) <> "/fixtures/no_summary.json"
 
   test "returns default file path" do
     assert(Settings.Files.default_file
@@ -20,6 +21,15 @@ defmodule Excoveralls.SettingsTest do
   test "returns custom file path" do
     assert(Settings.Files.custom_file
            |> Path.relative_to(File.cwd!) == "coveralls.json")
+  end
+
+  test "returns custom file path from config file" do
+    Application.put_env(:excoveralls, :config_file, "custom_coveralls.json")
+
+    assert(Settings.Files.custom_file
+           |> Path.relative_to(File.cwd!) == "custom_coveralls.json")
+
+    Application.delete_env(:excoveralls, :config_file)
   end
 
   test_with_mock "read config defined in default file", Settings.Files,
@@ -106,6 +116,26 @@ defmodule Excoveralls.SettingsTest do
     ] do
     assert Settings.default_coverage_value == 0
     assert Settings.get_stop_words()== [~r/a/, ~r/b/, ~r/cc/, ~r/dd/, ~r/aa/, ~r/bb/]
+  end
+
+  test_with_mock "print_summary is true by default",
+    Settings.Files, [
+      default_file: fn -> "__invalid__" end,
+      custom_file:  fn -> "__invalid__" end,
+      dot_file: fn -> "__invalid__" end
+    ] do
+
+    assert Settings.get_print_summary
+  end
+
+  test_with_mock "print_summary can be set to false",
+    Settings.Files, [
+      default_file: fn -> "__invalid__" end,
+      custom_file:  fn -> @fixture_no_summary end,
+      dot_file: fn -> "__invalid__" end
+    ] do
+
+    refute Settings.get_print_summary
   end
 
 end
