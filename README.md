@@ -37,7 +37,7 @@ end
 
 defp deps do
   [
-    {:excoveralls, "~> 0.9", only: :test},
+    {:excoveralls, "~> 0.10", only: :test},
   ]
 end
 ```
