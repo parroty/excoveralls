@@ -1,7 +1,9 @@
-0.9.3
+0.10.0
 ------
 #### Enhancements
 - Custom config file path, and ability to silence output (#153).
+#### Changes
+- use ~> to pin on minors & test more recent Elixirs (#152).
 
 0.9.2
 ------
