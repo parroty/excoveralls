@@ -1,3 +1,8 @@
+0.9.3
+------
+#### Enhancements
+- Custom config file path, and ability to silence output (#153).
+
 0.9.2
 ------
 #### Changes
