@@ -43,11 +43,15 @@ defmodule ExCoveralls.Local do
   Prints summary statistics for given coverage.
   """
   def print_summary(stats, options \\ []) do
-    file_width = ExCoveralls.Settings.get_file_col_width
-    IO.puts "----------------"
-    IO.puts print_string("~-6s ~-#{file_width}s ~8s ~8s ~8s", ["COV", "FILE", "LINES", "RELEVANT", "MISSED"])
-    coverage(stats, options) |> IO.puts
-    IO.puts "----------------"
+    enabled = ExCoveralls.Settings.get_print_summary
+
+    if enabled do
+      file_width = ExCoveralls.Settings.get_file_col_width
+      IO.puts "----------------"
+      IO.puts print_string("~-6s ~-#{file_width}s ~8s ~8s ~8s", ["COV", "FILE", "LINES", "RELEVANT", "MISSED"])
+      coverage(stats, options) |> IO.puts
+      IO.puts "----------------"
+    end
   end
 
   defp format_source(stat) do
