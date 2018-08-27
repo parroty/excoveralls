@@ -51,6 +51,7 @@ end
 - [mix coveralls.travis](#mix-coverallstravis-post-coverage-from-travis)
 - [mix coveralls.circle](#mix-coverallscircle-post-coverage-from-circle)
 - [mix coveralls.semaphore](#mix-coverallssemaphore-post-coverage-from-semaphore)
+- [mix coveralls.drone](#mix-coverallsdrone-post-coverage-from-drone)
 - [mix coveralls.post](#mix-coverallspost-post-coverage-from-any-host)
 - [mix coveralls.detail](#mix-coverallsdetail-show-coverage-with-detail)
 - [mix coveralls.html](#mix-coverallshtml-show-coverage-as-html-report)
@@ -154,6 +155,23 @@ variable.
 ### [mix coveralls.semaphore] Post coverage from semaphore
 Specify `mix coveralls.semaphore` in the build command prompt for instructions in semaphore.
 This task is for submitting the result to the coveralls server when Semaphore-CI build is executed.
+
+### [mix coveralls.drone] Post coverage from drone
+Specify `mix coveralls.drone` in the `.drone.yml`.
+This task is for submitting the result to the coveralls server when the Drone build is executed.
+
+You will also need to add your coveralls repo token as a secret to the drone project:
+`drone secret add --repository=your-namespace/your-project --name=coveralls_repo_token --value=xyz`
+
+#### .drone.yml
+
+```yml
+pipeline:
+  build:
+    secrets: [ coveralls_repo_token ]
+    commands:
+      - mix coveralls.drone
+```
 
 #### semaphore build instructions
 ```
