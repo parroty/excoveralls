@@ -170,6 +170,20 @@ defmodule Mix.Tasks.Coveralls do
     end
   end
 
+  defmodule Drone do
+    @moduledoc """
+    Provides an entry point for DroneCI's script.
+    """
+
+    use Mix.Task
+
+    @preferred_cli_env :test
+
+    def run(args) do
+      Mix.Tasks.Coveralls.do_run(args, [type: "drone"])
+    end
+  end
+
   defmodule Post do
     @moduledoc """
     Provides an entry point for posting test coverage to

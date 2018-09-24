@@ -19,6 +19,11 @@ defmodule ExCoverallsTest do
     assert called ExCoveralls.Semaphore.execute(@stats,[])
   end
 
+  test_with_mock "analyze drone", ExCoveralls.Drone, [execute: fn(_,_) -> nil end] do
+    ExCoveralls.analyze(@stats, "drone", [])
+    assert called ExCoveralls.Drone.execute(@stats,[])
+  end
+
   test_with_mock "analyze local", ExCoveralls.Local, [execute: fn(_,_) -> nil end] do
     ExCoveralls.analyze(@stats, "local", [])
     assert called ExCoveralls.Local.execute(@stats,[])
