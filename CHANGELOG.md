@@ -1,3 +1,9 @@
+0.10.1
+------
+#### Enhancements
+- Add support for drone CI (#154).
+- Parallel support for separate CircleCI Workflow jobs (#155).
+
 0.10.0
 ------
 #### Enhancements
