@@ -156,6 +156,14 @@ variable.
 Specify `mix coveralls.semaphore` in the build command prompt for instructions in semaphore.
 This task is for submitting the result to the coveralls server when Semaphore-CI build is executed.
 
+#### semaphore build instructions
+```
+mix coveralls.semaphore
+```
+
+Ensure your coveralls.io repo token is available via the `COVERALLS_REPO_TOKEN` environment
+variable.
+
 ### [mix coveralls.drone] Post coverage from drone
 Specify `mix coveralls.drone` in the `.drone.yml`.
 This task is for submitting the result to the coveralls server when the Drone build is executed.
@@ -172,14 +180,6 @@ pipeline:
     commands:
       - mix coveralls.drone
 ```
-
-#### semaphore build instructions
-```
-mix coveralls.semaphore
-```
-
-Ensure your coveralls.io repo token is available via the `COVERALLS_REPO_TOKEN` environment
-variable.
 
 ### [mix coveralls.post] Post coverage from any host
 Acquire the repository token of coveralls.io in advance, and run the `mix coveralls.post` command.
