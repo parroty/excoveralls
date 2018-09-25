@@ -165,6 +165,29 @@ defmodule Mix.Tasks.CoverallsTest do
     end
   end
 
+  test "non standard post arguments propagates to runner" do
+    with_mocks([
+      {
+        Runner,
+        [],
+        [run: fn(_, _) -> nil end]
+      },
+      {
+        ExCoveralls.Poster,
+        [],
+        [execute: fn(_, _) -> :ok end]
+      }
+    ]) do
+      non_standard_args = ["--no-start", "--include integration"]
+      post_args = ["-t", "token", "-s", "asdf", "--umbrella"] ++ non_standard_args
+
+      Mix.Tasks.Coveralls.Post.run(post_args)
+
+      assert(called Runner.run("test", ["--cover" | non_standard_args]))
+      assert(ExCoveralls.ConfServer.get()[:umbrella])
+    end
+  end
+
   test "extract service name by param" do
     assert Mix.Tasks.Coveralls.Post.extract_service_name([name: "local_param"]) == "local_param"
   end

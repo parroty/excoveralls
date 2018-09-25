@@ -33,36 +33,39 @@ defmodule Mix.Tasks.Coveralls do
         message: "Please specify 'test_coverage: [tool: ExCoveralls]' in the 'project' section of mix.exs"
     end
 
-    {args, options} = parse_common_options(args, options)
+    switches = [filter: :string, umbrella: :boolean, verbose: :boolean, pro: :boolean, parallel: :boolean, sort: :string]
+    aliases = [f: :filter, u: :umbrella, v: :verbose]
+    {args, common_options} = parse_common_options(args, switches: switches, aliases: aliases)
+    all_options = options ++ common_options
     test_task = Mix.Project.config[:test_coverage][:test_task] || "test"
 
-    options =
-      if options[:umbrella] do
+    all_options =
+      if all_options[:umbrella] do
         sub_apps = ExCoveralls.SubApps.parse(Mix.Dep.Umbrella.loaded)
-        options ++ [sub_apps: sub_apps, apps_path: Mix.Project.config[:apps_path]]
+        all_options ++ [sub_apps: sub_apps, apps_path: Mix.Project.config[:apps_path]]
       else
-        options
+        all_options
       end
 
     ExCoveralls.ConfServer.start
-    ExCoveralls.ConfServer.set(options ++ [args: args])
+    ExCoveralls.ConfServer.set(all_options ++ [args: args])
     ExCoveralls.StatServer.start
 
     Runner.run(test_task, ["--cover"] ++ args)
 
     if options[:umbrella] do
-      analyze_sub_apps(options)
+      analyze_sub_apps(all_options)
     end
   end
 
-  defp parse_common_options(args, options) do
-    switches = [filter: :string, umbrella: :boolean, verbose: :boolean, pro: :boolean, parallel: :boolean, sort: :string]
-    aliases = [f: :filter, u: :umbrella, v: :verbose]
-    {common_options, _remaining, _invalid} = OptionParser.parse(args, switches: switches, aliases: aliases)
+  def parse_common_options(args, common_options) do
+    common_switches = Keyword.get(common_options, :switches, [])
+    common_aliases = Keyword.get(common_options, :aliases, [])
+    {common_options, _remaining, _invalid} = OptionParser.parse(args, common_options)
 
     # the switches that excoveralls supports
-    supported_switches = Enum.map(Keyword.keys(switches), fn(s) -> "--#{s}" end)
-      ++ Enum.map(Keyword.keys(aliases), fn(s) -> "-#{s}" end)
+    supported_switches = Enum.map(Keyword.keys(common_switches), fn(s) -> "--#{s}" end)
+      ++ Enum.map(Keyword.keys(common_aliases), fn(s) -> "-#{s}" end)
 
     # Get the remaining args to pass onto cover, excluding ExCoveralls-specific args.
     # Not using OptionParser for this because it splits things up in unfortunate ways.
@@ -77,7 +80,7 @@ defmodule Mix.Tasks.Coveralls do
       end
     end)
 
-    {remaining, options ++ common_options}
+    {remaining, common_options}
   end
 
   defp analyze_sub_apps(options) do
@@ -198,12 +201,13 @@ defmodule Mix.Tasks.Coveralls do
     def run(args) do
       switches = [filter: :string, umbrella: :boolean, verbose: :boolean, pro: :boolean, parallel: :boolean]
       aliases = [f: :filter, u: :umbrella, v: :verbose]
-      {options, params, _} =
-        OptionParser.parse(args,
-          switches: switches,
-          aliases: aliases ++ [n: :name, b: :branch, c: :committer, m: :message, s: :sha, t: :token])
+      {remaining, options} = Mix.Tasks.Coveralls.parse_common_options(
+        args,
+        switches: switches,
+        aliases: aliases ++ [n: :name, b: :branch, c: :committer, m: :message, s: :sha, t: :token]
+      )
 
-      Mix.Tasks.Coveralls.do_run(params,
+      Mix.Tasks.Coveralls.do_run(remaining,
         [ type:         "post",
           endpoint:     Application.get_env(:excoveralls, :endpoint),
           token:        extract_token(options),
