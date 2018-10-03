@@ -179,7 +179,7 @@ defmodule Mix.Tasks.CoverallsTest do
       }
     ]) do
       non_standard_args = ["--no-start", "--include integration"]
-      post_args = ["-t", "token", "-s", "asdf", "--umbrella"] ++ non_standard_args
+      post_args = ["--token", "token", "-s", "asdf", "--umbrella"] ++ non_standard_args
 
       Mix.Tasks.Coveralls.Post.run(post_args)
 

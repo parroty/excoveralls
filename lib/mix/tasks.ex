@@ -203,7 +203,7 @@ defmodule Mix.Tasks.Coveralls do
       aliases = [f: :filter, u: :umbrella, v: :verbose]
       {remaining, options} = Mix.Tasks.Coveralls.parse_common_options(
         args,
-        switches: switches,
+        switches: switches ++ [sha: :string, token: :string, commiter: :string, branch: :string, message: :string],
         aliases: aliases ++ [n: :name, b: :branch, c: :committer, m: :message, s: :sha, t: :token]
       )
 
