@@ -13,7 +13,7 @@
         <li><a href='#overview'>overview</a></li>
         <%= for file <- @cov.files do %>
           <li>
-            <span class='cov <%= ExCoveralls.Html.View.coverage_class(file.coverage) %>'><%= file.coverage || 0 %></span>
+            <span class='cov <%= ExCoveralls.Html.View.coverage_class(file.coverage, file.sloc) %>'><%= file.coverage || 0 %></span>
             <a href='#<%= file.filename %>'>
               <% parts = String.split(file.filename, "/") %><% [b | s] = parts |> Enum.reverse |> Enum.reverse_slice(1, Enum.count(parts)) %>
               <%= if Enum.count(s) do %>
@@ -35,7 +35,7 @@
         <%= for file <- @cov.files do %>
           <div class='file'>
             <h2 id='<%= file.filename %>'><%= file.filename %></h1>
-            <div id='stats' class='<%= ExCoveralls.Html.View.coverage_class(file.coverage) %>'>
+            <div id='stats' class='<%= ExCoveralls.Html.View.coverage_class(file.coverage, file.sloc) %>'>
               <div class='percentage'><%= file.coverage || 0 %></div>
               <div class='sloc'><%= file.sloc %></div>
               <div class='hits'><%= file.hits %></div>

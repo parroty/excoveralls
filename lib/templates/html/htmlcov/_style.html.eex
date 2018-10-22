@@ -251,6 +251,9 @@ footer span {
   color: #d4081a;
   font-weight: bold;
 }
+.none {
+  color: #acacac;
+}
 
 table {
   width: 80%;

@@ -35,7 +35,9 @@ defmodule ExCoveralls.Html.View do
     Safe.html_escape(data)
   end
 
-  def coverage_class(percent) do
+  def coverage_class(percent, sloc \\ nil)
+  def coverage_class(percent, 0), do: "none"
+  def coverage_class(percent, _) do
     cond do
       percent >= 75 -> "high"
       percent >= 50 -> "medium"
