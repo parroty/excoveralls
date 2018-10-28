@@ -1,3 +1,10 @@
+0.10.2
+------
+#### Changes
+- Argument passing for post task (#158).
+    - Fixes coveralls.post doesn't recognize mix test options (#156).
+- Color for case with 0 relevant lines (#159).
+
 0.10.1
 ------
 #### Enhancements
