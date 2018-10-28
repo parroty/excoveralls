@@ -36,7 +36,7 @@ defmodule ExCoveralls.Html.View do
   end
 
   def coverage_class(percent, sloc \\ nil)
-  def coverage_class(percent, 0), do: "none"
+  def coverage_class(_percent, 0), do: "none"
   def coverage_class(percent, _) do
     cond do
       percent >= 75 -> "high"
