@@ -22,14 +22,16 @@ defmodule ExCoveralls.Html.ViewTest do
   end
 
   test "#coverage_class" do
-    [h,m,l,t] = [View.coverage_class(75),
-                 View.coverage_class(50),
-                 View.coverage_class(25),
-                 View.coverage_class(0)]
+    [h,m,l,t,n] = [View.coverage_class(75),
+                   View.coverage_class(50),
+                   View.coverage_class(25),
+                   View.coverage_class(0),
+                   View.coverage_class(0, 0)]
 
     assert(h == "high")
     assert(m == "medium")
     assert(l == "low")
     assert(t == "terrible")
+    assert(n == "none")
   end
 end
