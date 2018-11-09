@@ -35,7 +35,8 @@ defmodule ExCoveralls.Poster do
          [
            {:file, file_name, {"form-data", [{"name", "json_file"}, {"filename", file_name}]},
             [{"Content-Type", "gzip/json"}]}
-         ]}
+         ]},
+        [{:recv_timeout, 10_000}]
       )
 
     case response do
