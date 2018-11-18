@@ -43,6 +43,9 @@ defp deps do
 end
 ```
 
+**Note on umbrella application**: If you want to use Excoveralls within an umbrella project, every `apps` must have
+`test_coverage: [tool: ExCoveralls]` in the `mix.exs` of each app.
+
 **Note:** If you're using earlier than `elixir v1.3`, `MIX_ENV=test` or `preferred_cli_env` may be required for running mix tasks. Refer to [PR#96](https://github.com/parroty/excoveralls/pull/96) for the details.
 
 # Usage
