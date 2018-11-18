@@ -53,7 +53,7 @@ defmodule Mix.Tasks.Coveralls do
 
     Runner.run(test_task, ["--cover"] ++ args)
 
-    if options[:umbrella] do
+    if all_options[:umbrella] do
       analyze_sub_apps(all_options)
     end
   end
