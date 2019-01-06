@@ -1,3 +1,8 @@
+0.10.4
+------
+#### Enhancements
+- Apply GZIP the JSON for coveralls and loosen the timeout (#163).
+
 0.10.3
 ------
 #### Changes
