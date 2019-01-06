@@ -6,7 +6,7 @@
 0.10.3
 ------
 #### Changes
-- Make sure analyze_sub_apps gets called (#160, #164)
+- Make sure analyze_sub_apps gets called (#160, #164).
 
 0.10.2
 ------
