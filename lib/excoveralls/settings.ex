@@ -6,7 +6,7 @@ defmodule ExCoveralls.Settings do
   defmodule Files do
     @filename "coveralls.json"
     def default_file, do: "#{Path.dirname(__ENV__.file)}/../conf/#{@filename}"
-    def custom_file, do: Application.get_env(:excoveralls, :config_file, "#{System.cwd}/#{@filename}")
+    def custom_file, do: Application.get_env(:excoveralls, :config_file, "#{File.cwd!}/#{@filename}")
     def dot_file, do: Path.expand("~/.excoveralls/#{@filename}")
   end
 
