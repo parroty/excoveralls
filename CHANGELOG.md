@@ -1,3 +1,8 @@
+0.10.5
+------
+#### Changes
+- Replace deprecated System.cwd/0 calls with File.cwd/0 (#170).
+
 0.10.4
 ------
 #### Enhancements
