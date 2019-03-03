@@ -1,3 +1,9 @@
+0.10.6
+------
+#### Changes
+- Do not fail due to timeout from poster (#173).
+  - Fixes: Don't fail the build when uploading the report times out (#112).
+
 0.10.5
 ------
 #### Changes
