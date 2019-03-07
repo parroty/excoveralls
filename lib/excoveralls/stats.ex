@@ -22,7 +22,7 @@ defmodule ExCoveralls.Stats do
   end
 
   @doc """
-  Report the statistical information for he specified module.
+  Report the statistical information for the specified module.
   """
   def report(modules) do
     calculate_stats(modules)
