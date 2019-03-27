@@ -38,6 +38,7 @@ defmodule ExCoveralls.Html do
       File.mkdir!(file_path)
     end
     File.write!(Path.expand(@file_name, file_path), content)
+    IO.puts "Saved to: #{file_path}"
   end
 
 end
