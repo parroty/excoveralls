@@ -188,6 +188,34 @@ defmodule Mix.Tasks.CoverallsTest do
     end
   end
 
+  test_with_mock "post with default switches",
+  	ExCoveralls.Poster, [execute: fn(_, _) -> :ok end] do
+			non_standard_args = ["--non_standard"]
+
+			post_args = [
+				"--token", "a_token",
+				"--sha", "asdf",
+				"--name", "a_name",
+				"--committer", "My Name",
+				"--branch", "my_branch",
+				"--message", "commit message",
+				"--umbrella"
+			] ++ non_standard_args
+
+			Mix.Tasks.Coveralls.Post.run(post_args)
+
+			excoveralls_config = ExCoveralls.ConfServer.get()
+
+			assert(excoveralls_config[:token] == "a_token")
+			assert(excoveralls_config[:sha] == "asdf")
+			assert(excoveralls_config[:service_name] == "a_name")
+			assert(excoveralls_config[:committer] == "My Name")
+			assert(excoveralls_config[:branch] == "my_branch")
+			assert(excoveralls_config[:message] == "commit message")
+			assert(excoveralls_config[:umbrella])
+			assert(excoveralls_config[:args] == ["--non_standard"])
+  end
+
   test "extract service name by param" do
     assert Mix.Tasks.Coveralls.Post.extract_service_name([name: "local_param"]) == "local_param"
   end
