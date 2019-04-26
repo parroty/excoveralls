@@ -50,15 +50,31 @@ end
 
 # Usage
 ## Mix Tasks
-- [mix coveralls](#mix-coveralls-show-coverage)
-- [mix coveralls.travis](#mix-coverallstravis-post-coverage-from-travis)
-- [mix coveralls.circle](#mix-coverallscircle-post-coverage-from-circle)
-- [mix coveralls.semaphore](#mix-coverallssemaphore-post-coverage-from-semaphore)
-- [mix coveralls.drone](#mix-coverallsdrone-post-coverage-from-drone)
-- [mix coveralls.post](#mix-coverallspost-post-coverage-from-any-host)
-- [mix coveralls.detail](#mix-coverallsdetail-show-coverage-with-detail)
-- [mix coveralls.html](#mix-coverallshtml-show-coverage-as-html-report)
-- [mix coveralls.json](#mix-coverallsjson-show-coverage-as-json-report)
+- [ExCoveralls ![Build Status](http://travis-ci.org/parroty/excoveralls) ![Coverage Status](https://coveralls.io/r/parroty/excoveralls?branch=master) ![hex.pm version](https://hex.pm/packages/excoveralls) ![hex.pm downloads](https://hex.pm/packages/excoveralls) ![Deps Status](https://beta.hexfaktor.org/github/parroty/excoveralls)](#excoveralls-build-statushttptravis-ciorgparrotyexcoveralls-coverage-statushttpscoverallsiorparrotyexcoverallsbranchmaster-hexpm-versionhttpshexpmpackagesexcoveralls-hexpm-downloadshttpshexpmpackagesexcoveralls-deps-statushttpsbetahexfaktororggithubparrotyexcoveralls)
+- [Settings](#settings)
+    - [mix.exs](#mixexs)
+- [Usage](#usage)
+  - [Mix Tasks](#mix-tasks)
+    - [[mix coveralls] Show coverage](#mix-coveralls-show-coverage)
+    - [[mix coveralls.travis] Post coverage from travis](#mix-coverallstravis-post-coverage-from-travis)
+      - [.travis.yml](#travisyml)
+    - [[mix coveralls.circle] Post coverage from circle](#mix-coverallscircle-post-coverage-from-circle)
+      - [circle.yml](#circleyml)
+    - [[mix coveralls.semaphore] Post coverage from semaphore](#mix-coverallssemaphore-post-coverage-from-semaphore)
+      - [semaphore build instructions](#semaphore-build-instructions)
+    - [[mix coveralls.drone] Post coverage from drone](#mix-coverallsdrone-post-coverage-from-drone)
+      - [.drone.yml](#droneyml)
+    - [[mix coveralls.post] Post coverage from any host](#mix-coverallspost-post-coverage-from-any-host)
+    - [[mix coveralls.detail] Show coverage with detail](#mix-coverallsdetail-show-coverage-with-detail)
+    - [[mix coveralls.html] Show coverage as HTML report](#mix-coverallshtml-show-coverage-as-html-report)
+    - [[mix coveralls.json] Show coverage as JSON report](#mix-coverallsjson-show-coverage-as-json-report)
+  - [coveralls.json](#coverallsjson)
+      - [Stop Words](#stop-words)
+      - [Exclude Files](#exclude-files)
+      - [Terminal Report Output](#terminal-report-output)
+      - [Coverage Options](#coverage-options)
+    - [Notes](#notes)
+    - [Todo](#todo)
 
 ### [mix coveralls] Show coverage
 Run the `MIX_ENV=test mix coveralls` command to show coverage information on localhost.
@@ -92,6 +108,7 @@ Usage: mix coveralls <Options>
 
     Common options across coveralls mix tasks
 
+    -o (--output-dir)   Write coverage information to output dir.
     -u (--umbrella)     Show overall coverage for umbrella project.
     -v (--verbose)      Show json string for posting.
 

@@ -9,7 +9,7 @@ defmodule ExCoveralls.Json do
   Provides an entry point for the module.
   """
   def execute(stats, options \\ []) do
-    generate_json(stats, Enum.into(options, %{})) |> write_file
+    generate_json(stats, Enum.into(options, %{})) |> write_file(options[:output_dir])
 
     ExCoveralls.Local.print_summary(stats)
   end
@@ -20,16 +20,21 @@ defmodule ExCoveralls.Json do
     })
   end
 
-  defp output_dir do
-    options = ExCoveralls.Settings.get_coverage_options
-    case Map.fetch(options, "output_dir") do
-      {:ok, val} -> val
-      _ -> "cover/"
+  defp output_dir(output_dir) do
+    cond do
+      output_dir ->
+        output_dir
+      true ->
+        options = ExCoveralls.Settings.get_coverage_options
+        case Map.fetch(options, "output_dir") do
+          {:ok, val} -> val
+          _ -> "cover/"
+        end
     end
   end
 
-  defp write_file(content) do
-    file_path = output_dir()
+  defp write_file(content, output_dir) do
+    file_path = output_dir(output_dir)
     unless File.exists?(file_path) do
       File.mkdir!(file_path)
     end

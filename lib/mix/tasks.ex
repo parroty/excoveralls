@@ -33,8 +33,8 @@ defmodule Mix.Tasks.Coveralls do
         message: "Please specify 'test_coverage: [tool: ExCoveralls]' in the 'project' section of mix.exs"
     end
 
-    switches = [filter: :string, umbrella: :boolean, verbose: :boolean, pro: :boolean, parallel: :boolean, sort: :string]
-    aliases = [f: :filter, u: :umbrella, v: :verbose]
+    switches = [filter: :string, umbrella: :boolean, verbose: :boolean, pro: :boolean, parallel: :boolean, sort: :string, output_dir: :string]
+    aliases = [f: :filter, u: :umbrella, v: :verbose, o: :output_dir]
     {args, common_options} = parse_common_options(args, switches: switches, aliases: aliases)
     all_options = options ++ common_options
     test_task = Mix.Project.config[:test_coverage][:test_task] || "test"
@@ -64,7 +64,7 @@ defmodule Mix.Tasks.Coveralls do
     {common_options, _remaining, _invalid} = OptionParser.parse(args, common_options)
 
     # the switches that excoveralls supports
-    supported_switches = Enum.map(Keyword.keys(common_switches), fn(s) -> "--#{s}" end)
+    supported_switches = Enum.map(Keyword.keys(common_switches), fn(s) -> String.replace("--#{s}", "_", "-") end)
       ++ Enum.map(Keyword.keys(common_aliases), fn(s) -> "-#{s}" end)
 
     # Get the remaining args to pass onto cover, excluding ExCoveralls-specific args.
