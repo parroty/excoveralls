@@ -14,30 +14,35 @@ defmodule ExCoveralls.Html do
   def execute(stats, options \\ []) do
     ExCoveralls.Local.print_summary(stats)
 
-    Stats.source(stats, options[:filter]) |> generate_report()
+    Stats.source(stats, options[:filter]) |> generate_report(options[:output_dir])
 
     Stats.ensure_minimum_coverage(stats)
   end
 
-  defp generate_report(map) do
-    IO.puts "Generating report..."
-    View.render([cov: map]) |> write_file
+  defp generate_report(map, output_dir) do
+    IO.puts("Generating report...")
+    View.render(cov: map) |> write_file(output_dir)
   end
 
-  defp output_dir do
-    options = ExCoveralls.Settings.get_coverage_options()
-    case Map.fetch(options, "output_dir") do
-      {:ok, val} -> val
-      _ -> "cover/"
+  defp output_dir(output_dir) do
+    cond do
+      output_dir ->
+        output_dir
+      true ->
+        options = ExCoveralls.Settings.get_coverage_options()
+        case Map.fetch(options, "output_dir") do
+          {:ok, val} -> val
+          _ -> "cover/"
+        end
     end
   end
 
-  defp write_file(content) do
-    file_path = output_dir()
+  defp write_file(content, output_dir) do
+    file_path = output_dir(output_dir)
     unless File.exists?(file_path) do
       File.mkdir!(file_path)
     end
+
     File.write!(Path.expand(@file_name, file_path), content)
   end
-
 end

@@ -13,6 +13,7 @@ Usage: mix coveralls <Options>
 
     Common options across coveralls mix tasks
 
+    -o (--output-dir)   Write coverage information to output dir.
     -u (--umbrella)     Show overall coverage for umbrella project.
     -v (--verbose)      Show json string for posting.
 

@@ -39,6 +39,16 @@ defmodule ExCoveralls.HtmlTest do
     {:ok, report: path}
   end
 
+  test "generate stats information with output_dir parameter", %{report: report} do
+    assert capture_io(fn ->
+      Html.execute(@source_info, [output_dir: @test_output_dir])
+    end) =~ @stats_result
+
+    assert(File.read!(report) =~ "id='test/fixtures/test.ex'")
+    %{size: size} = File.stat! report
+    assert(size == @file_size)
+  end
+
   test_with_mock "generate stats information", %{report: report}, ExCoveralls.Settings, [],
   [get_coverage_options: fn -> %{"output_dir" => @test_output_dir, "template_path" => @test_template_path} end, get_file_col_width: fn -> 40 end, get_print_summary: fn -> true end] do
 

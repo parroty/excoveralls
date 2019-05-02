@@ -50,4 +50,13 @@ defmodule ExCoveralls.JsonTest do
     assert(size == @file_size)
   end
 
+  test "generate json file with output_dir parameter", %{report: report} do
+    assert capture_io(fn ->
+      Json.execute(@source_info, [output_dir: @test_output_dir])
+    end) =~ @stats_result
+
+    assert(File.read!(report) =~ ~s({"source_files":[{"coverage":[0,1,null,null],"name":"test/fixtures/test.ex","source":"defmodule Test do\\n  def test do\\n  end\\nend\\n"}]}))
+    %{size: size} = File.stat! report
+    assert(size == @file_size)
+  end
 end
