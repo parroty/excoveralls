@@ -1,3 +1,11 @@
+0.11.0
+------
+#### Enhancements
+- Add command line option for output_dir (#126, #182).
+- Display path to HTML report after generation (#178).
+#### Changes
+- Add missing `name` switch, also fixed `committer` switch (#180).
+
 0.10.6
 ------
 #### Changes
