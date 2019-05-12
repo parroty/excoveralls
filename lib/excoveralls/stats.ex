@@ -30,6 +30,7 @@ defmodule ExCoveralls.Stats do
     |> generate_source_info
     |> skip_files
     |> ExCoveralls.StopWords.filter
+    |> ExCoveralls.Ignore.filter
   end
 
   @doc """

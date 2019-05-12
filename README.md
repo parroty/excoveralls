@@ -73,8 +73,9 @@ end
       - [Exclude Files](#exclude-files)
       - [Terminal Report Output](#terminal-report-output)
       - [Coverage Options](#coverage-options)
-    - [Notes](#notes)
-    - [Todo](#todo)
+  - [Ignore Lines](#ignore-lines)
+  - [Notes](#notes)
+  - [Todo](#todo)
 
 ### [mix coveralls] Show coverage
 Run the `MIX_ENV=test mix coveralls` command to show coverage information on localhost.
@@ -349,6 +350,22 @@ If you want to change the column width used for file names add the `file_column_
 }
 ```
 
+### Ignore Lines
+
+Use comments `coveralls-ignore-start` and `coveralls-ignore-stop` to ignore certain lines from code coverage calculation.
+
+```elixir
+defmodule MyModule do
+  def covered do
+  end
+  
+  # coveralls-ignore-start
+  def ignored do
+  end
+  # coveralls-ignore-stop
+end
+```
+
 ### Notes
 - If mock library is used, it will show some warnings during execution.
     - https://github.com/eproxus/meck/pull/17
@@ -359,4 +376,3 @@ If you want to change the column width used for file names add the `file_column_
 ### Todo
 - It might not work well on projects which handle multiple project (Mix.Project) files.
     - Needs improvement on file-path handling.
-
