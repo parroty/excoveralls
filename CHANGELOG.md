@@ -1,3 +1,8 @@
+0.11.1
+------
+#### Enhancements
+- Ignore lines between coveralls-ignore-start and coveralls-ignore-stop comments (#183).
+
 0.11.0
 ------
 #### Enhancements
