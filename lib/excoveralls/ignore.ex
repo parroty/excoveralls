@@ -44,7 +44,7 @@ defmodule ExCoveralls.Ignore do
     case Regex.run(~r/coveralls-ignore-(start|stop)/, line, capture: :all_but_first) do
       ["start"] -> true
       ["stop"] -> false
-      sth -> ignore
+      _sth -> ignore
     end
   end
 
