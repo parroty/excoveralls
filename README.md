@@ -263,7 +263,7 @@ defmodule ExCoveralls do
 ### [mix coveralls.html] Show coverage as HTML report
 This task displays coverage information at the source-code level formatted as an HTML page.
 The report follows the format inspired by HTMLCov from the Mocha testing library in JS.
-Output to the shell is the same as running the command `mix coveralls`. In a similar manner to `mix coveralls.detail`, reported source code can be filtered by specifying arguments using the `--filter` flag.
+Output to the shell is the same as running the command `mix coveralls` (to suppress this output, add `"print_summary": false` to your project's `coveralls.json` file). In a similar manner to `mix coveralls.detail`, reported source code can be filtered by specifying arguments using the `--filter` flag.
 
 ```Shell
 $ MIX_ENV=test mix coveralls.html
@@ -277,7 +277,7 @@ contain an eex template named `coverage.html.eex`.
 ### [mix coveralls.json] Show coverage as JSON report
 This task displays coverage information at the source-code level formatted as a JSON document.
 The report follows a format supported by several code coverage services, including Codecov and Code Climate.
-Output to the shell is the same as running the command `mix coveralls`. In a similar manner to `mix coveralls.detail`, reported source code can be filtered by specifying arguments using the `--filter` flag.
+Output to the shell is the same as running the command `mix coveralls` (to suppress this output, add `"print_summary": false` to your project's `coveralls.json` file). In a similar manner to `mix coveralls.detail`, reported source code can be filtered by specifying arguments using the `--filter` flag.
 
 Upload a coverage report to Codecov using their [bash uploader](https://docs.codecov.io/docs/about-the-codecov-bash-uploader)
 or to Code Climate using their [test-reporter](https://docs.codeclimate.com/docs/configuring-test-coverage).
