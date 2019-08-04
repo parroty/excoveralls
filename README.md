@@ -350,7 +350,7 @@ If you want to change the column width used for file names add the `file_column_
 }
 ```
 
-### Ignore Lines
+### Ignore Lines
 
 Use comments `coveralls-ignore-start` and `coveralls-ignore-stop` to ignore certain lines from code coverage calculation.
 
