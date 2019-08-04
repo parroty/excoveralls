@@ -5,5 +5,7 @@ elixir:
 - '1.5'
 - '1.6'
 - '1.7'
+otp_release:
+- 19.3
 script:
 - MIX_ENV=test mix do deps.get, compile, coveralls.travis
