@@ -30,7 +30,7 @@ def project do
     elixir: "~> 1.0.0",
     deps: deps(Mix.env),
     test_coverage: [tool: ExCoveralls],
-    preferred_cli_env: ["coveralls": :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test]
+    preferred_cli_env: [coveralls: :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test]
     # if you want to use espec,
     # test_coverage: [tool: ExCoveralls, test_task: "espec"]
   ]
