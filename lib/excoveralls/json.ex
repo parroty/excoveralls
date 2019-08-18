@@ -36,7 +36,7 @@ defmodule ExCoveralls.Json do
   defp write_file(content, output_dir) do
     file_path = output_dir(output_dir)
     unless File.exists?(file_path) do
-      File.mkdir!(file_path)
+      File.mkdir_p!(file_path)
     end
     File.write!(Path.expand(@file_name, file_path), content)
   end
