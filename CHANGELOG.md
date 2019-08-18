@@ -1,6 +1,6 @@
 0.11.2
 ------
-#### Enhancements
+#### Changes
 - Update path creation/handling for artifacts (#194).
 
 0.11.1
