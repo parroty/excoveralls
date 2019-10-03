@@ -36,7 +36,7 @@ defmodule ExCoveralls.Semaphore do
   end
 
   defp get_pull_request do
-    case Regex.run(~r/(\d+)$/, System.get_env("PULL_REQUEST_NUMBER") || "") do
+    case Regex.run(~r/(\d+)$/, System.get_env("SEMAPHORE_GIT_PR_NUMBER") || "") do
       [_, id] -> id
       _ -> nil
     end
@@ -50,15 +50,15 @@ defmodule ExCoveralls.Semaphore do
   end
 
   defp get_sha do
-    System.get_env("REVISION")
+    System.get_env("SEMAPHORE_GIT_SHA")
   end
 
   defp get_branch do
-    System.get_env("BRANCH_NAME")
+    System.get_env("SEMAPHORE_GIT_BRANCH")
   end
 
   defp get_build_num do
-    System.get_env("SEMAPHORE_BUILD_NUMBER")
+    System.get_env("SEMAPHORE_JOB_ID")
   end
 
   defp get_repo_token do
