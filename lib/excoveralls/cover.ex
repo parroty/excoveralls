@@ -39,7 +39,7 @@ defmodule ExCoveralls.Cover do
         end
     end
   rescue
-    _e in UndefinedFunctionError ->
+    _e ->
       log_missing_source(module)
       false
   end
