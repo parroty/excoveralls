@@ -209,7 +209,7 @@ It is for submitting the result to coveralls server from any host.
 The token can be specified as a mix task option (`--token`), or as an environment variable (`COVERALLS_REPO_TOKEN`).
 
 ```Shell
-MIX_ENV=test mix coveralls.post --token [YOUR_TOKEN] --branch "master" --name "local host" --commiter "committer name" --sha "fd80a4c" --message "commit message"
+MIX_ENV=test mix coveralls.post --token [YOUR_TOKEN] --branch "master" --name "local host" --committer "committer name" --sha "fd80a4c" --message "commit message"
 ....................................................................................................
 
 Finished in 6.3 seconds (0.7s on load, 5.6s on tests)
