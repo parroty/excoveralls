@@ -1,3 +1,10 @@
+0.12.0
+------
+#### Changes
+- Fix for Semaphore CI 2.0 uses different CI environment variables (#179, #180).
+    - It requires to use 2.0 (Breaking Change).
+- Remove UndefinedFunctionError requirement for logging missing source error (#200).
+
 0.11.2
 ------
 #### Changes
