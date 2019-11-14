@@ -30,8 +30,7 @@ defmodule ExCoveralls.GitHub do
   end
 
   defp get_branch do
-    {branch, 0} = System.cmd("git", ["rev-parse", "--abbrev-ref", "HEAD"])
-    String.trim(branch)
+    System.get_env("TRAVIS_BRANCH") # << -- what to replace this with?
   end
 
   defp generate_git_info do
