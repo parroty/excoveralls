@@ -18,6 +18,7 @@ defmodule ExCoveralls.Github do
     Jason.encode!(%{
       source_files: stats,
       service_name: "github",
+      repo_token: get_repo_token(),
       # parallel: true?,
       git: %{
         id: get_sha(),
