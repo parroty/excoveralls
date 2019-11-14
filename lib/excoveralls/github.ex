@@ -16,17 +16,16 @@ defmodule ExCoveralls.Github do
 
   def generate_json(stats, _options \\ %{}) do
     Jason.encode!(%{
-      source_files: stats,
-      service_name: "github",
+      service_name: "github-action",
       repo_token: get_repo_token(),
       # parallel: true?,
       git: %{
         id: get_sha(),
         branch: get_branch()
       },
-      service_job_id: get_job_id()
+      service_job_id: get_job_id(),
+      source_files: stats
     })
-    |> IO.inspect(label: "posting this JSON")
   end
 
   defp get_job_id do
