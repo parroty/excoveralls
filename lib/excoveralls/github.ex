@@ -26,6 +26,7 @@ defmodule ExCoveralls.Github do
       },
       service_job_id: get_job_id()
     })
+    |> IO.inspect(label: "posting this JSON")
   end
 
   defp get_job_id do
