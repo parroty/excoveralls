@@ -1,4 +1,4 @@
-defmodule ExCoveralls.GitHub do
+defmodule ExCoveralls.Github do
   @moduledoc """
   Handles GitHub Actions integration with coveralls.
   """

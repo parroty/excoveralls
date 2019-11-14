@@ -8,7 +8,7 @@ defmodule ExCoveralls do
   alias ExCoveralls.ConfServer
   alias ExCoveralls.StatServer
   alias ExCoveralls.Travis
-  alias ExCoveralls.GitHub
+  alias ExCoveralls.Github
   alias ExCoveralls.Circle
   alias ExCoveralls.Semaphore
   alias ExCoveralls.Drone
@@ -65,7 +65,7 @@ defmodule ExCoveralls do
   Logic for posting from github action
   """
   def analyze(stats, @type_github, options) do
-    GitHub.execute(stats, options)
+    Github.execute(stats, options)
   end
 
   @doc """

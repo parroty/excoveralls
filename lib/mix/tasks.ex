@@ -147,7 +147,7 @@ defmodule Mix.Tasks.Coveralls do
     end
   end
 
-  defmodule GitHub do
+  defmodule Github do
     @moduledoc """
     Provides an entry point for github's script.
     """
