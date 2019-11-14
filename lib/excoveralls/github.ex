@@ -50,6 +50,6 @@ defmodule ExCoveralls.Github do
   defp get_branch do
     "GITHUB_REF"
     |> System.get_env()
-    |> String.replace_leading("refs/heads", "")
+    |> String.replace_leading("refs/heads/", "")
   end
 end
