@@ -6,9 +6,11 @@ defmodule ExCoveralls.Github do
 
   def execute(stats, options) do
     json = generate_json(stats, Enum.into(options, %{}))
+
     if options[:verbose] do
-      IO.puts json
+      IO.puts(json)
     end
+
     Poster.execute(json)
   end
 
@@ -29,9 +31,16 @@ defmodule ExCoveralls.Github do
     System.get_env("TRAVIS_JOB_ID") # << -- what to replace this with?
   end
 
-  # defp get_repo_token do
-  #   System.get_env("COVERALLS_REPO_TOKEN") # << -- from secrets instead?
-  # end
+  defp get_repo_token do
+    case System.get_env("COVERALLS_REPO_TOKEN") do
+      nil ->
+        raise RuntimeError,
+              "The Coveralls `repo_token` must be provided in an environment variable named `COVERALLS_REPO_TOKEN`."
+
+      token ->
+        token
+    end
+  end
 
   defp get_sha do
     System.get_env("GITHUB_SHA")
@@ -40,8 +49,8 @@ defmodule ExCoveralls.Github do
   defp get_branch do
     # System.get_env("TRAVIS_BRANCH") # << -- what to replace this with?
     System.get_env("GITHUB_REF")
-      # NOTE: I don't think this is the desired result.
-      # This appears to be the *target* branch in a pull request,
-      # not the branch being merged in.
+    # NOTE: I don't think this is the desired result.
+    # This appears to be the *target* branch in a pull request,
+    # not the branch being merged in.
   end
 end
