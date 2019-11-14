@@ -20,7 +20,7 @@ defmodule ExCoveralls.GitHub do
       git: %{
         id: get_sha(),
         branch: get_branch()
-      }
+      },
       service_job_id: get_job_id()
     })
   end
@@ -29,9 +29,9 @@ defmodule ExCoveralls.GitHub do
     System.get_env("TRAVIS_JOB_ID") # << -- what to replace this with?
   end
 
-  defp get_repo_token do
-    System.get_env("COVERALLS_REPO_TOKEN") # << -- from secrets instead?
-  end
+  # defp get_repo_token do
+  #   System.get_env("COVERALLS_REPO_TOKEN") # << -- from secrets instead?
+  # end
 
   defp get_sha do
     System.get_env("GITHUB_SHA")

@@ -64,7 +64,7 @@ defmodule ExCoveralls do
   @doc """
   Logic for posting from github action
   """
-  def analyze(stats, @type_gitub, options) do
+  def analyze(stats, @type_github, options) do
     GitHub.execute(stats, options)
   end
 
