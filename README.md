@@ -6,6 +6,7 @@ It uses Erlang's [cover](http://www.erlang.org/doc/man/cover.html) to generate c
 
 The following are example projects.
   - [coverage_sample](https://github.com/parroty/coverage_sample) is for Travis CI.
+  - [github_coverage_sample](https://github.com/scouten/github_coverage_sample) is for GitHub Actions.
   - [circle_sample](https://github.com/parroty/circle_sample) is for CircleCI .
   - [semaphore_sample](https://github.com/parroty/semaphore_sample) is for Semaphore CI.
   - [excoveralls_umbrella](https://github.com/parroty/excoveralls_umbrella) is for umbrella project.
@@ -58,6 +59,8 @@ end
     - [[mix coveralls] Show coverage](#mix-coveralls-show-coverage)
     - [[mix coveralls.travis] Post coverage from travis](#mix-coverallstravis-post-coverage-from-travis)
       - [.travis.yml](#travisyml)
+    - [[mix coveralls.github] Post coverage from GitHub Actions](#mix-coverallsgithub-post-coverage-from-github-action)
+      - [.github/workflows/main.yml](#githubworkflowsexampleyml)
     - [[mix coveralls.circle] Post coverage from circle](#mix-coverallscircle-post-coverage-from-circle)
       - [circle.yml](#circleyml)
     - [[mix coveralls.semaphore] Post coverage from semaphore](#mix-coverallssemaphore-post-coverage-from-semaphore)
@@ -120,6 +123,9 @@ Usage: mix coveralls.detail [--filter file-name-pattern]
 Usage: mix coveralls.travis [--pro]
   Used to post coverage from Travis CI server.
 
+Usage: mix coveralls.github
+  Used to post coverage from [GitHub Actions](https://github.com/features/actions).
+
 Usage: mix coveralls.post <Options>
   Used to post coverage from local server using token.
   The token should be specified in the argument or in COVERALLS_REPO_TOKEN
@@ -158,6 +164,34 @@ If you're using [Travis Pro](https://travis-ci.com/) for a private
 project, Use `coveralls.travis --pro` and ensure your coveralls.io
 repo token is available via the `COVERALLS_REPO_TOKEN` environment
 variable.
+
+### [mix coveralls.github] Post coverage from [GitHub Actions](https://github.com/features/actions)
+Specify `mix coveralls.github` as the build script in the GitHub action YML file and explicitly set the `MIX_ENV` environment to `TEST`.
+This task submits the result to Coveralls when the build is executed via GitHub actions.
+
+#### .github/workflows/example.yml
+```yml
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    strategy:
+      matrix:
+        otp: [21.3.8.10, 22.1.7]
+        elixir: [1.8.2, 1.9.4]
+    env:
+      MIX_ENV: test
+    steps:
+      - uses: actions/checkout@v1.0.0
+      - uses: actions/setup-elixir@v1.0.0
+        with:
+          otp-version: ${{matrix.otp}}
+          elixir-version: ${{matrix.elixir}}
+      - run: mix deps.get
+      - run: mix coveralls.github
+```
 
 ### [mix coveralls.circle] Post coverage from circle
 Specify `mix coveralls.circle` in the `circle.yml`.

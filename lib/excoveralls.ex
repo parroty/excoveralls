@@ -8,6 +8,7 @@ defmodule ExCoveralls do
   alias ExCoveralls.ConfServer
   alias ExCoveralls.StatServer
   alias ExCoveralls.Travis
+  alias ExCoveralls.GitHub
   alias ExCoveralls.Circle
   alias ExCoveralls.Semaphore
   alias ExCoveralls.Drone
@@ -17,6 +18,7 @@ defmodule ExCoveralls do
   alias ExCoveralls.Post
 
   @type_travis      "travis"
+  @type_github      "github"
   @type_circle      "circle"
   @type_semaphore   "semaphore"
   @type_drone       "drone"
@@ -57,6 +59,13 @@ defmodule ExCoveralls do
   """
   def analyze(stats, @type_travis, options) do
     Travis.execute(stats, options)
+  end
+
+  @doc """
+  Logic for posting from github action
+  """
+  def analyze(stats, @type_gitub, options) do
+    GitHub.execute(stats, options)
   end
 
   @doc """
