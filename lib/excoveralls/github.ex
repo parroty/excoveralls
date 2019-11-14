@@ -48,10 +48,8 @@ defmodule ExCoveralls.Github do
   end
 
   defp get_branch do
-    # System.get_env("TRAVIS_BRANCH") # << -- what to replace this with?
-    System.get_env("GITHUB_REF")
-    # NOTE: I don't think this is the desired result.
-    # This appears to be the *target* branch in a pull request,
-    # not the branch being merged in.
+    "GITHUB_REF"
+    |> System.get_env()
+    |> String.replace_leading("refs/heads", "")
   end
 end
