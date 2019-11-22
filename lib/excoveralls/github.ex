@@ -21,6 +21,7 @@ defmodule ExCoveralls.Github do
       repo_token: get_repo_token(),
       service_name: "github",
       service_job_id: get_job_id(),
+      service_number: get_build_num(),
       service_pull_request: get_pull_request(),
       source_files: stats,
       git: generate_git_info(),
@@ -58,6 +59,10 @@ defmodule ExCoveralls.Github do
     System.get_env("GITHUB_SHA")
   end
 
+  defp get_build_num do
+    System.get_env("GITHUB_ACTION")
+  end
+
   defp get_branch do
     "GITHUB_REF"
     |> System.get_env()
@@ -88,6 +93,7 @@ defmodule ExCoveralls.Github do
   defp get_number do
     get_action()
     |> Map.fetch!("number")
+    |> Integer.to_string()
   end
 
   def get_action do

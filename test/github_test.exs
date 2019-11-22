@@ -9,7 +9,7 @@ defmodule ExCoveralls.GithubTest do
   setup do
     # Capture existing values
     orig_vars =
-      ~w(GITHUB_EVENT_NAME GITHUB_EVENT_PATH GITHUB_SHA GITHUB_REF COVERALLS_REPO_TOKEN)
+      ~w(GITHUB_ACTION GITHUB_EVENT_NAME GITHUB_EVENT_PATH GITHUB_SHA GITHUB_REF COVERALLS_REPO_TOKEN)
       |> Enum.map(fn var -> {var, System.get_env(var)} end)
 
     on_exit(fn ->
@@ -36,6 +36,7 @@ defmodule ExCoveralls.GithubTest do
     assert(json =~ ~r/service_job_id/)
     assert(json =~ ~r/service_name/)
     assert(json =~ ~r/source_files/)
+    assert(json =~ ~r/source_files/)
     assert(json =~ ~r/git/)
   end
 
@@ -49,6 +50,7 @@ defmodule ExCoveralls.GithubTest do
     System.put_env("GITHUB_SHA", "sha1")
     System.put_env("GITHUB_EVENT_NAME", "pull_request")
     System.put_env("GITHUB_REF", "branch")
+    System.put_env("GITHUB_ACTION", "20")
     System.put_env("COVERALLS_REPO_TOKEN", "token")
 
     {:ok, payload} = Jason.decode(Github.generate_json(@source_info))
@@ -56,10 +58,11 @@ defmodule ExCoveralls.GithubTest do
     %{"git" => %{"branch" => branch, "head" => %{"committer_name" => committer_name, "id" => id}}} =
       payload
 
-    assert(payload["service_pull_request"] == 206)
+    assert(payload["service_pull_request"] == "206")
     assert(branch == "branch")
     assert(id == "sha1-PR-206")
     assert(committer_name == "username")
+    assert(payload["service_number"] == "20")
     assert(payload["repo_token"] == "token")
   end
 end
