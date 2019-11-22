@@ -7,23 +7,13 @@ defmodule ExCoveralls.GithubTest do
   @counts [0, 1, nil, nil]
   @source_info [%{name: "test/fixtures/test.ex", source: @content, coverage: @counts}]
   setup do
-    # Capture existing values
-    orig_vars =
-      ~w(GITHUB_ACTION GITHUB_EVENT_NAME GITHUB_EVENT_PATH GITHUB_SHA GITHUB_REF COVERALLS_REPO_TOKEN)
-      |> Enum.map(fn var -> {var, System.get_env(var)} end)
-
-    on_exit(fn ->
-      # Reset env vars
-      for {k, v} <- orig_vars do
-        if v != nil do
-          System.put_env(k, v)
-        else
-          System.delete_env(k)
-        end
-      end
-    end)
-
     # No additional context
+    System.put_env("GITHUB_EVENT_PATH", "test/fixtures/github_event.json")
+    System.put_env("GITHUB_SHA", "sha1")
+    System.put_env("GITHUB_EVENT_NAME", "pull_request")
+    System.put_env("GITHUB_REF", "branch")
+    System.put_env("GITHUB_ACTION", "20")
+    System.put_env("COVERALLS_REPO_TOKEN", "token")
     {:ok, []}
   end
 
@@ -31,7 +21,7 @@ defmodule ExCoveralls.GithubTest do
     assert(Github.execute(@source_info, []) == "result")
   end
 
-  test "generate json for circle" do
+  test "generate json for github" do
     json = Github.generate_json(@source_info)
     assert(json =~ ~r/service_job_id/)
     assert(json =~ ~r/service_name/)
@@ -46,13 +36,6 @@ defmodule ExCoveralls.GithubTest do
   end
 
   test "generate from env vars" do
-    System.put_env("GITHUB_EVENT_PATH", "test/fixtures/github_event.json")
-    System.put_env("GITHUB_SHA", "sha1")
-    System.put_env("GITHUB_EVENT_NAME", "pull_request")
-    System.put_env("GITHUB_REF", "branch")
-    System.put_env("GITHUB_ACTION", "20")
-    System.put_env("COVERALLS_REPO_TOKEN", "token")
-
     {:ok, payload} = Jason.decode(Github.generate_json(@source_info))
 
     %{"git" => %{"branch" => branch, "head" => %{"committer_name" => committer_name, "id" => id}}} =
