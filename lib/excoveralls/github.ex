@@ -29,7 +29,7 @@ defmodule ExCoveralls.Github do
     })
   end
 
-  def get_pull_request do
+  defp get_pull_request do
     System.get_env("GITHUB_EVENT_NAME")
     |> case do
       "pull_request" ->
@@ -40,7 +40,7 @@ defmodule ExCoveralls.Github do
     end
   end
 
-  def generate_git_info do
+  defp generate_git_info do
     %{
       head: %{
         committer_name: get_committer(),
@@ -80,7 +80,10 @@ defmodule ExCoveralls.Github do
   end
 
   defp get_message! do
-    "nada"
+    case System.cmd("git", ["log", "-1", "--pretty=format:%s"]) do
+      {message, _} -> message
+      _ -> "[no commit message]"
+    end
   end
 
   defp get_committer do
@@ -96,7 +99,7 @@ defmodule ExCoveralls.Github do
     |> Integer.to_string()
   end
 
-  def get_action do
+  defp get_action do
     "GITHUB_EVENT_PATH"
     |> System.get_env()
     |> File.read!()

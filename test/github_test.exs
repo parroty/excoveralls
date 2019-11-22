@@ -35,6 +35,21 @@ defmodule ExCoveralls.GithubTest do
     assert(%{"service_name" => "github"} = parsed)
   end
 
+  test "when is not a pull request" do
+    System.put_env("GITHUB_EVENT_NAME", "anything")
+    {:ok, payload} = Jason.decode(Github.generate_json(@source_info))
+
+    %{"git" => %{"branch" => branch, "head" => %{"committer_name" => committer_name, "id" => id}}} =
+      payload
+
+    assert(payload["service_pull_request"] == nil)
+    assert(branch == "branch")
+    assert(id == "sha1")
+    assert(committer_name == "username")
+    assert(payload["service_number"] == "20")
+    assert(payload["repo_token"] == "token")
+  end
+
   test "generate from env vars" do
     {:ok, payload} = Jason.decode(Github.generate_json(@source_info))
 
