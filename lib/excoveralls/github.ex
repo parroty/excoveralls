@@ -88,6 +88,7 @@ defmodule ExCoveralls.Github do
 
   defp get_committer do
     get_action()
+    |> Map.fetch!("pull_request")
     |> Map.fetch!("head")
     |> Map.fetch!("user")
     |> Map.fetch!("login")
