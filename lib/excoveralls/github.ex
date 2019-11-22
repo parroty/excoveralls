@@ -16,99 +16,47 @@ defmodule ExCoveralls.Github do
 
   def generate_json(stats, options \\ %{})
 
-  def generate_json(stats, options) do
+  def generate_json(stats, _options) do
     Jason.encode!(%{
-      repo_token: get_repo_token(),
+      repo_token: get_env("COVERALLS_REPO_TOKEN"),
       service_name: "github",
-      repo_name: get_repo_name(),
-      service_job_id: get_job_id(),
-      service_number: get_build_num(),
-      service_pull_request: get_pull_request(),
-      source_files: stats,
-      git: generate_git_info(),
-      parallel: options[:parallel]
+      service_pull_request: job_data().pr,
+      service_job_id: job_data().job_id,
+      git: git_info(),
+      source_files: stats
     })
   end
-
-  defp get_repo_name do
-    System.get_env("GITHUB_REPOSITORY")
+  
+  defp get_env(env) do
+    env
+    |> System.get_env
   end
 
-  defp get_pull_request do
-    System.get_env("GITHUB_EVENT_NAME")
+  defp job_data() do
+    get_env("GITHUB_EVENT_NAME")
     |> case do
       "pull_request" ->
-        get_number()
-
+        %{pr: get_pr_id(), job_id: "#{get_env("GITHUB_SHA")}-PR-#{get_pr_id()}"}
       _ ->
-        nil
+        %{pr: nil, job_id: get_env("GITHUB_SHA")}
     end
   end
 
-  defp generate_git_info do
-    %{
-      head: %{
-        committer_name: get_committer(),
-        message: get_message!(),
-        id: get_job_id()
-      },
-      branch: get_branch()
-    }
-  end
-
-  defp get_repo_token do
-    System.get_env("COVERALLS_REPO_TOKEN")
-  end
-
-  defp get_sha do
-    System.get_env("GITHUB_SHA")
-  end
-
-  defp get_build_num do
-    System.get_env("GITHUB_ACTION")
-  end
-
-  defp get_branch do
-    "GITHUB_REF"
-    |> System.get_env()
-  end
-
-  defp get_job_id do
-    System.get_env("GITHUB_EVENT_NAME")
-    |> case do
-      "pull_request" ->
-        "#{get_sha()}-PR-#{get_number()}"
-
-      _ ->
-        get_sha()
-    end
-  end
-
-  defp get_message! do
-    case System.cmd("git", ["log", "-1", "--pretty=format:%s"]) do
-      {message, _} -> message
-      _ -> "[no commit message]"
-    end
-  end
-
-  defp get_committer do
-    get_action()
-    |> Map.fetch!("pull_request")
-    |> Map.fetch!("head")
-    |> Map.fetch!("user")
-    |> Map.fetch!("login")
-  end
-
-  defp get_number do
-    get_action()
-    |> Map.fetch!("number")
-    |> Integer.to_string()
-  end
-
-  defp get_action do
-    "GITHUB_EVENT_PATH"
-    |> System.get_env()
+  defp get_pr_id do
+    get_env("GITHUB_EVENT_PATH")
     |> File.read!()
     |> Jason.decode!()
+    |> Map.get("number")
+    |> Integer.to_string
+  end
+
+
+  defp git_info do
+    %{
+      head: %{
+        id: get_env("GITHUB_SHA"),
+      },
+      branch: get_env("GITHUB_REF")
+    }
   end
 end

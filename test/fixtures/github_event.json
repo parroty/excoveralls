@@ -1,11 +1,4 @@
 {
-  "comment": "Not used data was removed",
-  "number": 206,
-  "pull_request": {
-    "head": {
-      "user": {
-        "login": "username"
-      }
-    }
-  }
+  "_comment": "Not used data was removed, see documentation",
+  "number": 206
 }
