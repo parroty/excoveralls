@@ -20,6 +20,7 @@ defmodule ExCoveralls.Github do
     Jason.encode!(%{
       repo_token: get_repo_token(),
       service_name: "github",
+      repo_name: get_repo_name(),
       service_job_id: get_job_id(),
       service_number: get_build_num(),
       service_pull_request: get_pull_request(),
@@ -27,6 +28,10 @@ defmodule ExCoveralls.Github do
       git: generate_git_info(),
       parallel: options[:parallel]
     })
+  end
+
+  defp get_repo_name do
+    System.get_env("GITHUB_REPOSITORY")
   end
 
   defp get_pull_request do

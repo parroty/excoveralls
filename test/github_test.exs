@@ -8,6 +8,7 @@ defmodule ExCoveralls.GithubTest do
   @source_info [%{name: "test/fixtures/test.ex", source: @content, coverage: @counts}]
   setup do
     # No additional context
+    System.put_env("GITHUB_REPOSITORY", "test/repository")
     System.put_env("GITHUB_EVENT_PATH", "test/fixtures/github_event.json")
     System.put_env("GITHUB_SHA", "sha1")
     System.put_env("GITHUB_EVENT_NAME", "pull_request")
@@ -24,6 +25,7 @@ defmodule ExCoveralls.GithubTest do
   test "generate json for github" do
     json = Github.generate_json(@source_info)
     assert(json =~ ~r/service_job_id/)
+    assert(json =~ ~r/repo_name/)
     assert(json =~ ~r/service_name/)
     assert(json =~ ~r/source_files/)
     assert(json =~ ~r/source_files/)
@@ -57,6 +59,7 @@ defmodule ExCoveralls.GithubTest do
       payload
 
     assert(payload["service_pull_request"] == "206")
+    assert(payload["repo_name"] == "test/repository")
     assert(branch == "branch")
     assert(id == "sha1-PR-206")
     assert(committer_name == "username")
