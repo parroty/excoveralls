@@ -27,6 +27,9 @@ Usage: mix coveralls.html
 Usage: mix coveralls.travis [--pro]
   Used to post coverage from Travis CI server.
 
+Usage: mix coveralls.github
+  Used to post coverage from a GitHub Action.
+
 Usage: mix coveralls.post <Options>
   Used to post coverage from local server using token.
   The token should be specified in the argument or in COVERALLS_REPO_TOKEN
