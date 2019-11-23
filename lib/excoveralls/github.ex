@@ -18,11 +18,10 @@ defmodule ExCoveralls.Github do
 
   def generate_json(stats, _options) do
     Jason.encode!(%{
-      git: git_info(),
       repo_token: get_env("COVERALLS_REPO_TOKEN"),
-      service_job_id: job_data().job_id,
       service_name: "github",
       service_pull_request: job_data().pr,
+      service_job_id: job_data().job_id,
       source_files: stats
     })
   end
@@ -48,15 +47,5 @@ defmodule ExCoveralls.Github do
     |> Jason.decode!()
     |> Map.get("number")
     |> Integer.to_string
-  end
-
-
-  defp git_info do
-    %{
-      head: %{
-        id: get_env("GITHUB_SHA"),
-      },
-      branch: get_env("GITHUB_REF")
-    }
   end
 end

@@ -24,8 +24,6 @@ defmodule ExCoveralls.GithubTest do
     System.put_env("GITHUB_EVENT_NAME", "anything")
     {:ok, payload} = Jason.decode(Github.generate_json(@source_info))
 
-    assert(payload["git"]["branch"] == "branch")
-    assert(payload["git"]["head"]["id"] == "sha1")
     assert(payload["repo_token"] == "token")
     assert(payload["service_job_id"] == "sha1")
     assert(payload["service_name"] == "github")
@@ -36,8 +34,6 @@ defmodule ExCoveralls.GithubTest do
     {:ok, payload} = Jason.decode(Github.generate_json(@source_info))
 
 
-    assert(payload["git"]["branch"] == "branch")
-    assert(payload["git"]["head"]["id"] == "sha1")
     assert(payload["repo_token"] == "token")
     assert(payload["service_job_id"] == "sha1-PR-206")
     assert(payload["service_name"] == "github")
