@@ -29,6 +29,11 @@ defmodule ExCoverallsTest do
     assert called ExCoveralls.Drone.execute(@stats,[])
   end
 
+  test_with_mock "analyze cirrus", ExCoveralls.Cirrus, [execute: fn(_,_) -> nil end] do
+    ExCoveralls.analyze(@stats, "cirrus", [])
+    assert called ExCoveralls.Cirrus.execute(@stats,[])
+  end
+
   test_with_mock "analyze local", ExCoveralls.Local, [execute: fn(_,_) -> nil end] do
     ExCoveralls.analyze(@stats, "local", [])
     assert called ExCoveralls.Local.execute(@stats,[])

@@ -12,6 +12,7 @@ defmodule ExCoveralls do
   alias ExCoveralls.Circle
   alias ExCoveralls.Semaphore
   alias ExCoveralls.Drone
+  alias ExCoveralls.Cirrus
   alias ExCoveralls.Local
   alias ExCoveralls.Html
   alias ExCoveralls.Json
@@ -22,6 +23,7 @@ defmodule ExCoveralls do
   @type_circle      "circle"
   @type_semaphore   "semaphore"
   @type_drone       "drone"
+  @type_cirrus      "cirrus"
   @type_local       "local"
   @type_html        "html"
   @type_json        "json"
@@ -87,6 +89,13 @@ defmodule ExCoveralls do
   """
   def analyze(stats, @type_drone, options) do
     Drone.execute(stats, options)
+  end
+
+  @doc """
+  Logic for posting from cirrus-ci server
+  """
+  def analyze(stats, @type_cirrus, options) do
+    Cirrus.execute(stats, options)
   end
 
   @doc """
