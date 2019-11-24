@@ -50,7 +50,6 @@ end
 
 # Usage
 ## Mix Tasks
-- [ExCoveralls ![Build Status](http://travis-ci.org/parroty/excoveralls) ![Coverage Status](https://coveralls.io/r/parroty/excoveralls?branch=master) ![hex.pm version](https://hex.pm/packages/excoveralls) ![hex.pm downloads](https://hex.pm/packages/excoveralls) ![Deps Status](https://beta.hexfaktor.org/github/parroty/excoveralls)](#excoveralls-build-statushttptravis-ciorgparrotyexcoveralls-coverage-statushttpscoverallsiorparrotyexcoverallsbranchmaster-hexpm-versionhttpshexpmpackagesexcoveralls-hexpm-downloadshttpshexpmpackagesexcoveralls-deps-statushttpsbetahexfaktororggithubparrotyexcoveralls)
 - [Settings](#settings)
     - [mix.exs](#mixexs)
 - [Usage](#usage)
