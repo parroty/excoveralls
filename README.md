@@ -6,7 +6,7 @@ It uses Erlang's [cover](http://www.erlang.org/doc/man/cover.html) to generate c
 
 The following are example projects.
   - [coverage_sample](https://github.com/parroty/coverage_sample) is for Travis CI.
-  - [github_coverage_sample](https://github.com/scouten/github_coverage_sample) is for GitHub Actions.
+  - [github_coverage_sample](https://github.com/mijailr/actions_sample) is for GitHub Actions.
   - [circle_sample](https://github.com/parroty/circle_sample) is for CircleCI .
   - [semaphore_sample](https://github.com/parroty/semaphore_sample) is for Semaphore CI.
   - [excoveralls_umbrella](https://github.com/parroty/excoveralls_umbrella) is for umbrella project.
@@ -166,8 +166,11 @@ repo token is available via the `COVERALLS_REPO_TOKEN` environment
 variable.
 
 ### [mix coveralls.github] Post coverage from [GitHub Actions](https://github.com/features/actions)
-Specify `mix coveralls.github` as the build script in the GitHub action YML file and explicitly set the `MIX_ENV` environment to `TEST`.
-This task submits the result to Coveralls when the build is executed via GitHub actions.
+Specify `mix coveralls.github` as the build script in the GitHub action YML file and explicitly set the `MIX_ENV` environment to `test` and add `GITHUB_TOKEN` with the value of `{{ secrets.GITHUB_TOKEN }}`, this is required because is used internaly by coveralls.io to check the action and add statuses.
+
+The value of `secrets.GITHUB_TOKEN` is added automatically inside every GitHub action, so you not need to assing that.
+
+This task submits the result to Coveralls when the build is executed via GitHub actions and add statuses in the checks of github.
 
 #### .github/workflows/example.yml
 ```yml
@@ -183,6 +186,7 @@ jobs:
         elixir: [1.8.2, 1.9.4]
     env:
       MIX_ENV: test
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v1.0.0
       - uses: actions/setup-elixir@v1.0.0

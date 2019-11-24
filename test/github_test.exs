@@ -12,7 +12,7 @@ defmodule ExCoveralls.GithubTest do
     System.put_env("GITHUB_SHA", "sha1")
     System.put_env("GITHUB_EVENT_NAME", "pull_request")
     System.put_env("GITHUB_REF", "branch")
-    System.put_env("COVERALLS_REPO_TOKEN", "token")
+    System.put_env("GITHUB_TOKEN", "token")
     {:ok, []}
   end
 
