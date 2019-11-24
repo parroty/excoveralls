@@ -14,6 +14,11 @@ defmodule ExCoverallsTest do
     assert called ExCoveralls.Circle.execute(@stats,[])
   end
 
+  test_with_mock "analyze github", ExCoveralls.Github, [execute: fn(_,_) -> nil end] do
+    ExCoveralls.analyze(@stats, "github", [])
+    assert called ExCoveralls.Github.execute(@stats,[])
+  end
+
   test_with_mock "analyze semaphore", ExCoveralls.Semaphore, [execute: fn(_,_) -> nil end] do
     ExCoveralls.analyze(@stats, "semaphore", [])
     assert called ExCoveralls.Semaphore.execute(@stats,[])
