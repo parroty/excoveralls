@@ -1,3 +1,8 @@
+0.12.1
+------
+#### Enhancements
+- Add support for GitHub Actions (#209).
+
 0.12.0
 ------
 #### Changes
