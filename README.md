@@ -59,7 +59,7 @@ end
     - [[mix coveralls] Show coverage](#mix-coveralls-show-coverage)
     - [[mix coveralls.travis] Post coverage from travis](#mix-coverallstravis-post-coverage-from-travis)
       - [.travis.yml](#travisyml)
-    - [[mix coveralls.github] Post coverage from GitHub Actions](#mix-coverallsgithub-post-coverage-from-github-action)
+    - [[mix coveralls.github] Post coverage from GitHub Actions](#mix-coverallsgithub-post-coverage-from-github-actions)
       - [.github/workflows/main.yml](#githubworkflowsexampleyml)
     - [[mix coveralls.circle] Post coverage from circle](#mix-coverallscircle-post-coverage-from-circle)
       - [circle.yml](#circleyml)
