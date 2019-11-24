@@ -27,7 +27,7 @@ defmodule ExCoveralls.Github do
     |> Map.merge(job_data())
     |> Jason.encode!
   end
-  
+
   defp get_env(env) do
     env
     |> System.get_env
@@ -39,10 +39,10 @@ defmodule ExCoveralls.Github do
       "pull_request" ->
         %{
           service_pull_request: get_pr_id(),
-          service_job_id: "#{get_env("GITHUB_SHA")}-PR-#{get_pr_id()}"
+          service_job_id: "#{get_sha("pull_request")}-PR-#{get_pr_id()}",
         }
-      _ ->
-        %{service_job_id: get_env("GITHUB_SHA")}
+      event ->
+        %{service_job_id: get_sha(event)}
     end
   end
 
@@ -51,11 +51,32 @@ defmodule ExCoveralls.Github do
     |> Map.get("number")
     |> Integer.to_string
   end
-  
-  def get_committer_name() do
+
+  defp get_committer_name do
     event_info()
     |> Map.get("sender")
     |> Map.get("login")
+  end
+
+  defp get_sha("pull_request") do
+    event_info()
+    |> Map.get("pull_request")
+    |> Map.get("head")
+    |> Map.get("sha")
+  end
+
+  defp get_sha(_) do
+    get_env("GITHUB_SHA")
+  end
+
+  defp get_message("pull_request") do
+    {message, _} = System.cmd("git", ["log", get_sha("pull_request"), "-1", "--pretty=format:%s"])
+    message
+  end
+
+  defp get_message(_) do
+    {message, _} = System.cmd("git", ["log", "-1", "--pretty=format:%s"])
+    message
   end
 
   defp event_info do
@@ -64,22 +85,13 @@ defmodule ExCoveralls.Github do
     |> Jason.decode!()
   end
 
-  defp get_message do
-    {message, _} = System.cmd("git", ["log", "-1", "--pretty=format:%s"])
-    case message do
-      "" ->
-        "[no commit message]"
-      _ ->
-        message
-    end
-  end
-
   defp git_info do
+    event = get_env("GITHUB_EVENT_NAME")
     %{
       head: %{
-        id: get_env("GITHUB_SHA"),
+        id: get_sha(event),
         committer_name: get_committer_name(),
-        message: get_message()
+        message: get_message(event)
       },
       branch: get_branch()
     }
