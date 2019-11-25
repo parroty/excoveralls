@@ -6,13 +6,30 @@ defmodule ExCoveralls.GithubTest do
   @content "defmodule Test do\n  def test do\n  end\nend\n"
   @counts [0, 1, nil, nil]
   @source_info [%{name: "test/fixtures/test.ex", source: @content, coverage: @counts}]
+
   setup do
-    # No additional context
+    # Capture existing values
+    orig_vars =
+      ~w(GITHUB_EVENT_PATH GITHUB_SHA GITHUB_EVENT_NAME GITHUB_REF GITHUB_TOKEN)
+      |> Enum.map(fn var -> {var, System.get_env(var)} end)
+
+    on_exit(fn ->
+      # Reset env vars
+      for {k, v} <- orig_vars do
+        if v != nil do
+          System.put_env(k, v)
+        else
+          System.delete_env(k)
+        end
+      end
+    end)
+
     System.put_env("GITHUB_EVENT_PATH", "test/fixtures/github_event.json")
     System.put_env("GITHUB_SHA", "sha1")
     System.put_env("GITHUB_EVENT_NAME", "pull_request")
     System.put_env("GITHUB_REF", "branch")
     System.put_env("GITHUB_TOKEN", "token")
+    # No additional context
     {:ok, []}
   end
 

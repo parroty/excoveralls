@@ -18,7 +18,7 @@ defmodule ExCoveralls.Github do
 
   def generate_json(stats, options) do
     %{
-      repo_token: get_env("GITHUB_TOKEN"),
+      repo_token: System.get_env("GITHUB_TOKEN"),
       service_name: "github",
       source_files: stats,
       parallel: options[:parallel],
@@ -28,14 +28,8 @@ defmodule ExCoveralls.Github do
     |> Jason.encode!()
   end
 
-  defp get_env(env) do
-    env
-    |> System.get_env()
-  end
-
   defp job_data() do
-    get_env("GITHUB_EVENT_NAME")
-    |> case do
+    case System.get_env("GITHUB_EVENT_NAME") do
       "pull_request" ->
         pr_sha =
           get_sha("pull_request")
@@ -57,25 +51,22 @@ defmodule ExCoveralls.Github do
 
   defp get_pr_id do
     event_info()
-    |> Map.get("number")
+    |> get_in(["number"])
     |> Integer.to_string()
   end
 
   defp get_committer_name do
     event_info()
-    |> Map.get("sender")
-    |> Map.get("login")
+    |> get_in(["sender", "login"])
   end
 
   defp get_sha("pull_request") do
     event_info()
-    |> Map.get("pull_request")
-    |> Map.get("head")
-    |> Map.get("sha")
+    |> get_in(["pull_request", "head", "sha"])
   end
 
   defp get_sha(_) do
-    get_env("GITHUB_SHA")
+    System.get_env("GITHUB_SHA")
   end
 
   defp get_message("pull_request") do
@@ -89,13 +80,13 @@ defmodule ExCoveralls.Github do
   end
 
   defp event_info do
-    get_env("GITHUB_EVENT_PATH")
+    System.get_env("GITHUB_EVENT_PATH")
     |> File.read!()
     |> Jason.decode!()
   end
 
   defp git_info do
-    event = get_env("GITHUB_EVENT_NAME")
+    event = System.get_env("GITHUB_EVENT_NAME")
 
     %{
       head: %{
@@ -113,6 +104,6 @@ defmodule ExCoveralls.Github do
   end
 
   defp get_branch do
-    get_env("GITHUB_REF")
+    System.get_env("GITHUB_REF")
   end
 end

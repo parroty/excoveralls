@@ -124,7 +124,7 @@ Usage: mix coveralls.travis [--pro]
   Used to post coverage from Travis CI server.
 
 Usage: mix coveralls.github
-  Used to post coverage from [GitHub Actions](https://github.com/features/actions).
+  Used to post coverage from GitHub Actions
 
 Usage: mix coveralls.post <Options>
   Used to post coverage from local server using token.
