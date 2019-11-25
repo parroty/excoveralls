@@ -25,31 +25,40 @@ defmodule ExCoveralls.Github do
       git: git_info()
     }
     |> Map.merge(job_data())
-    |> Jason.encode!
+    |> Jason.encode!()
   end
 
   defp get_env(env) do
     env
-    |> System.get_env
+    |> System.get_env()
   end
 
   defp job_data() do
     get_env("GITHUB_EVENT_NAME")
     |> case do
       "pull_request" ->
+        pr_sha =
+          get_sha("pull_request")
+          |> sha_resume()
+
         %{
           service_pull_request: get_pr_id(),
-          service_job_id: "#{get_sha("pull_request")}-PR-#{get_pr_id()}",
+          service_job_id: "PR-#{get_pr_id()}-#{pr_sha}"
         }
+
       event ->
-        %{service_job_id: get_sha(event)}
+        sha =
+          get_sha(event)
+          |> sha_resume()
+
+        %{service_job_id: sha}
     end
   end
 
   defp get_pr_id do
     event_info()
     |> Map.get("number")
-    |> Integer.to_string
+    |> Integer.to_string()
   end
 
   defp get_committer_name do
@@ -87,6 +96,7 @@ defmodule ExCoveralls.Github do
 
   defp git_info do
     event = get_env("GITHUB_EVENT_NAME")
+
     %{
       head: %{
         id: get_sha(event),
@@ -95,6 +105,11 @@ defmodule ExCoveralls.Github do
       },
       branch: get_branch()
     }
+  end
+
+  defp sha_resume(sha) do
+    sha
+    |> String.slice(0..6)
   end
 
   defp get_branch do

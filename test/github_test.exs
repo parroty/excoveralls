@@ -33,9 +33,8 @@ defmodule ExCoveralls.GithubTest do
   test "generate from env vars" do
     {:ok, payload} = Jason.decode(Github.generate_json(@source_info))
 
-
     assert(payload["repo_token"] == "token")
-    assert(payload["service_job_id"] == "7c90516a3ac9f43ab6cf46ec5668b4430a3af103-PR-206")
+    assert(payload["service_job_id"] == "PR-206-7c90516")
     assert(payload["service_name"] == "github")
     assert(payload["service_pull_request"] == "206")
   end
