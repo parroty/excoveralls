@@ -167,7 +167,7 @@ variable.
 ### [mix coveralls.github] Post coverage from [GitHub Actions](https://github.com/features/actions)
 Specify `mix coveralls.github` as the build script in the GitHub action YML file and explicitly set the `MIX_ENV` environment to `test` and add `GITHUB_TOKEN` with the value of `{{ secrets.GITHUB_TOKEN }}`, this is required because is used internaly by coveralls.io to check the action and add statuses.
 
-The value of `secrets.GITHUB_TOKEN` is added automatically inside every GitHub action, so you not need to assing that.
+The value of `secrets.GITHUB_TOKEN` is added automatically inside every GitHub action, so you not need to assign that.
 
 This task submits the result to Coveralls when the build is executed via GitHub actions and add statuses in the checks of github.
 
