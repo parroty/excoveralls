@@ -30,6 +30,8 @@ defmodule ExCoveralls.LocalTest do
       "[TOTAL]  50.0%\n" <>
       "----------------\n"
 
+  @stats_no_files_results "Test Coverage [TOTAL]  50.0%\n"
+
   @source_result "" <>
       "\n\e[33m--------test/fixtures/test.ex--------\e[m\n" <>
       "\e[31mdefmodule Test do\e[m\n\e[32m  def test do\e[m\n" <>
@@ -67,21 +69,34 @@ defmodule ExCoveralls.LocalTest do
   end
 
   test "Empty (no relevant lines) file is calculated as 0.0%" do
-    assert String.ends_with?(Local.coverage(@empty_source_info), "[TOTAL] 100.0%")
+    assert String.contains?(Local.coverage(@empty_source_info), "[TOTAL] 100.0%")
   end
 
   test_with_mock "Empty (no relevant lines) file with treat_no_relevant_lines_as_covered=true option is calculated as 100.0%",
-    ExCoveralls.Settings, [get_coverage_options: fn -> %{"treat_no_relevant_lines_as_covered" => true} end, get_file_col_width: fn -> 40 end] do
-    assert String.ends_with?(Local.coverage(@empty_source_info), "[TOTAL] 100.0%")
+    ExCoveralls.Settings, [
+      get_coverage_options: fn -> %{"treat_no_relevant_lines_as_covered" => true} end,
+      get_file_col_width: fn -> 40 end,
+      get_print_files: fn -> true end
+    ] do
+    assert String.contains?(Local.coverage(@empty_source_info), "[TOTAL] 100.0%")
   end
 
   test_with_mock "Empty (no relevant lines) file with treat_no_relevant_lines_as_covered=false option is calculated as 0.0%",
-    ExCoveralls.Settings, [get_coverage_options: fn -> %{"treat_no_relevant_lines_as_covered" => false} end, get_file_col_width: fn -> 40 end] do
-    assert String.ends_with?(Local.coverage(@empty_source_info), "[TOTAL]   0.0%")
+      ExCoveralls.Settings, [
+        get_coverage_options: fn -> %{"treat_no_relevant_lines_as_covered" => false} end,
+        get_file_col_width: fn -> 40 end,
+        get_print_files: fn -> true end
+      ] do
+    assert String.contains?(Local.coverage(@empty_source_info), "[TOTAL]   0.0%")
   end
 
   test_with_mock "Exit status code is 1 when actual coverage does not reach the minimum",
-    ExCoveralls.Settings, [get_coverage_options: fn -> %{"minimum_coverage" => 100} end, get_file_col_width: fn -> 40 end, get_print_summary: fn -> true end] do
+      ExCoveralls.Settings, [
+        get_coverage_options: fn -> %{"minimum_coverage" => 100} end,
+        get_file_col_width: fn -> 40 end,
+        get_print_summary: fn -> true end,
+        get_print_files: fn -> true end
+      ] do
     output = capture_io(fn ->
       assert catch_exit(Local.execute(@source_info)) == {:shutdown, 1}
     end)
@@ -89,16 +104,38 @@ defmodule ExCoveralls.LocalTest do
   end
 
   test_with_mock "Exit status code is 0 when actual coverage reaches the minimum",
-    ExCoveralls.Settings, [get_coverage_options: fn -> %{"minimum_coverage" => 49.9} end, get_file_col_width: fn -> 40 end, get_print_summary: fn -> true end] do
+      ExCoveralls.Settings, [
+        get_coverage_options: fn -> %{"minimum_coverage" => 49.9} end,
+        get_file_col_width: fn -> 40 end,
+        get_print_summary: fn -> true end,
+        get_print_files: fn -> true end
+      ] do
     assert capture_io(fn ->
       Local.execute(@source_info)
     end) =~ @stats_result
   end
 
   test_with_mock "No output if print_summary is false",
-    ExCoveralls.Settings, [get_coverage_options: fn -> %{"minimum_coverage" => 49.9} end, get_file_col_width: fn -> 40 end, get_print_summary: fn -> true end] do
+      ExCoveralls.Settings, [
+        get_coverage_options: fn -> %{"minimum_coverage" => 49.9} end,
+        get_file_col_width: fn -> 40 end,
+        get_print_summary: fn -> true end,
+        get_print_files: fn -> true end
+      ] do
     assert capture_io(fn ->
       Local.execute(@source_info)
     end) =~ ""
+  end
+
+  test_with_mock "Do not output table if print_files is false",
+      ExCoveralls.Settings, [
+        get_coverage_options: fn -> %{"minimum_coverage" => 49.9} end,
+        get_file_col_width: fn -> 40 end,
+        get_print_summary: fn -> true end,
+        get_print_files: fn -> false end
+      ] do
+    assert capture_io(fn ->
+      Local.execute(@source_info)
+    end) =~ @stats_no_files_results
   end
 end

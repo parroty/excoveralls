@@ -58,6 +58,13 @@ defmodule ExCoveralls.Settings do
     end
   end
 
+  def get_print_files do
+    case Map.fetch(get_terminal_options(), "print_files") do
+      {:ok, val} when is_boolean(val) -> val
+      _ -> true
+    end
+  end
+
   defp read_config_file(file_name) do
     if File.exists?(file_name) do
       case File.read!(file_name) |> Jason.decode do

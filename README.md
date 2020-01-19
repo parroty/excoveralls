@@ -356,6 +356,18 @@ If you want to change the column width used for file names add the `file_column_
   }
 }
 ```
+
+If you want to see only the total coverage without a table of each file, set the `print_files` option
+to `false`:
+
+```javascript
+{
+  "terminal_options": {
+    "print_files": false
+  }
+}
+```
+
 #### Coverage Options
 - treat_no_relevant_lines_as_covered
   - By default, coverage for [files with no relevant lines] are displayed as 0% for aligning with coveralls.io behavior. But, if `treat_no_relevant_lines_as_covered` is set to `true`, it will be displayed as 100%.
