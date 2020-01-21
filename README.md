@@ -29,7 +29,7 @@ def project do
     app: :excoveralls,
     version: "1.0.0",
     elixir: "~> 1.0.0",
-    deps: deps(Mix.env),
+    deps: deps(),
     test_coverage: [tool: ExCoveralls],
     preferred_cli_env: [coveralls: :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test]
     # if you want to use espec,
