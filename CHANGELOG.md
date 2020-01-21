@@ -1,3 +1,9 @@
+0.12.2
+------
+#### Enhancements
+- Add terminal option to hide file coverage list (#215, #148).
+    - Add `print_files` flag to disable individual file outputs.
+
 0.12.1
 ------
 #### Enhancements
