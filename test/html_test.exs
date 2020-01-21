@@ -50,8 +50,12 @@ defmodule ExCoveralls.HtmlTest do
   end
 
   test_with_mock "generate stats information", %{report: report}, ExCoveralls.Settings, [],
-  [get_coverage_options: fn -> %{"output_dir" => @test_output_dir, "template_path" => @test_template_path} end, get_file_col_width: fn -> 40 end, get_print_summary: fn -> true end] do
-
+      [
+        get_coverage_options: fn -> %{"output_dir" => @test_output_dir, "template_path" => @test_template_path} end,
+        get_file_col_width: fn -> 40 end,
+        get_print_summary: fn -> true end,
+        get_print_files: fn -> true end
+      ] do
     assert capture_io(fn ->
       Html.execute(@source_info)
     end) =~ @stats_result
@@ -62,7 +66,12 @@ defmodule ExCoveralls.HtmlTest do
   end
 
   test_with_mock "Exit status code is 1 when actual coverage does not reach the minimum",
-    ExCoveralls.Settings, [get_coverage_options: fn -> coverage_options(100) end, get_file_col_width: fn -> 40 end, get_print_summary: fn -> true end] do
+      ExCoveralls.Settings, [
+        get_coverage_options: fn -> coverage_options(100) end,
+        get_file_col_width: fn -> 40 end,
+        get_print_summary: fn -> true end,
+        get_print_files: fn -> true end
+      ] do
     output = capture_io(fn ->
       assert catch_exit(Html.execute(@source_info)) == {:shutdown, 1}
     end)
@@ -70,7 +79,12 @@ defmodule ExCoveralls.HtmlTest do
   end
 
   test_with_mock "Exit status code is 0 when actual coverage reaches the minimum",
-    ExCoveralls.Settings, [get_coverage_options: fn -> coverage_options(49.9) end, get_file_col_width: fn -> 40 end, get_print_summary: fn -> true end] do
+      ExCoveralls.Settings, [
+        get_coverage_options: fn -> coverage_options(49.9) end,
+        get_file_col_width: fn -> 40 end,
+        get_print_summary: fn -> true end,
+        get_print_files: fn -> true end
+      ] do
     assert capture_io(fn ->
       Html.execute(@source_info)
     end) =~ @stats_result

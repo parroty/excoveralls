@@ -39,7 +39,12 @@ defmodule ExCoveralls.JsonTest do
   end
 
   test_with_mock "generate json file", %{report: report}, ExCoveralls.Settings, [],
-    [get_coverage_options: fn -> %{"output_dir" => @test_output_dir} end, get_file_col_width: fn -> 40 end, get_print_summary: fn -> true end] do
+      [
+        get_coverage_options: fn -> %{"output_dir" => @test_output_dir} end,
+        get_file_col_width: fn -> 40 end,
+        get_print_summary: fn -> true end,
+        get_print_files: fn -> true end
+      ] do
 
     assert capture_io(fn ->
       Json.execute(@source_info)
