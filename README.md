@@ -70,6 +70,7 @@ end
     - [[mix coveralls.detail] Show coverage with detail](#mix-coverallsdetail-show-coverage-with-detail)
     - [[mix coveralls.html] Show coverage as HTML report](#mix-coverallshtml-show-coverage-as-html-report)
     - [[mix coveralls.json] Show coverage as JSON report](#mix-coverallsjson-show-coverage-as-json-report)
+    - [[mix coveralls.xml] Show coverage as XML report](#mix-coverallsjson-show-coverage-as-xml-report)
   - [coveralls.json](#coverallsjson)
       - [Stop Words](#stop-words)
       - [Exclude Files](#exclude-files)
@@ -321,6 +322,13 @@ or to Code Climate using their [test-reporter](https://docs.codeclimate.com/docs
 
 Output reports are written to `cover/excoveralls.json` by default, however, the path can be specified by overwriting the `"output_dir"` coverage option.
 
+### [mix coveralls.xml] Show coverage as XML report
+This task displays coverage information at the source-code level formatted as a XML document.
+The report follows a format supported by several code coverage services like SonarQube.
+Output to the shell is the same as running the command `mix coveralls` (to suppress this output, add `"print_summary": false` to your project's `coveralls.json` file). In a similar manner to `mix coveralls.detail`, reported source code can be filtered by specifying arguments using the `--filter` flag.
+
+Output reports are written to `cover/excoveralls.xml` by default, however, the path can be specified by overwriting the `"output_dir"` coverage option.
+
 ## coveralls.json
 `coveralls.json` provides settings for excoveralls.
 
@@ -394,7 +402,8 @@ to `false`:
     "treat_no_relevant_lines_as_covered": true,
     "output_dir": "cover/",
     "template_path": "custom/path/to/template/",
-    "minimum_coverage": 90
+    "minimum_coverage": 90,
+    "xml_base_dir": "custom/path/for/xml/reports/"
   }
 }
 ```
