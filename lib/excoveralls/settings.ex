@@ -77,6 +77,13 @@ defmodule ExCoveralls.Settings do
   end
 
   @doc """
+  Get xml base dir
+  """
+  def get_xml_base_dir do
+    Map.get(get_coverage_options(), "xml_base_dir", "")
+  end
+
+  @doc """
   Get skip files from the json file.
   """
   def get_skip_files do

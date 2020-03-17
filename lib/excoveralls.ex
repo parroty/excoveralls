@@ -16,6 +16,7 @@ defmodule ExCoveralls do
   alias ExCoveralls.Html
   alias ExCoveralls.Json
   alias ExCoveralls.Post
+  alias ExCoveralls.Xml
 
   @type_travis      "travis"
   @type_github      "github"
@@ -26,6 +27,7 @@ defmodule ExCoveralls do
   @type_html        "html"
   @type_json        "json"
   @type_post        "post"
+  @type_xml         "xml"
 
   @doc """
   This method will be called from mix to trigger coverage analysis.
@@ -108,6 +110,13 @@ defmodule ExCoveralls do
   """
   def analyze(stats, @type_json, options) do
     Json.execute(stats, options)
+  end
+
+  @doc """
+  Logic for XML output, without posting server
+  """
+  def analyze(stats, @type_xml, options) do
+    Xml.execute(stats, options)
   end
 
   @doc """
