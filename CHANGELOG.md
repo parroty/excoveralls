@@ -1,3 +1,9 @@
+0.12.3
+------
+#### Enhancements
+- Add support to generate XML files (#218).
+    - Add `mix coveralls.xml` task.
+
 0.12.2
 ------
 #### Enhancements
