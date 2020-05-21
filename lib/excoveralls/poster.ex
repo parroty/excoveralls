@@ -36,7 +36,7 @@ defmodule ExCoveralls.Poster do
            {:file, file_name, {"form-data", [{"name", "json_file"}, {"filename", file_name}]},
             [{"Content-Type", "gzip/json"}]}
          ]},
-        [{:recv_timeout, 10_000}]
+        [{:recv_timeout, 10_000}, {:ssl_options, [{:versions, [:"tlsv1.2", :"tlsv1.1", :tlsv1]}]}]
       )
 
     case response do
