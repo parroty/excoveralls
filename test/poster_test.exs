@@ -15,7 +15,8 @@ defmodule PosterTest do
     end
   end
 
-  test_with_mock "post json timeout", :hackney, [request: fn(_, _, _, _, _) -> {:error, :timeout} end] do
+  test_with_mock "post json timeout", :hackney, [request: fn(_, _, _, _, _) -> {:error, :timeout} end,
+                                                 request: fn(_, _, _, _, _) -> {:error, :connect_timeout} end] do
     assert capture_io(fn ->
       assert ExCoveralls.Poster.execute("json") == :ok
     end) =~ ~r/timeout/

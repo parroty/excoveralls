@@ -51,7 +51,7 @@ defmodule ExCoveralls.Poster do
            body
          })."}
 
-      {:error, :timeout} ->
+      {:error, reason}  when reason in [:timeout, :connect_timeout] ->
         {:ok, "Unable to upload the report to '#{endpoint}' due to a timeout. Not failing the build."}
 
       {:error, reason} ->
