@@ -55,7 +55,7 @@ defmodule ExCoveralls.Poster do
         {:ok, "Unable to upload the report to '#{endpoint}' due to a timeout. Not failing the build."}
 
       {:error, reason} ->
-        {:error, "Failed to upload the report to '#{endpoint}' (reason: #{reason})."}
+        {:error, "Failed to upload the report to '#{endpoint}' (reason: #{inspect(reason)})."}
     end
   end
 end
