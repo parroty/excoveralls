@@ -1,3 +1,11 @@
+0.13.0
+------
+#### Changes
+- Update hackney to fix sslv3 reference on OTP 23 (#225).
+- Fix build failure due to `:connect_timeout` from poster (#221).
+- Fix error reason message (#222).
+    - Improve message for non-string error reason.
+
 0.12.3
 ------
 #### Enhancements
