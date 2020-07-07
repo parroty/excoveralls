@@ -27,16 +27,14 @@ defmodule ExCoveralls.Cover do
   end
 
   def has_compile_info?(module) do
-    case module.module_info(:compile) do
-      nil -> false
-      info ->
-        path = Keyword.get(info, :source)
-        if File.exists?(path) do
-          true
-        else
-          log_missing_source(module)
-          false
-        end
+    with info when not is_nil(info) <- module.module_info(:compile),
+         path when not is_nil(path) <- Keyword.get(info, :source),
+         true <- File.exists?(path) do
+      true
+    else
+      _e ->
+        log_missing_source(module)
+        false
     end
   rescue
     _e ->

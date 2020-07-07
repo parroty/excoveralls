@@ -32,6 +32,14 @@ defmodule CoverTest do
     end) =~ "[warning] skipping the module 'Elixir.TestMissing' because source information for the module is not available."
   end
 
+  test "has_compile_info?/1 with a mocked module raises warning and returns false" do
+    :ok = :meck.new(MockedModule, [:non_strict])
+
+    assert capture_io(:stderr, fn ->
+      refute Cover.has_compile_info?(MockedModule)
+    end) =~ "[warning] skipping the module 'Elixir.MockedModule' because source information for the module is not available."
+  end
+
   test "has_compile_info?/1 with existing source returns true" do
     assert Cover.has_compile_info?(TestMissing)
   end
