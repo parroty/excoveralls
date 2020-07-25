@@ -1,3 +1,8 @@
+0.13.1
+------
+#### Changes
+- Fixing mocked modules coverage handling (#226).
+
 0.13.0
 ------
 #### Changes
