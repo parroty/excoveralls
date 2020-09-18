@@ -64,7 +64,8 @@ defmodule ExCoveralls.Circle do
 
   defp get_job_id do
     # When using workflows, each job has a separate `CIRCLE_BUILD_NUM`, so this needs to be used as the Job ID and not
-    # the Job Number.
+    # the Job Number. If the job is configured with `parallelism` greater than one, then the `CIRCLE_NODE_INDEX` is
+    # used to differentiate between separate containers running the same job.
     "#{System.get_env("CIRCLE_BUILD_NUM")}-#{System.get_env("CIRCLE_NODE_INDEX")}"
   end
 
