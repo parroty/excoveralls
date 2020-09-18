@@ -65,7 +65,7 @@ defmodule ExCoveralls.Circle do
   defp get_job_id do
     # When using workflows, each job has a separate `CIRCLE_BUILD_NUM`, so this needs to be used as the Job ID and not
     # the Job Number.
-    System.get_env("CIRCLE_BUILD_NUM")
+    "#{System.get_env("CIRCLE_BUILD_NUM")}-#{System.get_env("CIRCLE_NODE_INDEX")}"
   end
 
   defp get_number do
