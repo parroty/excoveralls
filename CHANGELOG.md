@@ -1,3 +1,9 @@
+0.13.2
+------
+#### Changes
+- Fix issue with CircleCI parallel workflows not picking up separate builds (#228).
+- Remove `text-align: right` so filenames are easier to scan (#227).
+
 0.13.1
 ------
 #### Changes
