@@ -22,6 +22,7 @@ defmodule ExCoveralls.Poster do
     end
   end
 
+if Code.ensure_loaded?(:hackney) do
   defp send_file(file_name, options) do
     Application.ensure_all_started(:hackney)
     endpoint = options[:endpoint] || "https://coveralls.io"
@@ -62,4 +63,18 @@ defmodule ExCoveralls.Poster do
         {:error, "Failed to upload the report to '#{endpoint}' (reason: #{inspect(reason)})."}
     end
   end
+else
+  defp send_file(_, _) do
+    raise """
+    missing :hackney dependency
+
+    ExCoveralls requires :hackney to post to the coveralls.io service.
+
+    Please add :hackney to your mix.exs :deps list and run:
+
+        mix deps.get
+        mix deps.clean --build excoveralls
+    """
+  end
+end
 end

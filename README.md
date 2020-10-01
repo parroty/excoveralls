@@ -56,6 +56,7 @@ end
 defp deps do
   [
     {:excoveralls, "~> 0.10", only: :test},
+    {:hackney, "~> 1.16", only: :test} # only required if posting to the coveralls.io service
   ]
 end
 ```

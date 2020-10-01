@@ -39,7 +39,7 @@ defmodule ExCoveralls.Mixfile do
   def deps do
     [
       {:jason, "~> 1.0"},
-      {:hackney, "~> 1.16"},
+      {:hackney, "~> 1.16", optional: true},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:meck, "~> 0.8", only: :test},
       {:mock, "~> 0.3.6", only: :test},
