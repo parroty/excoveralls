@@ -70,7 +70,7 @@ end
     - [[mix coveralls.detail] Show coverage with detail](#mix-coverallsdetail-show-coverage-with-detail)
     - [[mix coveralls.html] Show coverage as HTML report](#mix-coverallshtml-show-coverage-as-html-report)
     - [[mix coveralls.json] Show coverage as JSON report](#mix-coverallsjson-show-coverage-as-json-report)
-    - [[mix coveralls.xml] Show coverage as XML report](#mix-coverallsjson-show-coverage-as-xml-report)
+    - [[mix coveralls.xml] Show coverage as XML report](#mix-coverallsxml-show-coverage-as-xml-report)
   - [coveralls.json](#coverallsjson)
       - [Stop Words](#stop-words)
       - [Exclude Files](#exclude-files)
