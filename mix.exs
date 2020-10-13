@@ -22,7 +22,7 @@ defmodule ExCoveralls.Mixfile do
 
   # Configuration for the OTP application
   def application do
-    []
+    [extra_applications: [:eex, :tools]]
   end
 
   # Specifies which paths to compile per environment.
