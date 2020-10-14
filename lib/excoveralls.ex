@@ -57,71 +57,46 @@ defmodule ExCoveralls do
   end
 
   @doc """
-  Logic for posting from travis-ci server
+  Logic for posting
   """
+  def analyze(stats, type, options)
+
   def analyze(stats, @type_travis, options) do
     Travis.execute(stats, options)
   end
 
-  @doc """
-  Logic for posting from github action
-  """
   def analyze(stats, @type_github, options) do
     Github.execute(stats, options)
   end
 
-  @doc """
-  Logic for posting from circle-ci server
-  """
   def analyze(stats, @type_circle, options) do
     Circle.execute(stats, options)
   end
 
-  @doc """
-  Logic for posting from semaphore-ci server
-  """
   def analyze(stats, @type_semaphore, options) do
     Semaphore.execute(stats, options)
   end
 
-  @doc """
-  Logic for posting from drone-ci server
-  """
   def analyze(stats, @type_drone, options) do
     Drone.execute(stats, options)
   end
 
-  @doc """
-  Logic for local stats display, without posting server
-  """
   def analyze(stats, @type_local, options) do
     Local.execute(stats, options)
   end
 
-  @doc """
-  Logic for html stats display, without posting server
-  """
   def analyze(stats, @type_html, options) do
     Html.execute(stats, options)
   end
 
-  @doc """
-  Logic for JSON output, without posting server
-  """
   def analyze(stats, @type_json, options) do
     Json.execute(stats, options)
   end
 
-  @doc """
-  Logic for XML output, without posting server
-  """
   def analyze(stats, @type_xml, options) do
     Xml.execute(stats, options)
   end
 
-  @doc """
-  Logic for posting from general CI server with token.
-  """
   def analyze(stats, @type_post, options) do
     Post.execute(stats, options)
   end
