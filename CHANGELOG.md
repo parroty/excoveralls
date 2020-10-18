@@ -1,3 +1,9 @@
+0.13.3
+------
+#### Changes
+- Fix warnings for elixir 1.11
+    - Elixir 1.11: :eex and :tools should be listed in :extra_applications (#233).
+
 0.13.2
 ------
 #### Changes
