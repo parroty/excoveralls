@@ -350,6 +350,8 @@ If you want to exclude/ignore files from the coverage calculation add the `skip_
 }
 ```
 
+Path should contain a string that can be compiled to Elixir regex, you can test them running `Regex.compile("your_path")` in your `iex` shell.
+
 Note that this doesn't work directly in an umbrella project. If you need to exclude files within an app, you should create a separate `coveralls.json` at the root of the app's folder and add a `skip_files` key to _that_ file. Paths should be relative to that file, not the umbrella project.
 
 #### Terminal Report Output
