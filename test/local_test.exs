@@ -98,9 +98,12 @@ defmodule ExCoveralls.LocalTest do
         get_print_files: fn -> true end
       ] do
     output = capture_io(fn ->
-      assert catch_exit(Local.execute(@source_info)) == {:shutdown, 1}
+      # assert catch_exit(Local.execute(@source_info)) == {:shutdown, 1}
+      exit_status = catch_exit(Local.execute(@source_info))
+      send(self(), exit_status)
     end)
     assert String.ends_with?(output, "\e[31m\e[1mFAILED: Expected minimum coverage of 100%, got 50%.\e[0m\n")
+    assert_received {:shutdown, 1}
   end
 
   test_with_mock "Exit status code is 0 when actual coverage reaches the minimum",
