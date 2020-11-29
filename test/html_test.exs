@@ -75,7 +75,7 @@ defmodule ExCoveralls.HtmlTest do
     output = capture_io(fn ->
       assert catch_exit(Html.execute(@source_info)) == {:shutdown, 1}
     end)
-    assert String.ends_with?(output, "\e[31m\e[1mFAILED: Expected minimum coverage of 100%, got 50%.\e[0m\n")
+    assert String.contains?(output, "FAILED: Expected minimum coverage of 100%, got 50%.")
   end
 
   test_with_mock "Exit status code is 0 when actual coverage reaches the minimum",
