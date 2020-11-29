@@ -1,5 +1,5 @@
 defmodule ExCoveralls.GithubTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
   import Mock
   alias ExCoveralls.Github
 
@@ -8,12 +8,35 @@ defmodule ExCoveralls.GithubTest do
   @source_info [%{name: "test/fixtures/test.ex", source: @content, coverage: @counts}]
   setup do
     # No additional context
+    github_event_path = System.get_env("GITHUB_EVENT_PATH")
+    github_sha = System.get_env("GITHUB_SHA")
+    github_event_name = System.get_env("GITHUB_EVENT_NAME")
+    github_ref = System.get_env("GITHUB_REF")
+    github_token = System.get_env("GITHUB_TOKEN")
+
     System.put_env("GITHUB_EVENT_PATH", "test/fixtures/github_event.json")
     System.put_env("GITHUB_SHA", "sha1")
     System.put_env("GITHUB_EVENT_NAME", "pull_request")
     System.put_env("GITHUB_REF", "branch")
     System.put_env("GITHUB_TOKEN", "token")
+
+    on_exit(fn ->
+      recover_env("GITHUB_EVENT_PATH", github_event_path)
+      recover_env("GITHUB_SHA", github_sha)
+      recover_env("GITHUB_EVENT_NAME", github_event_name)
+      recover_env("GITHUB_REF", github_ref)
+      recover_env("GITHUB_TOKEN", github_token)
+    end)
+
     {:ok, []}
+  end
+
+  defp recover_env(key, value) do
+    if value != nil do
+      System.put_env(key, value)
+    else
+      System.delete_env(key)
+    end
   end
 
   test_with_mock "execute", ExCoveralls.Poster, execute: fn _ -> "result" end do
