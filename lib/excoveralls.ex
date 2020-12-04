@@ -32,8 +32,8 @@ defmodule ExCoveralls do
   @doc """
   This method will be called from mix to trigger coverage analysis.
   """
-  def start(compile_path, _opts) do
-    Cover.compile(compile_path)
+  def start(compile_path, _) do
+    Cover.compile(compile_path, ConfServer.get()[:no_warn_cover])
     fn() ->
       execute(ConfServer.get, compile_path)
     end

@@ -6,10 +6,11 @@ defmodule ExCoveralls.Cover do
   @doc """
   Compile the beam files for coverage analysis.
   """
-  def compile(compile_path) do
-    :quiet_cover.stop
-    :quiet_cover.start
-    :quiet_cover.compile_beam_directory(compile_path |> string_to_charlist)
+  def compile(compile_path, quiet_cover \\ false) do
+    cover_module = if quiet_cover, do: :quiet_cover, else: :cover
+    cover_module.stop
+    cover_module.start
+    cover_module.compile_beam_directory(compile_path |> string_to_charlist)
   end
 
   @doc """
@@ -23,7 +24,7 @@ defmodule ExCoveralls.Cover do
 
   @doc "Wrapper for :cover.modules"
   def modules do
-    :quiet_cover.modules |> Enum.filter(&has_compile_info?/1)
+    :cover.modules |> Enum.filter(&has_compile_info?/1)
   end
 
   def has_compile_info?(module) do
@@ -44,7 +45,7 @@ defmodule ExCoveralls.Cover do
 
   @doc "Wrapper for :cover.analyse"
   def analyze(module) do
-    :quiet_cover.analyse(module, :calls, :line)
+    :cover.analyse(module, :calls, :line)
   end
 
   if Version.compare(System.version, "1.3.0") == :lt do

@@ -1355,7 +1355,7 @@ add_imported(M, F, ImportFile, [], Acc) ->
 %% This is done when a module is compiled.
 remove_imported(Module,Imported) ->
     case lists:keysearch(Module,1,Imported) of
-	{value,{Module,_,ImportFiles}} ->
+	{value,{Module,_,_}} ->
 	    lists:keydelete(Module,1,Imported);
 	false ->
 	    Imported
