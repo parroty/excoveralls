@@ -127,6 +127,12 @@ defmodule Mix.Tasks.CoverallsTest do
     assert(ExCoveralls.ConfServer.get == [type: "github", args: []])
   end
 
+  test_with_mock "gitlab", Runner, run: fn _, _ -> nil end do
+    Mix.Tasks.Coveralls.Gitlab.run([])
+    assert(called(Runner.run("test", ["--cover"])))
+    assert(ExCoveralls.ConfServer.get() == [type: "gitlab", args: []])
+  end
+
   test_with_mock "post with env vars", Runner, [run: fn(_, _) -> nil end] do
     org_token = System.get_env("COVERALLS_REPO_TOKEN") || ""
     org_name  = System.get_env("COVERALLS_SERVICE_NAME") || ""

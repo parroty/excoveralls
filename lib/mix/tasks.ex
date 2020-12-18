@@ -175,6 +175,19 @@ defmodule Mix.Tasks.Coveralls do
     end
   end
 
+  defmodule Gitlab do
+    @moduledoc """
+    Provides an entry point for gitlab's script.
+    """
+    use Mix.Task
+
+    @preferred_cli_env :test
+
+    def run(args) do
+      Mix.Tasks.Coveralls.do_run(args, type: "gitlab")
+    end
+  end
+
   defmodule Circle do
     @moduledoc """
     Provides an entry point for CircleCI's script.
