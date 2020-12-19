@@ -1,43 +1,57 @@
 defmodule ExCoveralls.Mixfile do
   use Mix.Project
 
+  @source_url "https://github.com/parroty/excoveralls"
+
   def project do
-    [ app: :excoveralls,
+    [
+      app: :excoveralls,
       version: "0.13.3",
       elixir: "~> 1.3",
       elixirc_paths: elixirc_paths(Mix.env()),
       deps: deps(),
+      docs: docs(),
       description: description(),
       package: package(),
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: cli_env_for(:test, [
-        "coveralls", "coveralls.detail", "coveralls.html", "coveralls.json", "coveralls.post",
-      ])
+      preferred_cli_env:
+        cli_env_for(:test, [
+          "coveralls",
+          "coveralls.detail",
+          "coveralls.html",
+          "coveralls.json",
+          "coveralls.post"
+        ])
     ]
   end
 
   defp cli_env_for(env, tasks) do
-    Enum.reduce(tasks, [], fn(key, acc) -> Keyword.put(acc, :"#{key}", env) end)
+    Enum.reduce(tasks, [], fn key, acc -> Keyword.put(acc, :"#{key}", env) end)
   end
 
-  # Configuration for the OTP application
   def application do
     [extra_applications: [:eex, :tools]]
   end
 
-  # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/fixtures/test_missing.ex"]
   defp elixirc_paths(_), do: ["lib"]
 
-  # Returns the list of dependencies in the format:
-  # { :foobar, "~> 0.1", git: "https://github.com/elixir-lang/foobar.git" }
   def deps do
     [
-      {:mock, "~> 0.3.6", only: :test},
-      {:meck, "~> 0.8", only: :test},
       {:jason, "~> 1.0"},
       {:hackney, "~> 1.16"},
-      {:ex_doc, "~> 0.21.0", only: :dev}
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
+      {:meck, "~> 0.8", only: :test},
+      {:mock, "~> 0.3.6", only: :test}
+    ]
+  end
+
+  defp docs do
+    [
+      main: "readme",
+      source_url: @source_url,
+      assets: "assets",
+      extras: ["README.md", "CHANGELOG.md": [title: "Changelog"]]
     ]
   end
 
@@ -48,8 +62,13 @@ defmodule ExCoveralls.Mixfile do
   end
 
   defp package do
-    [ maintainers: ["parroty"],
+    [
+      maintainers: ["parroty"],
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/parroty/excoveralls"} ]
+      links: %{
+        "Changelog" => @source_url <> "/blob/master/CHANGELOG.md",
+        "GitHub" => @source_url
+      }
+    ]
   end
 end
