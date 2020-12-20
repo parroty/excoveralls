@@ -5,9 +5,11 @@ ExCoveralls
 [![Coverage Status](https://coveralls.io/repos/parroty/excoveralls/badge.svg?branch=master)](https://coveralls.io/r/parroty/excoveralls?branch=master)
 [![hex.pm version](https://img.shields.io/hexpm/v/excoveralls.svg)](https://hex.pm/packages/excoveralls)
 [![hex.pm downloads](https://img.shields.io/hexpm/dt/excoveralls.svg)](https://hex.pm/packages/excoveralls)
+[![hex.pm license](https://img.shields.io/hexpm/l/excoveralls.svg)](https://github.com/yyy/excoveralls/blob/master/LICENSE)
+[![Last Updated](https://img.shields.io/github/last-commit/parroty/excoveralls.svg)](https://github.com/parroty/excoveralls/commits/master)
 
 An Elixir library that reports test coverage statistics, with the option to post to [coveralls.io](https://coveralls.io/) service.
-It uses Erlang's [cover](http://www.erlang.org/doc/man/cover.html) to generate coverage information, and posts the test coverage results to coveralls.io through the json API.
+It uses Erlang's [cover](http://www.erlang.org/doc/man/cover.html) to generate coverage information, and posts the test coverage results to coveralls.io through the JSON API.
 
 The following are example projects.
   - [coverage_sample](https://github.com/parroty/coverage_sample) is for Travis CI.
@@ -36,7 +38,12 @@ def project do
     elixir: "~> 1.0.0",
     deps: deps(),
     test_coverage: [tool: ExCoveralls],
-    preferred_cli_env: [coveralls: :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test]
+    preferred_cli_env: [
+      coveralls: :test,
+      "coveralls.detail": :test,
+      "coveralls.post": :test,
+      "coveralls.html": :test
+    ]
     # if you want to use espec,
     # test_coverage: [tool: ExCoveralls, test_task: "espec"]
   ]
@@ -106,7 +113,7 @@ COV    FILE                                        LINES RELEVANT   MISSED
 ----------------
 ```
 
-Specifying the --help option displays the options list for available tasks.
+Specifying the `--help` option displays the options list for available tasks.
 
 ```Shell
 Usage: mix coveralls <Options>
@@ -171,7 +178,7 @@ repo token is available via the `COVERALLS_REPO_TOKEN` environment
 variable.
 
 ### [mix coveralls.github] Post coverage from [GitHub Actions](https://github.com/features/actions)
-Specify `mix coveralls.github` as the build script in the GitHub action YML file and explicitly set the `MIX_ENV` environment to `test` and add `GITHUB_TOKEN` with the value of `{{ secrets.GITHUB_TOKEN }}`, this is required because is used internaly by coveralls.io to check the action and add statuses.
+Specify `mix coveralls.github` as the build script in the GitHub action YML file and explicitly set the `MIX_ENV` environment to `test` and add `GITHUB_TOKEN` with the value of `{{ secrets.GITHUB_TOKEN }}`, this is required because is used internally by coveralls.io to check the action and add statuses.
 
 The value of `secrets.GITHUB_TOKEN` is added automatically inside every GitHub action, so you not need to assign that.
 
@@ -311,7 +318,7 @@ Output to the shell is the same as running the command `mix coveralls` (to suppr
 ```Shell
 $ MIX_ENV=test mix coveralls.html
 ```
-![HTML Report](./README/html_report.jpg?raw=true "HTML Report")
+![HTML Report](./assets/html_report.jpg?raw=true "HTML Report")
 
 Output reports are written to `cover/excoveralls.html` by default, however, the path can be specified by overwriting the `"output_dir"` coverage option.
 Custom reports can be created and utilized by defining `template_path` in `coveralls.json`. This directory should
@@ -384,14 +391,16 @@ to `false`:
 ```
 
 #### Coverage Options
-- treat_no_relevant_lines_as_covered
+- `treat_no_relevant_lines_as_covered`
   - By default, coverage for [files with no relevant lines] are displayed as 0% for aligning with coveralls.io behavior. But, if `treat_no_relevant_lines_as_covered` is set to `true`, it will be displayed as 100%.
-- output_dir
+- `output_dir`
   - The directory which the HTML report will output to. Defaulted to `cover/`.
-- template_path
+- `template_path`
   - A custom path for html reports. This defaults to the htmlcov report in the excoveralls lib.
-- minimum_coverage
+- `minimum_coverage`
   - When set to a number greater than 0, this setting causes the `mix coveralls` and `mix coveralls.html` tasks to exit with a status code of 1 if test coverage falls below the specified threshold (defaults to 0). This is useful to interrupt CI pipelines with strict code coverage rules. Should be expressed as a number between 0 and 100 signifying the minimum percentage of lines covered.
+
+Example configuration file:
 
 ```javascript
 {
@@ -423,7 +432,7 @@ Use comments `coveralls-ignore-start` and `coveralls-ignore-stop` to ignore cert
 defmodule MyModule do
   def covered do
   end
-  
+
   # coveralls-ignore-start
   def ignored do
   end
@@ -441,3 +450,7 @@ end
 ### Todo
 - It might not work well on projects which handle multiple project (Mix.Project) files.
     - Needs improvement on file-path handling.
+
+## License
+
+This source code is licensed under the MIT license. Copyright (c) 2013-present, parroty.
