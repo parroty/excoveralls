@@ -1,3 +1,9 @@
+0.13.4
+------
+#### Enhancements
+- Add `mix coveralls.gitlab` task.
+   - Add a task to upload coverage from gitlab (#240).
+
 0.13.3
 ------
 #### Changes
