@@ -18,6 +18,7 @@ The following are example projects.
   - [semaphore_sample](https://github.com/parroty/semaphore_sample) is for Semaphore CI.
   - [excoveralls_umbrella](https://github.com/parroty/excoveralls_umbrella) is for umbrella project.
   - [gitlab_sample](https://gitlab.com/parroty/gitlab_sample) is for GitLab CI (using GitLab CI feature instead of coveralls.io).
+  - [gitlab_parallel_sample](https://gitlab.com/parroty/excoveralls-demo) is for GitLab CI (with parallel option).
   - [drone_sample](https://github.com/vorce/drone_sample) is for Drone CI.
 
 # Settings
