@@ -9,6 +9,7 @@ defmodule ExCoveralls do
   alias ExCoveralls.StatServer
   alias ExCoveralls.Travis
   alias ExCoveralls.Github
+  alias ExCoveralls.Gitlab
   alias ExCoveralls.Circle
   alias ExCoveralls.Semaphore
   alias ExCoveralls.Drone
@@ -20,6 +21,7 @@ defmodule ExCoveralls do
 
   @type_travis      "travis"
   @type_github      "github"
+  @type_gitlab      "gitlab"
   @type_circle      "circle"
   @type_semaphore   "semaphore"
   @type_drone       "drone"
@@ -67,6 +69,10 @@ defmodule ExCoveralls do
 
   def analyze(stats, @type_github, options) do
     Github.execute(stats, options)
+  end
+
+  def analyze(stats, @type_gitlab, options) do
+    Gitlab.execute(stats, options)
   end
 
   def analyze(stats, @type_circle, options) do
