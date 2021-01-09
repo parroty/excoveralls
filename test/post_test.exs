@@ -34,8 +34,10 @@ defmodule ExCoveralls.PostTest do
 
     assert json ==
        "{\"git\":{\"branch\":\"\",\"head\":{\"committer_name\":\"\",\"id\":\"\",\"message\":\"\"}}," <>
+         "\"parallel\":null," <>
          "\"repo_token\":\"1234567890\"," <>
          "\"service_name\":\"local\"," <>
+         "\"service_number\":null," <>
          "\"source_files\":" <>
            "[{\"coverage\":[0,1,null,null]," <>
              "\"name\":\"test/fixtures/test.ex\"," <>

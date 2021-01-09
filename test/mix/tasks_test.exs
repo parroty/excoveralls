@@ -145,9 +145,9 @@ defmodule Mix.Tasks.CoverallsTest do
     assert(called Runner.run("test", ["--cover"]))
     assert(ExCoveralls.ConfServer.get ==
              [type: "post", endpoint: nil, token: "dummy_token",
-              service_name: "dummy_service_name", branch: "branch",
+              service_name: "dummy_service_name", service_number: "", branch: "branch",
               committer: "committer", sha: "asdf", message: "message",
-              umbrella: nil, verbose: nil, args: []])
+              umbrella: nil, verbose: nil, parallel: nil, rootdir: "", subdir: "", args: []])
 
     System.put_env("COVERALLS_REPO_TOKEN", org_token)
     System.put_env("COVERALLS_SERVICE_NAME", org_name)
@@ -165,9 +165,9 @@ defmodule Mix.Tasks.CoverallsTest do
     assert(called Runner.run("test", ["--cover"]))
     assert(ExCoveralls.ConfServer.get ==
              [type: "post", endpoint: nil, token: "token",
-              service_name: "excoveralls", branch: "",
+              service_name: "excoveralls", service_number: "", branch: "",
               committer: "", sha: "", message: "[no commit message]",
-              umbrella: nil, verbose: nil, args: []])
+              umbrella: nil, verbose: nil, parallel: nil, rootdir: "", subdir: "", args: []])
 
     if org_token != nil do
       System.put_env("COVERALLS_REPO_TOKEN", org_token)
