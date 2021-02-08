@@ -329,21 +329,27 @@ defmodule Mix.Tasks.CoverallsTest do
     ]
 
     test "subdir is added to filepath" do
-      assert Mix.Tasks.Coveralls.get_stats(@test_stats, [rootdir: "", subdir: "umbrella1/"])
-      |> Enum.map(fn m -> assert String.starts_with?(m[:name], "umbrella1/") end)
-      |> Enum.all?(fn v -> v end)
+      result =
+        Mix.Tasks.Coveralls.get_stats(@test_stats, [rootdir: "", subdir: "umbrella1/"])
+        |> Enum.map(fn m -> assert String.starts_with?(m[:name], "umbrella1/") end)
+        |> Enum.all?(fn v -> v end)
+      assert result
     end
 
     test "rootdir is removed from filepath" do
-      assert Mix.Tasks.Coveralls.get_stats(@test_stats, [rootdir: "apps/", subdir: ""])
-      |> Enum.map(fn m -> assert String.starts_with?(m[:name], "umbrella1_app") end)
-      |> Enum.all?(fn v -> v end)
+      result =
+        Mix.Tasks.Coveralls.get_stats(@test_stats, [rootdir: "apps/", subdir: ""])
+        |> Enum.map(fn m -> assert String.starts_with?(m[:name], "umbrella1_app") end)
+        |> Enum.all?(fn v -> v end)
+      assert result
     end
 
     test "filepath is untouched when no options for rootdir/subdir" do
-      assert Mix.Tasks.Coveralls.get_stats(@test_stats, [rootdir: "", subdir: ""])
-      |> Enum.map(fn m -> assert String.starts_with?(m[:name], "apps/umbrella1_app") end)
-      |> Enum.all?(fn v -> v end)
+      result =
+        Mix.Tasks.Coveralls.get_stats(@test_stats, [rootdir: "", subdir: ""])
+        |> Enum.map(fn m -> assert String.starts_with?(m[:name], "apps/umbrella1_app") end)
+        |> Enum.all?(fn v -> v end)
+      assert result
     end
   end
 end
