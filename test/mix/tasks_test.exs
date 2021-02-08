@@ -351,5 +351,13 @@ defmodule Mix.Tasks.CoverallsTest do
         |> Enum.all?(fn v -> v end)
       assert result
     end
+
+    test "filepath is untouched when options for rootdir/subdir does not exist" do
+      result =
+        Mix.Tasks.Coveralls.get_stats(@test_stats, [])
+        |> Enum.map(fn m -> assert String.starts_with?(m[:name], "apps/umbrella1_app") end)
+        |> Enum.all?(fn v -> v end)
+      assert result
+    end
   end
 end
