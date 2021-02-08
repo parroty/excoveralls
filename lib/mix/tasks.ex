@@ -34,16 +34,13 @@ defmodule Mix.Tasks.Coveralls do
     end
 
     switches = [
-      build: :string,
       filter: :string,
       output_dir: :string,
-      rootdir: :string,
-      subdir: :string,
       parallel: :boolean,
       pro: :boolean,
       sort: :string,
       umbrella: :boolean,
-      verbose: :boolean,
+      verbose: :boolean
     ]
     aliases = [f: :filter, u: :umbrella, v: :verbose, o: :output_dir]
     {args, common_options} = parse_common_options(args, switches: switches, aliases: aliases)
@@ -65,7 +62,12 @@ defmodule Mix.Tasks.Coveralls do
     Runner.run(test_task, ["--cover"] ++ args)
 
     if all_options[:umbrella] do
-      analyze_sub_apps(all_options)
+      type = options[:type] || "local"
+
+      ExCoveralls.StatServer.get
+      |> MapSet.to_list
+      |> get_stats(all_options)
+      |> ExCoveralls.analyze(type, options)
     end
   end
 
@@ -91,28 +93,29 @@ defmodule Mix.Tasks.Coveralls do
       end
     end)
 
+    sub_dir_set? = "" != common_options[:subdir] |> to_string
+    root_dir_set? = "" != common_options[:rootdir] |> to_string
+    if sub_dir_set? and root_dir_set? do
+      raise ExCoveralls.InvalidOptionError,
+                message: "subdir and rootdir options are exclusive. please specify only one of them."
+    end
     {remaining, common_options}
   end
 
-  defp analyze_sub_apps(options) do
-    type = options[:type] || "local"
+  def get_stats(stats, options) do
     sub_dir_set? = "" != options[:subdir] |> to_string
     root_dir_set? = "" != options[:rootdir] |> to_string
-    stats =
-      ExCoveralls.StatServer.get
-      |> MapSet.to_list
-    stats =
-      cond do
-        sub_dir_set? ->
-          stats
-          |> Enum.map(fn m -> %{m | name: options[:subdir] <> Map.get(m, :name)} end)
 
-        root_dir_set? ->
-          stats
-          |> Enum.map(fn m -> %{m | name: String.trim_leading(Map.get(m, :name), options[:rootdir])} end)
-        true -> stats
-      end
-    ExCoveralls.analyze(stats, type, options)
+    cond do
+      sub_dir_set? ->
+        stats
+        |> Enum.map(fn m -> %{m | name: options[:subdir] <> Map.get(m, :name)} end)
+
+      root_dir_set? ->
+        stats
+        |> Enum.map(fn m -> %{m | name: String.trim_leading(Map.get(m, :name), options[:rootdir])} end)
+      true -> stats
+    end
   end
 
   defmodule Detail do
@@ -297,7 +300,7 @@ defmodule Mix.Tasks.Coveralls do
           verbose:      options[:verbose],
           parallel:     options[:parallel],
           rootdir:      options[:rootdir] || "",
-          subdir:       options[:subdir] || "",
+          subdir:       options[:subdir] || ""
         ])
     end
 
