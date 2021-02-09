@@ -33,15 +33,7 @@ defmodule Mix.Tasks.Coveralls do
         message: "Please specify 'test_coverage: [tool: ExCoveralls]' in the 'project' section of mix.exs"
     end
 
-    switches = [
-      filter: :string,
-      output_dir: :string,
-      parallel: :boolean,
-      pro: :boolean,
-      sort: :string,
-      umbrella: :boolean,
-      verbose: :boolean
-    ]
+    switches = [filter: :string, umbrella: :boolean, verbose: :boolean, pro: :boolean, parallel: :boolean, sort: :string, output_dir: :string]
     aliases = [f: :filter, u: :umbrella, v: :verbose, o: :output_dir]
     {args, common_options} = parse_common_options(args, switches: switches, aliases: aliases)
     all_options = options ++ common_options
