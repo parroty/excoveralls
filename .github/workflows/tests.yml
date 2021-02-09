@@ -19,7 +19,7 @@ jobs:
         with:
          otp-version: ${{ matrix.otp }}
          elixir-version: ${{ matrix.elixir }}
-      - uses: actions/cache@v1
+      - uses: actions/cache@v2
         with:
          path: deps
          key: ${{ runner.os }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
