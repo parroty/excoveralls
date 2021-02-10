@@ -85,8 +85,8 @@ defmodule Mix.Tasks.Coveralls do
       end
     end)
 
-    sub_dir_set? = not common_options[:subdir] in [nil, ""]
-    root_dir_set? = not common_options[:rootdir] in [nil, ""]
+    sub_dir_set? = not (common_options[:subdir] in [nil, ""])
+    root_dir_set? = not (common_options[:rootdir] in [nil, ""])
     if sub_dir_set? and root_dir_set? do
       raise ExCoveralls.InvalidOptionError,
                 message: "subdir and rootdir options are exclusive. please specify only one of them."
@@ -95,8 +95,8 @@ defmodule Mix.Tasks.Coveralls do
   end
 
   def get_stats(stats, options) do
-    sub_dir_set? = not options[:subdir] in [nil, ""]
-    root_dir_set? = not options[:rootdir] in [nil, ""]
+    sub_dir_set? = not (options[:subdir] in [nil, ""])
+    root_dir_set? = not (options[:rootdir] in [nil, ""])
 
     cond do
       sub_dir_set? ->
