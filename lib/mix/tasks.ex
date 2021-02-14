@@ -54,7 +54,12 @@ defmodule Mix.Tasks.Coveralls do
     Runner.run(test_task, ["--cover"] ++ args)
 
     if all_options[:umbrella] do
-      analyze_sub_apps(all_options)
+      type = options[:type] || "local"
+
+      ExCoveralls.StatServer.get
+      |> MapSet.to_list
+      |> get_stats(all_options)
+      |> ExCoveralls.analyze(type, options)
     end
   end
 
@@ -80,13 +85,29 @@ defmodule Mix.Tasks.Coveralls do
       end
     end)
 
+    sub_dir_set? = not (common_options[:subdir] in [nil, ""])
+    root_dir_set? = not (common_options[:rootdir] in [nil, ""])
+    if sub_dir_set? and root_dir_set? do
+      raise ExCoveralls.InvalidOptionError,
+                message: "subdir and rootdir options are exclusive. please specify only one of them."
+    end
     {remaining, common_options}
   end
 
-  defp analyze_sub_apps(options) do
-    type = options[:type] || "local"
-    stats = ExCoveralls.StatServer.get |> MapSet.to_list
-    ExCoveralls.analyze(stats, type, options)
+  def get_stats(stats, options) do
+    sub_dir_set? = not (options[:subdir] in [nil, ""])
+    root_dir_set? = not (options[:rootdir] in [nil, ""])
+
+    cond do
+      sub_dir_set? ->
+        stats
+        |> Enum.map(fn m -> %{m | name: options[:subdir] <> Map.get(m, :name)} end)
+
+      root_dir_set? ->
+        stats
+        |> Enum.map(fn m -> %{m | name: String.trim_leading(Map.get(m, :name), options[:rootdir])} end)
+      true -> stats
+    end
   end
 
   defmodule Detail do
@@ -240,7 +261,16 @@ defmodule Mix.Tasks.Coveralls do
     @preferred_cli_env :test
 
     def run(args) do
-      switches = [filter: :string, umbrella: :boolean, verbose: :boolean, pro: :boolean, parallel: :boolean]
+      switches = [
+        filter: :string,
+        umbrella: :boolean,
+        verbose: :boolean,
+        pro: :boolean,
+        parallel: :boolean,
+        rootdir: :string,
+        subdir: :string,
+        build: :string,
+      ]
       aliases = [f: :filter, u: :umbrella, v: :verbose]
       {remaining, options} = Mix.Tasks.Coveralls.parse_common_options(
         args,
@@ -253,12 +283,16 @@ defmodule Mix.Tasks.Coveralls do
           endpoint:     Application.get_env(:excoveralls, :endpoint),
           token:        extract_token(options),
           service_name: extract_service_name(options),
+          service_number: options[:build] || "",
           branch:       options[:branch] || "",
           committer:    options[:committer] || "",
           sha:          options[:sha] || "",
           message:      options[:message] || "[no commit message]",
           umbrella:     options[:umbrella],
-          verbose:      options[:verbose]
+          verbose:      options[:verbose],
+          parallel:     options[:parallel],
+          rootdir:      options[:rootdir] || "",
+          subdir:       options[:subdir] || ""
         ])
     end
 

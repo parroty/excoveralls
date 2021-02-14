@@ -26,6 +26,7 @@ defmodule ExCoveralls.PostTest do
       Post.generate_json(@source_info, [
         token: "1234567890",
         service_name: "local",
+        service_number: "build_num_1",
         branch: "",
         committer: "",
         message: "",
@@ -34,8 +35,10 @@ defmodule ExCoveralls.PostTest do
 
     assert json ==
        "{\"git\":{\"branch\":\"\",\"head\":{\"committer_name\":\"\",\"id\":\"\",\"message\":\"\"}}," <>
+         "\"parallel\":null," <>
          "\"repo_token\":\"1234567890\"," <>
          "\"service_name\":\"local\"," <>
+         "\"service_number\":\"build_num_1\"," <>
          "\"source_files\":" <>
            "[{\"coverage\":[0,1,null,null]," <>
              "\"name\":\"test/fixtures/test.ex\"," <>
