@@ -20,6 +20,7 @@ The following are example projects.
   - [gitlab_sample](https://gitlab.com/parroty/gitlab_sample) is for GitLab CI (using GitLab CI feature instead of coveralls.io).
   - [gitlab_parallel_sample](https://gitlab.com/parroty/excoveralls-demo) is for GitLab CI (with parallel option).
   - [drone_sample](https://github.com/vorce/drone_sample) is for Drone CI.
+  - [excoveralls_post_sample](https://github.com/hirotnk/excoveralls_post_sample) is for coveralls.post usage example.
 
 # Settings
 ### mix.exs
