@@ -1,3 +1,8 @@
+0.14.0
+------
+#### Enhancements
+- Add `mix coveralls.post` task (#244).
+
 0.13.4
 ------
 #### Enhancements
