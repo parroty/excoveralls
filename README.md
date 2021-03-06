@@ -5,7 +5,7 @@ ExCoveralls
 [![Coverage Status](https://coveralls.io/repos/parroty/excoveralls/badge.svg?branch=master)](https://coveralls.io/r/parroty/excoveralls?branch=master)
 [![hex.pm version](https://img.shields.io/hexpm/v/excoveralls.svg)](https://hex.pm/packages/excoveralls)
 [![hex.pm downloads](https://img.shields.io/hexpm/dt/excoveralls.svg)](https://hex.pm/packages/excoveralls)
-[![hex.pm license](https://img.shields.io/hexpm/l/excoveralls.svg)](https://github.com/yyy/excoveralls/blob/master/LICENSE)
+[![hex.pm license](https://img.shields.io/hexpm/l/excoveralls.svg)](https://github.com/parroty/excoveralls/blob/master/LICENSE)
 [![Last Updated](https://img.shields.io/github/last-commit/parroty/excoveralls.svg)](https://github.com/parroty/excoveralls/commits/master)
 
 An Elixir library that reports test coverage statistics, with the option to post to [coveralls.io](https://coveralls.io/) service.
