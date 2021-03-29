@@ -51,7 +51,7 @@ defmodule ExCoveralls.HtmlTest do
 
   test_with_mock "generate stats information", %{report: report}, ExCoveralls.Settings, [],
       [
-        get_coverage_options: fn -> %{"output_dir" => @test_output_dir, "template_path" => @test_template_path} end,
+        get_coverage_options: fn -> %{output_dir: @test_output_dir, template_path: @test_template_path} end,
         get_file_col_width: fn -> 40 end,
         get_print_summary: fn -> true end,
         get_print_files: fn -> true end
@@ -92,9 +92,9 @@ defmodule ExCoveralls.HtmlTest do
 
   defp coverage_options(minimum_coverage) do
     %{
-      "minimum_coverage" => minimum_coverage,
-      "output_dir" => @test_output_dir,
-      "template_path" => @test_template_path
+      minimum_coverage: minimum_coverage,
+      output_dir: @test_output_dir,
+      template_path: @test_template_path
     }
   end
 

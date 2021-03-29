@@ -1,0 +1,5 @@
+%{
+  terminal_options: %{
+    file_column_width: "40"
+  }
+}

@@ -1,5 +1,5 @@
-{
-  "skip_files": [
+%{
+  skip_files: [
     "test.ex"
   ]
 }

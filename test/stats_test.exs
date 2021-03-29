@@ -17,8 +17,8 @@ defmodule ExCoveralls.StatsTest do
                      source: @trimmed,
                      coverage: @counts
                    }]
-  @fixture_default Path.dirname(__ENV__.file) <> "/fixtures/default.json"
-  @fixture_custom  Path.dirname(__ENV__.file) <> "/fixtures/skip_files.json"
+  @fixture_default Path.dirname(__ENV__.file) <> "/fixtures/default.exs"
+  @fixture_custom  Path.dirname(__ENV__.file) <> "/fixtures/skip_files.exs"
 
   @invalid_counts [0, 1, nil, "invalid"]
   @invalid_source_info [%{name: "test/fixtures/test.ex",
