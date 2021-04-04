@@ -65,6 +65,7 @@ end
 
 # Usage
 ## Mix Tasks
+- [ExCoveralls](#excoveralls)
 - [Settings](#settings)
     - [mix.exs](#mixexs)
 - [Usage](#usage)
@@ -73,7 +74,7 @@ end
     - [[mix coveralls.travis] Post coverage from travis](#mix-coverallstravis-post-coverage-from-travis)
       - [.travis.yml](#travisyml)
     - [[mix coveralls.github] Post coverage from GitHub Actions](#mix-coverallsgithub-post-coverage-from-github-actions)
-      - [.github/workflows/main.yml](#githubworkflowsexampleyml)
+      - [.github/workflows/example.yml](#githubworkflowsexampleyml)
     - [[mix coveralls.circle] Post coverage from circle](#mix-coverallscircle-post-coverage-from-circle)
       - [circle.yml](#circleyml)
     - [[mix coveralls.semaphore] Post coverage from semaphore](#mix-coverallssemaphore-post-coverage-from-semaphore)
@@ -90,9 +91,10 @@ end
       - [Exclude Files](#exclude-files)
       - [Terminal Report Output](#terminal-report-output)
       - [Coverage Options](#coverage-options)
-  - [Ignore Lines](#ignore-lines)
-  - [Notes](#notes)
-  - [Todo](#todo)
+    - [Ignore Lines](#ignore-lines)
+    - [Notes](#notes)
+    - [Todo](#todo)
+  - [License](#license)
 
 ### [mix coveralls] Show coverage
 Run the `MIX_ENV=test mix coveralls` command to show coverage information on localhost.
@@ -215,7 +217,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v1.0.0
-      - uses: actions/setup-elixir@v1.0.0
+      - uses: erlef/setup-beam@v1
         with:
           otp-version: ${{matrix.otp}}
           elixir-version: ${{matrix.elixir}}
