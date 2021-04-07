@@ -146,6 +146,6 @@ defmodule Chaps.StatsTest do
 
   test "coverage stats are rounded to one decimal place" do
     results = Stats.source(@fractional_source_info)
-    assert(results.coverage == 66.7)
+    assert(results.coverage == 66.6)
   end
 end

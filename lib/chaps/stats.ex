@@ -208,7 +208,7 @@ defmodule Chaps.Stats do
     if value == trunc(value) do
       trunc(value)
     else
-      Float.round(value, 1)
+      Float.floor(value, 1)
     end
   end
 
