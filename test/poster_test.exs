@@ -21,4 +21,15 @@ defmodule PosterTest do
       assert ExCoveralls.Poster.execute("json") == :ok
     end) =~ ~r/timeout/
   end
+  test_with_mock "post json fails due internal server error", :hackney, [request: fn(_, _, _, _, _) -> {:ok, 500, "", ""} end] do
+    assert capture_io(fn ->
+      assert ExCoveralls.Poster.execute("json") == :ok
+    end) =~ ~r/internal server error/
+  end
+
+  test_with_mock "post json fails due to maintenance", :hackney, [request: fn(_, _, _, _, _) -> {:ok, 405, "", ""} end] do
+    assert capture_io(fn ->
+      assert ExCoveralls.Poster.execute("json") == :ok
+    end) =~ ~r/maintenance/
+  end
 end

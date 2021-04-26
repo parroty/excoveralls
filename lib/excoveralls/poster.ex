@@ -43,6 +43,8 @@ defmodule ExCoveralls.Poster do
       {:ok, status_code, _, _} when status_code in 200..299 ->
         {:ok, "Successfully uploaded the report to '#{endpoint}'."}
 
+      {:ok, 500 = _status_code, _, _client} ->        
+        {:ok, "API endpoint `#{endpoint}` is not available and return internal server error! Ignoring upload"}
       {:ok, status_code, _, client} ->
         {:ok, body} = :hackney.body(client)
 
