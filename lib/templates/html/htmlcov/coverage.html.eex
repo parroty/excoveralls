@@ -34,7 +34,7 @@
       <div id='files'>
         <%= for file <- @cov.files do %>
           <div class='file'>
-            <h2 id='<%= file.filename %>'><%= file.filename %></h1>
+            <h2 id='<%= file.filename %>'><%= file.filename %></h2>
             <div id='stats' class='<%= ExCoveralls.Html.View.coverage_class(file.coverage, file.sloc) %>'>
               <div class='percentage'><%= file.coverage || 0 %></div>
               <div class='sloc'><%= file.sloc %></div>
