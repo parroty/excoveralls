@@ -1,3 +1,8 @@
+0.14.1
+------
+#### Changes
+- Fix HTML tag typo (#259).
+
 0.14.0
 ------
 #### Enhancements
