@@ -74,7 +74,7 @@ defmodule ExCoveralls.LocalTest do
 
   test_with_mock "Empty (no relevant lines) file with treat_no_relevant_lines_as_covered=true option is calculated as 100.0%",
     ExCoveralls.Settings, [
-      get_coverage_options: fn -> %{"treat_no_relevant_lines_as_covered" => true} end,
+      get_coverage_options: fn -> %{treat_no_relevant_lines_as_covered: true} end,
       get_file_col_width: fn -> 40 end,
       get_print_files: fn -> true end
     ] do
@@ -83,7 +83,7 @@ defmodule ExCoveralls.LocalTest do
 
   test_with_mock "Empty (no relevant lines) file with treat_no_relevant_lines_as_covered=false option is calculated as 0.0%",
       ExCoveralls.Settings, [
-        get_coverage_options: fn -> %{"treat_no_relevant_lines_as_covered" => false} end,
+        get_coverage_options: fn -> %{treat_no_relevant_lines_as_covered: false} end,
         get_file_col_width: fn -> 40 end,
         get_print_files: fn -> true end
       ] do
@@ -91,9 +91,8 @@ defmodule ExCoveralls.LocalTest do
   end
 
   test_with_mock "Exit status code is 1 when actual coverage does not reach the minimum",
-
       ExCoveralls.Settings, [
-        get_coverage_options: fn -> %{"minimum_coverage" => 100} end,
+        get_coverage_options: fn -> %{minimum_coverage: 100} end,
         get_file_col_width: fn -> 40 end,
         get_print_summary: fn -> true end,
         get_print_files: fn -> true end
@@ -106,7 +105,7 @@ defmodule ExCoveralls.LocalTest do
 
   test_with_mock "Exit status code is 0 when actual coverage reaches the minimum",
       ExCoveralls.Settings, [
-        get_coverage_options: fn -> %{"minimum_coverage" => 49.9} end,
+        get_coverage_options: fn -> %{minimum_coverage: 49.9} end,
         get_file_col_width: fn -> 40 end,
         get_print_summary: fn -> true end,
         get_print_files: fn -> true end
@@ -118,7 +117,7 @@ defmodule ExCoveralls.LocalTest do
 
   test_with_mock "No output if print_summary is false",
       ExCoveralls.Settings, [
-        get_coverage_options: fn -> %{"minimum_coverage" => 49.9} end,
+        get_coverage_options: fn -> %{minimum_coverage: 49.9} end,
         get_file_col_width: fn -> 40 end,
         get_print_summary: fn -> true end,
         get_print_files: fn -> true end
@@ -130,7 +129,7 @@ defmodule ExCoveralls.LocalTest do
 
   test_with_mock "Do not output table if print_files is false",
       ExCoveralls.Settings, [
-        get_coverage_options: fn -> %{"minimum_coverage" => 49.9} end,
+        get_coverage_options: fn -> %{minimum_coverage: 49.9} end,
         get_file_col_width: fn -> 40 end,
         get_print_summary: fn -> true end,
         get_print_files: fn -> false end

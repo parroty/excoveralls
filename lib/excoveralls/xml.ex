@@ -12,7 +12,7 @@ defmodule ExCoveralls.Xml do
   """
   def execute(stats, options \\ []) do
     stats
-    |> generate_xml(Enum.into(options, %{})) 
+    |> generate_xml(Enum.into(options, %{}))
     |> write_file(options[:output_dir])
 
     ExCoveralls.Local.print_summary(stats)
@@ -23,12 +23,12 @@ defmodule ExCoveralls.Xml do
     "<coverage version=\"1\">" <> Enum.map_join(stats, fn %{name: name, coverage: coverage} ->
       path = String.replace("#{base_dir}/#{name}", ~r/(\/)+/, "/", global: true)
       "<file path=\"#{path}\">" <>
-        Enum.map_join(Enum.with_index(coverage), fn 
+        Enum.map_join(Enum.with_index(coverage), fn
           {nil, _line} -> ""
           {count, line} ->
             "<lineToCover lineNumber=\"#{line + 1}\" covered=\"#{count != 0}\"/>"
         end)
-      <> "</file>"      
+      <> "</file>"
     end) <> "</coverage>"
   end
 
@@ -38,7 +38,7 @@ defmodule ExCoveralls.Xml do
         output_dir
       true ->
         options = Settings.get_coverage_options
-        case Map.fetch(options, "output_dir") do
+        case Map.fetch(options, :output_dir) do
           {:ok, val} -> val
           _ -> "cover/"
         end
