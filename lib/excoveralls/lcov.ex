@@ -15,7 +15,8 @@ defmodule ExCoveralls.Lcov do
   end
 
   def generate_lcov(stats, _options) do
-    Enum.map(stats, fn stat -> generate_lcov_file(stat) end) |> Enum.join("\n")
+    lcov = Enum.map(stats, fn stat -> generate_lcov_file(stat) end) |> Enum.join("\n")
+    lcov <> "\n"
   end
 
   def generate_lcov_file(stat) do
