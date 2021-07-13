@@ -5,7 +5,7 @@ defmodule ExCoveralls.LcovTest do
   alias ExCoveralls.Lcov
 
   @file_name "lcov.info"
-  @file_size 77
+  @file_size 87
   @test_output_dir "cover_test/"
 
   @content     "defmodule Test do\n  def test do\n  end\nend\n"
@@ -50,7 +50,7 @@ defmodule ExCoveralls.LcovTest do
       Lcov.execute(@source_info)
     end) =~ @stats_result
 
-    assert(File.read!(report) =~ ~s(TN:test/fixtures/test.ex\nSF:test/fixtures/test.ex\nDA:1,0\nDA:2,1\nend_of_record))
+    assert(File.read!(report) =~ ~s(TN:test/fixtures/test.ex\nSF:test/fixtures/test.ex\nDA:1,0\nDA:2,1\nLF:2\nLH:1\nend_of_record))
     %{size: size} = File.stat! report
     assert(size == @file_size)
   end
@@ -60,7 +60,7 @@ defmodule ExCoveralls.LcovTest do
       Lcov.execute(@source_info, [output_dir: @test_output_dir])
     end) =~ @stats_result
 
-    assert(File.read!(report) =~ ~s(TN:test/fixtures/test.ex\nSF:test/fixtures/test.ex\nDA:1,0\nDA:2,1\nend_of_record))
+    assert(File.read!(report) =~ ~s(TN:test/fixtures/test.ex\nSF:test/fixtures/test.ex\nDA:1,0\nDA:2,1\nLF:2\nLH:1\nend_of_record))
     %{size: size} = File.stat! report
     assert(size == @file_size)
   end

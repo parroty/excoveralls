@@ -26,7 +26,21 @@ defmodule ExCoveralls.Lcov do
       |> Enum.map(fn {k, v} -> {Integer.to_string(v), Integer.to_string(k)} end)
       |> Enum.map(fn {line, count} -> "DA:" <> line <> "," <> count end)
 
-    lines = ["TN:" <> stat.name, "SF:" <> stat.name] ++ da ++ ["end_of_record"]
+    foundlines =
+      stat.coverage
+      |> Enum.filter(fn v -> v != nil end)
+
+    lf = foundlines |> Enum.count()
+    lh = foundlines |> Enum.filter(fn v -> v > 0 end) |> Enum.count()
+
+    lines =
+      ["TN:" <> stat.name, "SF:" <> stat.name] ++
+        da ++
+        [
+          "LF:" <> Integer.to_string(lf),
+          "LH:" <> Integer.to_string(lh),
+          "end_of_record"
+        ]
 
     Enum.join(lines, "\n")
   end
