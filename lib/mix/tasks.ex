@@ -170,6 +170,21 @@ defmodule Mix.Tasks.Coveralls do
     end
   end
 
+  defmodule Lcov do
+    @moduledoc """
+    Provides an entry point for outputting coveralls information
+    as a Lcov file.
+    """
+    use Mix.Task
+
+    @shortdoc "Output the test coverage as a Lcov file"
+    @preferred_cli_env :test
+
+    def run(args) do
+      Mix.Tasks.Coveralls.do_run(args, [ type: "lcov" ])
+    end
+  end
+
   defmodule Travis do
     @moduledoc """
     Provides an entry point for travis's script.
