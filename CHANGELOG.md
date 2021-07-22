@@ -1,7 +1,7 @@
 0.14.2
 ------
 #### Enhancements
-- minimum support for lcov - experimental (#261, #264).
+- Minimum support for lcov - experimental (#261, #264).
 
 0.14.1
 ------
