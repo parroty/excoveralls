@@ -35,7 +35,7 @@ defmodule ExCoveralls.TravisTest do
     assert(%{ "service_name" => "travis-ci" } = parsed)
   end
 
-  test "can be overriden to submit as `travis-pro`" do
+  test "can be overridden to submit as `travis-pro`" do
     parsed = Travis.generate_json(@source_info, %{ pro: true, another_key: 3 }) |> Jason.decode!
     assert(%{ "service_name" => "travis-pro" } = parsed)
     assert("repo_token" in Map.keys(parsed))
