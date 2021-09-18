@@ -178,7 +178,7 @@ defmodule ExCoveralls.Local do
   end
 
   @doc """
-  Calucate count information from thhe coverage stats.
+  Calculate count information from the coverage stats.
   """
   def calculate_count(coverage) do
     do_calculate_count(coverage, 0, 0, 0)

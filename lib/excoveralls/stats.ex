@@ -15,7 +15,7 @@ defmodule ExCoveralls.Stats do
 
   defmodule Line do
     @moduledoc """
-    Stores count information and source for a sigle line.
+    Stores count information and source for a single line.
     """
 
     defstruct coverage: nil, source: ""
