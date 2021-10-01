@@ -6,13 +6,16 @@ defmodule Chaps.Circle do
 
   def execute(stats, options) do
     json = generate_json(stats, Enum.into(options, %{}))
+
     if options[:verbose] do
-      IO.puts json
+      IO.puts(json)
     end
+
     Poster.execute(json)
   end
 
   def generate_json(stats, options \\ %{})
+
   def generate_json(stats, options) do
     Jason.encode!(%{
       repo_token: get_repo_token(),
@@ -27,10 +30,11 @@ defmodule Chaps.Circle do
   end
 
   defp generate_git_info do
-    %{head: %{
-       committer_name: get_committer(),
-       message: get_message!(),
-       id: get_sha()
+    %{
+      head: %{
+        committer_name: get_committer(),
+        message: get_message!(),
+        id: get_sha()
       },
       branch: get_branch()
     }
@@ -72,7 +76,8 @@ defmodule Chaps.Circle do
   defp get_number do
     # `CIRCLE_WORKFLOW_WORKSPACE_ID` is the same when "Rerun failed job" is done while `CIRCLE_WORKFLOW_ID` changes, so
     # use `CIRCLE_WORKFLOW_WORKSPACE_ID` so that the results from the original and rerun are combined
-    System.get_env("CIRCLE_WORKFLOW_WORKSPACE_ID") || System.get_env("CIRCLE_BUILD_NUM")
+    System.get_env("CIRCLE_WORKFLOW_WORKSPACE_ID") ||
+      System.get_env("CIRCLE_BUILD_NUM")
   end
 
   defp get_repo_token do

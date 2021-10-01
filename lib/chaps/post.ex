@@ -6,9 +6,11 @@ defmodule Chaps.Post do
 
   def execute(stats, options) do
     json = generate_json(stats, options)
+
     if options[:verbose] do
-      IO.puts json
+      IO.puts(json)
     end
+
     Poster.execute(json, options)
   end
 
@@ -24,10 +26,11 @@ defmodule Chaps.Post do
   end
 
   defp generate_git_info(options) do
-    %{head: %{
-       committer_name: options[:committer],
-       message: options[:message],
-       id: options[:sha]
+    %{
+      head: %{
+        committer_name: options[:committer],
+        message: options[:message],
+        id: options[:sha]
       },
       branch: options[:branch]
     }

@@ -13,10 +13,17 @@ defmodule Chaps.Html.View do
     end
 
     defp get_template_path() do
-      options = Chaps.Settings.get_coverage_options
+      options = Chaps.Settings.get_coverage_options()
+
       case Map.fetch(options, "template_path") do
-        {:ok, path} -> path
-        _ -> Path.expand("chaps/lib/templates/html/htmlcov/", Mix.Project.deps_path())
+        {:ok, path} ->
+          path
+
+        _ ->
+          Path.expand(
+            "chaps/lib/templates/html/htmlcov/",
+            Mix.Project.deps_path()
+          )
       end
     end
   end
@@ -37,6 +44,7 @@ defmodule Chaps.Html.View do
 
   def coverage_class(percent, sloc \\ nil)
   def coverage_class(_percent, 0), do: "none"
+
   def coverage_class(percent, _) do
     cond do
       percent >= 75 -> "high"

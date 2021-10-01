@@ -9,13 +9,17 @@ defmodule Chaps.Lcov do
   Provides an entry point for the module.
   """
   def execute(stats, options \\ []) do
-    generate_lcov(stats, Enum.into(options, %{})) |> write_file(options[:output_dir])
+    generate_lcov(stats, Enum.into(options, %{}))
+    |> write_file(options[:output_dir])
 
     Chaps.Local.print_summary(stats)
   end
 
   def generate_lcov(stats, _options) do
-    lcov = Enum.map(stats, fn stat -> generate_lcov_file(stat) end) |> Enum.join("\n")
+    lcov =
+      Enum.map(stats, fn stat -> generate_lcov_file(stat) end)
+      |> Enum.join("\n")
+
     lcov <> "\n"
   end
 

@@ -9,7 +9,8 @@ defmodule Chaps.Json do
   Provides an entry point for the module.
   """
   def execute(stats, options \\ []) do
-    generate_json(stats, Enum.into(options, %{})) |> write_file(options[:output_dir])
+    generate_json(stats, Enum.into(options, %{}))
+    |> write_file(options[:output_dir])
 
     Chaps.Local.print_summary(stats)
   end
@@ -24,8 +25,10 @@ defmodule Chaps.Json do
     cond do
       output_dir ->
         output_dir
+
       true ->
-        options = Chaps.Settings.get_coverage_options
+        options = Chaps.Settings.get_coverage_options()
+
         case Map.fetch(options, "output_dir") do
           {:ok, val} -> val
           _ -> "cover/"
@@ -35,10 +38,11 @@ defmodule Chaps.Json do
 
   defp write_file(content, output_dir) do
     file_path = output_dir(output_dir)
+
     unless File.exists?(file_path) do
       File.mkdir_p!(file_path)
     end
+
     File.write!(Path.expand(@file_name, file_path), content)
   end
-
 end

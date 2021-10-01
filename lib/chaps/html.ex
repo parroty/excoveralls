@@ -14,7 +14,8 @@ defmodule Chaps.Html do
   def execute(stats, options \\ []) do
     Chaps.Local.print_summary(stats)
 
-    Stats.source(stats, options[:filter]) |> generate_report(options[:output_dir])
+    Stats.source(stats, options[:filter])
+    |> generate_report(options[:output_dir])
 
     Stats.ensure_minimum_coverage(stats)
   end
@@ -28,8 +29,10 @@ defmodule Chaps.Html do
     cond do
       output_dir ->
         output_dir
+
       true ->
         options = Chaps.Settings.get_coverage_options()
+
         case Map.fetch(options, "output_dir") do
           {:ok, val} -> val
           _ -> "cover/"
@@ -39,11 +42,12 @@ defmodule Chaps.Html do
 
   defp write_file(content, output_dir) do
     file_path = output_dir(output_dir)
+
     unless File.exists?(file_path) do
       File.mkdir_p!(file_path)
     end
 
     File.write!(Path.expand(@file_name, file_path), content)
-    IO.puts "Saved to: #{file_path}"
+    IO.puts("Saved to: #{file_path}")
   end
 end

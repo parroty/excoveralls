@@ -4,7 +4,7 @@ defmodule Chaps.StatServer do
   """
 
   def start do
-    Agent.start(fn -> MapSet.new end, name: __MODULE__)
+    Agent.start(fn -> MapSet.new() end, name: __MODULE__)
   end
 
   def stop do
@@ -16,6 +16,6 @@ defmodule Chaps.StatServer do
   end
 
   def get do
-    Agent.get(__MODULE__, &(&1))
+    Agent.get(__MODULE__, & &1)
   end
 end

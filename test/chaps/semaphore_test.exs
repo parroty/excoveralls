@@ -5,7 +5,9 @@ defmodule Chaps.SemaphoreTest do
 
   @content "defmodule Test do\n  def test do\n  end\nend\n"
   @counts [0, 1, nil, nil]
-  @source_info [%{name: "test/fixtures/test.ex", source: @content, coverage: @counts}]
+  @source_info [
+    %{name: "test/fixtures/test.ex", source: @content, coverage: @counts}
+  ]
 
   setup do
     # Capture existing values

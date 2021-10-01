@@ -6,7 +6,11 @@ defmodule Chaps.Settings do
   defmodule Files do
     @filename "coveralls.json"
     def default_file, do: "#{Path.dirname(__ENV__.file)}/../conf/#{@filename}"
-    def custom_file, do: Application.get_env(:chaps, :config_file, "#{File.cwd!}/#{@filename}")
+
+    def custom_file,
+      do:
+        Application.get_env(:chaps, :config_file, "#{File.cwd!()}/#{@filename}")
+
     def dot_file, do: Path.expand("~/.chaps/#{@filename}")
   end
 
@@ -15,15 +19,16 @@ defmodule Chaps.Settings do
   The words are taken as regular expression.
   """
   def get_stop_words do
-    read_config("default_stop_words", []) ++ read_config("custom_stop_words", [])
-      |> Enum.map(&Regex.compile!/1)
+    (read_config("default_stop_words", []) ++
+       read_config("custom_stop_words", []))
+    |> Enum.map(&Regex.compile!/1)
   end
 
   @doc """
   Get coverage options from the json file.
   """
   def get_coverage_options do
-    read_config("coverage_options", []) |> Enum.into(Map.new)
+    read_config("coverage_options", []) |> Enum.into(Map.new())
   end
 
   @doc """
@@ -32,7 +37,7 @@ defmodule Chaps.Settings do
   def default_coverage_value do
     case Map.fetch(get_coverage_options(), "treat_no_relevant_lines_as_covered") do
       {:ok, true} -> 100.0
-      _           -> 0.0
+      _ -> 0.0
     end
   end
 
@@ -40,7 +45,7 @@ defmodule Chaps.Settings do
   Get terminal output options from the json file.
   """
   def get_terminal_options do
-    read_config("terminal_options", []) |> Enum.into(Map.new)
+    read_config("terminal_options", []) |> Enum.into(Map.new())
   end
 
   @doc """
@@ -53,8 +58,12 @@ defmodule Chaps.Settings do
           :error -> 40
           {int, _} -> int
         end
-      {:ok, val} when is_integer(val) -> val
-      _ -> 40
+
+      {:ok, val} when is_integer(val) ->
+        val
+
+      _ ->
+        40
     end
   end
 
@@ -67,12 +76,12 @@ defmodule Chaps.Settings do
 
   defp read_config_file(file_name) do
     if File.exists?(file_name) do
-      case File.read!(file_name) |> Jason.decode do
+      case File.read!(file_name) |> Jason.decode() do
         {:ok, config} -> config
         _ -> raise "Failed to parse config file as JSON : #{file_name}"
       end
     else
-      Map.new
+      Map.new()
     end
   end
 
@@ -99,8 +108,9 @@ defmodule Chaps.Settings do
   Reads the value for the specified key defined in the json file.
   """
   def read_config(key, default \\ nil) do
-    case (read_merged_config(Files.dot_file, Files.custom_file) |> Map.get(key)) do
-      nil    -> read_config_file(Files.default_file()) |> Map.get(key, default)
+    case read_merged_config(Files.dot_file(), Files.custom_file())
+         |> Map.get(key) do
+      nil -> read_config_file(Files.default_file()) |> Map.get(key, default)
       config -> config
     end
   end
@@ -112,16 +122,29 @@ defmodule Chaps.Settings do
 
   defp merge(left, right) when is_map(left) and is_map(right) do
     keys = Map.keys(left) ++ Map.keys(right)
+
     Enum.reduce(keys, %{}, fn k, new_map ->
-      merged = cond do
-        Map.has_key?(left, k) and Map.has_key?(right, k) -> merge(Map.get(left, k), Map.get(right, k))
-        Map.has_key?(left, k) == false and Map.has_key?(right, k) -> Map.get(right, k)
-        Map.has_key?(left, k) and Map.has_key?(right, k) == false -> Map.get(left, k)
-        true -> %{}
-      end
+      merged =
+        cond do
+          Map.has_key?(left, k) and Map.has_key?(right, k) ->
+            merge(Map.get(left, k), Map.get(right, k))
+
+          Map.has_key?(left, k) == false and Map.has_key?(right, k) ->
+            Map.get(right, k)
+
+          Map.has_key?(left, k) and Map.has_key?(right, k) == false ->
+            Map.get(left, k)
+
+          true ->
+            %{}
+        end
+
       Map.put(new_map, k, merged)
     end)
   end
-  defp merge(left, right) when is_list(left) and is_list(right), do: Enum.uniq(left ++ right)
+
+  defp merge(left, right) when is_list(left) and is_list(right),
+    do: Enum.uniq(left ++ right)
+
   defp merge(_left, right), do: right
 end

@@ -5,33 +5,34 @@ defmodule Chaps.StatsTest do
   alias Chaps.Cover
   alias Chaps.Settings
 
-  @stats           [{{Stats, 1}, 0}, {{Stats, 2}, 1}]
-  @source          "test/fixtures/test.ex"
-  @content         "defmodule Test do\n  def test do\n  end\nend\n"
-  @trimmed         "defmodule Test do\n  def test do\n  end\nend"
-  @count_hash      Enum.into([{1, 0}, {2, 1}], Map.new)
-  @module_hash     Enum.into([{"test/fixtures/test.ex", @count_hash}], Map.new)
-  @counts          [0, 1, nil, nil]
-  @coverage        [{"test/fixtures/test.ex", @counts}]
-  @source_info     [%{name: "test/fixtures/test.ex",
-                     source: @trimmed,
-                     coverage: @counts
-                   }]
+  @stats [{{Stats, 1}, 0}, {{Stats, 2}, 1}]
+  @source "test/fixtures/test.ex"
+  @content "defmodule Test do\n  def test do\n  end\nend\n"
+  @trimmed "defmodule Test do\n  def test do\n  end\nend"
+  @count_hash Enum.into([{1, 0}, {2, 1}], Map.new())
+  @module_hash Enum.into([{"test/fixtures/test.ex", @count_hash}], Map.new())
+  @counts [0, 1, nil, nil]
+  @coverage [{"test/fixtures/test.ex", @counts}]
+  @source_info [
+    %{name: "test/fixtures/test.ex", source: @trimmed, coverage: @counts}
+  ]
   @fixtures Path.join([__DIR__, "..", "fixtures"])
   @fixture_default @fixtures <> "/default.json"
-  @fixture_custom  @fixtures <> "/skip_files.json"
+  @fixture_custom @fixtures <> "/skip_files.json"
 
   @invalid_counts [0, 1, nil, "invalid"]
-  @invalid_source_info [%{name: "test/fixtures/test.ex",
-                 source: @content,
-                 coverage: @invalid_counts
-               }]
+  @invalid_source_info [
+    %{
+      name: "test/fixtures/test.ex",
+      source: @content,
+      coverage: @invalid_counts
+    }
+  ]
 
   @empty_counts [nil, nil, nil, nil]
-  @empty_source_info [%{name: "test/fixtures/test.ex",
-                 source: @content,
-                 coverage: @empty_counts
-               }]
+  @empty_source_info [
+    %{name: "test/fixtures/test.ex", source: @content, coverage: @empty_counts}
+  ]
 
   @source_result %{
     coverage: 50,
@@ -46,26 +47,36 @@ defmodule Chaps.StatsTest do
           %Chaps.Stats.Line{coverage: 0, source: "defmodule Test do"},
           %Chaps.Stats.Line{coverage: 1, source: "  def test do"},
           %Chaps.Stats.Line{coverage: nil, source: "  end"},
-          %Chaps.Stats.Line{coverage: nil, source: "end"}]}],
+          %Chaps.Stats.Line{coverage: nil, source: "end"}
+        ]
+      }
+    ],
     hits: 1,
     misses: 1,
-    sloc: 2}
+    sloc: 2
+  }
 
   @fractional_counts [0, 1, 1, nil, nil]
-  @fractional_source_info [[name: "test/fixtures/test.ex",
-                     source: @trimmed,
-                     coverage: @fractional_counts
-                   ]]
+  @fractional_source_info [
+    [
+      name: "test/fixtures/test.ex",
+      source: @trimmed,
+      coverage: @fractional_counts
+    ]
+  ]
 
-  test_with_mock "calculate stats", Cover, [analyze: fn(_) -> {:ok, @stats} end, module_path: fn(_) -> @source end] do
+  test_with_mock "calculate stats", Cover,
+    analyze: fn _ -> {:ok, @stats} end,
+    module_path: fn _ -> @source end do
     assert(Stats.calculate_stats([Stats]) == @module_hash)
   end
 
-  test_with_mock "get source line count", Cover, [module_path: fn(_) -> @source end] do
+  test_with_mock "get source line count", Cover,
+    module_path: fn _ -> @source end do
     assert(Stats.get_source_line_count(@source) == 4)
   end
 
-  test_with_mock "read module source", Cover, [module_path: fn(_) -> @source end] do
+  test_with_mock "read module source", Cover, module_path: fn _ -> @source end do
     assert(Stats.read_module_source(Stats) == @trimmed)
   end
 
@@ -73,15 +84,15 @@ defmodule Chaps.StatsTest do
     assert(Stats.read_source(@source) == @trimmed)
   end
 
-  test_with_mock "generate coverage", Cover, [module_path: fn(_) -> @source end] do
+  test_with_mock "generate coverage", Cover, module_path: fn _ -> @source end do
     assert(Stats.generate_coverage(@module_hash) == @coverage)
   end
 
-  test_with_mock "generate source info", Cover, [module_path: fn(_) -> @source end] do
+  test_with_mock "generate source info", Cover, module_path: fn _ -> @source end do
     assert(Stats.generate_source_info(@coverage) == @source_info)
   end
 
-  test_with_mock "append sub app name", Cover, [module_path: fn(_) -> @source end] do
+  test_with_mock "append sub app name", Cover, module_path: fn _ -> @source end do
     stats = Stats.append_sub_app_name(@source_info, "subapp", "apps")
     assert(List.first(stats)[:name] == "apps/subapp/test/fixtures/test.ex")
   end
@@ -89,12 +100,13 @@ defmodule Chaps.StatsTest do
   test "trim empty suffix and prefix" do
     assert(Stats.trim_empty_prefix_and_suffix("\naaa\nbbb\n") == "aaa\nbbb")
   end
+
   @fixture_default @fixtures <> "/fixtures/default.json"
 
   test_with_mock "skip files", Settings.Files,
-                   [default_file: fn -> @fixture_default end,
-                    custom_file:  fn -> @fixture_custom end,
-                    dot_file:  fn -> "__invalid__" end] do
+    default_file: fn -> @fixture_default end,
+    custom_file: fn -> @fixture_custom end,
+    dot_file: fn -> "__invalid__" end do
     assert Stats.skip_files(@source_info) == []
   end
 
@@ -126,8 +138,8 @@ defmodule Chaps.StatsTest do
   end
 
   test_with_mock "Empty (no relevant lines) file with treat_no_relevant_lines_as_covered option is calculated as 100.0%",
-    Chaps.Settings, [default_coverage_value: fn -> 100 end] do
-
+                 Chaps.Settings,
+                 default_coverage_value: fn -> 100 end do
     results = Stats.source(@empty_source_info)
     assert(results.coverage == 100)
   end
@@ -136,5 +148,4 @@ defmodule Chaps.StatsTest do
     results = Stats.source(@fractional_source_info)
     assert(results.coverage == 66.7)
   end
-
 end

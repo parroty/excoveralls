@@ -33,7 +33,8 @@ defmodule Chaps.Poster do
         [],
         {:multipart,
          [
-           {:file, file_name, {"form-data", [{"name", "json_file"}, {"filename", file_name}]},
+           {:file, file_name,
+            {"form-data", [{"name", "json_file"}, {"filename", file_name}]},
             [{"Content-Type", "gzip/json"}]}
          ]},
         [{:recv_timeout, 10_000}]
@@ -47,15 +48,15 @@ defmodule Chaps.Poster do
         {:ok, body} = :hackney.body(client)
 
         {:error,
-         "Failed to upload the report to '#{endpoint}' (reason: status_code = #{status_code}, body = #{
-           body
-         })."}
+         "Failed to upload the report to '#{endpoint}' (reason: status_code = #{status_code}, body = #{body})."}
 
-      {:error, reason}  when reason in [:timeout, :connect_timeout] ->
-        {:ok, "Unable to upload the report to '#{endpoint}' due to a timeout. Not failing the build."}
+      {:error, reason} when reason in [:timeout, :connect_timeout] ->
+        {:ok,
+         "Unable to upload the report to '#{endpoint}' due to a timeout. Not failing the build."}
 
       {:error, reason} ->
-        {:error, "Failed to upload the report to '#{endpoint}' (reason: #{inspect(reason)})."}
+        {:error,
+         "Failed to upload the report to '#{endpoint}' (reason: #{inspect(reason)})."}
     end
   end
 end

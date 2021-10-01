@@ -3,19 +3,19 @@ defmodule Chaps.DroneTest do
   import Mock
   alias Chaps.Drone
 
-  @content     "defmodule Test do\n  def test do\n  end\nend\n"
-  @counts      [0, 1, nil, nil]
-  @source_info [%{name: "test/fixtures/test.ex",
-                 source: @content,
-                 coverage: @counts
-               }]
+  @content "defmodule Test do\n  def test do\n  end\nend\n"
+  @counts [0, 1, nil, nil]
+  @source_info [
+    %{name: "test/fixtures/test.ex", source: @content, coverage: @counts}
+  ]
 
   setup do
     # Capture existing values
-    orig_vars = ~w(DRONE_PULL_REQUEST DRONE_COMMIT_MESSAGE DRONE_COMMIT_AUTHOR DRONE_COMMIT_SHA DRONE_BRANCH DRONE_BUILD_NUMBER COVERALLS_REPO_TOKEN)
-    |> Enum.map(fn var -> {var, System.get_env(var)} end)
+    orig_vars =
+      ~w(DRONE_PULL_REQUEST DRONE_COMMIT_MESSAGE DRONE_COMMIT_AUTHOR DRONE_COMMIT_SHA DRONE_BRANCH DRONE_BUILD_NUMBER COVERALLS_REPO_TOKEN)
+      |> Enum.map(fn var -> {var, System.get_env(var)} end)
 
-    on_exit fn ->
+    on_exit(fn ->
       # Reset env vars
       for {k, v} <- orig_vars do
         if v != nil do
@@ -24,14 +24,14 @@ defmodule Chaps.DroneTest do
           System.delete_env(k)
         end
       end
-    end
+    end)
 
     # No additional context
     {:ok, []}
   end
 
-  test_with_mock "execute", Chaps.Poster, [execute: fn(_) -> "result" end] do
-    assert(Drone.execute(@source_info,[]) == "result")
+  test_with_mock "execute", Chaps.Poster, execute: fn _ -> "result" end do
+    assert(Drone.execute(@source_info, []) == "result")
   end
 
   test "generate json for drone" do
@@ -53,11 +53,14 @@ defmodule Chaps.DroneTest do
     System.put_env("COVERALLS_REPO_TOKEN", "token")
 
     {:ok, payload} = Jason.decode(Drone.generate_json(@source_info))
-    %{"git" =>
-      %{"branch" => branch,
-        "head" => %{"committer_name" => committer_name,
-                  "id" => id}}} = payload
-    
+
+    %{
+      "git" => %{
+        "branch" => branch,
+        "head" => %{"committer_name" => committer_name, "id" => id}
+      }
+    } = payload
+
     assert(payload["service_pull_request"] == "39")
     assert(branch == "branch")
     assert(id == "sha1")
@@ -67,7 +70,7 @@ defmodule Chaps.DroneTest do
   end
 
   test "submits as `drone`" do
-    parsed = Drone.generate_json(@source_info) |> Jason.decode!
-    assert(%{ "service_name" => "drone" } = parsed)
+    parsed = Drone.generate_json(@source_info) |> Jason.decode!()
+    assert(%{"service_name" => "drone"} = parsed)
   end
 end

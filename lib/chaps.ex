@@ -20,26 +20,27 @@ defmodule Chaps do
   alias Chaps.Xml
   alias Chaps.Lcov
 
-  @type_travis      "travis"
-  @type_github      "github"
-  @type_gitlab      "gitlab"
-  @type_circle      "circle"
-  @type_semaphore   "semaphore"
-  @type_drone       "drone"
-  @type_local       "local"
-  @type_html        "html"
-  @type_json        "json"
-  @type_post        "post"
-  @type_xml         "xml"
-  @type_lcov        "lcov"
+  @type_travis "travis"
+  @type_github "github"
+  @type_gitlab "gitlab"
+  @type_circle "circle"
+  @type_semaphore "semaphore"
+  @type_drone "drone"
+  @type_local "local"
+  @type_html "html"
+  @type_json "json"
+  @type_post "post"
+  @type_xml "xml"
+  @type_lcov "lcov"
 
   @doc """
   This method will be called from mix to trigger coverage analysis.
   """
   def start(compile_path, _opts) do
     Cover.compile(compile_path)
-    fn() ->
-      execute(ConfServer.get, compile_path)
+
+    fn ->
+      execute(ConfServer.get(), compile_path)
     end
   end
 
@@ -56,8 +57,9 @@ defmodule Chaps do
   defp store_stats(stats, options, compile_path) do
     {sub_app_name, _sub_app_path} =
       Chaps.SubApps.find(options[:sub_apps], compile_path)
+
     stats = Stats.append_sub_app_name(stats, sub_app_name, options[:apps_path])
-    Enum.each(stats, fn(stat) -> StatServer.add(stat) end)
+    Enum.each(stats, fn stat -> StatServer.add(stat) end)
   end
 
   @doc """

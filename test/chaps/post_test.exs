@@ -3,14 +3,13 @@ defmodule Chaps.PostTest do
   import Mock
   alias Chaps.Post
 
-  @content     "defmodule Test do\n  def test do\n  end\nend\n"
-  @counts      [0, 1, nil, nil]
-  @source_info [%{name: "test/fixtures/test.ex",
-                  source: @content,
-                  coverage: @counts
-               }]
+  @content "defmodule Test do\n  def test do\n  end\nend\n"
+  @counts [0, 1, nil, nil]
+  @source_info [
+    %{name: "test/fixtures/test.ex", source: @content, coverage: @counts}
+  ]
 
-  test_with_mock "execute", Chaps.Poster, [execute: fn(_, _) -> "result" end] do
+  test_with_mock "execute", Chaps.Poster, execute: fn _, _ -> "result" end do
     original_token = System.get_env("COVERALLS_REPO_TOKEN")
     System.put_env("COVERALLS_REPO_TOKEN", "dummy_token")
 
@@ -23,7 +22,7 @@ defmodule Chaps.PostTest do
 
   test "generate json" do
     json =
-      Post.generate_json(@source_info, [
+      Post.generate_json(@source_info,
         token: "1234567890",
         service_name: "local",
         service_number: "build_num_1",
@@ -31,17 +30,17 @@ defmodule Chaps.PostTest do
         committer: "",
         message: "",
         sha: ""
-      ])
+      )
 
     assert json ==
-       "{\"git\":{\"branch\":\"\",\"head\":{\"committer_name\":\"\",\"id\":\"\",\"message\":\"\"}}," <>
-         "\"parallel\":null," <>
-         "\"repo_token\":\"1234567890\"," <>
-         "\"service_name\":\"local\"," <>
-         "\"service_number\":\"build_num_1\"," <>
-         "\"source_files\":" <>
-           "[{\"coverage\":[0,1,null,null]," <>
-             "\"name\":\"test/fixtures/test.ex\"," <>
-             "\"source\":\"defmodule Test do\\n  def test do\\n  end\\nend\\n\"}]}"
+             "{\"git\":{\"branch\":\"\",\"head\":{\"committer_name\":\"\",\"id\":\"\",\"message\":\"\"}}," <>
+               "\"parallel\":null," <>
+               "\"repo_token\":\"1234567890\"," <>
+               "\"service_name\":\"local\"," <>
+               "\"service_number\":\"build_num_1\"," <>
+               "\"source_files\":" <>
+               "[{\"coverage\":[0,1,null,null]," <>
+               "\"name\":\"test/fixtures/test.ex\"," <>
+               "\"source\":\"defmodule Test do\\n  def test do\\n  end\\nend\\n\"}]}"
   end
 end

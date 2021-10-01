@@ -5,7 +5,9 @@ defmodule Chaps.GitlabTest do
 
   @content "defmodule Test do\n  def test do\n  end\nend\n"
   @counts [0, 1, nil, nil]
-  @source_info [%{name: "test/fixtures/test.ex", source: @content, coverage: @counts}]
+  @source_info [
+    %{name: "test/fixtures/test.ex", source: @content, coverage: @counts}
+  ]
 
   setup do
     # Capture existing values
@@ -56,7 +58,12 @@ defmodule Chaps.GitlabTest do
 
     {:ok, payload} = Jason.decode(Gitlab.generate_json(@source_info))
 
-    %{"git" => %{"branch" => branch, "head" => %{"message" => message, "id" => id}}} = payload
+    %{
+      "git" => %{
+        "branch" => branch,
+        "head" => %{"message" => message, "id" => id}
+      }
+    } = payload
 
     assert payload["service_pull_request"] == "39"
     assert branch == "branch"

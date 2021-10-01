@@ -41,7 +41,8 @@ defmodule Chaps.Gitlab do
   end
 
   def get_pull_request() do
-    System.get_env("CI_MERGE_REQUEST_ID") || System.get_env("CI_EXTERNAL_PULL_REQUEST_IID")
+    System.get_env("CI_MERGE_REQUEST_ID") ||
+      System.get_env("CI_EXTERNAL_PULL_REQUEST_IID")
   end
 
   defp get_message do

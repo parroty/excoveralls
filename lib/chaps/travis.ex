@@ -6,14 +6,17 @@ defmodule Chaps.Travis do
 
   def execute(stats, options) do
     json = generate_json(stats, Enum.into(options, %{}))
+
     if options[:verbose] do
-      IO.puts json
+      IO.puts(json)
     end
+
     Poster.execute(json)
   end
 
   def generate_json(stats, options \\ %{})
-  def generate_json(stats, %{ pro: true }) do
+
+  def generate_json(stats, %{pro: true}) do
     Jason.encode!(%{
       service_job_id: get_job_id(),
       service_name: "travis-pro",
@@ -22,6 +25,7 @@ defmodule Chaps.Travis do
       git: generate_git_info()
     })
   end
+
   def generate_json(stats, _options) do
     Jason.encode!(%{
       service_job_id: get_job_id(),

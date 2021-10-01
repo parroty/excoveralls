@@ -20,9 +20,9 @@ defmodule Chaps.Html.Safe do
     {?', "&#39;"}
   ]
 
-  Enum.each @escapes, fn { match, insert } ->
+  Enum.each(@escapes, fn {match, insert} ->
     defp escape_char(unquote(match)), do: unquote(insert)
-  end
+  end)
 
   defp escape_char(char), do: char
 end

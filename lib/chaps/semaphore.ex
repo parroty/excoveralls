@@ -6,13 +6,16 @@ defmodule Chaps.Semaphore do
 
   def execute(stats, options) do
     json = generate_json(stats, Enum.into(options, %{}))
+
     if options[:verbose] do
-      IO.puts json
+      IO.puts(json)
     end
+
     Poster.execute(json)
   end
 
   def generate_json(stats, options \\ %{})
+
   def generate_json(stats, options) do
     Jason.encode!(%{
       repo_token: get_repo_token(),
@@ -27,9 +30,10 @@ defmodule Chaps.Semaphore do
   end
 
   defp generate_git_info do
-    %{head: %{
-       message: get_message!(),
-       id: get_sha()
+    %{
+      head: %{
+        message: get_message!(),
+        id: get_sha()
       },
       branch: get_branch()
     }

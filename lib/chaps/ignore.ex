@@ -12,11 +12,13 @@ defmodule Chaps.Ignore do
 
   defp do_filter(%{name: name, source: source, coverage: coverage}) do
     lines = String.split(source, "\n")
-    list = Enum.zip(lines, coverage)
-           |> Enum.map_reduce(false, &check_and_swap/2)
-           |> elem(0)
-           |> List.zip
-           |> Enum.map(&Tuple.to_list(&1))
+
+    list =
+      Enum.zip(lines, coverage)
+      |> Enum.map_reduce(false, &check_and_swap/2)
+      |> elem(0)
+      |> List.zip()
+      |> Enum.map(&Tuple.to_list(&1))
 
     [source, coverage] = parse_filter_list(list)
     %{name: name, source: source, coverage: coverage}
@@ -29,8 +31,10 @@ defmodule Chaps.Ignore do
     }
   end
 
-  defp parse_filter_list([]),   do: ["", []]
-  defp parse_filter_list([lines, coverage]), do: [Enum.join(lines, "\n"), coverage]
+  defp parse_filter_list([]), do: ["", []]
+
+  defp parse_filter_list([lines, coverage]),
+    do: [Enum.join(lines, "\n"), coverage]
 
   defp coverage_for_line({line, coverage}, ignore) do
     if ignore == false do
@@ -41,11 +45,12 @@ defmodule Chaps.Ignore do
   end
 
   defp ignore_next?(line, ignore) do
-    case Regex.run(~r/coveralls-ignore-(start|stop)/, line, capture: :all_but_first) do
+    case Regex.run(~r/coveralls-ignore-(start|stop)/, line,
+           capture: :all_but_first
+         ) do
       ["start"] -> true
       ["stop"] -> false
       _sth -> ignore
     end
   end
-
 end

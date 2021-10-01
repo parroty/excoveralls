@@ -13,6 +13,7 @@ defmodule Chaps.ConfServer do
     if :ets.info(@ets_table) == :undefined do
       :ets.new(@ets_table, [:set, :public, :named_table])
     end
+
     :ok
   end
 

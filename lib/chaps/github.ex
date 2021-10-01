@@ -25,12 +25,12 @@ defmodule Chaps.Github do
       git: git_info()
     }
     |> Map.merge(job_data())
-    |> Jason.encode!
+    |> Jason.encode!()
   end
 
   defp get_env(env) do
     env
-    |> System.get_env
+    |> System.get_env()
   end
 
   defp job_data() do
@@ -39,8 +39,9 @@ defmodule Chaps.Github do
       "pull_request" ->
         %{
           service_pull_request: get_pr_id(),
-          service_job_id: "#{get_sha("pull_request")}-PR-#{get_pr_id()}",
+          service_job_id: "#{get_sha("pull_request")}-PR-#{get_pr_id()}"
         }
+
       event ->
         %{service_job_id: get_sha(event)}
     end
@@ -49,7 +50,7 @@ defmodule Chaps.Github do
   defp get_pr_id do
     event_info()
     |> Map.get("number")
-    |> Integer.to_string
+    |> Integer.to_string()
   end
 
   defp get_committer_name do
@@ -70,7 +71,14 @@ defmodule Chaps.Github do
   end
 
   defp get_message("pull_request") do
-    {message, _} = System.cmd("git", ["log", get_sha("pull_request"), "-1", "--pretty=format:%s"])
+    {message, _} =
+      System.cmd("git", [
+        "log",
+        get_sha("pull_request"),
+        "-1",
+        "--pretty=format:%s"
+      ])
+
     message
   end
 
@@ -87,6 +95,7 @@ defmodule Chaps.Github do
 
   defp git_info do
     event = get_env("GITHUB_EVENT_NAME")
+
     %{
       head: %{
         id: get_sha(event),

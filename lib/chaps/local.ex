@@ -18,7 +18,7 @@ defmodule Chaps.Local do
     print_summary(stats, options)
 
     if options[:detail] == true do
-      source(stats, options[:filter]) |> IO.puts
+      source(stats, options[:filter]) |> IO.puts()
     end
 
     Chaps.Stats.ensure_minimum_coverage(stats)
@@ -29,23 +29,27 @@ defmodule Chaps.Local do
   the specified patterns.
   """
   def source(stats, _patterns = nil), do: source(stats)
-  def source(stats, _patterns = []),  do: source(stats)
+  def source(stats, _patterns = []), do: source(stats)
+
   def source(stats, patterns) do
-    Enum.filter(stats, fn(stat) -> String.contains?(stat[:name], patterns) end) |> source
+    Enum.filter(stats, fn stat -> String.contains?(stat[:name], patterns) end)
+    |> source
   end
 
   def source(stats) do
-    stats |> Enum.map(&format_source/1)
-          |> Enum.join("\n")
+    stats
+    |> Enum.map(&format_source/1)
+    |> Enum.join("\n")
   end
 
   @doc """
   Prints summary statistics for given coverage.
   """
   def print_summary(stats, options \\ []) do
-    enabled = Chaps.Settings.get_print_summary
+    enabled = Chaps.Settings.get_print_summary()
+
     if enabled do
-      coverage(stats, options) |> IO.puts
+      coverage(stats, options) |> IO.puts()
     end
   end
 
@@ -55,6 +59,7 @@ defmodule Chaps.Local do
 
   defp colorize(%{name: _name, source: source, coverage: coverage}) do
     lines = String.split(source, "\n")
+
     Enum.zip(lines, coverage)
     |> Enum.map(&do_colorize/1)
     |> Enum.join("\n")
@@ -63,8 +68,8 @@ defmodule Chaps.Local do
   defp do_colorize({line, coverage}) do
     case coverage do
       nil -> line
-      0   -> "\e[31m#{line}\e[m"
-      _   -> "\e[32m#{line}\e[m"
+      0 -> "\e[31m#{line}\e[m"
+      _ -> "\e[32m#{line}\e[m"
     end
   end
 
@@ -72,10 +77,12 @@ defmodule Chaps.Local do
   Format the source coverage stats into string.
   """
   def coverage(stats, options \\ []) do
-    file_width = Chaps.Settings.get_file_col_width
-    print_files? = Chaps.Settings.get_print_files
+    file_width = Chaps.Settings.get_file_col_width()
+    print_files? = Chaps.Settings.get_print_files()
 
-    count_info = Enum.map(stats, fn(stat) -> [stat, calculate_count(stat[:coverage])] end)
+    count_info =
+      Enum.map(stats, fn stat -> [stat, calculate_count(stat[:coverage])] end)
+
     count_info = sort(count_info, options)
 
     if print_files? do
@@ -98,6 +105,7 @@ defmodule Chaps.Local do
       flattened =
         Enum.map(count_info, fn original ->
           [stat, count] = original
+
           %{
             "cov" => get_coverage(count),
             "file" => stat[:name],
@@ -110,7 +118,7 @@ defmodule Chaps.Local do
 
       sorted =
         Enum.reduce(sort_order, flattened, fn {key, comparator}, acc ->
-          Enum.sort(acc, fn(x, y) ->
+          Enum.sort(acc, fn x, y ->
             args = [x[key], y[key]]
             apply(Kernel, comparator, args)
           end)
@@ -118,7 +126,7 @@ defmodule Chaps.Local do
 
       Enum.map(sorted, fn flattened -> flattened[:_original] end)
     else
-      Enum.sort(count_info, fn([x, _], [y, _]) -> x[:name] <= y[:name] end)
+      Enum.sort(count_info, fn [x, _], [y, _] -> x[:name] <= y[:name] end)
     end
   end
 
@@ -143,13 +151,24 @@ defmodule Chaps.Local do
 
   defp format_info([stat, count]) do
     coverage = get_coverage(count)
-    file_width = Chaps.Settings.get_file_col_width
-    print_string("~5.1f% ~-#{file_width}s ~8w ~8w ~8w",
-      [coverage, stat[:name], count.lines, count.relevant, count.relevant - count.covered])
+    file_width = Chaps.Settings.get_file_col_width()
+
+    print_string(
+      "~5.1f% ~-#{file_width}s ~8w ~8w ~8w",
+      [
+        coverage,
+        stat[:name],
+        count.lines,
+        count.relevant,
+        count.relevant - count.covered
+      ]
+    )
   end
 
   defp format_total(info) do
-    totals   = Enum.reduce(info, %Count{}, fn([_, count], acc) -> append(count, acc) end)
+    totals =
+      Enum.reduce(info, %Count{}, fn [_, count], acc -> append(count, acc) end)
+
     coverage = get_coverage(totals)
     print_string("[TOTAL] ~5.1f%", [coverage])
   end
@@ -158,22 +177,23 @@ defmodule Chaps.Local do
     %Count{
       lines: a.lines + b.lines,
       relevant: a.relevant + b.relevant,
-      covered: a.covered  + b.covered
+      covered: a.covered + b.covered
     }
   end
 
   defp get_coverage(count) do
     case count.relevant do
       0 -> default_coverage_value()
-      _ -> (count.covered / count.relevant) * 100
+      _ -> count.covered / count.relevant * 100
     end
   end
 
   defp default_coverage_value do
-    options = Chaps.Settings.get_coverage_options
+    options = Chaps.Settings.get_coverage_options()
+
     case Map.fetch(options, "treat_no_relevant_lines_as_covered") do
       {:ok, false} -> 0.0
-      _            -> 100.0
+      _ -> 100.0
     end
   end
 
@@ -188,13 +208,19 @@ defmodule Chaps.Local do
     %Count{lines: lines, relevant: relevant, covered: covered}
   end
 
-  defp do_calculate_count([h|t], lines, relevant, covered) do
+  defp do_calculate_count([h | t], lines, relevant, covered) do
     case h do
-      nil -> do_calculate_count(t, lines + 1, relevant, covered)
-      0   -> do_calculate_count(t, lines + 1, relevant + 1, covered)
-      n when is_number(n)
-          -> do_calculate_count(t, lines + 1, relevant + 1, covered + 1)
-      _   -> raise "Invalid data - #{h}"
+      nil ->
+        do_calculate_count(t, lines + 1, relevant, covered)
+
+      0 ->
+        do_calculate_count(t, lines + 1, relevant + 1, covered)
+
+      n when is_number(n) ->
+        do_calculate_count(t, lines + 1, relevant + 1, covered + 1)
+
+      _ ->
+        raise "Invalid data - #{h}"
     end
   end
 
