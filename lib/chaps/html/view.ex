@@ -16,7 +16,7 @@ defmodule Chaps.Html.View do
       options = Chaps.Settings.get_coverage_options
       case Map.fetch(options, "template_path") do
         {:ok, path} -> path
-        _ -> Path.expand("excoveralls/lib/templates/html/htmlcov/", Mix.Project.deps_path())
+        _ -> Path.expand("chaps/lib/templates/html/htmlcov/", Mix.Project.deps_path())
       end
     end
   end

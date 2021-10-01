@@ -6,7 +6,7 @@ defmodule Chaps.Html do
   alias Chaps.Html.View
   alias Chaps.Stats
 
-  @file_name "excoveralls.html"
+  @file_name "chaps.html"
 
   @doc """
   Provides an entry point for the module.

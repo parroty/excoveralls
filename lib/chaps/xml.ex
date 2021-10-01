@@ -5,7 +5,7 @@ defmodule Chaps.Xml do
 
   alias Chaps.Settings
 
-  @file_name "excoveralls.xml"
+  @file_name "chaps.xml"
 
   @doc """
   Provides an entry point for the module.

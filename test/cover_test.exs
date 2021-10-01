@@ -4,7 +4,7 @@ defmodule CoverTest do
   alias Chaps.Cover
 
   test "module path returns relative path" do
-    assert(Cover.module_path(Chaps) == "lib/excoveralls.ex")
+    assert(Cover.module_path(Chaps) == "lib/chaps.ex")
   end
 
   test "has_compile_info?/1 with uncompiled module raises warning and returns false" do

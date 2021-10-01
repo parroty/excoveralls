@@ -15,7 +15,7 @@ defmodule Excoveralls.SettingsTest do
 
   test "returns default file path" do
     assert(Settings.Files.default_file
-           |> Path.relative_to(File.cwd!) == "lib/excoveralls/../conf/coveralls.json")
+           |> Path.relative_to(File.cwd!) == "lib/chaps/../conf/coveralls.json")
   end
 
   test "returns custom file path" do
@@ -24,12 +24,12 @@ defmodule Excoveralls.SettingsTest do
   end
 
   test "returns custom file path from config file" do
-    Application.put_env(:excoveralls, :config_file, "custom_coveralls.json")
+    Application.put_env(:chaps, :config_file, "custom_coveralls.json")
 
     assert(Settings.Files.custom_file
            |> Path.relative_to(File.cwd!) == "custom_coveralls.json")
 
-    Application.delete_env(:excoveralls, :config_file)
+    Application.delete_env(:chaps, :config_file)
   end
 
   test_with_mock "read config defined in default file", Settings.Files,

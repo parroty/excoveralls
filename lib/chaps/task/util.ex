@@ -9,7 +9,7 @@ Usage: mix coveralls <Options>
   Used to display coverage
 
   <Options>
-    -h (--help)         Show helps for excoveralls mix tasks
+    -h (--help)         Show helps for chaps mix tasks
 
     Common options across coveralls mix tasks
 

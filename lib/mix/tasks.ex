@@ -68,7 +68,7 @@ defmodule Mix.Tasks.Coveralls do
     common_aliases = Keyword.get(common_options, :aliases, [])
     {common_options, _remaining, _invalid} = OptionParser.parse(args, common_options)
 
-    # the switches that excoveralls supports
+    # the switches that chaps supports
     supported_switches = Enum.map(Keyword.keys(common_switches), fn(s) -> String.replace("--#{s}", "_", "-") end)
       ++ Enum.map(Keyword.keys(common_aliases), fn(s) -> "-#{s}" end)
 
@@ -272,7 +272,7 @@ defmodule Mix.Tasks.Coveralls do
     use Mix.Task
 
     @shortdoc "Post the test coverage to coveralls"
-    @default_service_name "excoveralls"
+    @default_service_name "chaps"
     @preferred_cli_env :test
 
     def run(args) do
@@ -295,7 +295,7 @@ defmodule Mix.Tasks.Coveralls do
 
       Mix.Tasks.Coveralls.do_run(remaining,
         [ type:         "post",
-          endpoint:     Application.get_env(:excoveralls, :endpoint),
+          endpoint:     Application.get_env(:chaps, :endpoint),
           token:        extract_token(options),
           service_name: extract_service_name(options),
           service_number: options[:build] || "",

@@ -4,7 +4,7 @@ defmodule Chaps.XmlTest do
   import ExUnit.CaptureIO
   alias Chaps.Xml
 
-  @file_name "excoveralls.xml"
+  @file_name "chaps.xml"
   @test_output_dir "cover_test/"
 
   @content     "defmodule Test do\n  def test do\n  end\nend\n"

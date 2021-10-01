@@ -49,7 +49,7 @@ defmodule Chaps.CircleTest do
   end
 
   test "generate from env vars" do
-    System.put_env("CI_PULL_REQUEST", "https://github.com/parroty/excoveralls/pull/39")
+    System.put_env("CI_PULL_REQUEST", "https://github.com/parroty/chaps/pull/39")
     System.put_env("CIRCLE_USERNAME", "username")
     System.put_env("CIRCLE_SHA1", "sha1")
     System.put_env("CIRCLE_BRANCH", "branch")

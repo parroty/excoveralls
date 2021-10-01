@@ -1,11 +1,11 @@
 defmodule Chaps.Mixfile do
   use Mix.Project
 
-  @source_url "https://github.com/parroty/excoveralls"
+  @source_url "https://github.com/parroty/chaps"
 
   def project do
     [
-      app: :excoveralls,
+      app: :chaps,
       version: "0.14.2",
       elixir: "~> 1.3",
       elixirc_paths: elixirc_paths(Mix.env()),

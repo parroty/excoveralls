@@ -4,7 +4,7 @@ defmodule Chaps.JsonTest do
   import ExUnit.CaptureIO
   alias Chaps.Json
 
-  @file_name "excoveralls.json"
+  @file_name "chaps.json"
   @file_size 136
   @test_output_dir "cover_test/"
 

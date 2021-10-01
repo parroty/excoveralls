@@ -3,7 +3,7 @@ defmodule Chaps.ConfServer do
   Provide data-store for configuration settings.
   """
 
-  @ets_table :excoveralls_conf_server
+  @ets_table :chaps_conf_server
   @ets_key :config_key
 
   @doc """

@@ -4,7 +4,7 @@ defmodule Chaps.HtmlTest do
   import ExUnit.CaptureIO
   alias Chaps.Html
 
-  @file_name "excoveralls.html"
+  @file_name "chaps.html"
   @file_size 20191
   @test_output_dir "cover_test/"
   @test_template_path "lib/templates/html/htmlcov/"

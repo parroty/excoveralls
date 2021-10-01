@@ -165,7 +165,7 @@ defmodule Mix.Tasks.CoverallsTest do
     assert(called Runner.run("test", ["--cover"]))
     assert(Chaps.ConfServer.get ==
              [type: "post", endpoint: nil, token: "token",
-              service_name: "excoveralls", service_number: "", branch: "",
+              service_name: "chaps", service_number: "", branch: "",
               committer: "", sha: "", message: "[no commit message]",
               umbrella: nil, verbose: nil, parallel: nil, rootdir: "", subdir: "", args: []])
 
@@ -218,25 +218,25 @@ defmodule Mix.Tasks.CoverallsTest do
         post_args_with_subdir = post_args ++ ["--subdir", "sub_dir/"] ++ non_standard_args
         Mix.Tasks.Coveralls.Post.run(post_args_with_subdir)
 
-        excoveralls_config = Chaps.ConfServer.get()
+        chaps_config = Chaps.ConfServer.get()
 
-        assert(excoveralls_config[:token] == "a_token")
-        assert(excoveralls_config[:sha] == "asdf")
-        assert(excoveralls_config[:service_name] == "a_name")
-        assert(excoveralls_config[:service_number] == "build_num")
-        assert(excoveralls_config[:subdir] == "sub_dir/")
-        assert(excoveralls_config[:committer] == "My Name")
-        assert(excoveralls_config[:branch] == "my_branch")
-        assert(excoveralls_config[:message] == "commit message")
-        assert(excoveralls_config[:umbrella])
-        assert(excoveralls_config[:args] == ["--non_standard"])
+        assert(chaps_config[:token] == "a_token")
+        assert(chaps_config[:sha] == "asdf")
+        assert(chaps_config[:service_name] == "a_name")
+        assert(chaps_config[:service_number] == "build_num")
+        assert(chaps_config[:subdir] == "sub_dir/")
+        assert(chaps_config[:committer] == "My Name")
+        assert(chaps_config[:branch] == "my_branch")
+        assert(chaps_config[:message] == "commit message")
+        assert(chaps_config[:umbrella])
+        assert(chaps_config[:args] == ["--non_standard"])
 
         post_args_with_rootdir = post_args ++ ["--rootdir", "root_dir/"] ++ non_standard_args
         Mix.Tasks.Coveralls.Post.run(post_args_with_rootdir)
 
-        excoveralls_config = Chaps.ConfServer.get()
+        chaps_config = Chaps.ConfServer.get()
 
-        assert(excoveralls_config[:rootdir] == "root_dir/")
+        assert(chaps_config[:rootdir] == "root_dir/")
     end
 
     test_with_mock "subdir and rootdir options are exclusive",
@@ -275,7 +275,7 @@ defmodule Mix.Tasks.CoverallsTest do
     org_name = System.get_env("COVERALLS_SERVICE_NAME")
     System.delete_env("COVERALLS_SERVICE_NAME")
 
-    assert Mix.Tasks.Coveralls.Post.extract_service_name([]) == "excoveralls"
+    assert Mix.Tasks.Coveralls.Post.extract_service_name([]) == "chaps"
 
     if org_name != nil do
       System.put_env("COVERALLS_SERVICE_NAME", org_name)

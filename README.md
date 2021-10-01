@@ -1,12 +1,12 @@
 Chaps
 ============
 
-[![Build Status](https://github.com/parroty/excoveralls/workflows/tests/badge.svg)](https://github.com/parroty/excoveralls/actions)
-[![Coverage Status](https://coveralls.io/repos/parroty/excoveralls/badge.svg?branch=master)](https://coveralls.io/r/parroty/excoveralls?branch=master)
-[![hex.pm version](https://img.shields.io/hexpm/v/excoveralls.svg)](https://hex.pm/packages/excoveralls)
-[![hex.pm downloads](https://img.shields.io/hexpm/dt/excoveralls.svg)](https://hex.pm/packages/excoveralls)
-[![hex.pm license](https://img.shields.io/hexpm/l/excoveralls.svg)](https://github.com/parroty/excoveralls/blob/master/LICENSE)
-[![Last Updated](https://img.shields.io/github/last-commit/parroty/excoveralls.svg)](https://github.com/parroty/excoveralls/commits/master)
+[![Build Status](https://github.com/parroty/chaps/workflows/tests/badge.svg)](https://github.com/parroty/chaps/actions)
+[![Coverage Status](https://coveralls.io/repos/parroty/chaps/badge.svg?branch=master)](https://coveralls.io/r/parroty/chaps?branch=master)
+[![hex.pm version](https://img.shields.io/hexpm/v/chaps.svg)](https://hex.pm/packages/chaps)
+[![hex.pm downloads](https://img.shields.io/hexpm/dt/chaps.svg)](https://hex.pm/packages/chaps)
+[![hex.pm license](https://img.shields.io/hexpm/l/chaps.svg)](https://github.com/parroty/chaps/blob/master/LICENSE)
+[![Last Updated](https://img.shields.io/github/last-commit/parroty/chaps.svg)](https://github.com/parroty/chaps/commits/master)
 
 An Elixir library that reports test coverage statistics, with the option to post to [coveralls.io](https://coveralls.io/) service.
 It uses Erlang's [cover](http://www.erlang.org/doc/man/cover.html) to generate coverage information, and posts the test coverage results to coveralls.io through the JSON API.
@@ -16,11 +16,11 @@ The following are example projects.
   - [github_coverage_sample](https://github.com/mijailr/actions_sample) is for GitHub Actions.
   - [circle_sample](https://github.com/parroty/circle_sample) is for CircleCI .
   - [semaphore_sample](https://github.com/parroty/semaphore_sample) is for Semaphore CI.
-  - [excoveralls_umbrella](https://github.com/parroty/excoveralls_umbrella) is for umbrella project.
+  - [chaps_umbrella](https://github.com/parroty/chaps_umbrella) is for umbrella project.
   - [gitlab_sample](https://gitlab.com/parroty/gitlab_sample) is for GitLab CI (using GitLab CI feature instead of coveralls.io).
-  - [gitlab_parallel_sample](https://gitlab.com/parroty/excoveralls-demo) is for GitLab CI (with parallel option).
+  - [gitlab_parallel_sample](https://gitlab.com/parroty/chaps-demo) is for GitLab CI (with parallel option).
   - [drone_sample](https://github.com/vorce/drone_sample) is for Drone CI.
-  - [excoveralls_post_sample](https://github.com/hirotnk/excoveralls_post_sample) is for coveralls.post usage example.
+  - [chaps_post_sample](https://github.com/hirotnk/chaps_post_sample) is for coveralls.post usage example.
 
 # Settings
 ### mix.exs
@@ -30,12 +30,12 @@ Add the following parameters.
 - `preferred_cli_env: [coveralls: :test]` for running `mix coveralls` in `:test` env by default
     - It's an optional setting for skipping `MIX_ENV=test` part when executing `mix coveralls` tasks.
 - `test_coverage: [test_task: "espec"]` if you use Espec instead of default ExUnit.
-- `:excoveralls` in the deps function.
+- `:chaps` in the deps function.
 
 ```elixir
 def project do
   [
-    app: :excoveralls,
+    app: :chaps,
     version: "1.0.0",
     elixir: "~> 1.0.0",
     deps: deps(),
@@ -53,7 +53,7 @@ end
 
 defp deps do
   [
-    {:excoveralls, "~> 0.10", only: :test},
+    {:chaps, "~> 0.10", only: :test},
   ]
 end
 ```
@@ -61,11 +61,11 @@ end
 **Note on umbrella application**: If you want to use Excoveralls within an umbrella project, every `apps` must have
 `test_coverage: [tool: Chaps]` in the `mix.exs` of each app.
 
-**Note:** If you're using earlier than `elixir v1.3`, `MIX_ENV=test` or `preferred_cli_env` may be required for running mix tasks. Refer to [PR#96](https://github.com/parroty/excoveralls/pull/96) for the details.
+**Note:** If you're using earlier than `elixir v1.3`, `MIX_ENV=test` or `preferred_cli_env` may be required for running mix tasks. Refer to [PR#96](https://github.com/parroty/chaps/pull/96) for the details.
 
 # Usage
 ## Mix Tasks
-- [Chaps](#excoveralls)
+- [Chaps](#chaps)
 - [Settings](#settings)
     - [mix.exs](#mixexs)
 - [Usage](#usage)
@@ -106,14 +106,14 @@ $ MIX_ENV=test mix coveralls
 ...
 ----------------
 COV    FILE                                        LINES RELEVANT   MISSED
-100.0% lib/excoveralls/general.ex                     28        4        0
- 75.0% lib/excoveralls.ex                             54        8        2
- 94.7% lib/excoveralls/stats.ex                       70       19        1
-100.0% lib/excoveralls/poster.ex                      16        3        0
- 95.5% lib/excoveralls/local.ex                       79       22        1
-100.0% lib/excoveralls/travis.ex                      23        3        0
+100.0% lib/chaps/general.ex                     28        4        0
+ 75.0% lib/chaps.ex                             54        8        2
+ 94.7% lib/chaps/stats.ex                       70       19        1
+100.0% lib/chaps/poster.ex                      16        3        0
+ 95.5% lib/chaps/local.ex                       79       22        1
+100.0% lib/chaps/travis.ex                      23        3        0
 100.0% lib/mix/tasks.ex                               44        8        0
-100.0% lib/excoveralls/cover.ex                       32        5        0
+100.0% lib/chaps/cover.ex                       32        5        0
 [TOTAL]  94.4%
 ----------------
 ```
@@ -125,7 +125,7 @@ Usage: mix coveralls <Options>
   Used to display coverage
 
   <Options>
-    -h (--help)         Show helps for excoveralls mix tasks
+    -h (--help)         Show helps for chaps mix tasks
 
     Common options across coveralls mix tasks
 
@@ -297,11 +297,11 @@ $ MIX_ENV=test mix coveralls.detail | less -R
 ...
 ----------------
 COV    FILE                                        LINES RELEVANT   MISSED
-100.0% lib/excoveralls/general.ex                     28        4        0
+100.0% lib/chaps/general.ex                     28        4        0
 ...
 [TOTAL]  94.4%
 
---------lib/excoveralls.ex--------
+--------lib/chaps.ex--------
 defmodule Chaps do
   @moduledoc """
   Provides the entry point for coverage calculation and output.
@@ -315,11 +315,11 @@ $ MIX_ENV=test mix coveralls.detail --filter general.ex
 ...
 ----------------
 COV    FILE                                        LINES RELEVANT   MISSED
-100.0% lib/excoveralls/general.ex                     28        4        0
+100.0% lib/chaps/general.ex                     28        4        0
 ...
 [TOTAL]  94.4%
 
---------lib/excoveralls.ex--------
+--------lib/chaps.ex--------
 defmodule Chaps do
   @moduledoc """
   Provides the entry point for coverage calculation and output.
@@ -337,7 +337,7 @@ $ MIX_ENV=test mix coveralls.html
 ```
 ![HTML Report](./assets/html_report.jpg?raw=true "HTML Report")
 
-Output reports are written to `cover/excoveralls.html` by default, however, the path can be specified by overwriting the `"output_dir"` coverage option.
+Output reports are written to `cover/chaps.html` by default, however, the path can be specified by overwriting the `"output_dir"` coverage option.
 Custom reports can be created and utilized by defining `template_path` in `coveralls.json`. This directory should
 contain an eex template named `coverage.html.eex`.
 
@@ -349,14 +349,14 @@ Output to the shell is the same as running the command `mix coveralls` (to suppr
 Upload a coverage report to Codecov using their [bash uploader](https://docs.codecov.io/docs/about-the-codecov-bash-uploader)
 or to Code Climate using their [test-reporter](https://docs.codeclimate.com/docs/configuring-test-coverage).
 
-Output reports are written to `cover/excoveralls.json` by default, however, the path can be specified by overwriting the `"output_dir"` coverage option.
+Output reports are written to `cover/chaps.json` by default, however, the path can be specified by overwriting the `"output_dir"` coverage option.
 
 ### [mix coveralls.xml] Show coverage as XML report
 This task displays coverage information at the source-code level formatted as a XML document.
 The report follows a format supported by several code coverage services like SonarQube.
 Output to the shell is the same as running the command `mix coveralls` (to suppress this output, add `"print_summary": false` to your project's `coveralls.json` file). In a similar manner to `mix coveralls.detail`, reported source code can be filtered by specifying arguments using the `--filter` flag.
 
-Output reports are written to `cover/excoveralls.xml` by default, however, the path can be specified by overwriting the `"output_dir"` coverage option.
+Output reports are written to `cover/chaps.xml` by default, however, the path can be specified by overwriting the `"output_dir"` coverage option.
 
 ### [mix coveralls.lcov] Show coverage as lcov report (Experimental)
 This task displays coverage information at the line level formatted as a lcov.
@@ -366,9 +366,9 @@ Output to the shell is the same as running the command `mix coveralls` (to suppr
 Output reports are written to `cover/lcov.info` by default, however, the path can be specified by overwriting the `"output_dir"` coverage option.
 
 ## coveralls.json
-`coveralls.json` provides settings for excoveralls.
+`coveralls.json` provides settings for chaps.
 
-The default `coveralls.json` file is stored in `deps/excoveralls/lib/conf`, and custom `coveralls.json` files can be placed in the mix project root. The custom definition is prioritized over the default one (if definitions in the custom file are not found, then the definitions in the default file are used).
+The default `coveralls.json` file is stored in `deps/chaps/lib/conf`, and custom `coveralls.json` files can be placed in the mix project root. The custom definition is prioritized over the default one (if definitions in the custom file are not found, then the definitions in the default file are used).
 
 #### Stop Words
 Stop words defined in `coveralls.json` will be excluded from the coverage calculation. Some kernel macros defined in Elixir are not considered "covered" by Erlang's cover library. It can be used for excluding these macros, or for any other reasons. The words are parsed as regular expression.
@@ -420,7 +420,7 @@ to `false`:
 - `output_dir`
   - The directory which the HTML report will output to. Defaulted to `cover/`.
 - `template_path`
-  - A custom path for html reports. This defaults to the htmlcov report in the excoveralls lib.
+  - A custom path for html reports. This defaults to the htmlcov report in the chaps lib.
 - `minimum_coverage`
   - When set to a number greater than 0, this setting causes the `mix coveralls` and `mix coveralls.html` tasks to exit with a status code of 1 if test coverage falls below the specified threshold (defaults to 0). This is useful to interrupt CI pipelines with strict code coverage rules. Should be expressed as a number between 0 and 100 signifying the minimum percentage of lines covered.
 
@@ -469,7 +469,7 @@ end
     - https://github.com/eproxus/meck/pull/17
 - In case Erlang clashes at `mix coveralls`, executing `mix test` in advance might avoid the error.
 - When erlang version 17.3 is used, an error message `(MatchError) no match of right hand side value: ""` can be shown. Refer to issue #14 for the details.
-    - https://github.com/parroty/excoveralls/issues/14
+    - https://github.com/parroty/chaps/issues/14
 
 ### Todo
 - It might not work well on projects which handle multiple project (Mix.Project) files.

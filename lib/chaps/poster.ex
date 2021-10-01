@@ -2,7 +2,7 @@ defmodule Chaps.Poster do
   @moduledoc """
   Post JSON to coveralls server.
   """
-  @file_name "excoveralls.post.json.gz"
+  @file_name "chaps.post.json.gz"
 
   @doc """
   Create a temporarily json file and post it to server using hackney library.

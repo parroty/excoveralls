@@ -3,7 +3,7 @@ defmodule Chaps.Json do
   Generate JSON output for results.
   """
 
-  @file_name "excoveralls.json"
+  @file_name "chaps.json"
 
   @doc """
   Provides an entry point for the module.
