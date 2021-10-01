@@ -1,10 +1,10 @@
 Code.require_file("../../test_helper.exs", __DIR__)
 
-defmodule Mix.Tasks.CoverallsTest do
+defmodule Mix.Tasks.ChapsTest do
   use ExUnit.Case, async: false
   import Mock
   import ExUnit.CaptureIO
-  alias Mix.Tasks.Coveralls.Runner
+  alias Mix.Tasks.Chaps.Runner
 
   # backup and restore the original config
   setup_all do
@@ -29,20 +29,20 @@ defmodule Mix.Tasks.CoverallsTest do
   end
 
   test_with_mock "local", Runner, run: fn _, _ -> nil end do
-    Mix.Tasks.Coveralls.run([])
+    Mix.Tasks.Chaps.run([])
     assert(called(Runner.run("test", ["--cover"])))
     assert(Chaps.ConfServer.get() == [type: "local", args: []])
   end
 
   test "local with help option" do
     assert capture_io(fn ->
-             Mix.Tasks.Coveralls.run(["--help"])
+             Mix.Tasks.Chaps.run(["--help"])
            end) != ""
   end
 
   test_with_mock "local with umbrella option", Runner, run: fn _, _ -> nil end do
     capture_io(fn ->
-      Mix.Tasks.Coveralls.run(["--umbrella"])
+      Mix.Tasks.Chaps.run(["--umbrella"])
       assert(called(Runner.run("test", ["--cover"])))
 
       assert(
@@ -60,12 +60,12 @@ defmodule Mix.Tasks.CoverallsTest do
 
   test_with_mock "--no-start propagates to mix task", Runner,
     run: fn _, _ -> nil end do
-    Mix.Tasks.Coveralls.run(["--no-start"])
+    Mix.Tasks.Chaps.run(["--no-start"])
     assert(called(Runner.run("test", ["--cover", "--no-start"])))
   end
 
   test_with_mock "--unknown_arg withvalue", Runner, run: fn _, _ -> nil end do
-    Mix.Tasks.Coveralls.run(["--unknown_arg withvalue", "--second"])
+    Mix.Tasks.Chaps.run(["--unknown_arg withvalue", "--second"])
 
     assert(
       called(
@@ -75,13 +75,13 @@ defmodule Mix.Tasks.CoverallsTest do
   end
 
   test_with_mock "--include remote", Runner, run: fn _, _ -> nil end do
-    Mix.Tasks.Coveralls.run(["--include", "remote"])
+    Mix.Tasks.Chaps.run(["--include", "remote"])
     assert(called(Runner.run("test", ["--cover", "--include", "remote"])))
   end
 
   test_with_mock "doesn't pass through coveralls args", Runner,
     run: fn _, _ -> nil end do
-    Mix.Tasks.Coveralls.run([
+    Mix.Tasks.Chaps.run([
       "--include",
       "remote",
       "-x",
@@ -108,13 +108,13 @@ defmodule Mix.Tasks.CoverallsTest do
   end
 
   test_with_mock "detail", Runner, run: fn _, _ -> nil end do
-    Mix.Tasks.Coveralls.Detail.run([])
+    Mix.Tasks.Chaps.Detail.run([])
     assert(called(Runner.run("test", ["--cover"])))
     assert(Chaps.ConfServer.get() == [type: "local", detail: true, args: []])
   end
 
   test_with_mock "detail and filter", Runner, run: fn _, _ -> nil end do
-    Mix.Tasks.Coveralls.Detail.run(["--filter", "x"])
+    Mix.Tasks.Chaps.Detail.run(["--filter", "x"])
     assert(called(Runner.run("test", ["--cover"])))
 
     assert(
@@ -128,13 +128,13 @@ defmodule Mix.Tasks.CoverallsTest do
   end
 
   test_with_mock "html", Runner, run: fn _, _ -> nil end do
-    Mix.Tasks.Coveralls.Html.run([])
+    Mix.Tasks.Chaps.Html.run([])
     assert(called(Runner.run("test", ["--cover"])))
     assert(Chaps.ConfServer.get() == [type: "html", args: []])
   end
 
   test_with_mock "json", Runner, run: fn _, _ -> nil end do
-    Mix.Tasks.Coveralls.Json.run([])
+    Mix.Tasks.Chaps.Json.run([])
     assert(called(Runner.run("test", ["--cover"])))
     assert(Chaps.ConfServer.get() == [type: "json", args: []])
   end
@@ -157,7 +157,7 @@ defmodule Mix.Tasks.CoverallsTest do
 
     test "subdir is added to filepath" do
       result =
-        Mix.Tasks.Coveralls.get_stats(@test_stats,
+        Mix.Tasks.Chaps.get_stats(@test_stats,
           rootdir: "",
           subdir: "umbrella1/"
         )
@@ -171,7 +171,7 @@ defmodule Mix.Tasks.CoverallsTest do
 
     test "rootdir is removed from filepath" do
       result =
-        Mix.Tasks.Coveralls.get_stats(@test_stats, rootdir: "apps/", subdir: "")
+        Mix.Tasks.Chaps.get_stats(@test_stats, rootdir: "apps/", subdir: "")
         |> Enum.map(fn m ->
           assert String.starts_with?(m[:name], "umbrella1_app")
         end)
@@ -182,7 +182,7 @@ defmodule Mix.Tasks.CoverallsTest do
 
     test "filepath is untouched when no options for rootdir/subdir" do
       result =
-        Mix.Tasks.Coveralls.get_stats(@test_stats, rootdir: "", subdir: "")
+        Mix.Tasks.Chaps.get_stats(@test_stats, rootdir: "", subdir: "")
         |> Enum.map(fn m ->
           assert String.starts_with?(m[:name], "apps/umbrella1_app")
         end)
@@ -193,7 +193,7 @@ defmodule Mix.Tasks.CoverallsTest do
 
     test "filepath is untouched when options for rootdir/subdir does not exist" do
       result =
-        Mix.Tasks.Coveralls.get_stats(@test_stats, [])
+        Mix.Tasks.Chaps.get_stats(@test_stats, [])
         |> Enum.map(fn m ->
           assert String.starts_with?(m[:name], "apps/umbrella1_app")
         end)

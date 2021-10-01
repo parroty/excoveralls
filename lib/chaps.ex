@@ -4,7 +4,7 @@ defmodule Chaps do
   This module method is called by Mix.Tasks.Test
   """
 
-  alias Chaps.{Cover, ConfServer, StatsServer, Stats}
+  alias Chaps.{Cover, ConfServer, StatServer, Stats}
 
   @type_to_output_module %{
     "local" => Chaps.Local,
@@ -47,7 +47,10 @@ defmodule Chaps do
   Logic for posting
   """
   def analyze(stats, type, options) do
-    module = Map.get(@type_to_output_module, type) || raise "Undefined type (#{type}) is specified for Chaps"
+    module =
+      Map.get(@type_to_output_module, type) ||
+        raise "Undefined type (#{type}) is specified for Chaps"
+
     module.execute(stats, options)
   end
 end

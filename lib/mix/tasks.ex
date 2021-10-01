@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.Coveralls do
+defmodule Mix.Tasks.Chaps do
   @moduledoc """
   Provides an entry point for displaying
   coveralls.io from local server.
@@ -158,7 +158,7 @@ defmodule Mix.Tasks.Coveralls do
     @preferred_cli_env :test
 
     def run(args) do
-      Mix.Tasks.Coveralls.do_run(args, type: "local", detail: true)
+      Mix.Tasks.Chaps.do_run(args, type: "local", detail: true)
     end
   end
 
@@ -173,7 +173,7 @@ defmodule Mix.Tasks.Coveralls do
     @preferred_cli_env :test
 
     def run(args) do
-      Mix.Tasks.Coveralls.do_run(args, type: "html")
+      Mix.Tasks.Chaps.do_run(args, type: "html")
     end
   end
 
@@ -188,7 +188,7 @@ defmodule Mix.Tasks.Coveralls do
     @preferred_cli_env :test
 
     def run(args) do
-      Mix.Tasks.Coveralls.do_run(args, type: "xml")
+      Mix.Tasks.Chaps.do_run(args, type: "xml")
     end
   end
 
@@ -203,7 +203,7 @@ defmodule Mix.Tasks.Coveralls do
     @preferred_cli_env :test
 
     def run(args) do
-      Mix.Tasks.Coveralls.do_run(args, type: "json")
+      Mix.Tasks.Chaps.do_run(args, type: "json")
     end
   end
 
@@ -218,7 +218,7 @@ defmodule Mix.Tasks.Coveralls do
     @preferred_cli_env :test
 
     def run(args) do
-      Mix.Tasks.Coveralls.do_run(args, type: "lcov")
+      Mix.Tasks.Chaps.do_run(args, type: "lcov")
     end
   end
 end

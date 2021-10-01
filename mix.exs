@@ -16,10 +16,10 @@ defmodule Chaps.Mixfile do
       test_coverage: [tool: Chaps],
       preferred_cli_env:
         cli_env_for(:test, [
-          "coveralls",
-          "coveralls.detail",
-          "coveralls.html",
-          "coveralls.json"
+          "chaps",
+          "chaps.detail",
+          "chaps.html",
+          "chaps.json"
         ])
     ]
   end
