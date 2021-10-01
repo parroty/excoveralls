@@ -17,8 +17,9 @@ defmodule Chaps.StatsTest do
                      source: @trimmed,
                      coverage: @counts
                    }]
-  @fixture_default Path.dirname(__ENV__.file) <> "/fixtures/default.json"
-  @fixture_custom  Path.dirname(__ENV__.file) <> "/fixtures/skip_files.json"
+  @fixtures Path.join([__DIR__, "..", "fixtures"])
+  @fixture_default @fixtures <> "/default.json"
+  @fixture_custom  @fixtures <> "/skip_files.json"
 
   @invalid_counts [0, 1, nil, "invalid"]
   @invalid_source_info [%{name: "test/fixtures/test.ex",
@@ -88,7 +89,7 @@ defmodule Chaps.StatsTest do
   test "trim empty suffix and prefix" do
     assert(Stats.trim_empty_prefix_and_suffix("\naaa\nbbb\n") == "aaa\nbbb")
   end
-  @fixture_default Path.dirname(__ENV__.file) <> "/fixtures/default.json"
+  @fixture_default @fixtures <> "/fixtures/default.json"
 
   test_with_mock "skip files", Settings.Files,
                    [default_file: fn -> @fixture_default end,

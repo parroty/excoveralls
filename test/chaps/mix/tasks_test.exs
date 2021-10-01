@@ -1,4 +1,4 @@
-Code.require_file "../test_helper.exs", __DIR__
+Code.require_file "../../test_helper.exs", __DIR__
 
 defmodule Mix.Tasks.CoverallsTest do
   use ExUnit.Case, async: false

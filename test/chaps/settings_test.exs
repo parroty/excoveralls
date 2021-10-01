@@ -3,15 +3,16 @@ defmodule Excoveralls.SettingsTest do
   import Mock
   alias Chaps.Settings
 
-  @fixture_default Path.dirname(__ENV__.file) <> "/fixtures/default.json"
-  @fixture_custom  Path.dirname(__ENV__.file) <> "/fixtures/custom.json"
-  @fixture_dotfile  Path.dirname(__ENV__.file) <> "/fixtures/dotfile.json"
-  @fixture_invalid Path.dirname(__ENV__.file) <> "/fixtures/invalid.json"
-  @fixture_not_covered Path.dirname(__ENV__.file) <> "/fixtures/no_relevant_lines_not_covered.json"
-  @fixture_covered Path.dirname(__ENV__.file) <> "/fixtures/no_relevant_lines_are_covered.json"
-  @fixture_column_default Path.dirname(__ENV__.file) <> "/fixtures/terminal_options1.json"
-  @fixture_column_integer Path.dirname(__ENV__.file) <> "/fixtures/terminal_options2.json"
-  @fixture_no_summary Path.dirname(__ENV__.file) <> "/fixtures/no_summary.json"
+  @fixtures Path.join([__DIR__, "..", "fixtures"])
+  @fixture_default @fixtures <> "/default.json"
+  @fixture_custom  @fixtures <> "/custom.json"
+  @fixture_dotfile  @fixtures <> "/dotfile.json"
+  @fixture_invalid @fixtures <> "/invalid.json"
+  @fixture_not_covered @fixtures <> "/no_relevant_lines_not_covered.json"
+  @fixture_covered @fixtures <> "/no_relevant_lines_are_covered.json"
+  @fixture_column_default @fixtures <> "/terminal_options1.json"
+  @fixture_column_integer @fixtures <> "/terminal_options2.json"
+  @fixture_no_summary @fixtures <> "/no_summary.json"
 
   test "returns default file path" do
     assert(Settings.Files.default_file
