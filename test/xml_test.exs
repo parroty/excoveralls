@@ -1,8 +1,8 @@
-defmodule ExCoveralls.XmlTest do
+defmodule Chaps.XmlTest do
   use ExUnit.Case
   import Mock
   import ExUnit.CaptureIO
-  alias ExCoveralls.Xml
+  alias Chaps.Xml
 
   @file_name "excoveralls.xml"
   @test_output_dir "cover_test/"
@@ -37,7 +37,7 @@ defmodule ExCoveralls.XmlTest do
     {:ok, report: path}
   end
 
-  test_with_mock "generate xml file", %{report: report}, ExCoveralls.Settings, [],
+  test_with_mock "generate xml file", %{report: report}, Chaps.Settings, [],
       [
         get_coverage_options: fn -> %{"output_dir" => @test_output_dir} end,
         get_file_col_width: fn -> 40 end,

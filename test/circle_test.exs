@@ -1,7 +1,7 @@
-defmodule ExCoveralls.CircleTest do
+defmodule Chaps.CircleTest do
   use ExUnit.Case
   import Mock
-  alias ExCoveralls.Circle
+  alias Chaps.Circle
 
   @content     "defmodule Test do\n  def test do\n  end\nend\n"
   @counts      [0, 1, nil, nil]
@@ -30,7 +30,7 @@ defmodule ExCoveralls.CircleTest do
     {:ok, []}
   end
 
-  test_with_mock "execute", ExCoveralls.Poster, [execute: fn(_) -> "result" end] do
+  test_with_mock "execute", Chaps.Poster, [execute: fn(_) -> "result" end] do
     assert(Circle.execute(@source_info,[]) == "result")
   end
 

@@ -1,8 +1,8 @@
-defmodule ExCoveralls.Travis do
+defmodule Chaps.Travis do
   @moduledoc """
   Handles travis-ci integration with coveralls.
   """
-  alias ExCoveralls.Poster
+  alias Chaps.Poster
 
   def execute(stats, options) do
     json = generate_json(stats, Enum.into(options, %{}))

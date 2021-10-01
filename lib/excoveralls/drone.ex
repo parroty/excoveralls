@@ -1,8 +1,8 @@
-defmodule ExCoveralls.Drone do
+defmodule Chaps.Drone do
   @moduledoc """
   Handles drone-ci integration with coveralls.
   """
-  alias ExCoveralls.Poster
+  alias Chaps.Poster
 
   def execute(stats, options) do
     json = generate_json(stats, Enum.into(options, %{}))

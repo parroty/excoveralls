@@ -1,4 +1,4 @@
-defmodule ExCoveralls.Task.Util do
+defmodule Chaps.Task.Util do
   @moduledoc """
   Provides task related utilities.
   """

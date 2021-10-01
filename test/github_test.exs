@@ -1,7 +1,7 @@
-defmodule ExCoveralls.GithubTest do
+defmodule Chaps.GithubTest do
   use ExUnit.Case, async: false
   import Mock
-  alias ExCoveralls.Github
+  alias Chaps.Github
 
   @content "defmodule Test do\n  def test do\n  end\nend\n"
   @counts [0, 1, nil, nil]
@@ -39,7 +39,7 @@ defmodule ExCoveralls.GithubTest do
     end
   end
 
-  test_with_mock "execute", ExCoveralls.Poster, execute: fn _ -> "result" end do
+  test_with_mock "execute", Chaps.Poster, execute: fn _ -> "result" end do
     assert(Github.execute(@source_info, []) == "result")
   end
 

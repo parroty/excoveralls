@@ -18,19 +18,19 @@ defmodule Mix.Tasks.Coveralls do
     {options, _, _} = OptionParser.parse(args, switches: [help: :boolean], aliases: [h: :help])
 
     if options[:help] do
-      ExCoveralls.Task.Util.print_help_message
+      Chaps.Task.Util.print_help_message
     else
       do_run(args, [type: "local"])
     end
   end
 
   @doc """
-  Provides the logic to switch the parameters for ExCoveralls.run/3.
+  Provides the logic to switch the parameters for Chaps.run/3.
   """
   def do_run(args, options) do
-    if Mix.Project.config[:test_coverage][:tool] != ExCoveralls do
-      raise ExCoveralls.InvalidConfigError,
-        message: "Please specify 'test_coverage: [tool: ExCoveralls]' in the 'project' section of mix.exs"
+    if Mix.Project.config[:test_coverage][:tool] != Chaps do
+      raise Chaps.InvalidConfigError,
+        message: "Please specify 'test_coverage: [tool: Chaps]' in the 'project' section of mix.exs"
     end
 
     switches = [filter: :string, umbrella: :boolean, verbose: :boolean, pro: :boolean, parallel: :boolean, sort: :string, output_dir: :string]
@@ -41,25 +41,25 @@ defmodule Mix.Tasks.Coveralls do
 
     all_options =
       if all_options[:umbrella] do
-        sub_apps = ExCoveralls.SubApps.parse(Mix.Dep.Umbrella.loaded)
+        sub_apps = Chaps.SubApps.parse(Mix.Dep.Umbrella.loaded)
         all_options ++ [sub_apps: sub_apps, apps_path: Mix.Project.config[:apps_path]]
       else
         all_options
       end
 
-    ExCoveralls.ConfServer.start
-    ExCoveralls.ConfServer.set(all_options ++ [args: args])
-    ExCoveralls.StatServer.start
+    Chaps.ConfServer.start
+    Chaps.ConfServer.set(all_options ++ [args: args])
+    Chaps.StatServer.start
 
     Runner.run(test_task, ["--cover"] ++ args)
 
     if all_options[:umbrella] do
       type = options[:type] || "local"
 
-      ExCoveralls.StatServer.get
+      Chaps.StatServer.get
       |> MapSet.to_list
       |> get_stats(all_options)
-      |> ExCoveralls.analyze(type, options)
+      |> Chaps.analyze(type, options)
     end
   end
 
@@ -72,13 +72,13 @@ defmodule Mix.Tasks.Coveralls do
     supported_switches = Enum.map(Keyword.keys(common_switches), fn(s) -> String.replace("--#{s}", "_", "-") end)
       ++ Enum.map(Keyword.keys(common_aliases), fn(s) -> "-#{s}" end)
 
-    # Get the remaining args to pass onto cover, excluding ExCoveralls-specific args.
+    # Get the remaining args to pass onto cover, excluding Chaps-specific args.
     # Not using OptionParser for this because it splits things up in unfortunate ways.
     {remaining, _} = List.foldl(args, {[], nil}, fn(arg, {acc, last}) ->
       cond do
-      # don't include switches for ExCoveralls
+      # don't include switches for Chaps
       Enum.member?(supported_switches, arg) -> {acc, arg}
-      # also drop any values that follow ExCoveralls switches
+      # also drop any values that follow Chaps switches
       !String.starts_with?(arg, "-") && Enum.member?(supported_switches, last) -> {acc, nil}
       # leaving just the switches and values intended for cover
       true -> {acc ++ [arg], nil}
@@ -88,7 +88,7 @@ defmodule Mix.Tasks.Coveralls do
     sub_dir_set? = not (common_options[:subdir] in [nil, ""])
     root_dir_set? = not (common_options[:rootdir] in [nil, ""])
     if sub_dir_set? and root_dir_set? do
-      raise ExCoveralls.InvalidOptionError,
+      raise Chaps.InvalidOptionError,
                 message: "subdir and rootdir options are exclusive. please specify only one of them."
     end
     {remaining, common_options}
@@ -317,7 +317,7 @@ defmodule Mix.Tasks.Coveralls do
 
     def extract_token(options) do
       case options[:token] || System.get_env("COVERALLS_REPO_TOKEN") || "" do
-        "" -> raise ExCoveralls.InvalidOptionError,
+        "" -> raise Chaps.InvalidOptionError,
                       message: "Token is NOT specified in the argument nor environment variable."
         token -> token
       end

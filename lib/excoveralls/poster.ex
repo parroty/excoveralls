@@ -1,4 +1,4 @@
-defmodule ExCoveralls.Poster do
+defmodule Chaps.Poster do
   @moduledoc """
   Post JSON to coveralls server.
   """
@@ -18,7 +18,7 @@ defmodule ExCoveralls.Poster do
         IO.puts(message)
 
       {:error, message} ->
-        raise ExCoveralls.ReportUploadError, message: message
+        raise Chaps.ReportUploadError, message: message
     end
   end
 

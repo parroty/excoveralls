@@ -1,4 +1,4 @@
-defmodule ExCoveralls.Cover do
+defmodule Chaps.Cover do
   @moduledoc """
   Wrapper class for Erlang's cover tool.
   """
@@ -18,7 +18,7 @@ defmodule ExCoveralls.Cover do
   def module_path(module) do
     module.module_info(:compile)[:source]
     |> List.to_string
-    |> Path.relative_to(ExCoveralls.PathReader.base_path)
+    |> Path.relative_to(Chaps.PathReader.base_path)
   end
 
   @doc "Wrapper for :cover.modules"

@@ -1,24 +1,24 @@
-defmodule ExCoveralls do
+defmodule Chaps do
   @moduledoc """
   Provides the entry point for coverage calculation and output.
   This module method is called by Mix.Tasks.Test
   """
-  alias ExCoveralls.Stats
-  alias ExCoveralls.Cover
-  alias ExCoveralls.ConfServer
-  alias ExCoveralls.StatServer
-  alias ExCoveralls.Travis
-  alias ExCoveralls.Github
-  alias ExCoveralls.Gitlab
-  alias ExCoveralls.Circle
-  alias ExCoveralls.Semaphore
-  alias ExCoveralls.Drone
-  alias ExCoveralls.Local
-  alias ExCoveralls.Html
-  alias ExCoveralls.Json
-  alias ExCoveralls.Post
-  alias ExCoveralls.Xml
-  alias ExCoveralls.Lcov
+  alias Chaps.Stats
+  alias Chaps.Cover
+  alias Chaps.ConfServer
+  alias Chaps.StatServer
+  alias Chaps.Travis
+  alias Chaps.Github
+  alias Chaps.Gitlab
+  alias Chaps.Circle
+  alias Chaps.Semaphore
+  alias Chaps.Drone
+  alias Chaps.Local
+  alias Chaps.Html
+  alias Chaps.Json
+  alias Chaps.Post
+  alias Chaps.Xml
+  alias Chaps.Lcov
 
   @type_travis      "travis"
   @type_github      "github"
@@ -55,7 +55,7 @@ defmodule ExCoveralls do
 
   defp store_stats(stats, options, compile_path) do
     {sub_app_name, _sub_app_path} =
-      ExCoveralls.SubApps.find(options[:sub_apps], compile_path)
+      Chaps.SubApps.find(options[:sub_apps], compile_path)
     stats = Stats.append_sub_app_name(stats, sub_app_name, options[:apps_path])
     Enum.each(stats, fn(stat) -> StatServer.add(stat) end)
   end
@@ -114,6 +114,6 @@ defmodule ExCoveralls do
   end
 
   def analyze(_stats, type, _options) do
-    raise "Undefined type (#{type}) is specified for ExCoveralls"
+    raise "Undefined type (#{type}) is specified for Chaps"
   end
 end

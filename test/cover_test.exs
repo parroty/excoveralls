@@ -1,10 +1,10 @@
 defmodule CoverTest do
   use ExUnit.Case
   import ExUnit.CaptureIO
-  alias ExCoveralls.Cover
+  alias Chaps.Cover
 
   test "module path returns relative path" do
-    assert(Cover.module_path(ExCoveralls) == "lib/excoveralls.ex")
+    assert(Cover.module_path(Chaps) == "lib/excoveralls.ex")
   end
 
   test "has_compile_info?/1 with uncompiled module raises warning and returns false" do

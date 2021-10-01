@@ -86,7 +86,7 @@
 #### Changes
 - Add missing `name` switch, also fixed `committer` switch (#180).
 - Fix UnicodeConversionError and faster count_line (#176).
-- Fix spelling on doc for ExCoveralls.Stats.report/1 (#174).
+- Fix spelling on doc for Chaps.Stats.report/1 (#174).
 - Relax hackney dependency (#172).
 
 0.10.6

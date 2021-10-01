@@ -1,10 +1,10 @@
-defmodule ExCoveralls.Html do
+defmodule Chaps.Html do
   @moduledoc """
   Generate HTML report of result.
   """
 
-  alias ExCoveralls.Html.View
-  alias ExCoveralls.Stats
+  alias Chaps.Html.View
+  alias Chaps.Stats
 
   @file_name "excoveralls.html"
 
@@ -12,7 +12,7 @@ defmodule ExCoveralls.Html do
   Provides an entry point for the module.
   """
   def execute(stats, options \\ []) do
-    ExCoveralls.Local.print_summary(stats)
+    Chaps.Local.print_summary(stats)
 
     Stats.source(stats, options[:filter]) |> generate_report(options[:output_dir])
 
@@ -29,7 +29,7 @@ defmodule ExCoveralls.Html do
       output_dir ->
         output_dir
       true ->
-        options = ExCoveralls.Settings.get_coverage_options()
+        options = Chaps.Settings.get_coverage_options()
         case Map.fetch(options, "output_dir") do
           {:ok, val} -> val
           _ -> "cover/"

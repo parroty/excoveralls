@@ -1,4 +1,4 @@
-defmodule ExCoveralls.SubApps do
+defmodule Chaps.SubApps do
   @moduledoc """
   Handles information of sub apps of umbrella projects.
   """

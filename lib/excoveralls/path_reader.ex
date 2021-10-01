@@ -1,4 +1,4 @@
-defmodule ExCoveralls.PathReader do
+defmodule Chaps.PathReader do
   @moduledoc """
   Provide methods for base path for displaying File paths of the modules.
   It uses Mix.project path as base folder.

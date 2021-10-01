@@ -1,11 +1,11 @@
-defmodule ExCoveralls.InvalidConfigError do
+defmodule Chaps.InvalidConfigError do
   defexception [message: "error"]
 end
 
-defmodule ExCoveralls.InvalidOptionError do
+defmodule Chaps.InvalidOptionError do
   defexception [message: "error"]
 end
 
-defmodule ExCoveralls.ReportUploadError do
+defmodule Chaps.ReportUploadError do
   defexception [message: "error"]
 end

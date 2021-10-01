@@ -1,7 +1,7 @@
-defmodule ExCoveralls.SemaphoreTest do
+defmodule Chaps.SemaphoreTest do
   use ExUnit.Case
   import Mock
-  alias ExCoveralls.Semaphore
+  alias Chaps.Semaphore
 
   @content "defmodule Test do\n  def test do\n  end\nend\n"
   @counts [0, 1, nil, nil]
@@ -28,7 +28,7 @@ defmodule ExCoveralls.SemaphoreTest do
     {:ok, []}
   end
 
-  test_with_mock "execute", ExCoveralls.Poster, execute: fn _ -> "result" end do
+  test_with_mock "execute", Chaps.Poster, execute: fn _ -> "result" end do
     assert(Semaphore.execute(@source_info, []) == "result")
   end
 

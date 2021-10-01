@@ -1,8 +1,8 @@
-defmodule ExCoveralls.Post do
+defmodule Chaps.Post do
   @moduledoc """
   Handles general-purpose CI integration with coveralls.
   """
-  alias ExCoveralls.Poster
+  alias Chaps.Poster
 
   def execute(stats, options) do
     json = generate_json(stats, options)

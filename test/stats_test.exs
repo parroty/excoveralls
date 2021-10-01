@@ -1,9 +1,9 @@
-defmodule ExCoveralls.StatsTest do
+defmodule Chaps.StatsTest do
   use ExUnit.Case
   import Mock
-  alias ExCoveralls.Stats
-  alias ExCoveralls.Cover
-  alias ExCoveralls.Settings
+  alias Chaps.Stats
+  alias Chaps.Cover
+  alias Chaps.Settings
 
   @stats           [{{Stats, 1}, 0}, {{Stats, 2}, 1}]
   @source          "test/fixtures/test.ex"
@@ -35,17 +35,17 @@ defmodule ExCoveralls.StatsTest do
   @source_result %{
     coverage: 50,
     files: [
-      %ExCoveralls.Stats.Source{
+      %Chaps.Stats.Source{
         coverage: 50,
         filename: "test/fixtures/test.ex",
         hits: 1,
         misses: 1,
         sloc: 2,
         source: [
-          %ExCoveralls.Stats.Line{coverage: 0, source: "defmodule Test do"},
-          %ExCoveralls.Stats.Line{coverage: 1, source: "  def test do"},
-          %ExCoveralls.Stats.Line{coverage: nil, source: "  end"},
-          %ExCoveralls.Stats.Line{coverage: nil, source: "end"}]}],
+          %Chaps.Stats.Line{coverage: 0, source: "defmodule Test do"},
+          %Chaps.Stats.Line{coverage: 1, source: "  def test do"},
+          %Chaps.Stats.Line{coverage: nil, source: "  end"},
+          %Chaps.Stats.Line{coverage: nil, source: "end"}]}],
     hits: 1,
     misses: 1,
     sloc: 2}
@@ -125,7 +125,7 @@ defmodule ExCoveralls.StatsTest do
   end
 
   test_with_mock "Empty (no relevant lines) file with treat_no_relevant_lines_as_covered option is calculated as 100.0%",
-    ExCoveralls.Settings, [default_coverage_value: fn -> 100 end] do
+    Chaps.Settings, [default_coverage_value: fn -> 100 end] do
 
     results = Stats.source(@empty_source_info)
     assert(results.coverage == 100)

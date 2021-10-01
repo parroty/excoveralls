@@ -1,6 +1,6 @@
-defmodule ExCoveralls.StopWordsTest do
+defmodule Chaps.StopWordsTest do
   use ExUnit.Case
-  alias ExCoveralls.StopWords
+  alias Chaps.StopWords
 
   @content     "defmodule Test do\n  def test do\n  end\nend\n"
   @counts      [0, 1, nil, nil, nil]

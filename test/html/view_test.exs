@@ -1,7 +1,7 @@
-defmodule ExCoveralls.Html.ViewTest do
+defmodule Chaps.Html.ViewTest do
   use ExUnit.Case
 
-  alias ExCoveralls.Html.View
+  alias Chaps.Html.View
 
   @path "lib/templates/html/htmlcov/"
   @template "coverage.html.eex"

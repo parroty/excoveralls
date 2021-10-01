@@ -1,8 +1,8 @@
-defmodule ExCoveralls.Gitlab do
+defmodule Chaps.Gitlab do
   @moduledoc """
   Handles gitlab-ci integration with coveralls.
   """
-  alias ExCoveralls.Poster
+  alias Chaps.Poster
 
   def execute(stats, options) do
     json = generate_json(stats, Enum.into(options, %{}))

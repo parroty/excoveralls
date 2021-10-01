@@ -1,8 +1,8 @@
-defmodule ExCoveralls.JsonTest do
+defmodule Chaps.JsonTest do
   use ExUnit.Case
   import Mock
   import ExUnit.CaptureIO
-  alias ExCoveralls.Json
+  alias Chaps.Json
 
   @file_name "excoveralls.json"
   @file_size 136
@@ -38,7 +38,7 @@ defmodule ExCoveralls.JsonTest do
     {:ok, report: path}
   end
 
-  test_with_mock "generate json file", %{report: report}, ExCoveralls.Settings, [],
+  test_with_mock "generate json file", %{report: report}, Chaps.Settings, [],
       [
         get_coverage_options: fn -> %{"output_dir" => @test_output_dir} end,
         get_file_col_width: fn -> 40 end,

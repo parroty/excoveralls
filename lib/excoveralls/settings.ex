@@ -1,4 +1,4 @@
-defmodule ExCoveralls.Settings do
+defmodule Chaps.Settings do
   @moduledoc """
   Handles the configuration setting defined in json file.
   """

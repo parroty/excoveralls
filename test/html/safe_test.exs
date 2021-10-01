@@ -1,7 +1,7 @@
-defmodule ExCoveralls.Html.SafeTest do
+defmodule Chaps.Html.SafeTest do
   use ExUnit.Case
 
-  alias ExCoveralls.Html.Safe
+  alias Chaps.Html.Safe
 
   test "escapes characters" do
     escaped = Safe.html_escape("<>&\"'")

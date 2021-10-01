@@ -1,9 +1,9 @@
-defmodule ExCoveralls.Xml do
+defmodule Chaps.Xml do
   @moduledoc """
   Generate XML output for results.
   """
 
-  alias ExCoveralls.Settings
+  alias Chaps.Settings
 
   @file_name "excoveralls.xml"
 
@@ -15,7 +15,7 @@ defmodule ExCoveralls.Xml do
     |> generate_xml(Enum.into(options, %{})) 
     |> write_file(options[:output_dir])
 
-    ExCoveralls.Local.print_summary(stats)
+    Chaps.Local.print_summary(stats)
   end
 
   def generate_xml(stats, _options) do

@@ -1,7 +1,7 @@
-defmodule ExCoveralls.PostTest do
+defmodule Chaps.PostTest do
   use ExUnit.Case
   import Mock
-  alias ExCoveralls.Post
+  alias Chaps.Post
 
   @content     "defmodule Test do\n  def test do\n  end\nend\n"
   @counts      [0, 1, nil, nil]
@@ -10,7 +10,7 @@ defmodule ExCoveralls.PostTest do
                   coverage: @counts
                }]
 
-  test_with_mock "execute", ExCoveralls.Poster, [execute: fn(_, _) -> "result" end] do
+  test_with_mock "execute", Chaps.Poster, [execute: fn(_, _) -> "result" end] do
     original_token = System.get_env("COVERALLS_REPO_TOKEN")
     System.put_env("COVERALLS_REPO_TOKEN", "dummy_token")
 

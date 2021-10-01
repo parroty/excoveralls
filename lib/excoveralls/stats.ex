@@ -1,9 +1,9 @@
-defmodule ExCoveralls.Stats do
+defmodule Chaps.Stats do
   @moduledoc """
   Provide calculation logics of coverage stats.
   """
-  alias ExCoveralls.Cover
-  alias ExCoveralls.Settings
+  alias Chaps.Cover
+  alias Chaps.Settings
 
   defmodule Source do
     @moduledoc """
@@ -29,8 +29,8 @@ defmodule ExCoveralls.Stats do
     |> generate_coverage
     |> generate_source_info
     |> skip_files
-    |> ExCoveralls.StopWords.filter
-    |> ExCoveralls.Ignore.filter
+    |> Chaps.StopWords.filter
+    |> Chaps.Ignore.filter
   end
 
   @doc """
@@ -118,7 +118,7 @@ defmodule ExCoveralls.Stats do
   Wrapper for reading the specified file.
   """
   def read_source(file_path) do
-    ExCoveralls.PathReader.expand_path(file_path) |> File.read! |> trim_empty_prefix_and_suffix
+    Chaps.PathReader.expand_path(file_path) |> File.read! |> trim_empty_prefix_and_suffix
   end
 
   def trim_empty_prefix_and_suffix(string) do
@@ -207,7 +207,7 @@ defmodule ExCoveralls.Stats do
   Exit the process with a status of 1 if coverage is below the minimum.
   """
   def ensure_minimum_coverage(stats) do
-    coverage_options = ExCoveralls.Settings.get_coverage_options
+    coverage_options = Chaps.Settings.get_coverage_options
     minimum_coverage = coverage_options["minimum_coverage"] || 0
     if minimum_coverage > 0, do: check_coverage_threshold(stats, minimum_coverage)
   end

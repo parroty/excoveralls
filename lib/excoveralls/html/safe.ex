@@ -1,4 +1,4 @@
-defmodule ExCoveralls.Html.Safe do
+defmodule Chaps.Html.Safe do
   @moduledoc """
   Conveniences for generating HTML.
   """

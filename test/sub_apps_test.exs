@@ -1,6 +1,6 @@
-defmodule ExCoveralls.SubAppsTest do
+defmodule Chaps.SubAppsTest do
   use ExUnit.Case
-  alias ExCoveralls.SubApps
+  alias Chaps.SubApps
 
   @subapps [
     %Mix.Dep{app: :subapp0, deps: [], extra: [], from: nil, manager: :mix,

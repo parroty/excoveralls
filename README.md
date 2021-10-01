@@ -1,4 +1,4 @@
-ExCoveralls
+Chaps
 ============
 
 [![Build Status](https://github.com/parroty/excoveralls/workflows/tests/badge.svg)](https://github.com/parroty/excoveralls/actions)
@@ -26,7 +26,7 @@ The following are example projects.
 ### mix.exs
 Add the following parameters.
 
-- `test_coverage: [tool: ExCoveralls]` for using ExCoveralls for coverage reporting.
+- `test_coverage: [tool: Chaps]` for using Chaps for coverage reporting.
 - `preferred_cli_env: [coveralls: :test]` for running `mix coveralls` in `:test` env by default
     - It's an optional setting for skipping `MIX_ENV=test` part when executing `mix coveralls` tasks.
 - `test_coverage: [test_task: "espec"]` if you use Espec instead of default ExUnit.
@@ -39,7 +39,7 @@ def project do
     version: "1.0.0",
     elixir: "~> 1.0.0",
     deps: deps(),
-    test_coverage: [tool: ExCoveralls],
+    test_coverage: [tool: Chaps],
     preferred_cli_env: [
       coveralls: :test,
       "coveralls.detail": :test,
@@ -47,7 +47,7 @@ def project do
       "coveralls.html": :test
     ]
     # if you want to use espec,
-    # test_coverage: [tool: ExCoveralls, test_task: "espec"]
+    # test_coverage: [tool: Chaps, test_task: "espec"]
   ]
 end
 
@@ -59,13 +59,13 @@ end
 ```
 
 **Note on umbrella application**: If you want to use Excoveralls within an umbrella project, every `apps` must have
-`test_coverage: [tool: ExCoveralls]` in the `mix.exs` of each app.
+`test_coverage: [tool: Chaps]` in the `mix.exs` of each app.
 
 **Note:** If you're using earlier than `elixir v1.3`, `MIX_ENV=test` or `preferred_cli_env` may be required for running mix tasks. Refer to [PR#96](https://github.com/parroty/excoveralls/pull/96) for the details.
 
 # Usage
 ## Mix Tasks
-- [ExCoveralls](#excoveralls)
+- [Chaps](#excoveralls)
 - [Settings](#settings)
     - [mix.exs](#mixexs)
 - [Usage](#usage)
@@ -302,7 +302,7 @@ COV    FILE                                        LINES RELEVANT   MISSED
 [TOTAL]  94.4%
 
 --------lib/excoveralls.ex--------
-defmodule ExCoveralls do
+defmodule Chaps do
   @moduledoc """
   Provides the entry point for coverage calculation and output.
   This module method is called by Mix.Tasks.Test
@@ -320,7 +320,7 @@ COV    FILE                                        LINES RELEVANT   MISSED
 [TOTAL]  94.4%
 
 --------lib/excoveralls.ex--------
-defmodule ExCoveralls do
+defmodule Chaps do
   @moduledoc """
   Provides the entry point for coverage calculation and output.
   This module method is called by Mix.Tasks.Test

@@ -1,8 +1,8 @@
-defmodule ExCoveralls.Circle do
+defmodule Chaps.Circle do
   @moduledoc """
   Handles circle-ci integration with coveralls.
   """
-  alias ExCoveralls.Poster
+  alias Chaps.Poster
 
   def execute(stats, options) do
     json = generate_json(stats, Enum.into(options, %{}))

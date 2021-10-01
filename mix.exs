@@ -1,4 +1,4 @@
-defmodule ExCoveralls.Mixfile do
+defmodule Chaps.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/parroty/excoveralls"
@@ -13,7 +13,7 @@ defmodule ExCoveralls.Mixfile do
       docs: docs(),
       description: description(),
       package: package(),
-      test_coverage: [tool: ExCoveralls],
+      test_coverage: [tool: Chaps],
       preferred_cli_env:
         cli_env_for(:test, [
           "coveralls",

@@ -1,8 +1,8 @@
-defmodule ExCoveralls.Github do
+defmodule Chaps.Github do
   @moduledoc """
   Handles GitHub Actions integration with coveralls.
   """
-  alias ExCoveralls.Poster
+  alias Chaps.Poster
 
   def execute(stats, options) do
     json = generate_json(stats, Enum.into(options, %{}))

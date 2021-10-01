@@ -1,4 +1,4 @@
-defmodule ExCoveralls.Local do
+defmodule Chaps.Local do
   @moduledoc """
   Locally displays the result to screen.
   """
@@ -21,7 +21,7 @@ defmodule ExCoveralls.Local do
       source(stats, options[:filter]) |> IO.puts
     end
 
-    ExCoveralls.Stats.ensure_minimum_coverage(stats)
+    Chaps.Stats.ensure_minimum_coverage(stats)
   end
 
   @doc """
@@ -43,7 +43,7 @@ defmodule ExCoveralls.Local do
   Prints summary statistics for given coverage.
   """
   def print_summary(stats, options \\ []) do
-    enabled = ExCoveralls.Settings.get_print_summary
+    enabled = Chaps.Settings.get_print_summary
     if enabled do
       coverage(stats, options) |> IO.puts
     end
@@ -72,8 +72,8 @@ defmodule ExCoveralls.Local do
   Format the source coverage stats into string.
   """
   def coverage(stats, options \\ []) do
-    file_width = ExCoveralls.Settings.get_file_col_width
-    print_files? = ExCoveralls.Settings.get_print_files
+    file_width = Chaps.Settings.get_file_col_width
+    print_files? = Chaps.Settings.get_print_files
 
     count_info = Enum.map(stats, fn(stat) -> [stat, calculate_count(stat[:coverage])] end)
     count_info = sort(count_info, options)
@@ -143,7 +143,7 @@ defmodule ExCoveralls.Local do
 
   defp format_info([stat, count]) do
     coverage = get_coverage(count)
-    file_width = ExCoveralls.Settings.get_file_col_width
+    file_width = Chaps.Settings.get_file_col_width
     print_string("~5.1f% ~-#{file_width}s ~8w ~8w ~8w",
       [coverage, stat[:name], count.lines, count.relevant, count.relevant - count.covered])
   end
@@ -170,7 +170,7 @@ defmodule ExCoveralls.Local do
   end
 
   defp default_coverage_value do
-    options = ExCoveralls.Settings.get_coverage_options
+    options = Chaps.Settings.get_coverage_options
     case Map.fetch(options, "treat_no_relevant_lines_as_covered") do
       {:ok, false} -> 0.0
       _            -> 100.0

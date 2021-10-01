@@ -1,4 +1,4 @@
-defmodule ExCoveralls.Lcov do
+defmodule Chaps.Lcov do
   @moduledoc """
   Generate lcov output for results.
   """
@@ -11,7 +11,7 @@ defmodule ExCoveralls.Lcov do
   def execute(stats, options \\ []) do
     generate_lcov(stats, Enum.into(options, %{})) |> write_file(options[:output_dir])
 
-    ExCoveralls.Local.print_summary(stats)
+    Chaps.Local.print_summary(stats)
   end
 
   def generate_lcov(stats, _options) do
@@ -52,7 +52,7 @@ defmodule ExCoveralls.Lcov do
         output_dir
 
       true ->
-        options = ExCoveralls.Settings.get_coverage_options()
+        options = Chaps.Settings.get_coverage_options()
 
         case Map.fetch(options, "output_dir") do
           {:ok, val} -> val

@@ -1,8 +1,8 @@
-defmodule ExCoveralls.HtmlTest do
+defmodule Chaps.HtmlTest do
   use ExUnit.Case
   import Mock
   import ExUnit.CaptureIO
-  alias ExCoveralls.Html
+  alias Chaps.Html
 
   @file_name "excoveralls.html"
   @file_size 20191
@@ -49,7 +49,7 @@ defmodule ExCoveralls.HtmlTest do
     assert(size == @file_size)
   end
 
-  test_with_mock "generate stats information", %{report: report}, ExCoveralls.Settings, [],
+  test_with_mock "generate stats information", %{report: report}, Chaps.Settings, [],
       [
         get_coverage_options: fn -> %{"output_dir" => @test_output_dir, "template_path" => @test_template_path} end,
         get_file_col_width: fn -> 40 end,
@@ -66,7 +66,7 @@ defmodule ExCoveralls.HtmlTest do
   end
 
   test_with_mock "Exit status code is 1 when actual coverage does not reach the minimum",
-      ExCoveralls.Settings, [
+      Chaps.Settings, [
         get_coverage_options: fn -> coverage_options(100) end,
         get_file_col_width: fn -> 40 end,
         get_print_summary: fn -> true end,
@@ -79,7 +79,7 @@ defmodule ExCoveralls.HtmlTest do
   end
 
   test_with_mock "Exit status code is 0 when actual coverage reaches the minimum",
-      ExCoveralls.Settings, [
+      Chaps.Settings, [
         get_coverage_options: fn -> coverage_options(49.9) end,
         get_file_col_width: fn -> 40 end,
         get_print_summary: fn -> true end,

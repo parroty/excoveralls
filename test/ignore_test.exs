@@ -1,6 +1,6 @@
-defmodule ExCoveralls.IgnoreTest do
+defmodule Chaps.IgnoreTest do
   use ExUnit.Case
-  alias ExCoveralls.Ignore
+  alias Chaps.Ignore
 
   @content     """
   defmodule Test do

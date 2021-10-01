@@ -1,4 +1,4 @@
-defmodule ExCoveralls.Json do
+defmodule Chaps.Json do
   @moduledoc """
   Generate JSON output for results.
   """
@@ -11,7 +11,7 @@ defmodule ExCoveralls.Json do
   def execute(stats, options \\ []) do
     generate_json(stats, Enum.into(options, %{})) |> write_file(options[:output_dir])
 
-    ExCoveralls.Local.print_summary(stats)
+    Chaps.Local.print_summary(stats)
   end
 
   def generate_json(stats, _options) do
@@ -25,7 +25,7 @@ defmodule ExCoveralls.Json do
       output_dir ->
         output_dir
       true ->
-        options = ExCoveralls.Settings.get_coverage_options
+        options = Chaps.Settings.get_coverage_options
         case Map.fetch(options, "output_dir") do
           {:ok, val} -> val
           _ -> "cover/"

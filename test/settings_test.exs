@@ -1,7 +1,7 @@
 defmodule Excoveralls.SettingsTest do
   use ExUnit.Case
   import Mock
-  alias ExCoveralls.Settings
+  alias Chaps.Settings
 
   @fixture_default Path.dirname(__ENV__.file) <> "/fixtures/default.json"
   @fixture_custom  Path.dirname(__ENV__.file) <> "/fixtures/custom.json"

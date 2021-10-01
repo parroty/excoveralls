@@ -1,4 +1,4 @@
-defmodule ExCoveralls.Ignore do
+defmodule Chaps.Ignore do
   @moduledoc """
   Handles comments to start/stop ignoring lines from coverage.
   """

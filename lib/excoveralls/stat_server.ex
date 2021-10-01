@@ -1,4 +1,4 @@
-defmodule ExCoveralls.StatServer do
+defmodule Chaps.StatServer do
   @moduledoc """
   Provide data-store for coverage stats.
   """

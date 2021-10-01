@@ -1,6 +1,6 @@
-defmodule ExCoveralls.StatServerTest do
+defmodule Chaps.StatServerTest do
   use ExUnit.Case, async: false
-  alias ExCoveralls.StatServer
+  alias Chaps.StatServer
 
   setup do
     StatServer.start

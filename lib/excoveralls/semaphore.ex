@@ -1,8 +1,8 @@
-defmodule ExCoveralls.Semaphore do
+defmodule Chaps.Semaphore do
   @moduledoc """
   Handles semaphore-ci integration with coveralls.
   """
-  alias ExCoveralls.Poster
+  alias Chaps.Poster
 
   def execute(stats, options) do
     json = generate_json(stats, Enum.into(options, %{}))

@@ -1,8 +1,8 @@
-defmodule ExCoveralls.LcovTest do
+defmodule Chaps.LcovTest do
   use ExUnit.Case
   import Mock
   import ExUnit.CaptureIO
-  alias ExCoveralls.Lcov
+  alias Chaps.Lcov
 
   @file_name "lcov.info"
   @file_size 67
@@ -38,7 +38,7 @@ defmodule ExCoveralls.LcovTest do
     {:ok, report: path}
   end
 
-  test_with_mock "generate lcov file", %{report: report}, ExCoveralls.Settings, [],
+  test_with_mock "generate lcov file", %{report: report}, Chaps.Settings, [],
       [
         get_coverage_options: fn -> %{"output_dir" => @test_output_dir} end,
         get_file_col_width: fn -> 40 end,

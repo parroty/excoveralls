@@ -1,4 +1,4 @@
-defmodule ExCoveralls.ConfServer do
+defmodule Chaps.ConfServer do
   @moduledoc """
   Provide data-store for configuration settings.
   """

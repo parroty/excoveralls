@@ -1,11 +1,11 @@
-defmodule ExCoveralls.Html.View do
+defmodule Chaps.Html.View do
   @moduledoc """
   Conveniences for generating HTML.
   """
   require EEx
-  require ExCoveralls.Html.Safe
+  require Chaps.Html.Safe
 
-  alias ExCoveralls.Html.Safe
+  alias Chaps.Html.Safe
 
   defmodule PathHelper do
     def template_path(template) do
@@ -13,7 +13,7 @@ defmodule ExCoveralls.Html.View do
     end
 
     defp get_template_path() do
-      options = ExCoveralls.Settings.get_coverage_options
+      options = Chaps.Settings.get_coverage_options
       case Map.fetch(options, "template_path") do
         {:ok, path} -> path
         _ -> Path.expand("excoveralls/lib/templates/html/htmlcov/", Mix.Project.deps_path())

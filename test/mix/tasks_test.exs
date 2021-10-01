@@ -8,13 +8,13 @@ defmodule Mix.Tasks.CoverallsTest do
 
   # backup and restore the original config
   setup_all do
-    ExCoveralls.ConfServer.start
-    ExCoveralls.StatServer.start
+    Chaps.ConfServer.start
+    Chaps.StatServer.start
 
-    value = ExCoveralls.ConfServer.get
+    value = Chaps.ConfServer.get
     on_exit(value, fn ->
-      ExCoveralls.ConfServer.set(value)
-      ExCoveralls.StatServer.stop
+      Chaps.ConfServer.set(value)
+      Chaps.StatServer.stop
       :ok
     end)
     :ok
@@ -22,14 +22,14 @@ defmodule Mix.Tasks.CoverallsTest do
 
   # clear the config each time
   setup do
-    ExCoveralls.ConfServer.clear
+    Chaps.ConfServer.clear
     :ok
   end
 
   test_with_mock "local", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.run([])
     assert(called Runner.run("test", ["--cover"]))
-    assert(ExCoveralls.ConfServer.get == [type: "local", args: []])
+    assert(Chaps.ConfServer.get == [type: "local", args: []])
   end
 
   test "local with help option" do
@@ -42,7 +42,7 @@ defmodule Mix.Tasks.CoverallsTest do
     capture_io(fn ->
       Mix.Tasks.Coveralls.run(["--umbrella"])
       assert(called Runner.run("test", ["--cover"]))
-      assert(ExCoveralls.ConfServer.get ==
+      assert(Chaps.ConfServer.get ==
         [type: "local", umbrella: true, sub_apps: [], apps_path: nil, args: []])
     end)
   end
@@ -70,67 +70,67 @@ defmodule Mix.Tasks.CoverallsTest do
   test_with_mock "detail", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Detail.run([])
     assert(called Runner.run("test", ["--cover"]))
-    assert(ExCoveralls.ConfServer.get == [type: "local", detail: true, args: []])
+    assert(Chaps.ConfServer.get == [type: "local", detail: true, args: []])
   end
 
   test_with_mock "detail and filter", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Detail.run(["--filter", "x"])
     assert(called Runner.run("test", ["--cover"]))
-    assert(ExCoveralls.ConfServer.get == [type: "local", detail: true, filter: "x", args: []])
+    assert(Chaps.ConfServer.get == [type: "local", detail: true, filter: "x", args: []])
   end
 
   test_with_mock "html", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Html.run([])
     assert(called Runner.run("test", ["--cover"]))
-    assert(ExCoveralls.ConfServer.get == [type: "html", args: []])
+    assert(Chaps.ConfServer.get == [type: "html", args: []])
   end
 
   test_with_mock "json", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Json.run([])
     assert(called Runner.run("test", ["--cover"]))
-    assert(ExCoveralls.ConfServer.get == [type: "json", args: []])
+    assert(Chaps.ConfServer.get == [type: "json", args: []])
   end
 
   test_with_mock "travis", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Travis.run([])
     assert(called Runner.run("test", ["--cover"]))
-    assert(ExCoveralls.ConfServer.get == [type: "travis", args: []])
+    assert(Chaps.ConfServer.get == [type: "travis", args: []])
   end
 
   test_with_mock "travis --pro", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Travis.run(["--pro"])
     assert(called Runner.run("test", ["--cover"]))
-    assert(ExCoveralls.ConfServer.get == [type: "travis", pro: true, args: []])
+    assert(Chaps.ConfServer.get == [type: "travis", pro: true, args: []])
   end
 
   test_with_mock "circle", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Circle.run([])
     assert(called Runner.run("test", ["--cover"]))
-    assert(ExCoveralls.ConfServer.get == [type: "circle", args: []])
+    assert(Chaps.ConfServer.get == [type: "circle", args: []])
   end
 
   test_with_mock "circle --parallel", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Circle.run(["--parallel"])
     assert(called Runner.run("test", ["--cover"]))
-    assert(ExCoveralls.ConfServer.get == [type: "circle", parallel: true, args: []])
+    assert(Chaps.ConfServer.get == [type: "circle", parallel: true, args: []])
   end
 
   test_with_mock "semaphore", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Semaphore.run([])
     assert(called Runner.run("test", ["--cover"]))
-    assert(ExCoveralls.ConfServer.get == [type: "semaphore", args: []])
+    assert(Chaps.ConfServer.get == [type: "semaphore", args: []])
   end
 
   test_with_mock "github", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Github.run([])
     assert(called Runner.run("test", ["--cover"]))
-    assert(ExCoveralls.ConfServer.get == [type: "github", args: []])
+    assert(Chaps.ConfServer.get == [type: "github", args: []])
   end
 
   test_with_mock "gitlab", Runner, run: fn _, _ -> nil end do
     Mix.Tasks.Coveralls.Gitlab.run([])
     assert(called(Runner.run("test", ["--cover"])))
-    assert(ExCoveralls.ConfServer.get() == [type: "gitlab", args: []])
+    assert(Chaps.ConfServer.get() == [type: "gitlab", args: []])
   end
 
   test_with_mock "post with env vars", Runner, [run: fn(_, _) -> nil end] do
@@ -143,7 +143,7 @@ defmodule Mix.Tasks.CoverallsTest do
     args = ["-b", "branch", "-c", "committer", "-m", "message", "-s", "asdf", "--rootdir", "umbrella0/", "--subdir", "", "--build", "1"]
     Mix.Tasks.Coveralls.Post.run(args)
     assert(called Runner.run("test", ["--cover"]))
-    assert(ExCoveralls.ConfServer.get ==
+    assert(Chaps.ConfServer.get ==
              [type: "post", endpoint: nil, token: "dummy_token",
               service_name: "dummy_service_name", service_number: "1", branch: "branch",
               committer: "committer", sha: "asdf", message: "message",
@@ -163,7 +163,7 @@ defmodule Mix.Tasks.CoverallsTest do
     args = ["-t", "token"]
     Mix.Tasks.Coveralls.Post.run(args)
     assert(called Runner.run("test", ["--cover"]))
-    assert(ExCoveralls.ConfServer.get ==
+    assert(Chaps.ConfServer.get ==
              [type: "post", endpoint: nil, token: "token",
               service_name: "excoveralls", service_number: "", branch: "",
               committer: "", sha: "", message: "[no commit message]",
@@ -185,7 +185,7 @@ defmodule Mix.Tasks.CoverallsTest do
         [run: fn(_, _) -> nil end]
       },
       {
-        ExCoveralls.Poster,
+        Chaps.Poster,
         [],
         [execute: fn(_, _) -> :ok end]
       }
@@ -196,13 +196,13 @@ defmodule Mix.Tasks.CoverallsTest do
       Mix.Tasks.Coveralls.Post.run(post_args)
 
       assert(called Runner.run("test", ["--cover" | non_standard_args]))
-      assert(ExCoveralls.ConfServer.get()[:umbrella])
+      assert(Chaps.ConfServer.get()[:umbrella])
     end
   end
 
   describe "options and arguments check for post" do
     test_with_mock "post with default switches",
-      ExCoveralls.Poster, [execute: fn(_, _) -> :ok end] do
+      Chaps.Poster, [execute: fn(_, _) -> :ok end] do
         non_standard_args = ["--non_standard"]
 
         post_args = [
@@ -218,7 +218,7 @@ defmodule Mix.Tasks.CoverallsTest do
         post_args_with_subdir = post_args ++ ["--subdir", "sub_dir/"] ++ non_standard_args
         Mix.Tasks.Coveralls.Post.run(post_args_with_subdir)
 
-        excoveralls_config = ExCoveralls.ConfServer.get()
+        excoveralls_config = Chaps.ConfServer.get()
 
         assert(excoveralls_config[:token] == "a_token")
         assert(excoveralls_config[:sha] == "asdf")
@@ -234,13 +234,13 @@ defmodule Mix.Tasks.CoverallsTest do
         post_args_with_rootdir = post_args ++ ["--rootdir", "root_dir/"] ++ non_standard_args
         Mix.Tasks.Coveralls.Post.run(post_args_with_rootdir)
 
-        excoveralls_config = ExCoveralls.ConfServer.get()
+        excoveralls_config = Chaps.ConfServer.get()
 
         assert(excoveralls_config[:rootdir] == "root_dir/")
     end
 
     test_with_mock "subdir and rootdir options are exclusive",
-      ExCoveralls.Poster, [execute: fn(_, _) -> :ok end] do
+      Chaps.Poster, [execute: fn(_, _) -> :ok end] do
 
         post_args = [
           "--token", "a_token",
@@ -248,7 +248,7 @@ defmodule Mix.Tasks.CoverallsTest do
           "--rootdir", "rootdir"
         ]
 
-        assert_raise ExCoveralls.InvalidOptionError, fn ->
+        assert_raise Chaps.InvalidOptionError, fn ->
           Mix.Tasks.Coveralls.Post.run(post_args)
         end
     end
@@ -303,7 +303,7 @@ defmodule Mix.Tasks.CoverallsTest do
     org_name = System.get_env("COVERALLS_REPO_TOKEN")
     System.delete_env("COVERALLS_REPO_TOKEN")
 
-    assert_raise ExCoveralls.InvalidOptionError, fn ->
+    assert_raise Chaps.InvalidOptionError, fn ->
       Mix.Tasks.Coveralls.Post.extract_token([])
     end
 
