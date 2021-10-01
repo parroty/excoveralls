@@ -33,6 +33,9 @@ all source code originates from the original repository. The following
 changes have been made to this repository but not the original and should
 be considered copyright (c) 2021-present, the-mikedavis:
 
-- TODO
+- Flooring of coverage percentage
+    - [commit](097443d298f56240e46ac9615a5988de4533a6e1)
+    - authored by [`@tonyvanriet`](https://github.com/tonyvanriet)
+    - see [#257](https://github.com/parroty/excoveralls/pull/257)
 
 All remaining source code is copyright (c) 2013-present, parroty.
