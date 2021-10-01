@@ -27,10 +27,11 @@ to an external service like coveralls.
 
 ## License/Notice
 
-This repository is a fork of `parroty/excoveralls`. Almost all source code
-originates from the original repository. The following changes have been
-made to this repository but not the original and should be considered
-copyright (c) 2021-present, the-mikedavis:
+This repository is a fork of
+[`parroty/excoveralls`](https://github.com/parroty/excoveralls). Almost
+all source code originates from the original repository. The following
+changes have been made to this repository but not the original and should
+be considered copyright (c) 2021-present, the-mikedavis:
 
 - TODO
 
