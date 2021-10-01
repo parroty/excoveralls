@@ -19,14 +19,13 @@ defmodule Chaps.Mixfile do
           "coveralls",
           "coveralls.detail",
           "coveralls.html",
-          "coveralls.json",
-          "coveralls.post"
+          "coveralls.json"
         ])
     ]
   end
 
   defp cli_env_for(env, tasks) do
-    Enum.reduce(tasks, [], fn key, acc -> Keyword.put(acc, :"#{key}", env) end)
+    Enum.reduce(tasks, [], &Keyword.put(&2, String.to_atom(&1), env))
   end
 
   def application do
@@ -39,7 +38,6 @@ defmodule Chaps.Mixfile do
   def deps do
     [
       {:jason, "~> 1.0"},
-      {:hackney, "~> 1.16"},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:meck, "~> 0.8", only: :test},
       {:mock, "~> 0.3.6", only: :test}

@@ -3,35 +3,16 @@ defmodule Chaps do
   Provides the entry point for coverage calculation and output.
   This module method is called by Mix.Tasks.Test
   """
-  alias Chaps.Stats
-  alias Chaps.Cover
-  alias Chaps.ConfServer
-  alias Chaps.StatServer
-  alias Chaps.Travis
-  alias Chaps.Github
-  alias Chaps.Gitlab
-  alias Chaps.Circle
-  alias Chaps.Semaphore
-  alias Chaps.Drone
-  alias Chaps.Local
-  alias Chaps.Html
-  alias Chaps.Json
-  alias Chaps.Post
-  alias Chaps.Xml
-  alias Chaps.Lcov
 
-  @type_travis "travis"
-  @type_github "github"
-  @type_gitlab "gitlab"
-  @type_circle "circle"
-  @type_semaphore "semaphore"
-  @type_drone "drone"
-  @type_local "local"
-  @type_html "html"
-  @type_json "json"
-  @type_post "post"
-  @type_xml "xml"
-  @type_lcov "lcov"
+  alias Chaps.{Cover, ConfServer, StatsServer, Stats}
+
+  @type_to_output_module %{
+    "local" => Chaps.Local,
+    "html" => Chaps.Html,
+    "json" => Chaps.Json,
+    "xml" => Chaps.Xml,
+    "lcov" => Chaps.Lcov
+  }
 
   @doc """
   This method will be called from mix to trigger coverage analysis.
@@ -65,57 +46,8 @@ defmodule Chaps do
   @doc """
   Logic for posting
   """
-  def analyze(stats, type, options)
-
-  def analyze(stats, @type_travis, options) do
-    Travis.execute(stats, options)
-  end
-
-  def analyze(stats, @type_github, options) do
-    Github.execute(stats, options)
-  end
-
-  def analyze(stats, @type_gitlab, options) do
-    Gitlab.execute(stats, options)
-  end
-
-  def analyze(stats, @type_circle, options) do
-    Circle.execute(stats, options)
-  end
-
-  def analyze(stats, @type_semaphore, options) do
-    Semaphore.execute(stats, options)
-  end
-
-  def analyze(stats, @type_drone, options) do
-    Drone.execute(stats, options)
-  end
-
-  def analyze(stats, @type_local, options) do
-    Local.execute(stats, options)
-  end
-
-  def analyze(stats, @type_html, options) do
-    Html.execute(stats, options)
-  end
-
-  def analyze(stats, @type_json, options) do
-    Json.execute(stats, options)
-  end
-
-  def analyze(stats, @type_lcov, options) do
-    Lcov.execute(stats, options)
-  end
-
-  def analyze(stats, @type_xml, options) do
-    Xml.execute(stats, options)
-  end
-
-  def analyze(stats, @type_post, options) do
-    Post.execute(stats, options)
-  end
-
-  def analyze(_stats, type, _options) do
-    raise "Undefined type (#{type}) is specified for Chaps"
+  def analyze(stats, type, options) do
+    module = Map.get(@type_to_output_module, type) || raise "Undefined type (#{type}) is specified for Chaps"
+    module.execute(stats, options)
   end
 end
