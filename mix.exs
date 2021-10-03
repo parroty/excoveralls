@@ -6,7 +6,7 @@ defmodule ExCoveralls.Mixfile do
   def project do
     [
       app: :excoveralls,
-      version: "0.14.2",
+      version: "0.14.3",
       elixir: "~> 1.3",
       elixirc_paths: elixirc_paths(Mix.env()),
       deps: deps(),

@@ -1,3 +1,8 @@
+0.14.3
+------
+#### Enhancements
+- Add :base_path config option to specify application root path (#269).
+
 0.14.2
 ------
 #### Enhancements
