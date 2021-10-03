@@ -31,6 +31,7 @@ Add the following parameters.
     - It's an optional setting for skipping `MIX_ENV=test` part when executing `mix coveralls` tasks.
 - `test_coverage: [test_task: "espec"]` if you use Espec instead of default ExUnit.
 - `:excoveralls` in the deps function.
+- `Applicaton.put_env(:excoveralls, :base_path, "/bash/path")` an optional config if you want to set the application root path explicitly. By default this is the directory that the mix.exs file is in.
 
 ```elixir
 def project do
