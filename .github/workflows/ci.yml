@@ -1,0 +1,163 @@
+name: Actions CI
+
+on: push
+
+jobs:
+  bless:
+    name: Bless
+    runs-on: ubuntu-latest
+    env:
+      MIX_ENV: test
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Determine the elixir version
+      run: echo "ELIXIR_VERSION=$(grep -h elixir .tool-versions | awk '{ print $2 }' | awk -F - '{print $1}')" >> $GITHUB_ENV
+
+    - name: Determine the otp version
+      run: echo "OTP_VERSION=$(grep -h erlang .tool-versions | awk '{ print $2 }')" >> $GITHUB_ENV
+
+    - name: Setup Elixir and Erlang versions
+      uses: erlef/setup-beam@v1
+      with:
+        elixir-version: ${{ env.ELIXIR_VERSION }}
+        otp-version: ${{ env.OTP_VERSION }}
+
+    - name: Restore the deps cache
+      uses: actions/cache@v1
+      id: deps-cache
+      with:
+        path: deps
+        key: ${{ runner.os }}-${{ env.ELIXIR_VERSION }}-${{ env.OTP_VERSION }}-${{ env.MIX_ENV }}-deps-mixlockhash-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+        restore-keys: |
+          ${{ runner.os }}-${{ env.ELIXIR_VERSION }}-${{ env.OTP_VERSION }}-${{ env.MIX_ENV }}-deps-
+
+    - name: Restore the _build cache
+      uses: actions/cache@v1
+      id: build-cache
+      with:
+        path: _build
+        key: ${{ runner.os }}-${{ env.ELIXIR_VERSION }}-${{ env.OTP_VERSION }}-${{ env.MIX_ENV }}-build-mixlockhash-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+        restore-keys: |
+          ${{ runner.os }}-${{ env.ELIXIR_VERSION }}-${{ env.OTP_VERSION }}-${{ env.MIX_ENV }}-build-
+
+    - name: Fetch mix dependencies
+      if: steps.deps-cache.outputs.cache-hit != 'true'
+      run: |
+        mix local.rebar --force
+        mix local.hex --force
+        mix deps.get
+
+    - name: Compile dependencies
+      if: steps.deps-cache.outputs.cache-hit != 'true'
+      run: mix deps.compile
+
+    - name: Compile
+      run: mix compile --warnings-as-errors --force
+
+    - name: Coveralls
+      run: mix coveralls
+
+    - name: Check formatting
+      run: mix format --check-formatted
+
+    - name: Credo
+      run: mix credo
+
+  publish-hex-package:
+    name: Publish Hex Package ⬆️☁️
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    env:
+      MIX_ENV: dev
+    needs:
+    - bless
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Determine the elixir version
+      run: echo "ELIXIR_VERSION=$(grep -h elixir .tool-versions | awk '{ print $2 }' | awk -F - '{print $1}')" >> $GITHUB_ENV
+
+    - name: Determine the otp version
+      run: echo "OTP_VERSION=$(grep -h erlang .tool-versions | awk '{ print $2 }')" >> $GITHUB_ENV
+
+    - name: Setup Elixir and Erlang versions
+      uses: erlef/setup-beam@v1
+      with:
+        elixir-version: ${{ env.ELIXIR_VERSION }}
+        otp-version: ${{ env.OTP_VERSION }}
+
+    - name: Restore the deps cache
+      uses: actions/cache@v1
+      id: deps-cache
+      with:
+        path: deps
+        key: ${{ runner.os }}-${{ env.ELIXIR_VERSION }}-${{ env.OTP_VERSION }}-${{ env.MIX_ENV }}-deps-mixlockhash-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+        restore-keys: |
+          ${{ runner.os }}-${{ env.ELIXIR_VERSION }}-${{ env.OTP_VERSION }}-${{ env.MIX_ENV }}-deps-
+
+    - name: Restore the _build cache
+      uses: actions/cache@v1
+      id: build-cache
+      with:
+        path: _build
+        key: ${{ runner.os }}-${{ env.ELIXIR_VERSION }}-${{ env.OTP_VERSION }}-${{ env.MIX_ENV }}-build-mixlockhash-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+        restore-keys: |
+          ${{ runner.os }}-${{ env.ELIXIR_VERSION }}-${{ env.OTP_VERSION }}-${{ env.MIX_ENV }}-build-
+
+    - name: Fetch mix dependencies
+      if: steps.deps-cache.outputs.cache-hit != 'true'
+      run: |
+        mix local.rebar --force
+        mix local.hex --force
+        mix deps.get
+
+    - name: Compile dependencies
+      if: steps.deps-cache.outputs.cache-hit != 'true'
+      run: mix deps.compile
+
+    - name: Generate documentation
+      run: mix docs
+
+    - name: Determine the tag version
+      env:
+        GITHUB_REF: ${{ github.ref }}
+      run: echo "TAG=$(echo "$GITHUB_REF" | awk -F / '{print $3}')" >> $GITHUB_ENV
+
+    - name: Write the tag version to .version
+      run: echo $TAG > .version
+
+    - name: Determine the repository name
+      run: echo "REPOSITORY=$(echo $GITHUB_REPOSITORY | awk -F / '{print $2}')" >> $GITHUB_ENV
+
+    - name: Create a GitHub Release
+      id: create_release
+      uses: NFIBrokerage/create-release@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ env.TAG }}
+        release_name: Release ${{ env.TAG }}
+        draft: false
+        prerelease: false
+
+    - name: Publish library
+      run: mix hex.publish --yes
+      env:
+        HEX_API_KEY: ${{ secrets.HEX_PUBLISH_KEY }}
+
+    - name: Notify ops channel of build success
+      run: >
+        curl
+        -X POST
+        -H 'Content-type:application/json'
+        -d "{\"text\":\":hexpm: package published for $REPOSITORY $(git tag -ln $TAG)\"}"
+        $SLACK_WEBHOOK
+      env:
+        SLACK_WEBHOOK: ${{ secrets.OPS_CHANNEL_SLACK_WEBHOOK }}
+
+# Generated by Elixir.Gaas.Generators.Simple.Actions.LibraryCi
