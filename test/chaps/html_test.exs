@@ -5,7 +5,7 @@ defmodule Chaps.HtmlTest do
   alias Chaps.Html
 
   @file_name "chaps.html"
-  @file_size 20375
+  @file_size 20521
   @test_output_dir "cover_test/"
   @test_template_path "lib/templates/html/htmlcov/"
 

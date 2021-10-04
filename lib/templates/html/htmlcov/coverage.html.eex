@@ -1,3 +1,4 @@
+<% files = Enum.reject(@cov.files, fn file -> @filter_fully_covered and file.coverage == 100 end) %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -11,7 +12,7 @@
       <h1 id='overview'>Coverage</h1>
       <div id="menu">
         <li><a href='#overview'>overview</a></li>
-        <%= for file <- @cov.files do %>
+        <%= for file <- files do %>
           <%= unless @filter_fully_covered and file.coverage == 100 do %>
             <li>
               <span class='cov <%= Chaps.Html.View.coverage_class(file.coverage, file.sloc) %>'><%= file.coverage || 0 %></span>
@@ -33,8 +34,11 @@
         <div class='hits'><%= @cov.hits %></div>
         <div class='misses'><%= @cov.misses %></div>
       </div>
+      <%= if @filter_fully_covered do %>
+        <p class="">The <span class="mono">:html_filter_fully_covered</span> coverage option is turned on. Modules with full coverage are being hidden.</p>
+      <% end %>
       <div id='files'>
-        <%= for file <- @cov.files do %>
+        <%= for file <- files do %>
           <%= unless @filter_fully_covered and file.coverage == 100 do %>
             <div class='file'>
               <h2 id='<%= file.filename %>'><%= file.filename %></h2>

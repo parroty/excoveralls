@@ -8,6 +8,11 @@ Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to
 
 ## 0.15.2 - 2021-10-04
 
+### Added
+
+- Added message to HTML report when the `:html_filter_fully_covered` option
+  is enabled
+
 ### Fixed
 
 - Fixed HTML filtering functionality
