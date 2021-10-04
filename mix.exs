@@ -72,7 +72,7 @@ defmodule Chaps.Mixfile do
     [
       maintainers: ["mike-davis"],
       licenses: ["MIT"],
-      files: ~w(lib .formatter.exs mix.exs README.md .version),
+      files: ~w(lib .formatter.exs mix.exs README.md .version LICENSE),
       links: %{
         "Changelog" => @source_url <> "/blob/main/CHANGELOG.md",
         "GitHub" => @source_url
