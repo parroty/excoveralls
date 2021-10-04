@@ -30,7 +30,7 @@ to an external service like coveralls.
 1. Set the `test_coverage` tool in the `project/0` function
 1. Set the `preferred_cli_env` to test for any tasks you intend to use
 
-```
+```elixir
 # mix.exs
 def project do
   [
