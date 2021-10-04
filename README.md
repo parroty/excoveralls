@@ -82,7 +82,10 @@ For the full schema, see the documentation of the `Chaps.Settings` module.
 
 - Coverage is truncated to the nearest tenth instead of rounded
 - Tasks and dependencies for uploading coverage reports have been removed
+    - the `:hackney` dependency has been removed
 - Configuration is done in `config/test.exs` instead of a JSON file
+    - the `:jason` dependency is optional and is only used if running
+      `mix chaps.json`
 
 ## License/Notice
 
@@ -96,5 +99,7 @@ be considered copyright (c) 2021-present, the-mikedavis:
     - [commit](097443d298f56240e46ac9615a5988de4533a6e1)
     - authored by [`@tonyvanriet`](https://github.com/tonyvanriet)
     - see [#257](https://github.com/parroty/excoveralls/pull/257)
+- Replacement of JSON file configuration with application configuration
+    - [commit](df24f58f2d0896b0e4097d8b29f66e24188805d4)
 
 All remaining source code is copyright (c) 2013-present, parroty.
