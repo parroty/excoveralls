@@ -1,6 +1,6 @@
 # Chaps
 
-[![CI](https://github.com/NFIBrokerage/ethyl/workflows/CI/badge.svg)](https://github.com/the-mikedavis/chaps/actions)
+[![CI](https://github.com/the-mikedavis/chaps/workflows/CI/badge.svg)](https://github.com/the-mikedavis/chaps/actions)
 [![hex.pm version](https://img.shields.io/hexpm/v/chaps.svg)](https://hex.pm/packages/chaps)
 [![hex.pm license](https://img.shields.io/hexpm/l/chaps.svg)](https://github.com/the-mikedavis/chaps/blob/main/LICENSE)
 [![Last Updated](https://img.shields.io/github/last-commit/the-mikedavis/chaps.svg)](https://github.com/the-mikedavis/chaps/commits/main)
