@@ -63,9 +63,6 @@ jobs:
     - name: Check formatting
       run: mix format --check-formatted
 
-    - name: Credo
-      run: mix credo
-
   publish-hex-package:
     name: Publish Hex Package ⬆️☁️
     runs-on: ubuntu-latest
