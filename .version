@@ -1,0 +1,6 @@
+v0.0.0
+
+# this file will be clobbered by github actions.
+# to version bump, only create new tag in git, with v + semver.
+#
+# example tag would be: v0.1.5

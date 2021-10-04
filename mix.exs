@@ -2,11 +2,19 @@ defmodule Chaps.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/the-mikedavis/chaps"
+  @version_file Path.join(__DIR__, ".version")
+  @external_resource @version_file
+  @version (case Regex.run(~r/^v([\d\.\w-]+)/, File.read!(@version_file),
+                   capture: :all_but_first
+                 ) do
+              [version] -> version
+              nil -> "0.0.0"
+            end)
 
   def project do
     [
       app: :chaps,
-      version: "0.0.1",
+      version: @version,
       elixir: "~> 1.3",
       elixirc_paths: elixirc_paths(Mix.env()),
       deps: deps(),
@@ -64,6 +72,7 @@ defmodule Chaps.Mixfile do
     [
       maintainers: ["@the-mikedavis"],
       licenses: ["MIT"],
+      files: ~w(lib .formatter.exs mix.exs README.md .version),
       links: %{
         "Changelog" => @source_url <> "/blob/main/CHANGELOG.md",
         "GitHub" => @source_url
