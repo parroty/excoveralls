@@ -80,7 +80,7 @@ For the full schema, see the documentation of the `Chaps.Settings` module.
 
 ## Differences from `parroty/excoveralls`
 
-- Coverage is truncated to the nearest tenth instead of rounded
+- Coverage is truncated to the tenths place instead of rounded
 - Tasks and dependencies for uploading coverage reports have been removed
     - the `:hackney` dependency has been removed
 - Configuration is done in `config/test.exs` instead of a JSON file
