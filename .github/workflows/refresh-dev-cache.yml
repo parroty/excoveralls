@@ -74,7 +74,6 @@ jobs:
       run: |
         mix local.rebar --force
         mix local.hex --force
-        mix hex.organization auth cuatro --key $CUATRO_HEX_KEY
         mix deps.get
 
     - name: Compile dependencies
