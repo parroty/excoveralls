@@ -1,7 +1,7 @@
 defmodule Chaps.Mixfile do
   use Mix.Project
 
-  @source_url "https://github.com/the-mikedavis/chaps"
+  @source_url "https://github.com/NFIBrokerage/chaps"
   @version_file Path.join(__DIR__, ".version")
   @external_resource @version_file
   @version (case Regex.run(~r/^v([\d\.\w-]+)/, File.read!(@version_file),
@@ -70,7 +70,7 @@ defmodule Chaps.Mixfile do
 
   defp package do
     [
-      maintainers: ["@the-mikedavis"],
+      maintainers: ["mike-davis"],
       licenses: ["MIT"],
       files: ~w(lib .formatter.exs mix.exs README.md .version),
       links: %{

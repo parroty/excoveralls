@@ -2,7 +2,7 @@ This repository is a fork
 [`parroty/excoveralls`](https://github.com/parroty/excoveralls). Almost
 all source code originates from the original repository. The following
 changes have been made to this repository but not the original and should
-be considered copyright (c) 2021-present, the-mikedavis:
+be considered copyright (c) 2021-present, NFIBrokerage:
 
 - Flooring of coverage percentage
 - Replacement of JSON file configuration with application configuration

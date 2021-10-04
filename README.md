@@ -1,9 +1,9 @@
 # Chaps
 
-[![CI](https://github.com/the-mikedavis/chaps/workflows/CI/badge.svg)](https://github.com/the-mikedavis/chaps/actions)
+[![CI](https://github.com/NFIBrokerage/chaps/workflows/CI/badge.svg)](https://github.com/NFIBrokerage/chaps/actions)
 [![hex.pm version](https://img.shields.io/hexpm/v/chaps.svg)](https://hex.pm/packages/chaps)
-[![hex.pm license](https://img.shields.io/hexpm/l/chaps.svg)](https://github.com/the-mikedavis/chaps/blob/main/LICENSE)
-[![Last Updated](https://img.shields.io/github/last-commit/the-mikedavis/chaps.svg)](https://github.com/the-mikedavis/chaps/commits/main)
+[![hex.pm license](https://img.shields.io/hexpm/l/chaps.svg)](https://github.com/NFIBrokerage/chaps/blob/main/LICENSE)
+[![Last Updated](https://img.shields.io/github/last-commit/NFIBrokerage/chaps.svg)](https://github.com/NFIBrokerage/chaps/commits/main)
 
 A fork of [ExCoveralls](https://github.com/parroty/excoveralls) focusing on the 100% coverage use-case.
 
