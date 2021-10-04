@@ -57,8 +57,8 @@ jobs:
     - name: Compile
       run: mix compile --warnings-as-errors --force
 
-    - name: Coveralls
-      run: mix coveralls
+    - name: Chaps
+      run: mix chaps
 
     - name: Check formatting
       run: mix format --check-formatted
