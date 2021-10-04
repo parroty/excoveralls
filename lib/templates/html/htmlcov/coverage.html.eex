@@ -12,7 +12,7 @@
       <div id="menu">
         <li><a href='#overview'>overview</a></li>
         <%= for file <- @cov.files do %>
-          <%= unless @filter_fully_covered and file.coverage < 100.0 do %>
+          <%= unless @filter_fully_covered and file.coverage == 100 do %>
             <li>
               <span class='cov <%= Chaps.Html.View.coverage_class(file.coverage, file.sloc) %>'><%= file.coverage || 0 %></span>
               <a href='#<%= file.filename %>'>
@@ -35,7 +35,7 @@
       </div>
       <div id='files'>
         <%= for file <- @cov.files do %>
-          <%= unless @filter_fully_covered and file.coverage < 100.0 do %>
+          <%= unless @filter_fully_covered and file.coverage == 100 do %>
             <div class='file'>
               <h2 id='<%= file.filename %>'><%= file.filename %></h2>
               <div id='stats' class='<%= Chaps.Html.View.coverage_class(file.coverage, file.sloc) %>'>
