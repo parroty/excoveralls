@@ -10,7 +10,7 @@ A fork of [ExCoveralls](https://github.com/parroty/excoveralls) focusing on the 
 ## The 100% Coverage Use-Case
 
 Shooting for 100% coverage is usually criticized as unnecessary and
-unproductive, and I tend to agree with that sentiment. But as far as measuring
+unproductive, and we tend to agree with that sentiment. But as far as measuring
 code coverage in percentage points goes, 100% is the only reasonable target:
 any other percent-based target flaps around when SLOCs are added or removed.
 
@@ -78,9 +78,26 @@ config :chaps,
 
 For the full schema, see the documentation of the `Chaps.Settings` module.
 
+## Using ignores
+
+Ignores in chaps are just about the same as they are in ExCoveralls:
+
+```elixir
+# this piece of code is so hard to get meaningful coverage on that it's
+# not worth our time, let's skip it
+
+# chaps-ignore-start
+def really_hard_to_get_coverage(args) do
+  # ..
+end
+# chaps-ignore-stop
+```
+
 ## Differences from `parroty/excoveralls`
 
 - Coverage is truncated to the tenths place instead of rounded
+    - this enforces that for even very large projects, 100% coverage means
+      **all** SLOCs are covered, not just approximately all SLOCs
 - Tasks and dependencies for uploading coverage reports have been removed
     - the `:hackney` dependency has been removed
 - Configuration is done in `config/test.exs` instead of a JSON file
