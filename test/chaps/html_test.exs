@@ -5,7 +5,7 @@ defmodule Chaps.HtmlTest do
   alias Chaps.Html
 
   @file_name "chaps.html"
-  @file_size 20191
+  @file_size 20375
   @test_output_dir "cover_test/"
   @test_template_path "lib/templates/html/htmlcov/"
 
@@ -105,7 +105,8 @@ defmodule Chaps.HtmlTest do
     [
       minimum_coverage: minimum_coverage,
       output_dir: @test_output_dir,
-      template_path: @test_template_path
+      template_path: @test_template_path,
+      html_filter_fully_covered: false
     ]
   end
 end

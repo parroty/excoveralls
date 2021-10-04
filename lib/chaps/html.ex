@@ -22,7 +22,12 @@ defmodule Chaps.Html do
 
   defp generate_report(map, output_dir) do
     IO.puts("Generating report...")
-    View.render(cov: map) |> write_file(output_dir)
+
+    filter_fully_covered? =
+      Chaps.Settings.get_coverage_options()[:html_filter_fully_covered]
+
+    View.render(cov: map, filter_fully_covered: filter_fully_covered?)
+    |> write_file(output_dir)
   end
 
   defp output_dir(output_dir) do

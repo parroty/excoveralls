@@ -71,6 +71,13 @@ defmodule Chaps.Settings do
       """,
       type: :float,
       default: 100.0
+    ],
+    html_filter_fully_covered: [
+      doc: """
+      Wether or not to filter fully covered modules from the HTML source.
+      """,
+      type: :boolean,
+      default: false
     ]
   ]
 
