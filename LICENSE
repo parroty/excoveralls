@@ -1,4 +1,14 @@
-Copyright (c) 2013-present, parroty
+This repository is a fork
+[`parroty/excoveralls`](https://github.com/parroty/excoveralls). Almost
+all source code originates from the original repository. The following
+changes have been made to this repository but not the original and should
+be considered copyright (c) 2021-present, the-mikedavis:
+
+- Flooring of coverage percentage
+- Replacement of JSON file configuration with application configuration
+- Added option to filter out fully covered files from the HTML report
+
+All remaining source code is copyright (c) 2013-present, parroty.
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

@@ -91,18 +91,5 @@ For the full schema, see the documentation of the `Chaps.Settings` module.
 
 This repository is a fork of
 [`parroty/excoveralls`](https://github.com/parroty/excoveralls). Almost
-all source code originates from the original repository. The following
-changes have been made to this repository but not the original and should
-be considered copyright (c) 2021-present, the-mikedavis:
-
-- Flooring of coverage percentage
-    - [commit](097443d298f56240e46ac9615a5988de4533a6e1)
-    - authored by [`@tonyvanriet`](https://github.com/tonyvanriet)
-    - see [#257](https://github.com/parroty/excoveralls/pull/257)
-- Replacement of JSON file configuration with application configuration
-    - [commit](df24f58f2d0896b0e4097d8b29f66e24188805d4)
-- Added option to filter out fully covered files from the HTML report
-    - [commit](6ffa3daad5a79f06ff3e563fe66dc53f43571d6a)
-    - see [#268](https://github.com/parroty/excoveralls/pull/268)
-
-All remaining source code is copyright (c) 2013-present, parroty.
+all source code originates from the original repository. See the `LICENSE`
+file for attribution information.
