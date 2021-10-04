@@ -26,18 +26,7 @@ defmodule Chaps.Html do
   end
 
   defp output_dir(output_dir) do
-    cond do
-      output_dir ->
-        output_dir
-
-      true ->
-        options = Chaps.Settings.get_coverage_options()
-
-        case Map.fetch(options, "output_dir") do
-          {:ok, val} -> val
-          _ -> "cover/"
-        end
-    end
+    output_dir || Chaps.Settings.get_coverage_options()[:output_dir]
   end
 
   defp write_file(content, output_dir) do

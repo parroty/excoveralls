@@ -72,12 +72,13 @@ defmodule Chaps.LocalTest do
   test "Empty (no relevant lines) file is calculated as 0.0%" do
     assert String.contains?(
              Local.coverage(@empty_source_info),
-             "[TOTAL] 100.0%"
+             "[TOTAL]   0.0%"
            )
   end
 
   test_with_mock "Empty (no relevant lines) file with treat_no_relevant_lines_as_covered=true option is calculated as 100.0%",
                  Chaps.Settings,
+                 default_coverage_value: fn -> 100.0 end,
                  get_coverage_options: fn ->
                    %{"treat_no_relevant_lines_as_covered" => true}
                  end,
@@ -91,9 +92,8 @@ defmodule Chaps.LocalTest do
 
   test_with_mock "Empty (no relevant lines) file with treat_no_relevant_lines_as_covered=false option is calculated as 0.0%",
                  Chaps.Settings,
-                 get_coverage_options: fn ->
-                   %{"treat_no_relevant_lines_as_covered" => false}
-                 end,
+                 default_coverage_value: fn -> 0.0 end,
+                 get_coverage_options: fn -> [] end,
                  get_file_col_width: fn -> 40 end,
                  get_print_files: fn -> true end do
     assert String.contains?(
@@ -104,7 +104,7 @@ defmodule Chaps.LocalTest do
 
   test_with_mock "Exit status code is 1 when actual coverage does not reach the minimum",
                  Chaps.Settings,
-                 get_coverage_options: fn -> %{"minimum_coverage" => 100} end,
+                 get_coverage_options: fn -> [minimum_coverage: 100] end,
                  get_file_col_width: fn -> 40 end,
                  get_print_summary: fn -> true end,
                  get_print_files: fn -> true end do
@@ -121,7 +121,7 @@ defmodule Chaps.LocalTest do
 
   test_with_mock "Exit status code is 0 when actual coverage reaches the minimum",
                  Chaps.Settings,
-                 get_coverage_options: fn -> %{"minimum_coverage" => 49.9} end,
+                 get_coverage_options: fn -> [minimum_coverage: 49.9] end,
                  get_file_col_width: fn -> 40 end,
                  get_print_summary: fn -> true end,
                  get_print_files: fn -> true end do
@@ -132,7 +132,7 @@ defmodule Chaps.LocalTest do
 
   test_with_mock "No output if print_summary is false",
                  Chaps.Settings,
-                 get_coverage_options: fn -> %{"minimum_coverage" => 49.9} end,
+                 get_coverage_options: fn -> [minimum_coverage: 49.9] end,
                  get_file_col_width: fn -> 40 end,
                  get_print_summary: fn -> true end,
                  get_print_files: fn -> true end do
@@ -143,7 +143,7 @@ defmodule Chaps.LocalTest do
 
   test_with_mock "Do not output table if print_files is false",
                  Chaps.Settings,
-                 get_coverage_options: fn -> %{"minimum_coverage" => 49.9} end,
+                 get_coverage_options: fn -> [minimum_coverage: 49.9] end,
                  get_file_col_width: fn -> 40 end,
                  get_print_summary: fn -> true end,
                  get_print_files: fn -> false end do

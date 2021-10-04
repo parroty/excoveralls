@@ -228,7 +228,7 @@ defmodule Chaps.Stats do
   """
   def ensure_minimum_coverage(stats) do
     coverage_options = Chaps.Settings.get_coverage_options()
-    minimum_coverage = coverage_options["minimum_coverage"] || 0
+    minimum_coverage = coverage_options[:minimum_coverage]
 
     if minimum_coverage > 0,
       do: check_coverage_threshold(stats, minimum_coverage)

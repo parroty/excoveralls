@@ -1,11 +1,10 @@
 defmodule Mix.Tasks.Chaps do
   @moduledoc """
-  Provides an entry point for displaying
-  coveralls.io from local server.
+  A Mix task for gathering and displaying the current project's code coverage.
   """
   use Mix.Task
 
-  @shortdoc "Display the test coverage"
+  @shortdoc "Gather and display the test coverage"
   @preferred_cli_env :test
 
   defmodule Runner do

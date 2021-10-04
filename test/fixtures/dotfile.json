@@ -1,9 +1,0 @@
-{
-  "coverage_options": {
-    "template_path": "/users/test/.chaps/templates/html/htmlcov"
-  },
-  "custom_stop_words": [
-    "cc",
-    "dd"
-  ]
-}

@@ -183,17 +183,8 @@ defmodule Chaps.Local do
 
   defp get_coverage(count) do
     case count.relevant do
-      0 -> default_coverage_value()
+      0 -> Chaps.Settings.default_coverage_value()
       _ -> count.covered / count.relevant * 100
-    end
-  end
-
-  defp default_coverage_value do
-    options = Chaps.Settings.get_coverage_options()
-
-    case Map.fetch(options, "treat_no_relevant_lines_as_covered") do
-      {:ok, false} -> 0.0
-      _ -> 100.0
     end
   end
 

@@ -1,150 +1,214 @@
 defmodule Chaps.Settings do
+  strip_docs = fn subsection ->
+    update_in(
+      subsection,
+      [
+        Access.all(),
+        Access.elem(1),
+        Access.filter(fn {k, _v} -> k == :doc end)
+      ],
+      fn {:doc, _doc} -> {:doc, false} end
+    )
+  end
+
+  @terminal_options [
+    print_files: [
+      doc: """
+      Whether or not to print a table of files with the coverage of each
+      file. If set to `false`, the table will not be printed but the overall
+      coverage will be printed.
+      """,
+      type: :boolean,
+      default: true
+    ],
+    file_column_width: [
+      doc: """
+      The width of the column to fit in file names in the terminal output
+      table. Set this option to something larger like `80` or `100` if your
+      project has files with long path names.
+      """,
+      type: :integer,
+      default: 40
+    ]
+  ]
+
+  @coverage_options [
+    treat_no_relevant_lines_as_covered: [
+      doc: """
+      Wether or not to treat files which have no significant lines of code
+      as covered (`true`) at 100% or or not covered (`false`) at 0%.
+      """,
+      type: :boolean,
+      default: false
+    ],
+    output_dir: [
+      doc: """
+      The output directory to place the HTML report, if generating an HTML
+      report with `mix chaps.html`.
+      """,
+      type: :string,
+      default: "cover"
+    ],
+    template_path: [
+      doc: """
+      A path to source a custom template for rendering HTML reports.
+      Defaults to the internal EEx template within the Chaps library.
+      """,
+      type: :string
+    ],
+    xml_base_dir: [
+      doc: """
+      Where to output the XML report if generating an XML report.
+      """,
+      type: :string,
+      default: ""
+    ],
+    minimum_coverage: [
+      doc: """
+      A percentage target for coverage. If the overall coverage falls below
+      this target, the `mix chaps` tasks will exit with status code 1.
+      Coverage is floored to the tenths place.
+      """,
+      type: :float,
+      default: 100.0
+    ]
+  ]
+
+  @schema NimbleOptions.new!(
+            default_stop_words: [
+              doc: """
+              A default set of words for which coverage should be ignored. This option
+              should not be customized. Instead configure the `:custom_stop_words`
+              key.
+              """,
+              type: {:list, {:custom, __MODULE__, :validate_regex, []}},
+              default: [
+                ~r/defmodule/,
+                ~r/defrecord/,
+                ~r/defimpl/,
+                ~r/defexception/,
+                ~r/defprotocol/,
+                ~r/defstruct/,
+                ~r/def.+(.+\\.+).+do/,
+                ~r/^\s+use\s+/
+              ]
+            ],
+            custom_stop_words: [
+              doc: """
+              A customizable set of words for which coverage should be ignored. The
+              cover module has some difficulty discovering coverage on compile-time
+              constructs in Elixir, so it can be useful to fully ignore some words.
+              """,
+              type: {:list, {:custom, __MODULE__, :validate_regex, []}},
+              default: []
+            ],
+            skip_files: [
+              doc: """
+              A list of regular expressions to use to ignore matching path names from
+              the coverage calculation.
+              """,
+              type: {:list, {:custom, __MODULE__, :validate_regex, []}},
+              default: [~r/^test/, ~r/deps/]
+            ],
+            print_summary: [
+              doc: """
+              Whether or not to print the summary of the overall coverage to the
+              terminal.
+              """,
+              type: :boolean,
+              default: true
+            ],
+            terminal_options: [
+              doc: """
+              A set of terminal-output specific configuration options. See
+              the Terminal Options section below for inner configuration.
+              """,
+              type: :keyword_list,
+              keys: strip_docs.(@terminal_options),
+              default: []
+            ],
+            coverage_options: [
+              doc: """
+              A set of options that configure how Chaps calculates coverage.
+              See the Coverage Options section below for inner configuration.
+              """,
+              type: :keyword_list,
+              keys: strip_docs.(@coverage_options),
+              default: []
+            ]
+          )
+
   @moduledoc """
-  Handles the configuration setting defined in json file.
+  Configurable options used for calculating and displaying coverage status
+
+  ## Schema
+
+  #{NimbleOptions.docs(@schema)}
+
+  ### Terminal Options
+
+  #{NimbleOptions.docs(@terminal_options)}
+
+  ### Coverage Options
+
+  #{NimbleOptions.docs(@coverage_options)}
   """
 
-  defmodule Files do
-    @filename "coveralls.json"
-    def default_file, do: "#{Path.dirname(__ENV__.file)}/../conf/#{@filename}"
-
-    def custom_file,
-      do:
-        Application.get_env(:chaps, :config_file, "#{File.cwd!()}/#{@filename}")
-
-    def dot_file, do: Path.expand("~/.chaps/#{@filename}")
-  end
-
-  @doc """
-  Get stop words from the json file.
-  The words are taken as regular expression.
-  """
+  @doc false
   def get_stop_words do
-    (read_config("default_stop_words", []) ++
-       read_config("custom_stop_words", []))
-    |> Enum.map(&Regex.compile!/1)
+    read_config(:default_stop_words) ++ read_config(:custom_stop_words)
   end
 
-  @doc """
-  Get coverage options from the json file.
-  """
-  def get_coverage_options do
-    read_config("coverage_options", []) |> Enum.into(Map.new())
-  end
+  @doc false
+  def get_coverage_options, do: read_config(:coverage_options)
 
-  @doc """
-  Get default coverage value for lines marked as not relevant.
-  """
+  @doc false
   def default_coverage_value do
-    case Map.fetch(get_coverage_options(), "treat_no_relevant_lines_as_covered") do
-      {:ok, true} -> 100.0
-      _ -> 0.0
-    end
+    if get_coverage_options()[:treat_no_relevant_lines_as_covered],
+      do: 100.0,
+      else: 0.0
   end
 
-  @doc """
-  Get terminal output options from the json file.
-  """
-  def get_terminal_options do
-    read_config("terminal_options", []) |> Enum.into(Map.new())
-  end
+  @doc false
+  def get_terminal_options, do: read_config(:terminal_options)
 
-  @doc """
-  Get column width to use for the report from the json file
-  """
+  @doc false
   def get_file_col_width do
-    case Map.fetch(get_terminal_options(), "file_column_width") do
-      {:ok, val} when is_binary(val) ->
-        case Integer.parse(val) do
-          :error -> 40
-          {int, _} -> int
-        end
-
-      {:ok, val} when is_integer(val) ->
-        val
-
-      _ ->
-        40
-    end
+    get_terminal_options()[:file_column_width]
   end
 
+  @doc false
   def get_print_files do
-    case Map.fetch(get_terminal_options(), "print_files") do
-      {:ok, val} when is_boolean(val) -> val
-      _ -> true
-    end
+    get_terminal_options()[:print_files]
   end
 
-  defp read_config_file(file_name) do
-    if File.exists?(file_name) do
-      case File.read!(file_name) |> Jason.decode() do
-        {:ok, config} -> config
-        _ -> raise "Failed to parse config file as JSON : #{file_name}"
-      end
-    else
-      Map.new()
-    end
-  end
-
-  @doc """
-  Get xml base dir
-  """
+  @doc false
   def get_xml_base_dir do
-    Map.get(get_coverage_options(), "xml_base_dir", "")
+    get_coverage_options()[:xml_base_dir]
   end
 
-  @doc """
-  Get skip files from the json file.
-  """
+  @doc false
   def get_skip_files do
-    read_config("skip_files", [])
-    |> Enum.map(&Regex.compile!/1)
+    read_config(:skip_files)
   end
 
+  @doc false
   def get_print_summary do
-    read_config("print_summary", true)
+    read_config(:print_summary)
   end
 
-  @doc """
-  Reads the value for the specified key defined in the json file.
-  """
-  def read_config(key, default \\ nil) do
-    case read_merged_config(Files.dot_file(), Files.custom_file())
-         |> Map.get(key) do
-      nil -> read_config_file(Files.default_file()) |> Map.get(key, default)
-      config -> config
-    end
+  @doc false
+  def read_config(key) do
+    :chaps
+    |> Application.get_all_env()
+    |> NimbleOptions.validate!(@schema)
+    |> Keyword.fetch!(key)
   end
 
-  defp read_merged_config(dot, custom) do
-    read_config_file(dot)
-    |> merge(read_config_file(custom))
-  end
+  @doc false
+  def validate_regex(%Regex{} = regex), do: {:ok, regex}
+  def validate_regex(binary) when is_binary(binary), do: Regex.compile(binary)
 
-  defp merge(left, right) when is_map(left) and is_map(right) do
-    keys = Map.keys(left) ++ Map.keys(right)
-
-    Enum.reduce(keys, %{}, fn k, new_map ->
-      merged =
-        cond do
-          Map.has_key?(left, k) and Map.has_key?(right, k) ->
-            merge(Map.get(left, k), Map.get(right, k))
-
-          Map.has_key?(left, k) == false and Map.has_key?(right, k) ->
-            Map.get(right, k)
-
-          Map.has_key?(left, k) and Map.has_key?(right, k) == false ->
-            Map.get(left, k)
-
-          true ->
-            %{}
-        end
-
-      Map.put(new_map, k, merged)
-    end)
-  end
-
-  defp merge(left, right) when is_list(left) and is_list(right),
-    do: Enum.uniq(left ++ right)
-
-  defp merge(_left, right), do: right
+  def validate_regex(other),
+    do: {:error, "must be a regular expression, got: #{inspect(other)}"}
 end

@@ -39,7 +39,14 @@ defmodule Chaps.HtmlTest do
     {:ok, report: path}
   end
 
-  test "generate stats information with output_dir parameter", %{report: report} do
+  test_with_mock "generate stats information with output_dir parameter",
+                 %{report: report},
+                 Chaps.Settings,
+                 [],
+                 get_coverage_options: fn -> coverage_options(0.0) end,
+                 get_file_col_width: fn -> 40 end,
+                 get_print_summary: fn -> true end,
+                 get_print_files: fn -> true end do
     assert capture_io(fn ->
              Html.execute(@source_info, output_dir: @test_output_dir)
            end) =~ @stats_result
@@ -53,12 +60,7 @@ defmodule Chaps.HtmlTest do
                  %{report: report},
                  Chaps.Settings,
                  [],
-                 get_coverage_options: fn ->
-                   %{
-                     "output_dir" => @test_output_dir,
-                     "template_path" => @test_template_path
-                   }
-                 end,
+                 get_coverage_options: fn -> coverage_options(0.0) end,
                  get_file_col_width: fn -> 40 end,
                  get_print_summary: fn -> true end,
                  get_print_files: fn -> true end do
@@ -100,10 +102,10 @@ defmodule Chaps.HtmlTest do
   end
 
   defp coverage_options(minimum_coverage) do
-    %{
-      "minimum_coverage" => minimum_coverage,
-      "output_dir" => @test_output_dir,
-      "template_path" => @test_template_path
-    }
+    [
+      minimum_coverage: minimum_coverage,
+      output_dir: @test_output_dir,
+      template_path: @test_template_path
+    ]
   end
 end

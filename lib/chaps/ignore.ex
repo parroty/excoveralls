@@ -45,9 +45,7 @@ defmodule Chaps.Ignore do
   end
 
   defp ignore_next?(line, ignore) do
-    case Regex.run(~r/coveralls-ignore-(start|stop)/, line,
-           capture: :all_but_first
-         ) do
+    case Regex.run(~r/chaps-ignore-(start|stop)/, line, capture: :all_but_first) do
       ["start"] -> true
       ["stop"] -> false
       _sth -> ignore

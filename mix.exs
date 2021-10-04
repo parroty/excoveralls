@@ -1,12 +1,12 @@
 defmodule Chaps.Mixfile do
   use Mix.Project
 
-  @source_url "https://github.com/parroty/chaps"
+  @source_url "https://github.com/the-mikedavis/chaps"
 
   def project do
     [
       app: :chaps,
-      version: "0.14.2",
+      version: "0.0.1",
       elixir: "~> 1.3",
       elixirc_paths: elixirc_paths(Mix.env()),
       deps: deps(),
@@ -37,7 +37,8 @@ defmodule Chaps.Mixfile do
 
   def deps do
     [
-      {:jason, "~> 1.0"},
+      {:nimble_options, "~> 0.3 and >= 0.3.7"},
+      {:jason, "~> 1.0", optional: true},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:meck, "~> 0.8", only: :test},
       {:mock, "~> 0.3.6", only: :test}
@@ -55,16 +56,16 @@ defmodule Chaps.Mixfile do
 
   defp description do
     """
-    Coverage report tool for Elixir with coveralls.io integration.
+    100% code coverage testing tool forked from parroty/excoveralls
     """
   end
 
   defp package do
     [
-      maintainers: ["parroty"],
+      maintainers: ["@the-mikedavis"],
       licenses: ["MIT"],
       links: %{
-        "Changelog" => @source_url <> "/blob/master/CHANGELOG.md",
+        "Changelog" => @source_url <> "/blob/main/CHANGELOG.md",
         "GitHub" => @source_url
       }
     ]

@@ -16,9 +16,7 @@ defmodule Chaps.Json do
   end
 
   def generate_json(stats, _options) do
-    Jason.encode!(%{
-      source_files: stats
-    })
+    Jason.encode!(%{source_files: stats})
   end
 
   defp output_dir(output_dir) do

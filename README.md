@@ -7,6 +7,23 @@
 
 A fork of [ExCoveralls](https://github.com/parroty/excoveralls) focusing on the 100% coverage use-case.
 
+## The 100% Coverage Use-Case
+
+Shooting for 100% coverage is usually criticized as unnecessary and
+unproductive, and I tend to agree with that sentiment. But as far as measuring
+code coverage in percentage points goes, 100% is the only reasonable target:
+any other percent-based target flaps around when SLOCs are added or removed.
+
+Instead of shooting for a hard "we must get 100% coverage" rule, Chaps
+recommends that you use ignores judiciously to avoid spending unnecessary
+time trying to increase coverage, but still set the target coverage percentage
+at 100%. This workflow sets a default "you must cover or ignore these lines"
+mantra which forces code authors to be explicit.
+
+This workflow also allows one to setup automated CI checks to fail when the
+coverage is less than 100%, obviating the need to upload the coverage report
+to an external service like coveralls.
+
 ## Installation
 
 1. Add the dependency to your `mix.exs` `deps/0` function
@@ -48,27 +65,24 @@ can be controlled by calling `mix chaps.<output format>` instead, where
 - `json`, `xml`, or `lcov`: a JSON/XML/LCOV based data structure representing
   SLOCs
 
-## The 100% Coverage Use-Case
+## Configuration
 
-Shooting for 100% coverage is usually criticized as unnecessary and
-unproductive, and I tend to agree with that sentiment. But as far as measuring
-code coverage in percentage points goes, 100% is the only reasonable target:
-any other percent-based target flaps around when SLOCs are added or removed.
+Chaps is configured in `config/test.exs` like so
 
-Instead of shooting for a hard "we must get 100% coverage" rule, Chaps
-recommends that you use ignores judiciously to avoid spending unnecessary
-time trying to increase coverage, but still set the target coverage percentage
-at 100%. This workflow sets a default "you must cover or ignore these lines"
-mantra which forces code authors to be explicit.
+```elixir
+config :chaps,
+  coverage_options: [
+    treat_no_relevant_lines_as_covered: true
+  ]
+```
 
-This workflow also allows one to setup automated CI checks to fail when the
-coverage is less than 100%, obviating the need to upload the coverage report
-to an external service like coveralls.
+For the full schema, see the documentation of the `Chaps.Settings` module.
 
-## Differences to `parroty/excoveralls`
+## Differences from `parroty/excoveralls`
 
 - Coverage is truncated to the nearest tenth instead of rounded
 - Tasks and dependencies for uploading coverage reports have been removed
+- Configuration is done in `config/test.exs` instead of a JSON file
 
 ## License/Notice
 

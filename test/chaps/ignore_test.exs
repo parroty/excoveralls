@@ -6,10 +6,10 @@ defmodule Chaps.IgnoreTest do
   defmodule Test do
     def test do
     end
-    #coveralls-ignore-start
+    #chaps-ignore-start
     def test_ignored do
     end
-    #coveralls-ignore-stop
+    #chaps-ignore-stop
   end
   """
   @counts [0, 0, 0, nil, 0, 0, nil, 0, 0]

@@ -1,9 +1,7 @@
 defmodule Chaps.StatsTest do
   use ExUnit.Case
   import Mock
-  alias Chaps.Stats
-  alias Chaps.Cover
-  alias Chaps.Settings
+  alias Chaps.{Cover, Stats}
 
   @stats [{{Stats, 1}, 0}, {{Stats, 2}, 1}]
   @source "test/fixtures/test.ex"
@@ -16,9 +14,6 @@ defmodule Chaps.StatsTest do
   @source_info [
     %{name: "test/fixtures/test.ex", source: @trimmed, coverage: @counts}
   ]
-  @fixtures Path.join([__DIR__, "..", "fixtures"])
-  @fixture_default @fixtures <> "/default.json"
-  @fixture_custom @fixtures <> "/skip_files.json"
 
   @invalid_counts [0, 1, nil, "invalid"]
   @invalid_source_info [
@@ -99,15 +94,6 @@ defmodule Chaps.StatsTest do
 
   test "trim empty suffix and prefix" do
     assert(Stats.trim_empty_prefix_and_suffix("\naaa\nbbb\n") == "aaa\nbbb")
-  end
-
-  @fixture_default @fixtures <> "/fixtures/default.json"
-
-  test_with_mock "skip files", Settings.Files,
-    default_file: fn -> @fixture_default end,
-    custom_file: fn -> @fixture_custom end,
-    dot_file: fn -> "__invalid__" end do
-    assert Stats.skip_files(@source_info) == []
   end
 
   test "display source information" do

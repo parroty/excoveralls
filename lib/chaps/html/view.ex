@@ -13,13 +13,12 @@ defmodule Chaps.Html.View do
     end
 
     defp get_template_path() do
-      options = Chaps.Settings.get_coverage_options()
-
-      case Map.fetch(options, "template_path") do
+      case Chaps.Settings.get_coverage_options()
+           |> Keyword.fetch(:template_path) do
         {:ok, path} ->
           path
 
-        _ ->
+        :error ->
           Path.expand(
             "chaps/lib/templates/html/htmlcov/",
             Mix.Project.deps_path()
