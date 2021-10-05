@@ -6,6 +6,15 @@ The format is based on [Keep a
 Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.16.0 - 2021-10-04
+
+### Changed
+
+- Changed out three default setting values
+    - `file_column_width` increased to 80 columns from 40
+    - `treat_no_relevant_lines_as_covered` set to true from false
+    - `html_filter_fully_covered` set to true from false
+
 ## 0.15.2 - 2021-10-04
 
 ### Added

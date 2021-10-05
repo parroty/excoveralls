@@ -28,7 +28,7 @@ defmodule Chaps.Settings do
       project has files with long path names.
       """,
       type: :integer,
-      default: 40
+      default: 80
     ]
   ]
 
@@ -39,7 +39,7 @@ defmodule Chaps.Settings do
       as covered (`true`) at 100% or or not covered (`false`) at 0%.
       """,
       type: :boolean,
-      default: false
+      default: true
     ],
     output_dir: [
       doc: """
@@ -77,7 +77,7 @@ defmodule Chaps.Settings do
       Wether or not to filter fully covered modules from the HTML source.
       """,
       type: :boolean,
-      default: false
+      default: true
     ]
   ]
 
