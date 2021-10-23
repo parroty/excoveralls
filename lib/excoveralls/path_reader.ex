@@ -10,7 +10,7 @@ defmodule ExCoveralls.PathReader do
   def base_path do
     case Application.fetch_env(:excoveralls, :base_path) do
       {:ok, base_path} -> base_path
-      :error -> Mix.Project.config_files() |> Enum.find(&(&1 =~ ~r/mix.exs/)) |> Path.dirname()
+      :error -> File.cwd!()
     end
   end
 
