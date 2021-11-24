@@ -29,6 +29,13 @@ defmodule Chaps.Settings do
       """,
       type: :integer,
       default: 80
+    ],
+    filter_fully_covered: [
+      doc: """
+      Wether to filter fully covered modules from the terminal table.
+      """,
+      type: :boolean,
+      default: true
     ]
   ]
 
@@ -187,6 +194,11 @@ defmodule Chaps.Settings do
   @doc false
   def get_print_files do
     get_terminal_options()[:print_files]
+  end
+
+  @doc false
+  def get_terminal_filter_fully_covered do
+    get_terminal_options()[:filter_fully_covered]
   end
 
   @doc false

@@ -83,7 +83,8 @@ defmodule Chaps.LocalTest do
                    %{"treat_no_relevant_lines_as_covered" => true}
                  end,
                  get_file_col_width: fn -> 40 end,
-                 get_print_files: fn -> true end do
+                 get_print_files: fn -> true end,
+                 get_terminal_filter_fully_covered: fn -> false end do
     assert String.contains?(
              Local.coverage(@empty_source_info),
              "[TOTAL] 100.0%"
@@ -95,7 +96,8 @@ defmodule Chaps.LocalTest do
                  default_coverage_value: fn -> 0.0 end,
                  get_coverage_options: fn -> [] end,
                  get_file_col_width: fn -> 40 end,
-                 get_print_files: fn -> true end do
+                 get_print_files: fn -> true end,
+                 get_terminal_filter_fully_covered: fn -> false end do
     assert String.contains?(
              Local.coverage(@empty_source_info),
              "[TOTAL]   0.0%"
@@ -107,7 +109,8 @@ defmodule Chaps.LocalTest do
                  get_coverage_options: fn -> [minimum_coverage: 100] end,
                  get_file_col_width: fn -> 40 end,
                  get_print_summary: fn -> true end,
-                 get_print_files: fn -> true end do
+                 get_print_files: fn -> true end,
+                 get_terminal_filter_fully_covered: fn -> false end do
     output =
       capture_io(fn ->
         assert catch_exit(Local.execute(@source_info)) == {:shutdown, 1}
@@ -124,7 +127,8 @@ defmodule Chaps.LocalTest do
                  get_coverage_options: fn -> [minimum_coverage: 49.9] end,
                  get_file_col_width: fn -> 40 end,
                  get_print_summary: fn -> true end,
-                 get_print_files: fn -> true end do
+                 get_print_files: fn -> true end,
+                 get_terminal_filter_fully_covered: fn -> false end do
     assert capture_io(fn ->
              Local.execute(@source_info)
            end) =~ @stats_result
@@ -135,7 +139,8 @@ defmodule Chaps.LocalTest do
                  get_coverage_options: fn -> [minimum_coverage: 49.9] end,
                  get_file_col_width: fn -> 40 end,
                  get_print_summary: fn -> true end,
-                 get_print_files: fn -> true end do
+                 get_print_files: fn -> true end,
+                 get_terminal_filter_fully_covered: fn -> false end do
     assert capture_io(fn ->
              Local.execute(@source_info)
            end) =~ ""
@@ -146,7 +151,8 @@ defmodule Chaps.LocalTest do
                  get_coverage_options: fn -> [minimum_coverage: 49.9] end,
                  get_file_col_width: fn -> 40 end,
                  get_print_summary: fn -> true end,
-                 get_print_files: fn -> false end do
+                 get_print_files: fn -> false end,
+                 get_terminal_filter_fully_covered: fn -> false end do
     assert capture_io(fn ->
              Local.execute(@source_info)
            end) =~ @stats_no_files_results

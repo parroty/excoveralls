@@ -6,6 +6,13 @@ The format is based on [Keep a
 Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.17.0 - 2021-11-24
+
+### Added
+
+- Added a `:terminal_option` for `:filter_fully_covered`, defaulting to `true`
+    - this option filters fully covered modules from the terminal output
+
 ## 0.16.0 - 2021-10-04
 
 ### Changed

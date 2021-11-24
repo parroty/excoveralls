@@ -42,7 +42,8 @@ defmodule Chaps.XmlTest do
     get_file_col_width: fn -> 40 end,
     get_print_summary: fn -> true end,
     get_print_files: fn -> true end,
-    get_xml_base_dir: fn -> "base_dir" end do
+    get_xml_base_dir: fn -> "base_dir" end,
+    get_terminal_filter_fully_covered: fn -> false end do
     assert capture_io(fn ->
              Xml.execute(@source_info)
            end) =~ @stats_result

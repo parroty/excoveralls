@@ -79,18 +79,27 @@ defmodule Chaps.Local do
   def coverage(stats, options \\ []) do
     file_width = Chaps.Settings.get_file_col_width()
     print_files? = Chaps.Settings.get_print_files()
+    filter_fully_covered? = Chaps.Settings.get_terminal_filter_fully_covered()
 
     count_info =
       Enum.map(stats, fn stat -> [stat, calculate_count(stat[:coverage])] end)
 
     count_info = sort(count_info, options)
 
+    filter_fully_covered_disclaimer =
+      if filter_fully_covered? do
+        "\nFully covered modules were omitted (the :filter_fully_covered terminal option is on).\n"
+      else
+        ""
+      end
+
     if print_files? do
       """
       ----------------
       #{print_string("~-6s ~-#{file_width}s ~8s ~8s ~8s", ["COV", "FILE", "LINES", "RELEVANT", "MISSED"])}
-      #{Enum.join(format_body(count_info), "\n")}
+      #{Enum.join(format_body(count_info, filter_fully_covered?) ++ [""], "\n")}\
       #{format_total(count_info)}
+      #{filter_fully_covered_disclaimer}\
       ----------------\
       """
     else
@@ -145,8 +154,12 @@ defmodule Chaps.Local do
     end)
   end
 
-  defp format_body(info) do
-    Enum.map(info, &format_info/1)
+  defp format_body(info, filter_fully_covered?) do
+    info
+    |> Enum.reject(fn [_stat, count] ->
+      filter_fully_covered? and get_coverage(count) == 100.0
+    end)
+    |> Enum.map(&format_info/1)
   end
 
   defp format_info([stat, count]) do

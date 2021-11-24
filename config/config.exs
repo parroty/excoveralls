@@ -8,5 +8,6 @@ config :chaps,
     template_path: "lib/templates/html/htmlcov/"
   ],
   terminal_options: [
-    file_column_width: 40
+    file_column_width: 40,
+    filter_fully_covered: false
   ]

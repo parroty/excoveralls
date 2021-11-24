@@ -46,7 +46,8 @@ defmodule Chaps.HtmlTest do
                  get_coverage_options: fn -> coverage_options(0.0) end,
                  get_file_col_width: fn -> 40 end,
                  get_print_summary: fn -> true end,
-                 get_print_files: fn -> true end do
+                 get_print_files: fn -> true end,
+                 get_terminal_filter_fully_covered: fn -> false end do
     assert capture_io(fn ->
              Html.execute(@source_info, output_dir: @test_output_dir)
            end) =~ @stats_result
@@ -63,7 +64,8 @@ defmodule Chaps.HtmlTest do
                  get_coverage_options: fn -> coverage_options(0.0) end,
                  get_file_col_width: fn -> 40 end,
                  get_print_summary: fn -> true end,
-                 get_print_files: fn -> true end do
+                 get_print_files: fn -> true end,
+                 get_terminal_filter_fully_covered: fn -> false end do
     assert capture_io(fn ->
              Html.execute(@source_info)
            end) =~ @stats_result
@@ -78,7 +80,8 @@ defmodule Chaps.HtmlTest do
                  get_coverage_options: fn -> coverage_options(100) end,
                  get_file_col_width: fn -> 40 end,
                  get_print_summary: fn -> true end,
-                 get_print_files: fn -> true end do
+                 get_print_files: fn -> true end,
+                 get_terminal_filter_fully_covered: fn -> false end do
     output =
       capture_io(fn ->
         assert catch_exit(Html.execute(@source_info)) == {:shutdown, 1}
@@ -95,7 +98,8 @@ defmodule Chaps.HtmlTest do
                  get_coverage_options: fn -> coverage_options(49.9) end,
                  get_file_col_width: fn -> 40 end,
                  get_print_summary: fn -> true end,
-                 get_print_files: fn -> true end do
+                 get_print_files: fn -> true end,
+                 get_terminal_filter_fully_covered: fn -> false end do
     assert capture_io(fn ->
              Html.execute(@source_info)
            end) =~ @stats_result

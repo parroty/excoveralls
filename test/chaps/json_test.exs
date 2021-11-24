@@ -42,7 +42,8 @@ defmodule Chaps.JsonTest do
     get_coverage_options: fn -> %{"output_dir" => @test_output_dir} end,
     get_file_col_width: fn -> 40 end,
     get_print_summary: fn -> true end,
-    get_print_files: fn -> true end do
+    get_print_files: fn -> true end,
+    get_terminal_filter_fully_covered: fn -> false end do
     assert capture_io(fn ->
              Json.execute(@source_info)
            end) =~ @stats_result
