@@ -360,4 +360,46 @@ defmodule Mix.Tasks.CoverallsTest do
       assert result
     end
   end
+
+  describe "coveralls.diff" do
+    test "--threshold 100 --from-git-rev master" do
+      with_mocks([
+        {Runner, [], [run: fn _, _ -> nil end]},
+        {System, [], [cmd: fn "git", _ -> {"test/test.ex", 0} end]}
+      ]) do
+        Mix.Tasks.Coveralls.Diff.run(["--threshold", "100", "--from-git-rev", "master"])
+        assert called(Runner.run("test", ["--cover"]))
+        options = ExCoveralls.ConfServer.get()
+        assert options[:type] == "diff"
+        assert options[:from_git_rev] == "master"
+        assert options[:args] == []
+        assert options[:threshold] == 100.0
+        assert options[:files] == ["test/test.ex"]
+      end
+    end
+
+    test "--from-git-rev unknown_rev" do
+      with_mocks([
+        {Runner, [], [run: fn _, _ -> nil end]},
+        {System, [], [cmd: fn "git", ["diff", "--name-only", "unknown_rev" | _] -> {"", 1} end]}
+      ]) do
+        assert_raise ExCoveralls.InvalidOptionError, fn ->
+          Mix.Tasks.Coveralls.Diff.run(["--from-git-rev", "unknown_rev"])
+        end 
+      end
+    end
+
+    test "--from-git-rev HEAD" do
+      with_mock(Runner, [], [run: fn _, _ -> nil end]) do
+        Mix.Tasks.Coveralls.Diff.run(["--from-git-rev", "HEAD"])
+        assert called(Runner.run("test", ["--cover"]))
+        options = ExCoveralls.ConfServer.get()
+        assert options[:type] == "diff"
+        assert options[:from_git_rev] == "HEAD"
+        assert options[:args] == []
+        assert options[:threshold] == 0.0
+        assert options[:files] == []
+      end
+    end
+  end
 end
