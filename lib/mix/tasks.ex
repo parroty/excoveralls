@@ -323,4 +323,33 @@ defmodule Mix.Tasks.Coveralls do
       end
     end
   end
+
+  defmodule Diff do
+    @moduledoc """
+    Provides an entry point for coverage analysis of new code
+    """
+    use Mix.Task
+
+    @preferred_cli_env :test
+
+    @impl Mix.Task
+    def run(args) do
+      # Use '--' to separate revisions from paths
+      {cover_args, paths} = Enum.split_while(args, & &1 != "--")
+
+      {remaining, options} = Mix.Tasks.Coveralls.parse_common_options(
+        cover_args,
+        switches: [from_git_rev: :string, threshold: :float]
+      )
+
+      opts = ExCoveralls.Diff.diff_file_names([
+        type: "diff",
+        from_git_rev: options[:from_git_rev] || "master",
+        paths: List.delete(paths, "--"),
+        threshold: options[:threshold] || 0.0
+      ])
+
+      Mix.Tasks.Coveralls.do_run(remaining, opts)
+    end
+  end
 end

@@ -20,7 +20,8 @@ defmodule ExCoveralls.Mixfile do
           "coveralls.detail",
           "coveralls.html",
           "coveralls.json",
-          "coveralls.post"
+          "coveralls.post",
+          "coveralls.diff"
         ])
     ]
   end

@@ -88,6 +88,7 @@ end
     - [[mix coveralls.json] Show coverage as JSON report](#mix-coverallsjson-show-coverage-as-json-report)
     - [[mix coveralls.xml] Show coverage as XML report](#mix-coverallsxml-show-coverage-as-xml-report)
     - [[mix coveralls.lcov] Show coverage as lcov repor (Experimental)](#mix-coverallslcov-show-coverage-as-lcov-report-experimental)
+    - [[mix coveralls.diff] Show coverage on new git diff lines (Experimental)](#mix-coverallsdiff-show-coverage-on-new-git-diff-lines-experimental)
   - [coveralls.json](#coverallsjson)
       - [Stop Words](#stop-words)
       - [Exclude Files](#exclude-files)
@@ -365,6 +366,20 @@ The report follows a format supported by several code coverage services like VSC
 Output to the shell is the same as running the command `mix coveralls` (to suppress this output, add `"print_summary": false` to your project's `coveralls.json` file). In a similar manner to `mix coveralls.detail`, reported source code can be filtered by specifying arguments using the `--filter` flag.
 
 Output reports are written to `cover/lcov.info` by default, however, the path can be specified by overwriting the `"output_dir"` coverage option.
+
+### [mix coveralls.diff] Show coverage on new git diff lines (Experimental)
+This task checks coverage on lines that were added up to `HEAD` from git revision specified in the `--from-git-rev` option. If total coverage
+for those lines is less than minimum (`--threshold` option), then task exits with status `1`.
+
+Task will:
+  - Print total coverage information for changed lines.
+  - Print total coverage information for changed lines for each file.
+  - Print changed lines and highlight covered and missed lines.
+
+```Shell
+$ MIX_ENV=test mix coveralls.diff --from-git-rev master
+```
+![diff output](./assets/diff_output.jpg?raw=true "diff output")
 
 ## coveralls.json
 `coveralls.json` provides settings for excoveralls.

@@ -19,6 +19,7 @@ defmodule ExCoveralls do
   alias ExCoveralls.Post
   alias ExCoveralls.Xml
   alias ExCoveralls.Lcov
+  alias ExCoveralls.Diff
 
   @type_travis      "travis"
   @type_github      "github"
@@ -32,6 +33,7 @@ defmodule ExCoveralls do
   @type_post        "post"
   @type_xml         "xml"
   @type_lcov        "lcov"
+  @type_diff        "diff"
 
   @doc """
   This method will be called from mix to trigger coverage analysis.
@@ -111,6 +113,10 @@ defmodule ExCoveralls do
 
   def analyze(stats, @type_post, options) do
     Post.execute(stats, options)
+  end
+
+  def analyze(stats, @type_diff, options) do
+    Diff.execute(stats, options)
   end
 
   def analyze(_stats, type, _options) do
