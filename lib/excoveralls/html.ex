@@ -21,7 +21,11 @@ defmodule ExCoveralls.Html do
 
   defp generate_report(map, output_dir) do
     IO.puts("Generating report...")
-    View.render(cov: map) |> write_file(output_dir)
+
+    filter_full_covered =
+      Map.get(ExCoveralls.Settings.get_coverage_options(), "html_filter_full_covered", false)
+
+    View.render(cov: map, filter_full_covered: filter_full_covered) |> write_file(output_dir)
   end
 
   defp output_dir(output_dir) do

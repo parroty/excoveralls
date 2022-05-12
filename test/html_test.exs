@@ -5,7 +5,7 @@ defmodule ExCoveralls.HtmlTest do
   alias ExCoveralls.Html
 
   @file_name "excoveralls.html"
-  @file_size 20191
+  @file_size 20375
   @test_output_dir "cover_test/"
   @test_template_path "lib/templates/html/htmlcov/"
 
