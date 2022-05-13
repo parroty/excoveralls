@@ -87,7 +87,7 @@ end
     - [[mix coveralls.html] Show coverage as HTML report](#mix-coverallshtml-show-coverage-as-html-report)
     - [[mix coveralls.json] Show coverage as JSON report](#mix-coverallsjson-show-coverage-as-json-report)
     - [[mix coveralls.xml] Show coverage as XML report](#mix-coverallsxml-show-coverage-as-xml-report)
-    - [[mix coveralls.lcov] Show coverage as lcov repor (Experimental)](#mix-coverallslcov-show-coverage-as-lcov-report-experimental)
+    - [[mix coveralls.lcov] Show coverage as lcov report (Experimental)](#mix-coverallslcov-show-coverage-as-lcov-report-experimental)
   - [coveralls.json](#coverallsjson)
       - [Stop Words](#stop-words)
       - [Exclude Files](#exclude-files)
@@ -424,6 +424,8 @@ to `false`:
   - A custom path for html reports. This defaults to the htmlcov report in the excoveralls lib.
 - `minimum_coverage`
   - When set to a number greater than 0, this setting causes the `mix coveralls` and `mix coveralls.html` tasks to exit with a status code of 1 if test coverage falls below the specified threshold (defaults to 0). This is useful to interrupt CI pipelines with strict code coverage rules. Should be expressed as a number between 0 and 100 signifying the minimum percentage of lines covered.
+- `html_filter_full_covered`
+  - A boolean, when `true` files with 100% coverage are not shown in the HTML report. Default to `false`.
 
 Example configuration file:
 
@@ -444,7 +446,8 @@ Example configuration file:
     "output_dir": "cover/",
     "template_path": "custom/path/to/template/",
     "minimum_coverage": 90,
-    "xml_base_dir": "custom/path/for/xml/reports/"
+    "xml_base_dir": "custom/path/for/xml/reports/",
+    "html_filter_full_covered": true
   }
 }
 ```
