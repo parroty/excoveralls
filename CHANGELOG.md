@@ -1,3 +1,8 @@
+0.14.5
+------
+#### Enhancements
+- Add option (`html_filter_full_covered`) for filtering out full covered files from HTML report (#268).
+
 0.14.4
 ------
 #### Changes
