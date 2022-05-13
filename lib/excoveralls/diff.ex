@@ -106,7 +106,11 @@ defmodule ExCoveralls.Diff do
           start = String.to_integer(line)
           count = String.to_integer(shift)
 
-          [(start - 1)..(start - 2 + count) | acc]
+          if count > 0 do
+            [(start - 1)..(start - 2 + count) | acc]
+          else
+            acc
+          end
 
         nil ->
           acc
@@ -160,7 +164,11 @@ defmodule ExCoveralls.Diff do
           start = String.to_integer(line)
           count = String.to_integer(shift)
 
-          print_diff_range((start - 1)..(start - 2 + count), source)
+          if count > 0 do
+            print_diff_range((start - 1)..(start - 2 + count), source)
+          else
+            :skip
+          end
 
         nil ->
           :skip
