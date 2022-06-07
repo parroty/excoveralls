@@ -183,7 +183,7 @@ defmodule ExCoveralls.Diff do
       Enum.each(range, fn line_number ->
         changed? = Enum.any?(source.changed_ranges, &Enum.member?(&1, line_number))
         line = Enum.at(source.lines, line_number)
-        print_line(line_number, line, changed?)
+        if line, do: print_line(line_number, line, changed?)
       end)
     end
   end
