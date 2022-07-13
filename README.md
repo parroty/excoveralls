@@ -475,6 +475,18 @@ end
 - When erlang version 17.3 is used, an error message `(MatchError) no match of right hand side value: ""` can be shown. Refer to issue #14 for the details.
     - https://github.com/parroty/excoveralls/issues/14
 
+### Silence OTP Cover Warnings
+To remove OTP warnings about modules or specific logging, please open a GitHub issue in the Erlang OTP repository. Alternatively you can copy the `cover.erl` file under `src/` of your Elixir project and modify it to remove the warnings.
+
+- Remove the 2 lines below to remove the "WARNING: Module already imported from ..." log 
+https://github.com/erlang/otp/blob/131398b54cca5f1ae95ed268274936d2efde8c39/lib/tools/src/cover.erl#L1553-L1554 
+
+- If you do not want the imported info cluttering your test output, replace the function in https://github.com/erlang/otp/blob/131398b54cca5f1ae95ed268274936d2efde8c39/lib/tools/src/cover.erl#L1520-L1525 with
+```
+imported_info(_Text,_Module,_Imported) ->
+    ok.
+```
+
 ### Todo
 - It might not work well on projects which handle multiple project (Mix.Project) files.
     - Needs improvement on file-path handling.
