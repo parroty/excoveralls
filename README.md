@@ -468,6 +468,18 @@ defmodule MyModule do
 end
 ```
 
+### Silence OTP Cover Warnings
+To remove OTP warnings about modules or specific logging, you can copy the `cover.erl` file under `src/` of your Elixir project and modify it to remove the warnings, as a tentative solution.
+
+- Remove the 2 lines below to remove the "WARNING: Module already imported from ..." log
+https://github.com/erlang/otp/blob/131398b54cca5f1ae95ed268274936d2efde8c39/lib/tools/src/cover.erl#L1553-L1554
+
+- If you do not want the imported info cluttering your test output, replace the function in https://github.com/erlang/otp/blob/131398b54cca5f1ae95ed268274936d2efde8c39/lib/tools/src/cover.erl#L1520-L1525 with
+```
+imported_info(_Text,_Module,_Imported) ->
+    ok.
+```
+
 ### Notes
 - If mock library is used, it will show some warnings during execution.
     - https://github.com/eproxus/meck/pull/17
