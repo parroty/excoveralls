@@ -12,6 +12,8 @@ defmodule ExCoveralls.Json do
     generate_json(stats, Enum.into(options, %{})) |> write_file(options[:output_dir])
 
     ExCoveralls.Local.print_summary(stats)
+
+    ExCoveralls.Stats.ensure_minimum_coverage(stats)
   end
 
   def generate_json(stats, _options) do
