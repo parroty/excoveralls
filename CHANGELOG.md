@@ -1,7 +1,7 @@
 0.14.6
 ------
 #### Changes
-- Survive coveralls maintenance and outagle (#283).
+- Survive coveralls maintenance and outage (#283).
   - Better handling of coveralls.io errors (ex. 405, 500 status codes).
 
 0.14.5
