@@ -63,8 +63,10 @@ defmodule Mix.Tasks.CoverallsTest do
   end
 
   test_with_mock "doesn't pass through coveralls args", Runner, [run: fn(_, _) -> nil end] do
-    Mix.Tasks.Coveralls.run(["--include", "remote", "-x", "--unknown", "value", "--verbose", "-u", "--filter", "x"])
-    assert(called Runner.run("test", ["--cover", "--include", "remote", "-x", "--unknown", "value"]))
+    capture_io(fn ->
+      Mix.Tasks.Coveralls.run(["--include", "remote", "-x", "--unknown", "value", "--verbose", "-u", "--filter", "x"])
+      assert(called Runner.run("test", ["--cover", "--include", "remote", "-x", "--unknown", "value"]))
+    end)
   end
 
   test_with_mock "detail", Runner, [run: fn(_, _) -> nil end] do
