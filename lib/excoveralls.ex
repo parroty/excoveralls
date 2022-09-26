@@ -44,20 +44,26 @@ defmodule ExCoveralls do
   end
 
   def execute(options, compile_path) do
-    stats = Cover.modules() |> Stats.report() |> Enum.map(&Enum.into(&1, %{}))
+    stats = 
+      Cover.modules() |> 
+      Stats.report() |> 
+      Enum.map(&Enum.into(&1, %{}))
 
     if options[:umbrella] do
       store_stats(stats, options, compile_path)
     else
-      analyze(stats, options[:type] || "local", options)
+      Stats.update_paths(stats, options) |>
+        analyze(options[:type] || "local", options)
     end
   end
 
   defp store_stats(stats, options, compile_path) do
     {sub_app_name, _sub_app_path} =
       ExCoveralls.SubApps.find(options[:sub_apps], compile_path)
-    stats = Stats.append_sub_app_name(stats, sub_app_name, options[:apps_path])
-    Enum.each(stats, fn(stat) -> StatServer.add(stat) end)
+    
+    Stats.append_sub_app_name(stats, sub_app_name, options[:apps_path]) |> 
+      Stats.update_paths(options) |>
+      Enum.each(fn(stat) -> StatServer.add(stat) end)
   end
 
   @doc """
