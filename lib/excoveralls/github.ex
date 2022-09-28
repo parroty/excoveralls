@@ -22,6 +22,7 @@ defmodule ExCoveralls.Github do
       service_name: "github",
       source_files: stats,
       parallel: options[:parallel],
+      flag_name: options[:flagname],
       git: git_info()
     }
     |> Map.merge(job_data())

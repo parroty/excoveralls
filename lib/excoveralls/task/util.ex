@@ -26,6 +26,7 @@ Usage: mix coveralls <Options>
                         github repo, so must be exact. Example: If your source file path is "/home/runs/app/test.ex",
                         and your git repo resides in "app", then the root path should be: "/home/runs/app/" (from
                         coveralls.io)
+    --flagname          Job flag name which will be shown in the Coveralls UI
 
 Usage: mix coveralls.detail [--filter file-name-pattern]
   Used to display coverage with detail

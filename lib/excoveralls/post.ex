@@ -19,6 +19,7 @@ defmodule ExCoveralls.Post do
       service_number: options[:service_number],
       source_files: source_info,
       parallel: options[:parallel],
+      flag_name: options[:flagname],
       git: generate_git_info(options)
     })
   end
