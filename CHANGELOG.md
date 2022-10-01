@@ -1,3 +1,8 @@
+0.15.0
+------
+#### Changes
+- Allow subdir and rootdir to be applied to all tasks and always apply to paths (#289).
+
 0.14.6
 ------
 #### Changes
