@@ -16,6 +16,16 @@ Usage: mix coveralls <Options>
     -o (--output-dir)   Write coverage information to output dir.
     -u (--umbrella)     Show overall coverage for umbrella project.
     -v (--verbose)      Show json string for posting.
+    --subdir            Git repo sub directory: This will be added to the the front of file path, use if your covered
+                        file paths reside within a subfolder of the git repo. Example: If your source file path is
+                        "test.ex", and your git repo root is one directory up making the file's relative path
+                        "src/lib/test.ex", then the sub directory should be: "src/lib" (from coveralls.io)
+    --rootdir           This will be stripped from the file path in order to resolve the relative path of this repo's
+                        files. It should be the path to your git repo's root on your CI build environment. This is not
+                        needed if your source file path is already relative. It's used to pull the source file from the
+                        github repo, so must be exact. Example: If your source file path is "/home/runs/app/test.ex",
+                        and your git repo resides in "app", then the root path should be: "/home/runs/app/" (from
+                        coveralls.io)
 
 Usage: mix coveralls.detail [--filter file-name-pattern]
   Used to display coverage with detail
@@ -44,16 +54,6 @@ Usage: mix coveralls.post <Options>
     -s (--sha)          Commit SHA (required when not using Travis)
     --build             Service number ('BUILDS' column at coveralls.io page)
     --parallel          coveralls.io 'parallel' option (See coveralls.io API Reference)
-    --subdir            Git repo sub directory: This will be added to the the front of file path, use if your covered
-                        file paths reside within a subfolder of the git repo. Example: If your source file path is
-                        "test.ex", and your git repo root is one directory up making the file's relative path
-                        "src/lib/test.ex", then the sub directory should be: "src/lib" (from coveralls.io)
-    --rootdir           This will be stripped from the file path in order to resolve the relative path of this repo's
-                        files. It should be the path to your git repo's root on your CI build environment. This is not
-                        needed if your source file path is already relative. It's used to pull the source file from the
-                        github repo, so must be exact. Example: If your source file path is "/home/runs/app/test.ex",
-                        and your git repo resides in "app", then the root path should be: "/home/runs/app/" (from
-                        coveralls.io)
 """
   end
 end

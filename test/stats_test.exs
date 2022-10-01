@@ -136,4 +136,52 @@ defmodule ExCoveralls.StatsTest do
     assert(results.coverage == 66.7)
   end
 
+  describe "update_stats/2" do
+    @test_path_1 "apps/umbrella1_app1/lib/umbrella1_app1.ex"
+    @test_path_2 "apps/umbrella1_app2/lib/umbrella1_app2.ex"
+    @test_stats [
+      %{
+        coverage: [],
+        name: @test_path_1,
+        source: "dummy_source2"
+      },
+      %{
+        coverage: [],
+        name: @test_path_2,
+        source: "dummy_source1"
+      }
+    ]
+
+    test "subdir is added to filepath" do
+      result =
+        Stats.update_paths(@test_stats, [rootdir: "", subdir: "umbrella1/"])
+        |> Enum.map(fn m -> assert String.starts_with?(m[:name], "umbrella1/") end)
+        |> Enum.all?(fn v -> v end)
+      assert result
+    end
+
+    test "rootdir is removed from filepath" do
+      result =
+        Stats.update_paths(@test_stats, [rootdir: "apps/", subdir: ""])
+        |> Enum.map(fn m -> assert String.starts_with?(m[:name], "umbrella1_app") end)
+        |> Enum.all?(fn v -> v end)
+      assert result
+    end
+
+    test "filepath is untouched when no options for rootdir/subdir" do
+      result =
+        Stats.update_paths(@test_stats, [rootdir: "", subdir: ""])
+        |> Enum.map(fn m -> assert String.starts_with?(m[:name], "apps/umbrella1_app") end)
+        |> Enum.all?(fn v -> v end)
+      assert result
+    end
+
+    test "filepath is untouched when options for rootdir/subdir does not exist" do
+      result =
+        Stats.update_paths(@test_stats, [])
+        |> Enum.map(fn m -> assert String.starts_with?(m[:name], "apps/umbrella1_app") end)
+        |> Enum.all?(fn v -> v end)
+      assert result
+    end
+  end
 end

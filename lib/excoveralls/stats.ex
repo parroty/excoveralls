@@ -97,6 +97,25 @@ defmodule ExCoveralls.Stats do
   end
 
   @doc """
+  Updates the paths to take into account the subdir and rootdir options
+  """
+  def update_paths(stats, options) do
+    sub_dir_set? = not (options[:subdir] in [nil, ""])
+    root_dir_set? = not (options[:rootdir] in [nil, ""])
+
+    cond do
+      sub_dir_set? ->
+        stats
+        |> Enum.map(fn m -> %{m | name: options[:subdir] <> Map.get(m, :name)} end)
+
+      root_dir_set? ->
+        stats
+        |> Enum.map(fn m -> %{m | name: String.trim_leading(Map.get(m, :name), options[:rootdir])} end)
+      true -> stats
+    end
+  end
+
+  @doc """
   Returns total line counts of the specified source file.
   """
   def get_source_line_count(file_path) do
