@@ -1,5 +1,8 @@
 0.15.0
 ------
+#### Enhancements
+- Allows flag_name to pass thru to the coveralls.io API (#290).
+
 #### Changes
 - Allow subdir and rootdir to be applied to all tasks and always apply to paths (#289).
 
