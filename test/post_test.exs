@@ -30,11 +30,12 @@ defmodule ExCoveralls.PostTest do
         branch: "",
         committer: "",
         message: "",
-        sha: ""
+        sha: "",
+        flagname: "arbitrary_value"
       ])
 
     assert json ==
-       "{\"git\":{\"branch\":\"\",\"head\":{\"committer_name\":\"\",\"id\":\"\",\"message\":\"\"}}," <>
+      "{\"flag_name\":\"arbitrary_value\",\"git\":{\"branch\":\"\",\"head\":{\"committer_name\":\"\",\"id\":\"\",\"message\":\"\"}}," <>
          "\"parallel\":null," <>
          "\"repo_token\":\"1234567890\"," <>
          "\"service_name\":\"local\"," <>

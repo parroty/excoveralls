@@ -33,7 +33,7 @@ defmodule Mix.Tasks.Coveralls do
         message: "Please specify 'test_coverage: [tool: ExCoveralls]' in the 'project' section of mix.exs"
     end
 
-    switches = [filter: :string, umbrella: :boolean, verbose: :boolean, pro: :boolean, parallel: :boolean, sort: :string, output_dir: :string, subdir: :string, rootdir: :string]
+    switches = [filter: :string, umbrella: :boolean, verbose: :boolean, pro: :boolean, parallel: :boolean, sort: :string, output_dir: :string, subdir: :string, rootdir: :string, flagname: :string]
     aliases = [f: :filter, u: :umbrella, v: :verbose, o: :output_dir]
     {args, common_options} = parse_common_options(args, switches: switches, aliases: aliases)
     all_options = options ++ common_options
@@ -65,6 +65,7 @@ defmodule Mix.Tasks.Coveralls do
   def parse_common_options(args, common_options) do
     common_switches = Keyword.get(common_options, :switches, [])
     common_aliases = Keyword.get(common_options, :aliases, [])
+
     {common_options, _remaining, _invalid} = OptionParser.parse(args, common_options)
 
     # the switches that excoveralls supports
@@ -272,7 +273,7 @@ defmodule Mix.Tasks.Coveralls do
       aliases = [f: :filter, u: :umbrella, v: :verbose]
       {remaining, options} = Mix.Tasks.Coveralls.parse_common_options(
         args,
-        switches: switches ++ [sha: :string, token: :string, committer: :string, branch: :string, message: :string, name: :string],
+        switches: switches ++ [sha: :string, token: :string, committer: :string, branch: :string, message: :string, name: :string, flagname: :string],
         aliases: aliases ++ [n: :name, b: :branch, c: :committer, m: :message, s: :sha, t: :token]
       )
 
@@ -289,6 +290,7 @@ defmodule Mix.Tasks.Coveralls do
           umbrella:     options[:umbrella],
           verbose:      options[:verbose],
           parallel:     options[:parallel],
+          flag_name:    options[:flagname] || "",
           rootdir:      options[:rootdir] || "",
           subdir:       options[:subdir] || ""
         ])

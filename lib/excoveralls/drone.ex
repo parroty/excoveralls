@@ -22,7 +22,8 @@ defmodule ExCoveralls.Drone do
       service_pull_request: get_pull_request(),
       source_files: stats,
       git: generate_git_info(),
-      parallel: options[:parallel]
+      parallel: options[:parallel],
+      flag_name: options[:flagname]
     })
   end
 
