@@ -28,9 +28,8 @@ defmodule ExCoveralls.Cover do
 
   def has_compile_info?(module) do
     with info when not is_nil(info) <- module.module_info(:compile),
-         path when not is_nil(path) <- Keyword.get(info, :source),
-         true <- File.exists?(path) do
-      true
+         path when not is_nil(path) <- Keyword.get(info, :source) do
+      file_exist?(module, path)
     else
       _e ->
         log_missing_source(module)
@@ -53,7 +52,20 @@ defmodule ExCoveralls.Cover do
     defp string_to_charlist(string), do: String.to_charlist(string)
   end
 
+  defp file_exist?(module, path) do
+    if File.exists?(path) do
+      true
+    else
+      log_missing_file(module, path)
+      false
+    end
+  end
+
   defp log_missing_source(module) do
     IO.puts :stderr, "[warning] skipping the module '#{module}' because source information for the module is not available."
+  end
+
+  defp log_missing_file(module, path) do
+    IO.puts :stderr, "[warning] skipping the module '#{module}' because source file with '#{path}' path does not exist"
   end
 end

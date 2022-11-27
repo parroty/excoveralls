@@ -29,7 +29,7 @@ defmodule CoverTest do
 
     assert capture_io(:stderr, fn ->
       refute Cover.has_compile_info?(TestMissing)
-    end) =~ "[warning] skipping the module 'Elixir.TestMissing' because source information for the module is not available."
+    end) =~ "[warning] skipping the module 'Elixir.TestMissing' because source file with '#{__DIR__}/fixtures/test_missing.ex' path does not exist"
   end
 
   test "has_compile_info?/1 with a mocked module raises warning and returns false" do
