@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        otp: ['20.3']
+        otp: ['20']
         elixir: ['1.4', '1.5', '1.6', '1.7']
     env:
       MIX_ENV: test
@@ -19,7 +19,6 @@ jobs:
         with:
          otp-version: ${{ matrix.otp }}
          elixir-version: ${{ matrix.elixir }}
-         version-type: strict
       - uses: actions/cache@v2
         with:
          path: deps
