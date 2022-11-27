@@ -1,3 +1,8 @@
+0.15.1
+------
+#### Changes
+- Improve logging for a case with the missing source file (#295).
+
 0.15.0
 ------
 #### Enhancements
