@@ -5,10 +5,10 @@ on: [push, pull_request]
 jobs:
   tests:
     name: Run Tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
-        otp: ['20']
+        otp: ['20.3']
         elixir: ['1.4', '1.5', '1.6', '1.7']
     env:
       MIX_ENV: test
