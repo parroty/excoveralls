@@ -27,6 +27,7 @@ The following are example projects.
 Add the following parameters.
 
 - `test_coverage: [tool: ExCoveralls]` for using ExCoveralls for coverage reporting.
+- `test_coverage: [tool: ExCoveralls, export: "cov"]` for exporting data to `cover/cov.coverdata`
 - `preferred_cli_env: [coveralls: :test]` for running `mix coveralls` in `:test` env by default
     - It's an optional setting for skipping `MIX_ENV=test` part when executing `mix coveralls` tasks.
 - `test_coverage: [test_task: "espec"]` if you use Espec instead of default ExUnit.

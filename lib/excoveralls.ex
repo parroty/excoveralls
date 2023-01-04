@@ -36,14 +36,14 @@ defmodule ExCoveralls do
   @doc """
   This method will be called from mix to trigger coverage analysis.
   """
-  def start(compile_path, _opts) do
+  def start(compile_path, opts) do
     Cover.compile(compile_path)
     fn() ->
-      execute(ConfServer.get, compile_path)
+      execute(ConfServer.get, compile_path, opts)
     end
   end
 
-  def execute(options, compile_path) do
+  def execute(options, compile_path, opts) do
     stats = 
       Cover.modules() |> 
       Stats.report() |> 
@@ -54,6 +54,23 @@ defmodule ExCoveralls do
     else
       Stats.update_paths(stats, options) |>
         analyze(options[:type] || "local", options)
+    end
+  after
+    if name = opts[:export] do
+      export_coverdata_file(name, opts)
+    end
+  end
+
+  defp export_coverdata_file(name, opts) do
+    output = Keyword.get(opts, :output, "cover")
+    File.mkdir_p!(output)
+
+    case :cover.export('#{output}/#{name}.coverdata') do
+      :ok ->
+        Mix.shell().info("Coverage data exported.")
+
+      {:error, reason} ->
+        Mix.shell().error("Export failed with reason: #{inspect(reason)}")
     end
   end
 
