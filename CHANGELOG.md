@@ -1,3 +1,9 @@
+0.15.2
+------
+#### Changes
+- Add .coverdata file export (#298).
+  - Allow default use of `mix test --cover --export-coverage XXX`.
+
 0.15.1
 ------
 #### Changes
