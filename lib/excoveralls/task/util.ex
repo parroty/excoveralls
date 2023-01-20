@@ -27,6 +27,7 @@ Usage: mix coveralls <Options>
                         and your git repo resides in "app", then the root path should be: "/home/runs/app/" (from
                         coveralls.io)
     --flagname          Job flag name which will be shown in the Coveralls UI
+    --import_cover      Directory from where '.coverdata' files should be imported and their results added to the report
 
 Usage: mix coveralls.detail [--filter file-name-pattern]
   Used to display coverage with detail

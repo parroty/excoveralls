@@ -155,7 +155,7 @@ defmodule Mix.Tasks.CoverallsTest do
              [type: "post", endpoint: nil, token: "dummy_token",
               service_name: "dummy_service_name", service_number: "1", branch: "branch",
               committer: "committer", sha: "asdf", message: "message",
-              umbrella: nil, verbose: nil, parallel: nil, flag_name: "arbitrary_value", rootdir: "umbrella0/", subdir: "", args: []])
+              umbrella: nil, verbose: nil, parallel: nil, flag_name: "arbitrary_value", rootdir: "umbrella0/", subdir: "", import_cover: nil, args: []])
 
     System.put_env("COVERALLS_REPO_TOKEN", org_token)
     System.put_env("COVERALLS_SERVICE_NAME", org_name)
@@ -175,7 +175,7 @@ defmodule Mix.Tasks.CoverallsTest do
              [type: "post", endpoint: nil, token: "token",
               service_name: "excoveralls", service_number: "", branch: "",
               committer: "", sha: "", message: "[no commit message]",
-              umbrella: nil, verbose: nil, parallel: nil, flag_name: "", rootdir: "", subdir: "", args: []])
+              umbrella: nil, verbose: nil, parallel: nil, flag_name: "", rootdir: "", subdir: "", import_cover: nil, args: []])
 
     if org_token != nil do
       System.put_env("COVERALLS_REPO_TOKEN", org_token)

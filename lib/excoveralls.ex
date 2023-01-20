@@ -38,6 +38,12 @@ defmodule ExCoveralls do
   """
   def start(compile_path, opts) do
     Cover.compile(compile_path)
+
+    options = ConfServer.get()
+    if options[:import_cover] do
+      Cover.import(options[:import_cover])
+    end
+
     fn() ->
       execute(ConfServer.get, compile_path, opts)
     end
@@ -65,7 +71,7 @@ defmodule ExCoveralls do
     output = Keyword.get(opts, :output, "cover")
     File.mkdir_p!(output)
 
-    case :cover.export('#{output}/#{name}.coverdata') do
+    case Cover.export("#{output}/#{name}.coverdata") do
       :ok ->
         Mix.shell().info("Coverage data exported.")
 
@@ -77,7 +83,7 @@ defmodule ExCoveralls do
   defp store_stats(stats, options, compile_path) do
     {sub_app_name, _sub_app_path} =
       ExCoveralls.SubApps.find(options[:sub_apps], compile_path)
-    
+
     Stats.append_sub_app_name(stats, sub_app_name, options[:apps_path]) |> 
       Stats.update_paths(options) |>
       Enum.each(fn(stat) -> StatServer.add(stat) end)
