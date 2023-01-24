@@ -1,3 +1,9 @@
+0.15.3
+------
+#### Enhancements
+- Support `--import_cover` option.
+  - Import coverdata if needed (#292).
+
 0.15.2
 ------
 #### Changes
