@@ -8,7 +8,12 @@ defmodule ExCoveralls.Cover do
   """
   def compile(compile_path) do
     :cover.stop
-    :cover.start
+    {:ok, pid} = :cover.start()
+
+    # Silence analyse import messages emitted by cover
+    {:ok, string_io} = StringIO.open("")
+    Process.group_leader(pid, string_io)
+
     :cover.compile_beam_directory(compile_path |> string_to_charlist)
   end
 
@@ -24,6 +29,14 @@ defmodule ExCoveralls.Cover do
   @doc "Wrapper for :cover.modules"
   def modules do
     :cover.modules |> Enum.filter(&has_compile_info?/1)
+  end
+
+  def import(base_path) do
+    Path.wildcard("#{base_path}/*.coverdata") |> Enum.map(&to_charlist/1) |> Enum.each(&:cover.import/1)
+  end
+
+  def export(path) do
+    path |> to_charlist() |>  :cover.export()
   end
 
   def has_compile_info?(module) do

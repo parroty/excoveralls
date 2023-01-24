@@ -33,7 +33,7 @@ defmodule Mix.Tasks.Coveralls do
         message: "Please specify 'test_coverage: [tool: ExCoveralls]' in the 'project' section of mix.exs"
     end
 
-    switches = [filter: :string, umbrella: :boolean, verbose: :boolean, pro: :boolean, parallel: :boolean, sort: :string, output_dir: :string, subdir: :string, rootdir: :string, flagname: :string]
+    switches = [filter: :string, umbrella: :boolean, verbose: :boolean, pro: :boolean, parallel: :boolean, sort: :string, output_dir: :string, subdir: :string, rootdir: :string, flagname: :string, import_cover: :string]
     aliases = [f: :filter, u: :umbrella, v: :verbose, o: :output_dir]
     {args, common_options} = parse_common_options(args, switches: switches, aliases: aliases)
     all_options = options ++ common_options
@@ -269,6 +269,7 @@ defmodule Mix.Tasks.Coveralls do
         rootdir: :string,
         subdir: :string,
         build: :string,
+        import_cover: :string
       ]
       aliases = [f: :filter, u: :umbrella, v: :verbose]
       {remaining, options} = Mix.Tasks.Coveralls.parse_common_options(
@@ -292,7 +293,8 @@ defmodule Mix.Tasks.Coveralls do
           parallel:     options[:parallel],
           flag_name:    options[:flagname] || "",
           rootdir:      options[:rootdir] || "",
-          subdir:       options[:subdir] || ""
+          subdir:       options[:subdir] || "",
+          import_cover: options[:string]
         ])
     end
 
