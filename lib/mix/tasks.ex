@@ -138,6 +138,21 @@ defmodule Mix.Tasks.Coveralls do
       Mix.Tasks.Coveralls.do_run(args, [ type: "xml" ])
     end
   end
+  
+  defmodule Cobertura do
+    @moduledoc """
+    Provides an entry point for outputting coveralls information
+    as a Cobertura XML file.
+    """
+    use Mix.Task
+
+    @shortdoc "Output the test coverage as a Cobertura XML file"
+    @preferred_cli_env :test
+
+    def run(args) do
+      Mix.Tasks.Coveralls.do_run(args, [ type: "cobertura" ])
+    end
+  end
 
   defmodule Json do
     @moduledoc """

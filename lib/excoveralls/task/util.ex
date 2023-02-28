@@ -35,6 +35,9 @@ Usage: mix coveralls.detail [--filter file-name-pattern]
 
 Usage: mix coveralls.html
   Used to display coverage information at the source-code level formatted as an HTML page.
+  
+Usage: mix coveralls.cobertura
+  Used to display coverage information at the source-code level formatted as an XML cobertura file.
 
 Usage: mix coveralls.travis [--pro]
   Used to post coverage from Travis CI server.
