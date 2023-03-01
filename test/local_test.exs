@@ -37,6 +37,12 @@ defmodule ExCoveralls.LocalTest do
       "\e[31mdefmodule Test do\e[m\n\e[32m  def test do\e[m\n" <>
       "  end\n" <>
       "end"
+      
+  setup do
+    ExCoveralls.ConfServer.clear()
+    on_exit(fn -> ExCoveralls.ConfServer.clear() end)
+    :ok
+  end
 
   test "display source information" do
     assert(Local.source(@source_info) =~ @source_result)

@@ -56,6 +56,13 @@ Usage: mix coveralls.post <Options>
     -s (--sha)          Commit SHA (required when not using Travis)
     --build             Service number ('BUILDS' column at coveralls.io page)
     --parallel          coveralls.io 'parallel' option (See coveralls.io API Reference)
+
+Usage: mix coveralls.multiple
+  Used to perform multiple coveralls task at once without need of re-running tests.
+  
+  <Options>
+    --type              Coveralls task to execute (can be given multiple times)
+                        e.g. 'mix coveralls.multiple --type html --type json'
 """
   end
 end

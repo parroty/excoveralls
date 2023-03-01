@@ -5,6 +5,7 @@ defmodule ExCoveralls.ConfServer do
 
   @ets_table :excoveralls_conf_server
   @ets_key :config_key
+  @ets_summary_key :summary_key
 
   @doc """
   Initialize the data-store table.
@@ -40,5 +41,18 @@ defmodule ExCoveralls.ConfServer do
     start()
     :ets.insert(@ets_table, {@ets_key, value})
     value
+  end
+  
+  def summary_printed do 
+    start()
+    :ets.insert(@ets_table, {@ets_summary_key, true})
+  end
+  
+  def summary_printed? do 
+    start()
+    
+    @ets_table
+    |> :ets.lookup(@ets_summary_key)
+    |> Keyword.get(@ets_summary_key, false)
   end
 end
