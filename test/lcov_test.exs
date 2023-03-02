@@ -23,6 +23,7 @@ defmodule ExCoveralls.LcovTest do
     "----------------\n"
 
   setup do
+    ExCoveralls.ConfServer.clear()
     path = Path.expand(@file_name, @test_output_dir)
 
     # Assert does not exist prior to write
@@ -33,6 +34,8 @@ defmodule ExCoveralls.LcovTest do
         File.rm!(path)
         File.rmdir!(@test_output_dir)
       end
+      
+      ExCoveralls.ConfServer.clear()
     end
 
     {:ok, report: path}

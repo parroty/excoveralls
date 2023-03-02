@@ -310,4 +310,39 @@ defmodule Mix.Tasks.Coveralls do
       end
     end
   end
+  
+  defmodule Multiple do
+    @moduledoc """
+    Provides an entry point for executing multiple coveralls
+    task at once without re-running tests
+    """
+
+    use Mix.Task
+
+    @preferred_cli_env :test
+
+    def run(args) do
+      {parsed, _, _} = OptionParser.parse(args, strict: [type: :keep])
+
+      args = remove_type_args(args)
+      
+      case Keyword.get_values(parsed, :type) do
+        [] -> raise ExCoveralls.InvalidOptionError, message: "type argument is required"
+        types -> Mix.Tasks.Coveralls.do_run(args, type: types)
+      end
+    end
+    
+    defp remove_type_args(args) do
+      {res, _} =
+        Enum.reduce(args, {[], nil}, fn entry, {buffer, acc} ->
+          case {entry, acc} do
+            {_, "--type" }-> {buffer, nil}
+            {"--type", _} -> {buffer, "--type"}
+            {el, _} -> {[el | buffer], nil}
+          end
+        end)
+        
+        Enum.reverse(res)
+    end
+  end
 end

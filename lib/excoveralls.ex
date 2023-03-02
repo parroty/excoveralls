@@ -58,8 +58,9 @@ defmodule ExCoveralls do
     if options[:umbrella] do
       store_stats(stats, options, compile_path)
     else
-      Stats.update_paths(stats, options) |>
-        analyze(options[:type] || "local", options)
+      types = List.wrap(options[:type] || "local")
+      stats = Stats.update_paths(stats, options)
+      Enum.each(types, &analyze(stats, &1, options))
     end
   after
     if name = opts[:export] do

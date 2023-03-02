@@ -87,6 +87,13 @@ defmodule Mix.Tasks.CoverallsTest do
     assert(ExCoveralls.ConfServer.get == [type: "html", args: []])
   end
 
+  test_with_mock "multiple", Runner, [run: fn(_, _) -> nil end] do
+    Mix.Tasks.Coveralls.Multiple.run(["--type", "html", "--type", "json", "--export-coverage", "cover", "test/foo_test.exs"])
+    assert(called Runner.run("test", ["--cover", "--export-coverage", "cover", "test/foo_test.exs"]))
+    assert(ExCoveralls.ConfServer.get()[:type] == ["html", "json"])
+    assert(ExCoveralls.ConfServer.get()[:args] == ["--export-coverage", "cover", "test/foo_test.exs"])
+  end
+
   test_with_mock "json", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Json.run([])
     assert(called Runner.run("test", ["--cover"]))
