@@ -1,3 +1,10 @@
+0.16.0
+------
+#### Enhancements
+- Add coveralls.multiple command (#303).
+- Support `# coveralls-ignore-next-line` comment for ignoring single next line.
+  - Ignore single next line (#301).
+
 0.15.3
 ------
 #### Enhancements
