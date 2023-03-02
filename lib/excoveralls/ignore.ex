@@ -13,7 +13,7 @@ defmodule ExCoveralls.Ignore do
   defp do_filter(%{name: name, source: source, coverage: coverage}) do
     lines = String.split(source, "\n")
     list = Enum.zip(lines, coverage)
-           |> Enum.map_reduce(false, &check_and_swap/2)
+           |> Enum.map_reduce(:no_ignore, &check_and_swap/2)
            |> elem(0)
            |> List.zip
            |> Enum.map(&Tuple.to_list(&1))
@@ -33,7 +33,7 @@ defmodule ExCoveralls.Ignore do
   defp parse_filter_list([lines, coverage]), do: [Enum.join(lines, "\n"), coverage]
 
   defp coverage_for_line({line, coverage}, ignore) do
-    if ignore == false do
+    if ignore == :no_ignore do
       {line, coverage}
     else
       {line, nil}
@@ -41,10 +41,19 @@ defmodule ExCoveralls.Ignore do
   end
 
   defp ignore_next?(line, ignore) do
-    case Regex.run(~r/coveralls-ignore-(start|stop)/, line, capture: :all_but_first) do
-      ["start"] -> true
-      ["stop"] -> false
-      _sth -> ignore
+    case Regex.run(~r/coveralls-ignore-(start|stop|next-line)/, line, capture: :all_but_first) do
+      ["start"] -> :ignore_block
+      ["stop"] -> :no_ignore
+      ["next-line"] ->
+        case ignore do
+          :ignore_block -> ignore
+          _sth -> :ignore_line
+        end
+      _sth ->
+        case ignore do
+          :ignore_line -> :no_ignore
+          _sth -> ignore
+        end
     end
   end
 

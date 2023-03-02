@@ -471,6 +471,18 @@ defmodule MyModule do
 end
 ```
 
+Use comment `coveralls-ignore-next-line` to ignore only the next line.
+
+```elixir
+defmodule MyModule do
+  def covered do
+    # coveralls-ignore-next-line
+    "ignored"
+    "covered"
+  end
+end
+```
+
 ### Silence OTP Cover Warnings
 To remove OTP warnings about modules or specific logging, you can copy the `cover.erl` file under `src/` of your Elixir project and modify it to remove the warnings, as a tentative solution.
 
