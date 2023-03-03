@@ -55,7 +55,7 @@ defmodule ExCoveralls.CoberturaTest do
                "@lines-covered" => "1",
                "@lines-valid" => "2",
                "@timestamp" => _,
-               "@version" => "1.9.4.1",
+               "@version" => "2.1.1",
                "content" => %{
                  "packages" => %{
                    "content" => %{
@@ -134,7 +134,7 @@ defmodule ExCoveralls.CoberturaTest do
                "@lines-covered" => "1",
                "@lines-valid" => "2",
                "@timestamp" => _,
-               "@version" => "1.9.4.1",
+               "@version" => "2.1.1",
                "content" => %{
                  "packages" => %{
                    "content" => %{

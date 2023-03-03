@@ -29,7 +29,12 @@ defmodule ExCoveralls.Cobertura do
 
     timestamp = DateTime.utc_now() |> DateTime.to_unix(:millisecond)
 
-    version = "1.9.4.1"
+    # This is the version of the cobertura tool used to generate the XML
+    # We are not using the tool here but the version is mandatory in the DTD schema
+    # so we put the last released version (dated 2015)
+    # It is only a "placeholder" to make DTD happy
+    version = "2.1.1"
+
     complexity = "0"
     branch_rate = "0.0"
     branches_covered = "0"
