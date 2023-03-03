@@ -4,6 +4,8 @@
 - Add coveralls.multiple command (#303).
 - Support `# coveralls-ignore-next-line` comment for ignoring single next line.
   - Ignore single next line (#301).
+- Add `mix coveralls.cobertura` task.
+  - cobertura task (#302).
 
 0.15.3
 ------
