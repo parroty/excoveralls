@@ -427,6 +427,7 @@ to `false`:
   - A custom path for html reports. This defaults to the htmlcov report in the excoveralls lib.
 - `minimum_coverage`
   - When set to a number greater than 0, this setting causes the `mix coveralls` and `mix coveralls.html` tasks to exit with a status code of 1 if test coverage falls below the specified threshold (defaults to 0). This is useful to interrupt CI pipelines with strict code coverage rules. Should be expressed as a number between 0 and 100 signifying the minimum percentage of lines covered.
+  - Can also be set to a nested object of filepath and minimum coverage key-value pairs. If this is the case, then `mix coveralls` and `mix coveralls.html` tasks will exit with a status code of 1 if test coverage falls below the specified threshold for any of the configured files.
 - `html_filter_full_covered`
   - A boolean, when `true` files with 100% coverage are not shown in the HTML report. Default to `false`.
 

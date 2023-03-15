@@ -226,18 +226,44 @@ defmodule ExCoveralls.Stats do
   Exit the process with a status of 1 if coverage is below the minimum.
   """
   def ensure_minimum_coverage(stats) do
-    coverage_options = ExCoveralls.Settings.get_coverage_options
+    coverage_options = ExCoveralls.Settings.get_coverage_options()
     minimum_coverage = coverage_options["minimum_coverage"] || 0
-    if minimum_coverage > 0, do: check_coverage_threshold(stats, minimum_coverage)
+
+    check_coverage_threshold(stats, minimum_coverage)
   end
 
-  defp check_coverage_threshold(stats, minimum_coverage) do
-    result = source(stats)
-    if result.coverage < minimum_coverage do
-      message = "FAILED: Expected minimum coverage of #{minimum_coverage}%, got #{result.coverage}%."
-      IO.puts IO.ANSI.format([:red, :bright, message])
+  defp check_coverage_threshold(stats, minimum_coverages) when is_map(minimum_coverages) do
+    file_results = stats |> source() |> Map.get(:files, []) |> Map.new(&{&1.filename, &1})
+
+    messages =
+      for {file, minimum_coverage} <- minimum_coverages,
+          %Source{coverage: file_coverage, filename: filename} = file_results[file],
+          minimum_coverage > 0 && file_coverage < minimum_coverage do
+        "FAILED: Expected minimum coverage of #{minimum_coverage}% for `#{filename}`, got #{file_coverage}%."
+      end
+
+    unless Enum.empty?(messages) do
+      IO.puts(IO.ANSI.format([:red, :bright, Enum.join(messages, "\n\n")]))
       exit({:shutdown, 1})
     end
+
+    :ok
+  end
+
+  defp check_coverage_threshold(stats, minimum_coverage) when minimum_coverage > 0 do
+    result = source(stats)
+
+    if result.coverage < minimum_coverage do
+      message =
+        "FAILED: Expected minimum coverage of #{minimum_coverage}%, got #{result.coverage}%."
+
+      IO.puts(IO.ANSI.format([:red, :bright, message]))
+      exit({:shutdown, 1})
+    end
+  end
+
+  defp check_coverage_threshold(_stats, _minimum_coverage) do
+    :ok
   end
 
 end
