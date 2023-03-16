@@ -3,8 +3,6 @@ defmodule ExCoveralls.Local do
   Locally displays the result to screen.
   """
   
-  
-
   defmodule Count do
     @moduledoc """
     Stores count information for calculating coverage values.
@@ -22,8 +20,6 @@ defmodule ExCoveralls.Local do
     if options[:detail] == true do
       source(stats, options[:filter]) |> IO.puts
     end
-
-    ExCoveralls.Stats.ensure_minimum_coverage(stats)
   end
 
   @doc """

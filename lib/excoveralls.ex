@@ -57,12 +57,19 @@ defmodule ExCoveralls do
       Stats.report() |> 
       Enum.map(&Enum.into(&1, %{}))
 
-    if options[:umbrella] do
-      store_stats(stats, options, compile_path)
-    else
-      types = List.wrap(options[:type] || "local")
-      stats = Stats.update_paths(stats, options)
-      Enum.each(types, &analyze(stats, &1, options))
+    stats =
+      if options[:umbrella] do
+        store_stats(stats, options, compile_path)
+        stats
+      else
+        types = List.wrap(options[:type] || "local")
+        stats = Stats.update_paths(stats, options)
+        Enum.each(types, &analyze(stats, &1, options))
+        stats
+      end
+
+    if options[:enforce_minimum_coverage] do
+      Stats.ensure_minimum_coverage(stats)
     end
   after
     if name = opts[:export] do

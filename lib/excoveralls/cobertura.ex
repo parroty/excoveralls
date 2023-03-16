@@ -4,7 +4,6 @@ defmodule ExCoveralls.Cobertura do
   """
 
   alias ExCoveralls.Settings
-  alias ExCoveralls.Stats
 
   @file_name "cobertura.xml"
 
@@ -17,8 +16,6 @@ defmodule ExCoveralls.Cobertura do
     |> write_file(options[:output_dir])
 
     ExCoveralls.Local.print_summary(stats)
-
-    Stats.ensure_minimum_coverage(stats)
   end
 
   defp generate_xml(stats, _options) do
