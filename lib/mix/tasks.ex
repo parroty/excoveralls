@@ -33,8 +33,13 @@ defmodule Mix.Tasks.Coveralls do
         message: "Please specify 'test_coverage: [tool: ExCoveralls]' in the 'project' section of mix.exs"
     end
 
-    switches = [filter: :string, umbrella: :boolean, verbose: :boolean, pro: :boolean, parallel: :boolean, sort: :string, output_dir: :string, subdir: :string, rootdir: :string, flagname: :string, import_cover: :string]
+    switches = [
+      filter: :string, umbrella: :boolean, verbose: :boolean, pro: :boolean, parallel: :boolean, sort: :string,
+      output_dir: :string, subdir: :string, rootdir: :string, flagname: :string, import_cover: :string, enforce_minimum_coverage: :boolean
+    ]
+
     aliases = [f: :filter, u: :umbrella, v: :verbose, o: :output_dir]
+
     {args, common_options} = parse_common_options(args, switches: switches, aliases: aliases)
     all_options = options ++ common_options
     test_task = Mix.Project.config[:test_coverage][:test_task] || "test"
@@ -43,6 +48,13 @@ defmodule Mix.Tasks.Coveralls do
       if all_options[:umbrella] do
         sub_apps = ExCoveralls.SubApps.parse(Mix.Dep.Umbrella.loaded)
         all_options ++ [sub_apps: sub_apps, apps_path: Mix.Project.config[:apps_path]]
+      else
+        all_options
+      end
+
+    all_options =
+      if all_options[:type] in ["local", "html", "cobertura"] do
+        Keyword.put(all_options, :enforce_minimum_coverage, true)
       else
         all_options
       end
