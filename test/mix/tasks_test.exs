@@ -29,7 +29,7 @@ defmodule Mix.Tasks.CoverallsTest do
   test_with_mock "local", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.run([])
     assert(called Runner.run("test", ["--cover"]))
-    assert(ExCoveralls.ConfServer.get == [type: "local", args: []])
+    assert(ExCoveralls.ConfServer.get == [enforce_minimum_coverage: true, type: "local", args: []])
   end
 
   test "local with help option" do
@@ -43,7 +43,7 @@ defmodule Mix.Tasks.CoverallsTest do
       Mix.Tasks.Coveralls.run(["--umbrella"])
       assert(called Runner.run("test", ["--cover"]))
       assert(ExCoveralls.ConfServer.get ==
-        [type: "local", umbrella: true, sub_apps: [], apps_path: nil, args: []])
+        [enforce_minimum_coverage: true, type: "local", umbrella: true, sub_apps: [], apps_path: nil, args: []])
     end)
   end
 
@@ -72,25 +72,25 @@ defmodule Mix.Tasks.CoverallsTest do
   test_with_mock "detail", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Detail.run([])
     assert(called Runner.run("test", ["--cover"]))
-    assert(ExCoveralls.ConfServer.get == [type: "local", detail: true, args: []])
+    assert(ExCoveralls.ConfServer.get == [enforce_minimum_coverage: true, type: "local", detail: true, args: []])
   end
 
   test_with_mock "detail and filter", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Detail.run(["--filter", "x"])
     assert(called Runner.run("test", ["--cover"]))
-    assert(ExCoveralls.ConfServer.get == [type: "local", detail: true, filter: "x", args: []])
+    assert(ExCoveralls.ConfServer.get == [enforce_minimum_coverage: true, type: "local", detail: true, filter: "x", args: []])
   end
 
   test_with_mock "html", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Html.run([])
     assert(called Runner.run("test", ["--cover"]))
-    assert(ExCoveralls.ConfServer.get == [type: "html", args: []])
+    assert(ExCoveralls.ConfServer.get == [enforce_minimum_coverage: true, type: "html", args: []])
   end
   
   test_with_mock "cobertura", Runner, [run: fn(_, _) -> nil end] do
     Mix.Tasks.Coveralls.Cobertura.run([])
     assert(called Runner.run("test", ["--cover"]))
-    assert(ExCoveralls.ConfServer.get == [type: "cobertura", args: []])
+    assert(ExCoveralls.ConfServer.get == [enforce_minimum_coverage: true, type: "cobertura", args: []])
   end
 
   test_with_mock "multiple", Runner, [run: fn(_, _) -> nil end] do
