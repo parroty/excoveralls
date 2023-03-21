@@ -184,4 +184,125 @@ defmodule ExCoveralls.StatsTest do
       assert result
     end
   end
+
+  describe "ensure_minimum_coverage/1" do
+    import ExUnit.CaptureIO
+
+    setup do
+      stats = fn opts ->
+        Enum.map(opts, fn opts ->
+          coverage = Map.get(opts, :coverage, 0)
+
+          name =
+            Map.get(
+              opts,
+              :name,
+              "test/fixtures/test#{System.unique_integer([:monotonic, :positive])}.ex"
+            )
+
+          %{
+            name: name,
+            source: @trimmed,
+            coverage: List.duplicate(1, coverage) ++ List.duplicate(0, 100 - coverage)
+          }
+        end)
+      end
+
+      {:ok, stats: stats}
+    end
+
+    test_with_mock "returns `:ok` when minimum coverage is exceeded",
+                   %{stats: stats},
+                   ExCoveralls.Settings,
+                   [],
+                   get_coverage_options: fn -> %{"minimum_coverage" => 75} end do
+      assert :ok = Stats.ensure_minimum_coverage(stats.([%{coverage: 100}]))
+    end
+
+    test_with_mock "returns `:ok` when minimum coverage is met",
+                   %{stats: stats},
+                   ExCoveralls.Settings,
+                   [],
+                   get_coverage_options: fn -> %{"minimum_coverage" => 75} end do
+      assert :ok = Stats.ensure_minimum_coverage(stats.([%{coverage: 75}]))
+    end
+
+    test_with_mock "exits when minimum coverage is not met",
+                   %{stats: stats},
+                   ExCoveralls.Settings,
+                   [],
+                   get_coverage_options: fn -> %{"minimum_coverage" => 75} end do
+      assert capture_io(fn ->
+               assert catch_exit(Stats.ensure_minimum_coverage(stats.([%{coverage: 50}])))
+             end) =~ "FAILED: Expected minimum coverage of 75%, got 50%"
+    end
+
+    test_with_mock "returns `:ok` when per file minimum coverage is exceeded",
+                   %{stats: stats},
+                   ExCoveralls.Settings,
+                   [],
+                   get_coverage_options: fn ->
+                     %{"minimum_coverage" => %{"file_1.ex": 50, "file_2.ex": 15}}
+                   end do
+      assert :ok =
+               Stats.ensure_minimum_coverage(
+                 stats.([
+                   %{name: "file_1.ex", coverage: 100},
+                   %{name: "file_2.ex", coverage: 20},
+                   %{name: "file_3.ex", coverage: 0}
+                 ])
+               )
+    end
+
+    test_with_mock "returns `:ok` when per file minimum coverage is met",
+                   %{stats: stats},
+                   ExCoveralls.Settings,
+                   [],
+                   get_coverage_options: fn ->
+                     %{"minimum_coverage" => %{"file_1.ex": 50, "file_2.ex": 15}}
+                   end do
+      assert :ok =
+               Stats.ensure_minimum_coverage(
+                 stats.([
+                   %{name: "file_1.ex", coverage: 50},
+                   %{name: "file_2.ex", coverage: 15},
+                   %{name: "file_3.ex", coverage: 0}
+                 ])
+               )
+    end
+
+    test_with_mock "exits when minimum coverage it not met",
+                   %{stats: stats},
+                   ExCoveralls.Settings,
+                   [],
+                   get_coverage_options: fn ->
+                     %{"minimum_coverage" => %{"file_1.ex": 50, "file_2.ex": 15}}
+                   end do
+      assert log =
+               capture_io(fn ->
+                 assert catch_exit(
+                          Stats.ensure_minimum_coverage(
+                            stats.([
+                              %{name: "file_1.ex", coverage: 49},
+                              %{name: "file_2.ex", coverage: 10},
+                              %{name: "file_3.ex", coverage: 0}
+                            ])
+                          )
+                        )
+               end)
+
+      assert log =~ "FAILED: Expected minimum coverage of 50% for `file_1.ex`, got 49%."
+      assert log =~ "FAILED: Expected minimum coverage of 15% for `file_2.ex`, got 10%."
+    end
+
+    test_with_mock "no-op if coverage options specify file that does not exist",
+                   %{stats: stats},
+                   ExCoveralls.Settings,
+                   [],
+                   get_coverage_options: fn ->
+                     %{"minimum_coverage" => %{"does_not_exist.ex": 50}}
+                   end do
+      assert :ok = Stats.ensure_minimum_coverage(stats.([%{name: "file_3.ex", coverage: 0}]))
+    end
+  end
 end

@@ -236,13 +236,16 @@ defmodule ExCoveralls.Stats do
     file_results = stats |> source() |> Map.get(:files, []) |> Map.new(&{&1.filename, &1})
 
     messages =
-      for {file, minimum_coverage} <- minimum_coverages,
-          %Source{coverage: file_coverage, filename: filename} = file_results[file],
-          minimum_coverage > 0 && file_coverage < minimum_coverage do
-        "FAILED: Expected minimum coverage of #{minimum_coverage}% for `#{filename}`, got #{file_coverage}%."
-      end
+      minimum_coverages
+      |> Enum.map(fn {file, minimum_coverage} -> {file_results[to_string(file)], minimum_coverage} end)
+      |> Enum.reject(fn {source, _minimum_coverage} -> is_nil(source) end)
+      |> Enum.map(fn {source, minimum_coverage} -> 
+        if minimum_coverage > 0 && source.coverage < minimum_coverage do
+          "FAILED: Expected minimum coverage of #{minimum_coverage}% for `#{source.filename}`, got #{source.coverage}%."
+        end
+      end)
 
-    unless Enum.empty?(messages) do
+    unless Enum.empty?(messages) or Enum.all?(messages, &is_nil/1) do
       IO.puts(IO.ANSI.format([:red, :bright, Enum.join(messages, "\n\n")]))
       exit({:shutdown, 1})
     end
@@ -260,6 +263,8 @@ defmodule ExCoveralls.Stats do
       IO.puts(IO.ANSI.format([:red, :bright, message]))
       exit({:shutdown, 1})
     end
+
+    :ok
   end
 
   defp check_coverage_threshold(_stats, _minimum_coverage) do
