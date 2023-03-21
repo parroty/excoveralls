@@ -198,4 +198,44 @@ defmodule ExCoveralls.CoberturaTest do
     assert String.ends_with?(source1, "/lib")
     assert String.ends_with?(source2, "/test/fixtures")
   end
+
+  test_with_mock "generate cobertura file with defprotocol", _, ExCoveralls.Settings, [],
+    get_coverage_options: fn -> %{"output_dir" => @test_output_dir} end,
+    get_file_col_width: fn -> 40 end,
+    get_print_summary: fn -> true end,
+    get_print_files: fn -> true end do
+    content = "defprotocol TestProtocol do\n  def test(value)\nend\n"
+    counts = [0, 1, nil, nil]
+    source_info = [%{name: "test/fixtures/test_protocol.ex", source: content, coverage: counts}]
+
+    stats_result =
+      "" <>
+        "----------------\n" <>
+        "COV    FILE                                        LINES RELEVANT   MISSED\n" <>
+        " 50.0% test/fixtures/test_protocol.ex                  4        2        1\n" <>
+        "[TOTAL]  50.0%\n" <>
+        "----------------\n"
+
+    assert capture_io(fn -> Cobertura.execute(source_info) end) =~ stats_result
+  end
+
+  test_with_mock "generate cobertura file with defimpl", _, ExCoveralls.Settings, [],
+    get_coverage_options: fn -> %{"output_dir" => @test_output_dir} end,
+    get_file_col_width: fn -> 40 end,
+    get_print_summary: fn -> true end,
+    get_print_files: fn -> true end do
+    content = "defimpl TestProtocol, for: Integer do\n  def test(value), do: \"integer!\" \nend\n"
+    counts = [0, 1, nil, nil]
+    source_info = [%{name: "test/fixtures/test_impl.ex", source: content, coverage: counts}]
+
+    stats_result =
+      "" <>
+        "----------------\n" <>
+        "COV    FILE                                        LINES RELEVANT   MISSED\n" <>
+        " 50.0% test/fixtures/test_impl.ex                      4        2        1\n" <>
+        "[TOTAL]  50.0%\n" <>
+        "----------------\n"
+
+    assert capture_io(fn -> Cobertura.execute(source_info) end) =~ stats_result
+  end
 end

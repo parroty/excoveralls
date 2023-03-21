@@ -159,12 +159,13 @@ defmodule ExCoveralls.Cobertura do
   end
 
   defp module_name(source) do
-    case Regex.run(~r/^defmodule\s+(.*)\s+do$/m, source, capture: :all_but_first) do
+    case Regex.run(~r/^def(?:module|protocol|impl)\s+(.*)\s+do$/m, source, capture: :all_but_first) do
+
       [module] ->
         module
 
       _ ->
-        [module] = Regex.run(~r/^-module\((.*)\)\.$/m, source, capture: :all_but_first)
+        [module] = Regex.run(~r/^-(?:module|protocol|impl)\((.*)\)\.$/m, source, capture: :all_but_first)
         module
     end
   end
