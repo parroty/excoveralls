@@ -159,14 +159,12 @@ defmodule ExCoveralls.Cobertura do
   end
 
   defp module_name(source) do
-    case Regex.run(~r/^defmodule\s+(.*)\s+do$/m, source, capture: :all_but_first) do
-      [module] ->
-        module
-
-      _ ->
-        [module] = Regex.run(~r/^-module\((.*)\)\.$/m, source, capture: :all_but_first)
-        module
-    end
+    with nil <- Regex.run(~r/^def(?:module|protocol|impl)\s+(.*)\s+do$/m, source, capture: :all_but_first),
+         nil <- Regex.run(~r/^-module\((.*)\)\.$/m, source, capture: :all_but_first) do
+     "UNKNOWN_MODULE"
+    else
+     [module] -> module
+    end  
   end
 
   defp package_name(path, c_paths) do
