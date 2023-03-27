@@ -1,3 +1,8 @@
+0.16.1
+------
+#### Changes
+- Cobertura now handles defprotocol and defimpl definitions (#306).
+
 0.16.0
 ------
 #### Enhancements
