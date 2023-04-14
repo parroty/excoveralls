@@ -41,13 +41,14 @@ defmodule ExCoveralls do
   def start(compile_path, opts) do
     Cover.compile(compile_path)
 
-    options = ConfServer.get()
-    if options[:import_cover] do
-      Cover.import(options[:import_cover])
-    end
-
     fn() ->
-      execute(ConfServer.get, compile_path, opts)
+      options = ConfServer.get()
+
+      if options[:import_cover] do
+        Cover.import(options[:import_cover])
+      end
+
+      execute(options, compile_path, opts)
     end
   end
 
