@@ -90,14 +90,17 @@ end
     - [[mix coveralls.xml] Show coverage as XML report](#mix-coverallsxml-show-coverage-as-xml-report)
     - [[mix coveralls.lcov] Show coverage as lcov report (Experimental)](#mix-coverallslcov-show-coverage-as-lcov-report-experimental)
   - [coveralls.json](#coverallsjson)
-      - [Stop Words](#stop-words)
-      - [Exclude Files](#exclude-files)
-      - [Terminal Report Output](#terminal-report-output)
-      - [Coverage Options](#coverage-options)
+    - [Stop Words](#stop-words)
+    - [Exclude Files](#exclude-files)
+    - [Terminal Report Output](#terminal-report-output)
+    - [Coverage Options](#coverage-options)
+  - [Other Considerations](#other-considerations)
     - [Ignore Lines](#ignore-lines)
+    - [Silence OTP Cover Warnings](#silence-otp-cover-warnings)
+    - [Merging Coverage Results](#merging-coverage-results)
     - [Notes](#notes)
     - [Todo](#todo)
-  - [License](#license)
+- [License](#license)
 
 ### [mix coveralls] Show coverage
 Run the `MIX_ENV=test mix coveralls` command to show coverage information on localhost.
@@ -549,6 +552,6 @@ See the `mix test` [Coverage documentation](https://hexdocs.pm/mix/Mix.Tasks.Tes
 - It might not work well on projects which handle multiple project (Mix.Project) files.
     - Needs improvement on file-path handling.
 
-## License
+# License
 
 This source code is licensed under the MIT license. Copyright (c) 2013-present, parroty.
