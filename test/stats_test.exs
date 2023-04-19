@@ -242,7 +242,7 @@ defmodule ExCoveralls.StatsTest do
                    ExCoveralls.Settings,
                    [],
                    get_coverage_options: fn ->
-                     %{"minimum_coverage" => %{"file_1.ex": 50, "file_2.ex": 15}}
+                     %{"minimum_file_coverage" => %{"file_1.ex": 50, "file_2.ex": 15}}
                    end do
       assert :ok =
                Stats.ensure_minimum_coverage(
@@ -259,7 +259,7 @@ defmodule ExCoveralls.StatsTest do
                    ExCoveralls.Settings,
                    [],
                    get_coverage_options: fn ->
-                     %{"minimum_coverage" => %{"file_1.ex": 50, "file_2.ex": 15}}
+                     %{"minimum_file_coverage" => %{"file_1.ex": 50, "file_2.ex": 15}}
                    end do
       assert :ok =
                Stats.ensure_minimum_coverage(
@@ -276,7 +276,7 @@ defmodule ExCoveralls.StatsTest do
                    ExCoveralls.Settings,
                    [],
                    get_coverage_options: fn ->
-                     %{"minimum_coverage" => %{"file_1.ex": 50, "file_2.ex": 15}}
+                     %{"minimum_file_coverage" => %{"file_1.ex": 50, "file_2.ex": 15}}
                    end do
       assert log =
                capture_io(fn ->
@@ -300,7 +300,7 @@ defmodule ExCoveralls.StatsTest do
                    ExCoveralls.Settings,
                    [],
                    get_coverage_options: fn ->
-                     %{"minimum_coverage" => %{"does_not_exist.ex": 50}}
+                     %{"minimum_file_coverage" => %{"does_not_exist.ex": 50}}
                    end do
       assert :ok = Stats.ensure_minimum_coverage(stats.([%{name: "file_3.ex", coverage: 0}]))
     end
