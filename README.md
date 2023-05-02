@@ -537,7 +537,7 @@ COV    FILE                                        LINES RELEVANT   MISSED
 ----------------
 ```
 
-Coverage data is imported after tests are run. If a test spawns additional subprocesses, for instance to run `mix test` on a generated test module, coverage data exported during those runs can be included in the final report.
+Coverage data is imported after tests are run.
 
 See the `mix test` [Coverage documentation](https://hexdocs.pm/mix/Mix.Tasks.Test.html#module-coverage) for more information on `.coverdata`.
 
