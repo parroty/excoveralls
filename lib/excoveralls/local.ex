@@ -2,8 +2,8 @@ defmodule ExCoveralls.Local do
   @moduledoc """
   Locally displays the result to screen.
   """
-  
-  
+
+
 
   defmodule Count do
     @moduledoc """
@@ -145,16 +145,16 @@ defmodule ExCoveralls.Local do
   end
 
   defp format_info([stat, count]) do
-    coverage = get_coverage(count)
+    coverage = count |>get_coverage() |> Float.floor(1)
     file_width = ExCoveralls.Settings.get_file_col_width
-    print_string("~5.1f% ~-#{file_width}s ~8w ~8w ~8w",
+    print_string("~5w% ~-#{file_width}s ~8w ~8w ~8w",
       [coverage, stat[:name], count.lines, count.relevant, count.relevant - count.covered])
   end
 
   defp format_total(info) do
     totals   = Enum.reduce(info, %Count{}, fn([_, count], acc) -> append(count, acc) end)
-    coverage = get_coverage(totals)
-    print_string("[TOTAL] ~5.1f%", [coverage])
+    coverage = totals |> get_coverage() |> Float.floor(1)
+    print_string("[TOTAL] ~5w%", [coverage])
   end
 
   defp append(a, b) do
