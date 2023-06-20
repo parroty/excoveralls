@@ -5,15 +5,10 @@ defmodule ExCoveralls.Poster do
   @file_name "excoveralls.post.json.gz"
 
   @doc """
-  Create a temporarily json file and post it to server using hackney library.
-  Then, remove the file after it's completed.
+  Compresses the given `json` and posts it to the coveralls server.
   """
   def execute(json, options \\ []) do
-    File.write!(@file_name, json |> :zlib.gzip())
-    response = send_file(@file_name, options)
-    File.rm!(@file_name)
-
-    case response do
+    case json |> :zlib.gzip() |> upload_zipped_json(options) do
       {:ok, message} ->
         IO.puts(message)
 
@@ -22,41 +17,62 @@ defmodule ExCoveralls.Poster do
     end
   end
 
-  defp send_file(file_name, options) do
-    Application.ensure_all_started(:hackney)
+  defp upload_zipped_json(content, options) do
+    Application.ensure_all_started(:ssl)
+    Application.ensure_all_started(:httpc)
+    Application.ensure_all_started(:inets)
+
     endpoint = options[:endpoint] || "https://coveralls.io"
+    host = URI.parse(endpoint).host
 
-    response =
-      :hackney.request(
-        :post,
-        "#{endpoint}/api/v1/jobs",
-        [],
-        {:multipart,
-         [
-           {:file, file_name, {"form-data", [{"name", "json_file"}, {"filename", file_name}]},
-            [{"Content-Type", "gzip/json"}]}
-         ]},
-        [{:recv_timeout, 10_000}]
-      )
+    multipart_boundary =
+      "---------------------------" <> Base.encode16(:crypto.strong_rand_bytes(8), case: :lower)
 
-    case response do
-      {:ok, status_code, _, _} when status_code in 200..299 ->
+    body =
+      [
+        "--#{multipart_boundary}",
+        "content-length: #{byte_size(content)}",
+        "content-disposition: form-data; name=json_file; filename=#{@file_name}",
+        "content-type: gzip/json",
+        "",
+        content,
+        "--#{multipart_boundary}--"
+      ]
+      |> Enum.join("\r\n")
+
+    headers = [
+      {~c"Host", host},
+      {~c"User-Agent", "excoveralls"},
+      {~c"Content-Length", Integer.to_string(byte_size(body))},
+      {~c"Accept", "*/*"}
+    ]
+
+    request = {
+      String.to_charlist(endpoint) ++ ~c"/api/v1/jobs",
+      headers,
+      _content_type = ~c"multipart/form-data; boundary=#{multipart_boundary}",
+      body
+    }
+
+    case :httpc.request(:post, request, [timeout: 10_000], sync: true) do
+      {:ok, {{_protocol, status_code, _status_message}, _headers, _body}}
+      when status_code in 200..299 ->
         {:ok, "Successfully uploaded the report to '#{endpoint}'."}
 
-      {:ok, 500 = _status_code, _, _client} ->
-        {:ok, "API endpoint `#{endpoint}` is not available and return internal server error! Ignoring upload"}
-      {:ok, 405 = _status_code, _, _client} ->
+      {:ok, {{_protocol, 500, _status_message}, _headers, _body}} ->
+        {:ok,
+         "API endpoint `#{endpoint}` is not available and return internal server error! Ignoring upload"}
+
+      {:ok, {{_protocol, 405, _status_message}, _headers, _body}} ->
         {:ok, "API endpoint `#{endpoint}` is not available due to maintenance! Ignoring upload"}
-      {:ok, status_code, _, client} ->
-        {:ok, body} = :hackney.body(client)
 
+      {:ok, {{_protocol, status_code, _status_message}, _headers, body}} ->
         {:error,
-         "Failed to upload the report to '#{endpoint}' (reason: status_code = #{status_code}, body = #{
-           body
-         })."}
+         "Failed to upload the report to '#{endpoint}' (reason: status_code = #{status_code}, body = #{body})."}
 
-      {:error, reason}  when reason in [:timeout, :connect_timeout] ->
-        {:ok, "Unable to upload the report to '#{endpoint}' due to a timeout. Not failing the build."}
+      {:error, reason} when reason in [:timeout, :connect_timeout] ->
+        {:ok,
+         "Unable to upload the report to '#{endpoint}' due to a timeout. Not failing the build."}
 
       {:error, reason} ->
         {:error, "Failed to upload the report to '#{endpoint}' (reason: #{inspect(reason)})."}
