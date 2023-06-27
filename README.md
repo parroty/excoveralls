@@ -88,6 +88,7 @@ end
     - [[mix coveralls.html] Show coverage as HTML report](#mix-coverallshtml-show-coverage-as-html-report)
     - [[mix coveralls.json] Show coverage as JSON report](#mix-coverallsjson-show-coverage-as-json-report)
     - [[mix coveralls.xml] Show coverage as XML report](#mix-coverallsxml-show-coverage-as-xml-report)
+    - [[mix coveralls.cobertura] Show coverage as Cobertura report](#mix-coverallscobertura-show-coverage-as-cobertura-report)
     - [[mix coveralls.lcov] Show coverage as lcov report (Experimental)](#mix-coverallslcov-show-coverage-as-lcov-report-experimental)
   - [coveralls.json](#coverallsjson)
       - [Stop Words](#stop-words)
@@ -361,6 +362,13 @@ The report follows a format supported by several code coverage services like Son
 Output to the shell is the same as running the command `mix coveralls` (to suppress this output, add `"print_summary": false` to your project's `coveralls.json` file). In a similar manner to `mix coveralls.detail`, reported source code can be filtered by specifying arguments using the `--filter` flag.
 
 Output reports are written to `cover/excoveralls.xml` by default, however, the path can be specified by overwriting the `"output_dir"` coverage option.
+
+### [mix coveralls.cobertura] Show coverage as Cobertura report
+This task displays coverage information at the source-code level formatted as a [Cobertura](https://cobertura.github.io/cobertura/) document.
+The report follows a format supported by [Gitlab](https://docs.gitlab.com/ee/ci/testing/test_coverage_visualization.html) code coverage visualization.
+Output to the shell is the same as running the command `mix coveralls` (to suppress this output, add `"print_summary": false` to your project's `coveralls.json` file). In a similar manner to `mix coveralls.detail`, reported source code can be filtered by specifying arguments using the `--filter` flag.
+
+Output reports are written to `cover/cobertura.xml` by default, however, the path can be specified by overwriting the `"output_dir"` coverage option.
 
 ### [mix coveralls.lcov] Show coverage as lcov report (Experimental)
 This task displays coverage information at the line level formatted as a lcov.
