@@ -5,12 +5,12 @@ defmodule ExCoveralls.LcovTest do
   alias ExCoveralls.Lcov
 
   @file_name "lcov.info"
-  @file_size 67
   @test_output_dir "cover_test/"
 
   @content     "defmodule Test do\n  def test do\n  end\nend\n"
   @counts      [0, 1, nil, nil]
-  @source_info [%{name: "test/fixtures/test.ex",
+  @test_file_name "test/fixtures/test.ex"
+  @source_info [%{name: @test_file_name,
                   source: @content,
                   coverage: @counts
                }]
@@ -53,9 +53,9 @@ defmodule ExCoveralls.LcovTest do
       Lcov.execute(@source_info)
     end) =~ @stats_result
 
-    assert(File.read!(report) =~ ~s(TN:\nSF:test/fixtures/test.ex\nDA:1,0\nDA:2,1\nLF:2\nLH:1\nend_of_record\n))
-    %{size: size} = File.stat! report
-    assert(size == @file_size)
+    source_file = Path.expand(@test_file_name, ".")
+
+    assert(File.read!(report) =~ ~s(TN:\nSF:#{source_file}\nDA:1,0\nDA:2,1\nLF:2\nLH:1\nend_of_record\n))
   end
 
   test "generate json file with output_dir parameter", %{report: report} do
@@ -63,8 +63,8 @@ defmodule ExCoveralls.LcovTest do
       Lcov.execute(@source_info, [output_dir: @test_output_dir])
     end) =~ @stats_result
 
-    assert(File.read!(report) =~ ~s(TN:\nSF:test/fixtures/test.ex\nDA:1,0\nDA:2,1\nLF:2\nLH:1\nend_of_record\n))
-    %{size: size} = File.stat! report
-    assert(size == @file_size)
+    source_file = Path.expand(@test_file_name, ".")
+
+    assert(File.read!(report) =~ ~s(TN:\nSF:#{source_file}\nDA:1,0\nDA:2,1\nLF:2\nLH:1\nend_of_record\n))
   end
 end
