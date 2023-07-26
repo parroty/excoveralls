@@ -54,7 +54,20 @@ defmodule ExCoveralls.Poster do
       body
     }
 
-    case :httpc.request(:post, request, [timeout: 10_000], sync: true) do
+    http_options = [
+      timeout: 10_000,
+      ssl:
+        [
+          verify: :verify_peer,
+          depth: 2,
+          customize_hostname_check: [
+            match_fun: :public_key.pkix_verify_hostname_match_fun(:https)
+          ]
+          # https://erlef.github.io/security-wg/secure_coding_and_deployment_hardening/inets
+        ] ++ cacert_option()
+    ]
+
+    case :httpc.request(:post, request, http_options, sync: true, body_format: :binary) do
       {:ok, {{_protocol, status_code, _status_message}, _headers, _body}}
       when status_code in 200..299 ->
         {:ok, "Successfully uploaded the report to '#{endpoint}'."}
@@ -76,6 +89,32 @@ defmodule ExCoveralls.Poster do
 
       {:error, reason} ->
         {:error, "Failed to upload the report to '#{endpoint}' (reason: #{inspect(reason)})."}
+    end
+  end
+
+  defp cacert_option do
+    if Code.ensure_loaded?(CAStore) do
+      [cacertfile: String.to_charlist(CAStore.file_path())]
+    else
+      case :public_key.cacerts_load() do
+        :ok ->
+          [cacerts: :public_key.cacerts_get()]
+
+        {:error, reason} ->
+          raise ExCoveralls.ReportUploadError,
+            message: """
+            Failed to load OS certificates. We tried to use OS certificates because we
+            couldn't find the :castore library. If you want to use :castore, please add
+
+              {:castore, "~> 1.0"}
+
+            to your dependencies. Otherwise, make sure you can load OS certificates by
+            running :public_key.cacerts_load() and checking the result. The error we
+            got was:
+
+              #{inspect(reason)}
+            """
+      end
     end
   end
 end
