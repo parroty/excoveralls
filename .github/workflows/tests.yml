@@ -8,18 +8,21 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        otp: ['20.3']
-        elixir: ['1.4', '1.5', '1.6', '1.7']
+        include:
+          - otp: '21.3'
+            elixir: '1.11'
+          - otp: '26.0'
+            elixir: '1.15'
     env:
       MIX_ENV: test
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: erlef/setup-beam@v1
         with:
          otp-version: ${{ matrix.otp }}
          elixir-version: ${{ matrix.elixir }}
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
          path: deps
          key: ${{ runner.os }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
