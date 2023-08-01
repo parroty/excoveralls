@@ -23,7 +23,6 @@ defmodule ExCoveralls.Poster do
     Application.ensure_all_started(:inets)
 
     endpoint = options[:endpoint] || "https://coveralls.io"
-    host = URI.parse(endpoint).host
 
     multipart_boundary =
       "---------------------------" <> Base.encode16(:crypto.strong_rand_bytes(8), case: :lower)
@@ -41,11 +40,18 @@ defmodule ExCoveralls.Poster do
       |> Enum.join("\r\n")
 
     headers = [
-      {~c"Host", host},
-      {~c"User-Agent", "excoveralls"},
-      {~c"Content-Length", Integer.to_string(byte_size(body))},
-      {~c"Accept", "*/*"}
+      {~c"Host", String.to_charlist(URI.parse(endpoint).host)},
+      {~c"User-Agent", ~c"excoveralls"},
+      {~c"Content-Length", String.to_charlist(Integer.to_string(byte_size(body)))},
+      {~c"Accept", ~c"*/*"}
     ]
+
+    # All header names and values MUST be charlists in older OTP versions. In newer versions,
+    # binaries are fine. This is hard to debug because httpc simply *hangs* on older OTP
+    # versions if you use a binary value.
+    if Enum.any?(headers, fn {_, val} -> not is_list(val) end) do
+      raise "all header names and values must be charlists"
+    end
 
     request = {
       String.to_charlist(endpoint) ++ ~c"/api/v1/jobs",

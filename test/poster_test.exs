@@ -4,7 +4,7 @@ defmodule PosterTest do
   
   setup do
     bypass = Bypass.open()
-    %{bypass: bypass, endpoint: "http://localhost:#{bypass.port}/"}
+    %{bypass: bypass, endpoint: "http://localhost:#{bypass.port}"}
   end
   
   test "successfully posting JSON", %{bypass: bypass, endpoint: endpoint} do
@@ -27,8 +27,7 @@ defmodule PosterTest do
     end
   end
 
-  test "post JSON fails due internal server error",
-       %{bypass: bypass, endpoint: endpoint} do
+  test "post JSON fails due internal server error", %{bypass: bypass, endpoint: endpoint} do
     Bypass.expect(bypass, fn conn ->
       assert conn.method == "POST"
       Plug.Conn.resp(conn, 500, "")
