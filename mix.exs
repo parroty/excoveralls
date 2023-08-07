@@ -30,7 +30,7 @@ defmodule ExCoveralls.Mixfile do
   end
 
   def application do
-    [extra_applications: [:eex, :tools, :xmerl, :inets]]
+    [extra_applications: [:eex, :tools, :xmerl, :inets, :ssl, :public_key]]
   end
 
   defp elixirc_paths(:test), do: ["lib", "test/fixtures/test_missing.ex"]
