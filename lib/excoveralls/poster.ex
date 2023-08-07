@@ -98,7 +98,8 @@ defmodule ExCoveralls.Poster do
     end
   end
 
-  if function_exported?(:public_key, :cacerts_load, 0) do
+  # TODO: remove this once we depend on an Elixir version that requires OTP 25+.
+  if System.otp_release() >= "25" do
     defp cacert_option do
       if Code.ensure_loaded?(CAStore) do
         [cacertfile: String.to_charlist(CAStore.file_path())]
