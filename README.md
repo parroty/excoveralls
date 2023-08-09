@@ -91,14 +91,17 @@ end
     - [[mix coveralls.cobertura] Show coverage as Cobertura report](#mix-coverallscobertura-show-coverage-as-cobertura-report)
     - [[mix coveralls.lcov] Show coverage as lcov report (Experimental)](#mix-coverallslcov-show-coverage-as-lcov-report-experimental)
   - [coveralls.json](#coverallsjson)
-      - [Stop Words](#stop-words)
-      - [Exclude Files](#exclude-files)
-      - [Terminal Report Output](#terminal-report-output)
-      - [Coverage Options](#coverage-options)
+    - [Stop Words](#stop-words)
+    - [Exclude Files](#exclude-files)
+    - [Terminal Report Output](#terminal-report-output)
+    - [Coverage Options](#coverage-options)
+  - [Other Considerations](#other-considerations)
     - [Ignore Lines](#ignore-lines)
+    - [Silence OTP Cover Warnings](#silence-otp-cover-warnings)
+    - [Merging Coverage Results](#merging-coverage-results)
     - [Notes](#notes)
     - [Todo](#todo)
-  - [License](#license)
+- [License](#license)
 
 ### [mix coveralls] Show coverage
 Run the `MIX_ENV=test mix coveralls` command to show coverage information on localhost.
@@ -146,7 +149,8 @@ Usage: mix coveralls <Options>
                         and your git repo resides in "app", then the root path should be: "/home/runs/app/" (from
                         coveralls.io)
     --flagname          Job flag name which will be shown in the Coveralls UI
-    --import_cover      Directory from where '.coverdata' files should be imported and their results added to the report
+    --import-cover      Directory from where '.coverdata' files should be imported and their results added to the report.
+                        Coverdata is imported after tests are run.
 
 Usage: mix coveralls.detail [--filter file-name-pattern]
   Used to display coverage with detail
@@ -463,6 +467,8 @@ Example configuration file:
 }
 ```
 
+## Other Considerations
+
 ### Ignore Lines
 
 Use comments `coveralls-ignore-start` and `coveralls-ignore-stop` to ignore certain lines from code coverage calculation.
@@ -503,6 +509,46 @@ imported_info(_Text,_Module,_Imported) ->
     ok.
 ```
 
+### Merging Coverage Results
+
+ExCoveralls can include `.coverdata` files in the result of the current test run through the `--import-cover` flag. This can be used to include coverage data from partitioned tests or integration tests that may run in a subprocess, for instance.
+
+Coverage data is generated when running `mix test --cover`, optionally with the `--export-coverage` flag to specify an output name.
+
+```shell
+$ mix test --only integration --cover --export-coverage integration-coverage
+Excluding tags: [:test]
+Including tags: [:integration]
+... test run omitted ...
+# Coverage data written to cover/integration-coverage.coverdata
+
+# Report coverage, do not run integration tests
+$ mix coveralls --exclude integration
+Excluding tags: [:integration]
+... test run omitted ...
+
+----------------
+COV    FILE                                        LINES RELEVANT   MISSED
+...
+[TOTAL]  80.2% # <-- This result does not include coverage from integration tests
+----------------
+
+# Report coverage, do not run integration tests, but include previously written coverdata
+$ mix coveralls --exclude integration --import-cover cover
+Excluding tags: [:integration]
+... test run omitted ...
+
+----------------
+COV    FILE                                        LINES RELEVANT   MISSED
+...
+[TOTAL]  95.3% # <-- This result now includes coverage from integration tests
+----------------
+```
+
+Coverage data is imported after tests are run.
+
+See the `mix test` [Coverage documentation](https://hexdocs.pm/mix/Mix.Tasks.Test.html#module-coverage) for more information on `.coverdata`.
+
 ### Notes
 - If mock library is used, it will show some warnings during execution.
     - https://github.com/eproxus/meck/pull/17
@@ -514,6 +560,6 @@ imported_info(_Text,_Module,_Imported) ->
 - It might not work well on projects which handle multiple project (Mix.Project) files.
     - Needs improvement on file-path handling.
 
-## License
+# License
 
 This source code is licensed under the MIT license. Copyright (c) 2013-present, parroty.
