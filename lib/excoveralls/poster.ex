@@ -19,7 +19,6 @@ defmodule ExCoveralls.Poster do
 
   defp upload_zipped_json(content, options) do
     Application.ensure_all_started(:ssl)
-    Application.ensure_all_started(:httpc)
     Application.ensure_all_started(:inets)
 
     endpoint = options[:endpoint] || "https://coveralls.io"
