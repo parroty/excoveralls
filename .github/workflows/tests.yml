@@ -25,8 +25,8 @@ jobs:
       - uses: actions/cache@v3
         with:
          path: deps
-         key: ${{ runner.os }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+         key: ${{ runner.os }}-${{ matrix.elixir }}-otp${{ matrix.otp }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
          restore-keys: |
-           ${{ runner.os }}-mix-
+           ${{ runner.os }}-${{ matrix.elixir }}-otp${{ matrix.otp }}-mix-
       - run: mix deps.get
       - run: mix coveralls.github

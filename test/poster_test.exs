@@ -1,36 +1,51 @@
 defmodule PosterTest do
   use ExUnit.Case
-  import Mock
   import ExUnit.CaptureIO
-
-  test_with_mock "post json", :hackney, [request: fn(_, _, _, _, _) -> {:ok, 200, "", ""} end] do
+  
+  setup do
+    bypass = Bypass.open()
+    %{bypass: bypass, endpoint: "http://localhost:#{bypass.port}"}
+  end
+  
+  test "successfully posting JSON", %{bypass: bypass, endpoint: endpoint} do
+    Bypass.expect(bypass, fn conn ->
+      assert conn.method == "POST"
+      assert {"host", "localhost"} in conn.req_headers
+      Plug.Conn.resp(conn, 200, "")
+    end)
+    
     assert capture_io(fn ->
-      ExCoveralls.Poster.execute("json")
-    end) =~ ~r/Successfully uploaded/
+      ExCoveralls.Poster.execute("{}", endpoint: endpoint)
+    end) =~ "Successfully uploaded"
   end
 
-  test_with_mock "post json fails", :hackney, [request: fn(_, _, _, _, _) -> {:error, "failed"} end] do
+  test "post JSON fails", %{bypass: bypass, endpoint: endpoint} do
+    Bypass.down(bypass)
+    
     assert_raise ExCoveralls.ReportUploadError, fn ->
-      ExCoveralls.Poster.execute("json")
+      ExCoveralls.Poster.execute("{}", endpoint: endpoint)
     end
   end
 
-  test_with_mock "post json timeout", :hackney, [request: fn(_, _, _, _, _) -> {:error, :timeout} end,
-                                                 request: fn(_, _, _, _, _) -> {:error, :connect_timeout} end] do
+  test "post JSON fails due internal server error", %{bypass: bypass, endpoint: endpoint} do
+    Bypass.expect(bypass, fn conn ->
+      assert conn.method == "POST"
+      Plug.Conn.resp(conn, 500, "")
+    end)
+      
     assert capture_io(fn ->
-      assert ExCoveralls.Poster.execute("json") == :ok
-    end) =~ ~r/timeout/
-  end
-
-  test_with_mock "post json fails due internal server error", :hackney, [request: fn(_, _, _, _, _) -> {:ok, 500, "", ""} end] do
-    assert capture_io(fn ->
-      assert ExCoveralls.Poster.execute("json") == :ok
+      assert ExCoveralls.Poster.execute("{}", endpoint: endpoint) == :ok
     end) =~ ~r/internal server error/
   end
 
-  test_with_mock "post json fails due to maintenance", :hackney, [request: fn(_, _, _, _, _) -> {:ok, 405, "", ""} end] do
+  test "post JSON fails due to maintenance", %{bypass: bypass, endpoint: endpoint} do
+    Bypass.expect(bypass, fn conn ->
+      assert conn.method == "POST"
+      Plug.Conn.resp(conn, 405, "")
+    end)
+  
     assert capture_io(fn ->
-      assert ExCoveralls.Poster.execute("json") == :ok
+      assert ExCoveralls.Poster.execute("{}", endpoint: endpoint) == :ok
     end) =~ ~r/maintenance/
   end
 end
