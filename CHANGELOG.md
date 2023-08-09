@@ -4,6 +4,8 @@
 - Replace hackney with httpc (#311).
 - Update Elixir requirement to 1.11+ (#316).
 - Fix lcov 2.0 source file handling (#315).
+- Import .coverdata after test run and improve documentation (#309).
+  - Fixes around `--import-cover` option.
 
 0.16.1
 ------
