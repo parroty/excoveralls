@@ -1,3 +1,9 @@
+0.17.0
+------
+#### Changes
+- Replace hackney with httpc (#311).
+- Update Elixir requirement to 1.11+ (#316).
+
 0.16.1
 ------
 #### Changes
