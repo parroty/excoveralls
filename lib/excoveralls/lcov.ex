@@ -33,9 +33,10 @@ defmodule ExCoveralls.Lcov do
 
     lf = foundlines |> Enum.count()
     lh = foundlines |> Enum.filter(fn v -> v > 0 end) |> Enum.count()
+    sf = Path.expand(stat.name, ".")
 
     lines =
-      ["TN:", "SF:" <> stat.name] ++
+      ["TN:", "SF:" <> sf] ++
         da ++
         [
           "LF:" <> Integer.to_string(lf),
