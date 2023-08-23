@@ -48,4 +48,26 @@ defmodule PosterTest do
       assert ExCoveralls.Poster.execute("{}", endpoint: endpoint) == :ok
     end) =~ ~r/maintenance/
   end
+
+  test "passes custom http options when configured", %{bypass: bypass, endpoint: endpoint} do
+    Application.put_env(:excoveralls, :http_options, autoredirect: false)
+
+    on_exit(fn ->
+      Application.delete_env(:excoveralls, :http_options)
+    end)
+
+    Bypass.expect_once(bypass, "POST", "/api/v1/jobs", fn conn ->
+      conn
+      |> Plug.Conn.put_resp_header("location", Path.join(endpoint, "redirected") |> IO.inspect())
+      |> Plug.Conn.resp(302, "")
+    end)
+
+    assert_raise(
+      ExCoveralls.ReportUploadError,
+      "Failed to upload the report to '#{endpoint}' (reason: status_code = 302, body = ).",
+      fn ->
+        ExCoveralls.Poster.execute("{}", endpoint: endpoint) == :ok
+      end
+    )
+  end
 end

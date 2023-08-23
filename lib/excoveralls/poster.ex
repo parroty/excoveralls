@@ -59,18 +59,25 @@ defmodule ExCoveralls.Poster do
       body
     }
 
-    http_options = [
-      timeout: 10_000,
-      ssl:
-        [
-          verify: :verify_peer,
-          depth: 2,
-          customize_hostname_check: [
-            match_fun: :public_key.pkix_verify_hostname_match_fun(:https)
+    http_options =
+      case Application.get_env(:excoveralls, :http_options) do
+        [_ | _] = options ->
+          options
+
+        _ ->
+          [
+            timeout: 10_000,
+            ssl:
+              [
+                verify: :verify_peer,
+                depth: 2,
+                customize_hostname_check: [
+                  match_fun: :public_key.pkix_verify_hostname_match_fun(:https)
+                ]
+                # https://erlef.github.io/security-wg/secure_coding_and_deployment_hardening/inets
+              ] ++ cacert_option()
           ]
-          # https://erlef.github.io/security-wg/secure_coding_and_deployment_hardening/inets
-        ] ++ cacert_option()
-    ]
+      end
 
     case :httpc.request(:post, request, http_options, sync: true, body_format: :binary) do
       {:ok, {{_protocol, status_code, _status_message}, _headers, _body}}
