@@ -549,6 +549,28 @@ Coverage data is imported after tests are run.
 
 See the `mix test` [Coverage documentation](https://hexdocs.pm/mix/Mix.Tasks.Test.html#module-coverage) for more information on `.coverdata`.
 
+### Configuring HTTP Options in ExCoveralls
+
+You can customize the HTTP options used by [`:httpc`](https://www.erlang.org/doc/man/httpc.html) when posting results. The example below shows how to specify a custom `cacertfile`:
+
+```elixir
+config :excoveralls,
+  http_options: [
+    timeout: 10_000,
+    ssl: [
+      # Refer to the secure coding guide:
+      # https://erlef.github.io/security-wg/secure_coding_and_deployment_hardening/inets
+      verify: :verify_peer,
+      depth: 2,
+      customize_hostname_check: [
+        match_fun: :public_key.pkix_verify_hostname_match_fun(:https)
+      ],
+      cacertfile: to_charlist(System.fetch_env!("TEST_COVERAGE_CACERTFILE"))
+    ]
+```
+
+By default, ExCoveralls uses the `cacertfile` from [`castore`](https://hexdocs.pm/castore/api-reference.html) when the dependency is installed. If it's not available and you're running Erlang `25` or later, the system will attempt to use the OS certificates via [`:public_key.cacerts_load/0`](https://www.erlang.org/doc/man/public_key.html#cacerts_load-0).
+
 ### Notes
 - If mock library is used, it will show some warnings during execution.
     - https://github.com/eproxus/meck/pull/17
