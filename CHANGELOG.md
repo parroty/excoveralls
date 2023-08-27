@@ -1,3 +1,8 @@
+0.17.1
+------
+#### Enhancements
+- Accept custom http options (#319).
+
 0.17.0
 ------
 #### Changes
