@@ -59,4 +59,5 @@ defmodule ExCoverallsTest do
       ExCoveralls.analyze(@stats, "Undefined Type", [])
     end
   end
+
 end
