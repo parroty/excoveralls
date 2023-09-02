@@ -1,0 +1,5 @@
+%{
+  default_stop_words: [
+    "a",
+    "b"
+  ],

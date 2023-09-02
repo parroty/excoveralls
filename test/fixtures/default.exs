@@ -1,0 +1,15 @@
+%{
+  default_stop_words: [
+    "a",
+    "b"
+  ],
+
+  custom_stop_words: [
+    "d",
+    "e"
+  ],
+
+  coverage_options: %{
+    f: true
+  }
+}

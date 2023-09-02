@@ -145,9 +145,9 @@ defmodule ExCoveralls.Stats do
     Regex.replace(~r/\A\n/m, string, "")
   end
 
-  def skip_files(converage) do
+  def skip_files(coverage) do
     skip = Settings.get_skip_files
-    Enum.reject(converage, fn cov ->
+    Enum.reject(coverage, fn cov ->
       Enum.any?(skip, &Regex.match?(&1, cov[:name]))
     end)
   end
@@ -227,7 +227,7 @@ defmodule ExCoveralls.Stats do
   """
   def ensure_minimum_coverage(stats) do
     coverage_options = ExCoveralls.Settings.get_coverage_options
-    minimum_coverage = coverage_options["minimum_coverage"] || 0
+    minimum_coverage = coverage_options[:minimum_coverage] || 0
     if minimum_coverage > 0, do: check_coverage_threshold(stats, minimum_coverage)
   end
 
