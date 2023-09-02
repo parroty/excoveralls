@@ -226,18 +226,50 @@ defmodule ExCoveralls.Stats do
   Exit the process with a status of 1 if coverage is below the minimum.
   """
   def ensure_minimum_coverage(stats) do
-    coverage_options = ExCoveralls.Settings.get_coverage_options
-    minimum_coverage = coverage_options["minimum_coverage"] || 0
-    if minimum_coverage > 0, do: check_coverage_threshold(stats, minimum_coverage)
+    coverage_options = ExCoveralls.Settings.get_coverage_options()
+
+    check_coverage_threshold(stats, coverage_options["minimum_coverage"] || 0)
+    check_file_coverage_threshold(stats, coverage_options["minimum_file_coverage"] || %{})
   end
 
-  defp check_coverage_threshold(stats, minimum_coverage) do
+  defp check_coverage_threshold(stats, minimum_coverage) when minimum_coverage > 0 do
     result = source(stats)
+
     if result.coverage < minimum_coverage do
       message = "FAILED: Expected minimum coverage of #{minimum_coverage}%, got #{result.coverage}%."
-      IO.puts IO.ANSI.format([:red, :bright, message])
+      IO.puts(IO.ANSI.format([:red, :bright, message]))
       exit({:shutdown, 1})
     end
+
+    :ok
   end
 
+  defp check_coverage_threshold(_stats, _minimum_coverage) do
+    :ok
+  end
+
+  defp check_file_coverage_threshold(stats, minimum_coverages) when is_map(minimum_coverages) do
+    file_results = stats |> source() |> Map.get(:files, []) |> Map.new(&{&1.filename, &1})
+
+    messages =
+      minimum_coverages
+      |> Enum.map(fn {file, minimum_coverage} -> {file_results[to_string(file)], minimum_coverage} end)
+      |> Enum.reject(fn {source, _minimum_coverage} -> is_nil(source) end)
+      |> Enum.map(fn {source, minimum_coverage} ->
+        if minimum_coverage > 0 && source.coverage < minimum_coverage do
+          "FAILED: Expected minimum coverage of #{minimum_coverage}% for `#{source.filename}`, got #{source.coverage}%."
+        end
+      end)
+
+    unless Enum.empty?(messages) or Enum.all?(messages, &is_nil/1) do
+      IO.puts(IO.ANSI.format([:red, :bright, Enum.join(messages, "\n\n")]))
+      exit({:shutdown, 1})
+    end
+
+    :ok
+  end
+
+  defp check_file_coverage_threshold(_stats, _minimum_coverages) do
+    :ok
+  end
 end
