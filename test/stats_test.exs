@@ -125,7 +125,7 @@ defmodule ExCoveralls.StatsTest do
   end
 
   test_with_mock "Empty (no relevant lines) file with treat_no_relevant_lines_as_covered option is calculated as 100.0%",
-    ExCoveralls.Settings, [default_coverage_value: fn -> 100 end] do
+    ExCoveralls.Settings, [:passthrough], [default_coverage_value: fn _ -> 100 end] do
 
     results = Stats.source(@empty_source_info)
     assert(results.coverage == 100)
