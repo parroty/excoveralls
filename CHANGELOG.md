@@ -1,3 +1,10 @@
+0.18.0
+------
+#### Changes
+- Always floor coverage instead of rounding (#310).
+  - **Note:** If you want to keep the previous rounding behavior, please check the `floor_coverage` option.
+    - https://github.com/parroty/excoveralls#coverage-options
+
 0.17.1
 ------
 #### Enhancements
