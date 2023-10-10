@@ -5,7 +5,7 @@ defmodule ExCoveralls.HtmlTest do
   alias ExCoveralls.Html
 
   @file_name "excoveralls.html"
-  @file_size 20375
+  @file_size 20381
   @test_output_dir "cover_test/"
   @test_template_path "lib/templates/html/htmlcov/"
 
@@ -35,7 +35,7 @@ defmodule ExCoveralls.HtmlTest do
         File.rm!(path)
         File.rmdir!(@test_output_dir)
       end
-      
+
       ExCoveralls.ConfServer.clear()
     end
 
@@ -78,7 +78,7 @@ defmodule ExCoveralls.HtmlTest do
     output = capture_io(fn ->
       assert catch_exit(Html.execute(@source_info)) == {:shutdown, 1}
     end)
-    assert String.contains?(output, "FAILED: Expected minimum coverage of 100%, got 50%.")
+    assert String.contains?(output, "FAILED: Expected minimum coverage of 100%, got 50.0%.")
   end
 
   test_with_mock "Exit status code is 0 when actual coverage reaches the minimum",

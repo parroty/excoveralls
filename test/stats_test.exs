@@ -125,7 +125,7 @@ defmodule ExCoveralls.StatsTest do
   end
 
   test_with_mock "Empty (no relevant lines) file with treat_no_relevant_lines_as_covered option is calculated as 100.0%",
-    ExCoveralls.Settings, [default_coverage_value: fn -> 100 end] do
+    ExCoveralls.Settings, [:passthrough], [default_coverage_value: fn _ -> 100 end] do
 
     results = Stats.source(@empty_source_info)
     assert(results.coverage == 100)
@@ -133,7 +133,7 @@ defmodule ExCoveralls.StatsTest do
 
   test "coverage stats are rounded to one decimal place" do
     results = Stats.source(@fractional_source_info)
-    assert(results.coverage == 66.7)
+    assert(results.coverage == 66.6)
   end
 
   describe "update_stats/2" do

@@ -30,11 +30,11 @@ defmodule ExCoveralls.Settings do
   Get default coverage value for lines marked as not relevant.
   """
   def default_coverage_value do
-    case Map.fetch(get_coverage_options(), "treat_no_relevant_lines_as_covered") do
-      {:ok, true} -> 100.0
-      _           -> 0.0
-    end
+    get_coverage_options() |> default_coverage_value()
   end
+
+  def default_coverage_value(%{"treat_no_relevant_lines_as_covered" => true}), do: 100.0
+  def default_coverage_value(_), do: 0.0
 
   @doc """
   Get terminal output options from the json file.
