@@ -46,7 +46,8 @@ def project do
       coveralls: :test,
       "coveralls.detail": :test,
       "coveralls.post": :test,
-      "coveralls.html": :test
+      "coveralls.html": :test,
+      "coveralls.cobertura": :test
     ]
     # if you want to use espec,
     # test_coverage: [tool: ExCoveralls, test_task: "espec"]
@@ -55,7 +56,7 @@ end
 
 defp deps do
   [
-    {:excoveralls, "~> 0.10", only: :test},
+    {:excoveralls, "~> 0.18", only: :test},
   ]
 end
 ```
