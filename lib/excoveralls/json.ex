@@ -2,6 +2,7 @@ defmodule ExCoveralls.Json do
   @moduledoc """
   Generate JSON output for results.
   """
+  alias ExCoveralls.Stats
 
   @file_name "excoveralls.json"
 
@@ -16,7 +17,7 @@ defmodule ExCoveralls.Json do
 
   def generate_json(stats, _options) do
     Jason.encode!(%{
-      source_files: stats
+      source_files: Stats.serialize(stats)
     })
   end
 
