@@ -8,19 +8,22 @@ defmodule ExCoveralls.LocalTest do
   @counts      [0, 1, nil, nil]
   @source_info [%{name: "test/fixtures/test.ex",
                  source: @content,
-                 coverage: @counts
+                 coverage: @counts,
+                 warnings: []
                }]
 
   @invalid_counts [0, 1, nil, "invalid"]
   @invalid_source_info [%{name: "test/fixtures/test.ex",
                  source: @content,
-                 coverage: @invalid_counts
+                 coverage: @invalid_counts,
+                 warnings: []
                }]
 
   @empty_counts [nil, nil, nil, nil]
   @empty_source_info [%{name: "test/fixtures/test.ex",
                  source: @content,
-                 coverage: @empty_counts
+                 coverage: @empty_counts,
+                 warnings: []
                }]
 
   @stats_result "" <>

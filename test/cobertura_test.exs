@@ -9,7 +9,11 @@ defmodule ExCoveralls.CoberturaTest do
 
   @content "defmodule Test do\n  def test do\n  end\nend\n"
   @counts [0, 1, nil, nil]
-  @source_info [%{name: "test/fixtures/test.ex", source: @content, coverage: @counts}]
+  @source_info [%{name: "test/fixtures/test.ex",
+                  source: @content,
+                  coverage: @counts,
+                  warnings: []
+               }]
 
   @stats_result "" <>
                   "----------------\n" <>
@@ -206,7 +210,11 @@ defmodule ExCoveralls.CoberturaTest do
     get_print_files: fn -> true end do
     content = "defprotocol TestProtocol do\n  def test(value)\nend\n"
     counts = [0, 1, nil, nil]
-    source_info = [%{name: "test/fixtures/test_protocol.ex", source: content, coverage: counts}]
+    source_info = [%{name: "test/fixtures/test_protocol.ex",
+                     source: content,
+                     coverage: counts,
+                     warnings: []
+                  }]
 
     stats_result =
       "" <>
@@ -226,7 +234,11 @@ defmodule ExCoveralls.CoberturaTest do
     get_print_files: fn -> true end do
     content = "defimpl TestProtocol, for: Integer do\n  def test(value), do: \"integer!\" \nend\n"
     counts = [0, 1, nil, nil]
-    source_info = [%{name: "test/fixtures/test_impl.ex", source: content, coverage: counts}]
+    source_info = [%{name: "test/fixtures/test_impl.ex",
+                     source: content,
+                     coverage: counts,
+                     warnings: []
+                  }]
 
     stats_result =
       "" <>

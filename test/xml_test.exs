@@ -11,7 +11,8 @@ defmodule ExCoveralls.XmlTest do
   @counts      [0, 1, nil, nil]
   @source_info [%{name: "test/fixtures/test.ex",
                   source: @content,
-                  coverage: @counts
+                  coverage: @counts,
+                  warnings: []
                }]
 
   @stats_result "" <>

@@ -7,7 +7,8 @@ defmodule ExCoveralls.PostTest do
   @counts      [0, 1, nil, nil]
   @source_info [%{name: "test/fixtures/test.ex",
                   source: @content,
-                  coverage: @counts
+                  coverage: @counts,
+                  warnings: []
                }]
 
   test_with_mock "execute", ExCoveralls.Poster, [execute: fn(_, _) -> "result" end] do

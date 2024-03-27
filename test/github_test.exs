@@ -5,7 +5,12 @@ defmodule ExCoveralls.GithubTest do
 
   @content "defmodule Test do\n  def test do\n  end\nend\n"
   @counts [0, 1, nil, nil]
-  @source_info [%{name: "test/fixtures/test.ex", source: @content, coverage: @counts}]
+  @source_info [%{name: "test/fixtures/test.ex",
+                  source: @content,
+                  coverage: @counts,
+                  warnings: []
+               }]
+
   setup do
     # No additional context
     github_event_path = System.get_env("GITHUB_EVENT_PATH")

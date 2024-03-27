@@ -224,6 +224,14 @@ defmodule ExCoveralls.Stats do
   end
 
   @doc """
+  Converts coverage stats to a map, which can be serialized to JSON
+  for posting it to Coveralls or writing to excoveralls.json.
+  """
+  def serialize(stats) do
+    Enum.map(stats, &Map.take(&1, [:name, :source, :coverage]))
+  end
+
+  @doc """
   Exit the process with a status of 1 if coverage is below the minimum.
   """
   def ensure_minimum_coverage(stats) do

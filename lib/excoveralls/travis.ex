@@ -3,6 +3,7 @@ defmodule ExCoveralls.Travis do
   Handles travis-ci integration with coveralls.
   """
   alias ExCoveralls.Poster
+  alias ExCoveralls.Stats
 
   def execute(stats, options) do
     json = generate_json(stats, Enum.into(options, %{}))
@@ -18,7 +19,7 @@ defmodule ExCoveralls.Travis do
       service_job_id: get_job_id(),
       service_name: "travis-pro",
       repo_token: get_repo_token(),
-      source_files: stats,
+      source_files: Stats.serialize(stats),
       git: generate_git_info()
     })
   end
@@ -26,7 +27,7 @@ defmodule ExCoveralls.Travis do
     Jason.encode!(%{
       service_job_id: get_job_id(),
       service_name: "travis-ci",
-      source_files: stats,
+      source_files: Stats.serialize(stats),
       git: generate_git_info()
     })
   end
