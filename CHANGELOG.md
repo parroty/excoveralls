@@ -1,3 +1,8 @@
+0.18.1
+------
+#### Changes
+- Use explicit steps to remove 1.16 deprecation warning in Cobertura (#322).
+
 0.18.0
 ------
 #### Changes
