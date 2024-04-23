@@ -61,144 +61,134 @@ defmodule ExCoveralls.Ignore do
     }
   end
 
-  defp process_regular_line(coverage_line, _index, state = %{ignore_mode: :ignore_line}) do
-    ignored_coverage = Enum.map([coverage_line | state.coverage_buffer], fn _ -> nil end)
-
+  defp process_regular_line(_coverage_line, _index, state = %{ignore_mode: :ignore_line}) do
     %{
       state
       | ignore_mode: :no_ignore,
-        coverage: [ignored_coverage | state.coverage],
-        coverage_buffer: []
+        coverage: [nil | state.coverage]
     }
   end
 
-  defp process_regular_line(coverage_line, _index, state = %{ignore_mode: :ignore_block}) do
+  defp process_regular_line(_coverage_line, _index, state = %{ignore_mode: :ignore_block}) do
     %{
       state
-      | coverage_buffer: [coverage_line | state.coverage_buffer]
+      | coverage: [nil | state.coverage]
     }
   end
 
   defp process_start_marker(
-         coverage_line,
+         _coverage_line,
          index,
-         state = %{ignore_mode: :no_ignore, coverage_buffer: []}
+         state = %{ignore_mode: :no_ignore}
        ) do
     %{
       state
       | ignore_mode: :ignore_block,
-        coverage_buffer: [coverage_line],
+        coverage: [nil | state.coverage],
         last_marker_index: index
     }
   end
 
-  defp process_start_marker(coverage_line, index, state = %{ignore_mode: :ignore_block}) do
+  defp process_start_marker(_coverage_line, index, state = %{ignore_mode: :ignore_block}) do
     warning = {index, "unexpected ignore-start or missing previous ignore-stop"}
 
     %{
       state
-      | coverage: [state.coverage_buffer | state.coverage],
-        coverage_buffer: [coverage_line],
+      | coverage: [nil | state.coverage],
         warnings: [warning | state.warnings],
         last_marker_index: index
     }
   end
 
-  defp process_start_marker(coverage_line, index, state = %{ignore_mode: :ignore_line}) do
+  defp process_start_marker(_coverage_line, index, state = %{ignore_mode: :ignore_line}) do
     warning = {state.last_marker_index, "redundant ignore-next-line right before an ignore-start"}
 
     %{
       state
       | ignore_mode: :ignore_block,
-        coverage: [state.coverage_buffer | state.coverage],
-        coverage_buffer: [coverage_line],
+        coverage: [nil | state.coverage],
         warnings: [warning | state.warnings],
         last_marker_index: index
     }
   end
 
-  defp process_stop_marker(coverage_line, index, state = %{ignore_mode: :ignore_block}) do
-    ignored_coverage = Enum.map([coverage_line | state.coverage_buffer], fn _ -> nil end)
-
+  defp process_stop_marker(_coverage_line, index, state = %{ignore_mode: :ignore_block}) do
     %{
       state
       | ignore_mode: :no_ignore,
-        coverage: [ignored_coverage | state.coverage],
-        coverage_buffer: [],
+        coverage: [nil | state.coverage],
         last_marker_index: index
     }
   end
 
-  defp process_stop_marker(coverage_line, index, state) do
+  defp process_stop_marker(_coverage_line, index, state) do
     warning = {index, "unexpected ignore-stop or missing previous ignore-start"}
 
     %{
       state
       | ignore_mode: :no_ignore,
-        coverage: [coverage_line, state.coverage_buffer | state.coverage],
-        coverage_buffer: [],
+        coverage: [nil | state.coverage],
         warnings: [warning | state.warnings],
         last_marker_index: index
     }
   end
 
   defp process_next_line_marker(
-         coverage_line,
+         _coverage_line,
          index,
-         state = %{ignore_mode: :no_ignore, coverage_buffer: []}
+         state = %{ignore_mode: :no_ignore}
        ) do
     %{
       state
       | ignore_mode: :ignore_line,
-        coverage_buffer: [coverage_line],
+        coverage: [nil | state.coverage],
         last_marker_index: index
     }
   end
 
-  defp process_next_line_marker(coverage_line, index, state = %{ignore_mode: :ignore_block}) do
+  defp process_next_line_marker(
+         _coverage_line,
+         index,
+         state = %{ignore_mode: :ignore_block}
+       ) do
     warning = {index, "redundant ignore-next-line inside ignore block"}
 
     %{
       state
-      | coverage_buffer: [coverage_line | state.coverage_buffer],
+      | coverage: [nil | state.coverage],
         warnings: [warning | state.warnings]
     }
   end
 
-  defp process_next_line_marker(coverage_line, index, state = %{ignore_mode: :ignore_line}) do
+  defp process_next_line_marker(
+         _coverage_line,
+         index,
+         state = %{ignore_mode: :ignore_line}
+       ) do
     warning = {index, "duplicated ignore-next-line"}
 
     %{
       state
-      | coverage: [state.coverage_buffer | state.coverage],
-        coverage_buffer: [coverage_line],
+      | coverage: [nil | state.coverage],
         warnings: [warning | state.warnings],
         last_marker_index: index
     }
   end
 
-  defp process_end_of_file(state = %{ignore_mode: :no_ignore, coverage_buffer: []}) do
+  defp process_end_of_file(state = %{ignore_mode: :no_ignore}) do
     state
   end
 
   defp process_end_of_file(state = %{ignore_mode: :ignore_line}) do
     warning = {state.last_marker_index, "redundant ignore-next-line at the end of file"}
 
-    %{
-      state
-      | coverage: [state.coverage_buffer | state.coverage],
-        warnings: [warning | state.warnings]
-    }
+    %{state | warnings: [warning | state.warnings]}
   end
 
   defp process_end_of_file(state = %{ignore_mode: :ignore_block}) do
     warning =
       {state.last_marker_index, "ignore-start without a corresponding ignore-stop"}
 
-    %{
-      state
-      | coverage: [state.coverage_buffer | state.coverage],
-        warnings: [warning | state.warnings]
-    }
+    %{state | warnings: [warning | state.warnings]}
   end
 end

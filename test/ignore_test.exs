@@ -99,7 +99,7 @@ defmodule ExCoveralls.IgnoreTest do
   test "start marker without a stop marker is discarded with a warning" do
     info = Ignore.filter(@source_info) |> Enum.at(0)
     assert(info[:source]   == @content)
-    assert(info[:coverage] == [0, 0, 0, nil, nil, nil, nil, 0, 0, nil, 0, 0, 0, 0])
+    assert(info[:coverage] == [0, 0, 0, nil, nil, nil, nil, 0, 0, nil, nil, nil, nil, nil])
      assert(info[:warnings] == [{9, "ignore-start without a corresponding ignore-stop"}])
   end
 
@@ -125,7 +125,7 @@ defmodule ExCoveralls.IgnoreTest do
   test "start marker followed by another start marker is discarded with a warning" do
     info = Ignore.filter(@source_info) |> Enum.at(0)
     assert(info[:source]   == @content)
-    assert(info[:coverage] == [0, 0, 0, nil, 0, 0, nil, nil, nil, nil, 0, 0])
+    assert(info[:coverage] == [0, 0, 0, nil, nil, nil, nil, nil, nil, nil, 0, 0])
     assert(info[:warnings] == [{6, "unexpected ignore-start or missing previous ignore-stop"}])
   end
 end
