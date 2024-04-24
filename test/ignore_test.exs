@@ -68,7 +68,7 @@ defmodule ExCoveralls.IgnoreTest do
                  coverage: @counts
                }]
 
-  test "filter ignored lines with next-line inside start/stop block produces warning" do
+  test "next-line marker inside start/stop block produces warning" do
     info = Ignore.filter(@source_info) |> Enum.at(0)
     assert(info[:source]   == @content)
     assert(info[:coverage] == [0, 0, 0, nil, nil, nil, nil, nil, 0, 0, 0, 0])
@@ -87,7 +87,7 @@ defmodule ExCoveralls.IgnoreTest do
                  coverage: @counts
                }]
 
-  test "filter ignored lines with next-line right after next-line produces warning" do
+  test "next-line marker right after another next-line marker produces warning" do
     info = Ignore.filter(@source_info) |> Enum.at(0)
     assert(info[:source]   == @content)
     assert(info[:coverage] == [0, nil, nil, nil, 0])
