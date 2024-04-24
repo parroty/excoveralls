@@ -55,25 +55,15 @@ defmodule ExCoveralls.Ignore do
          _index,
          state = %{ignore_mode: :no_ignore, coverage_buffer: []}
        ) do
-    %{
-      state
-      | coverage: [coverage_line | state.coverage]
-    }
+    %{state | coverage: [coverage_line | state.coverage]}
   end
 
   defp process_regular_line(_coverage_line, _index, state = %{ignore_mode: :ignore_line}) do
-    %{
-      state
-      | ignore_mode: :no_ignore,
-        coverage: [nil | state.coverage]
-    }
+    %{state | ignore_mode: :no_ignore, coverage: [nil | state.coverage]}
   end
 
   defp process_regular_line(_coverage_line, _index, state = %{ignore_mode: :ignore_block}) do
-    %{
-      state
-      | coverage: [nil | state.coverage]
-    }
+    %{state | coverage: [nil | state.coverage]}
   end
 
   defp process_start_marker(
@@ -175,9 +165,7 @@ defmodule ExCoveralls.Ignore do
     }
   end
 
-  defp process_end_of_file(state = %{ignore_mode: :no_ignore}) do
-    state
-  end
+  defp process_end_of_file(state = %{ignore_mode: :no_ignore}), do: state
 
   defp process_end_of_file(state = %{ignore_mode: :ignore_line}) do
     warning = {state.last_marker_index, "redundant ignore-next-line at the end of file"}
