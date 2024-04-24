@@ -165,18 +165,12 @@ defmodule ExCoveralls.Ignore do
     }
   end
 
-  defp process_end_of_file(state = %{ignore_mode: :no_ignore}), do: state
-
-  defp process_end_of_file(state = %{ignore_mode: :ignore_line}) do
-    warning = {state.last_marker_index, "redundant ignore-next-line at the end of file"}
-
-    %{state | warnings: [warning | state.warnings]}
-  end
-
   defp process_end_of_file(state = %{ignore_mode: :ignore_block}) do
     warning =
       {state.last_marker_index, "ignore-start without a corresponding ignore-stop"}
 
     %{state | warnings: [warning | state.warnings]}
   end
+
+  defp process_end_of_file(state), do: state
 end
