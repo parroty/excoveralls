@@ -68,13 +68,32 @@ defmodule ExCoveralls.IgnoreTest do
                  coverage: @counts
                }]
 
-  test "filter ignored lines with next-line inside start/stop block returns valid list with a warning" do
+  test "filter ignored lines with next-line inside start/stop block produces warning" do
     info = Ignore.filter(@source_info) |> Enum.at(0)
     assert(info[:source]   == @content)
     assert(info[:coverage] == [0, 0, 0, nil, nil, nil, nil, nil, 0, 0, 0, 0])
     assert(info[:warnings] == [{5, "redundant ignore-next-line inside ignore block"}])
   end
 
+  @content     """
+  defmodule Test do
+    #coveralls-ignore-next-line
+    #coveralls-ignore-next-line
+  end
+  """
+  @counts      [0, nil, nil, 0, 0]
+  @source_info [%{name: "test/fixtures/test.ex",
+                 source: @content,
+                 coverage: @counts
+               }]
+
+  test "filter ignored lines with next-line right after next-line produces warning" do
+    info = Ignore.filter(@source_info) |> Enum.at(0)
+    assert(info[:source]   == @content)
+    assert(info[:coverage] == [0, nil, nil, nil, 0])
+    assert(info[:warnings] == [{2, "duplicated ignore-next-line"}])
+  end
+  
   @content     """
   defmodule Test do
     def test do
@@ -96,7 +115,7 @@ defmodule ExCoveralls.IgnoreTest do
                  coverage: @counts
                }]
 
-  test "start marker without a stop marker is discarded with a warning" do
+  test "start marker without a stop marker produces warning" do
     info = Ignore.filter(@source_info) |> Enum.at(0)
     assert(info[:source]   == @content)
     assert(info[:coverage] == [0, 0, 0, nil, nil, nil, nil, 0, 0, nil, nil, nil, nil, nil])
@@ -122,7 +141,7 @@ defmodule ExCoveralls.IgnoreTest do
                  coverage: @counts
                }]
 
-  test "start marker followed by another start marker is discarded with a warning" do
+  test "start marker followed by another start marker produces warning" do
     info = Ignore.filter(@source_info) |> Enum.at(0)
     assert(info[:source]   == @content)
     assert(info[:coverage] == [0, 0, 0, nil, nil, nil, nil, nil, nil, nil, 0, 0])
