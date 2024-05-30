@@ -3,6 +3,7 @@ defmodule ExCoveralls.Gitlab do
   Handles gitlab-ci integration with coveralls.
   """
   alias ExCoveralls.Poster
+  alias ExCoveralls.Stats
 
   def execute(stats, options) do
     json = generate_json(stats, Enum.into(options, %{}))
@@ -23,7 +24,7 @@ defmodule ExCoveralls.Gitlab do
       service_number: get_number(),
       service_job_id: get_job_id(),
       service_pull_request: get_pull_request(),
-      source_files: stats,
+      source_files: Stats.serialize(stats),
       git: generate_git_info(),
       parallel: options[:parallel],
       flag_name: options[:flagname]

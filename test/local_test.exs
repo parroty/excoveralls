@@ -8,20 +8,31 @@ defmodule ExCoveralls.LocalTest do
   @counts      [0, 1, nil, nil]
   @source_info [%{name: "test/fixtures/test.ex",
                  source: @content,
-                 coverage: @counts
+                 coverage: @counts,
+                 warnings: []
                }]
 
   @invalid_counts [0, 1, nil, "invalid"]
   @invalid_source_info [%{name: "test/fixtures/test.ex",
                  source: @content,
-                 coverage: @invalid_counts
+                 coverage: @invalid_counts,
+                 warnings: []
                }]
 
   @empty_counts [nil, nil, nil, nil]
   @empty_source_info [%{name: "test/fixtures/test.ex",
                  source: @content,
-                 coverage: @empty_counts
+                 coverage: @empty_counts,
+                 warnings: []
                }]
+
+  @warning_source_info [%{
+                 name: "test/fixtures/test.ex",
+                 source: @content,
+                 coverage: @counts,
+                 warnings: [{2, "this is a test"}, {4, "another test"}]
+               }]
+
 
   @stats_result "" <>
       "----------------\n" <>
@@ -37,6 +48,12 @@ defmodule ExCoveralls.LocalTest do
       "\e[31mdefmodule Test do\e[m\n\e[32m  def test do\e[m\n" <>
       "  end\n" <>
       "end"
+
+  @warning_result "" <>
+      "\n\e[33mwarning:\e[m this is a test\n" <>
+      "  test/fixtures/test.ex:3\n" <>
+      "\e[33mwarning:\e[m another test\n" <>
+      "  test/fixtures/test.ex:5\n"
 
   setup do
     ExCoveralls.ConfServer.clear()
@@ -72,6 +89,12 @@ defmodule ExCoveralls.LocalTest do
     assert_raise RuntimeError, fn ->
       Local.coverage(@invalid_source_info)
     end
+  end
+
+  test "display warnings" do
+    assert capture_io(fn ->
+      Local.execute(@warning_source_info)
+    end) =~ @warning_result
   end
 
   test "Empty (no relevant lines) file is calculated as 0.0%" do

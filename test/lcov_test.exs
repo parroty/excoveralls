@@ -12,7 +12,8 @@ defmodule ExCoveralls.LcovTest do
   @test_file_name "test/fixtures/test.ex"
   @source_info [%{name: @test_file_name,
                   source: @content,
-                  coverage: @counts
+                  coverage: @counts,
+                  warnings: []
                }]
 
   @stats_result "" <>

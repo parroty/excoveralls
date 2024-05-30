@@ -46,6 +46,7 @@ defmodule ExCoveralls.Local do
     enabled = ExCoveralls.Settings.get_print_summary
     if enabled and not ExCoveralls.ConfServer.summary_printed?() do
       coverage(stats, options) |> IO.puts()
+      warnings(stats) |> IO.write()
       ExCoveralls.ConfServer.summary_printed()
     end
   end
@@ -89,6 +90,12 @@ defmodule ExCoveralls.Local do
       """
     else
       "Test Coverage #{format_total(count_info)}\n"
+    end
+  end
+
+  def warnings(stats) do
+    for stat <- stats, {line_num, message} <- stat[:warnings], into: "" do
+      print_string("\e[33mwarning:\e[m ~s\n  ~s:~b\n", [message, stat[:name], line_num + 1])
     end
   end
 

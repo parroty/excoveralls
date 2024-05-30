@@ -3,6 +3,7 @@ defmodule ExCoveralls.Post do
   Handles general-purpose CI integration with coveralls.
   """
   alias ExCoveralls.Poster
+  alias ExCoveralls.Stats
 
   def execute(stats, options) do
     json = generate_json(stats, options)
@@ -17,7 +18,7 @@ defmodule ExCoveralls.Post do
       repo_token: options[:token],
       service_name: options[:service_name],
       service_number: options[:service_number],
-      source_files: source_info,
+      source_files: Stats.serialize(source_info),
       parallel: options[:parallel],
       flag_name: options[:flagname],
       git: generate_git_info(options)

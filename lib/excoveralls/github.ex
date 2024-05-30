@@ -3,6 +3,7 @@ defmodule ExCoveralls.Github do
   Handles GitHub Actions integration with coveralls.
   """
   alias ExCoveralls.Poster
+  alias ExCoveralls.Stats
 
   def execute(stats, options) do
     json = generate_json(stats, Enum.into(options, %{}))
@@ -20,7 +21,7 @@ defmodule ExCoveralls.Github do
     %{
       repo_token: get_env("GITHUB_TOKEN"),
       service_name: "github",
-      source_files: stats,
+      source_files: Stats.serialize(stats),
       parallel: options[:parallel],
       flag_name: options[:flagname],
       git: git_info()
