@@ -70,7 +70,7 @@
                         <tr>
                           <td class='line'><%= number %></td>
                           <td class='hits'></td>
-                          <td class='source'><%= ExCoveralls.Html.View.safe(line.source || ' ')  %></td>
+                          <td class='source'><%= ExCoveralls.Html.View.safe(line.source || " ")  %></td>
                         </tr>
                     <% end %>
                   <% end %>
