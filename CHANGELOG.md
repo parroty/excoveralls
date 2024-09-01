@@ -1,9 +1,3 @@
-0.18.3
-------
-#### Changes
-- Avoid warning messages for Cobertura
-  - Add missing step for Cobertura's range (#329)
-
 0.18.2
 ------
 #### Enhancements
