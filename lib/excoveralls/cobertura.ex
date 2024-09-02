@@ -188,7 +188,7 @@ defmodule ExCoveralls.Cobertura do
     # We use Range.new/3 because using x..y//step would give a syntax error on Elixir < 1.12
     defp get_slice_range_for_package_name(c_path), do: Range.new(String.length(c_path) + 1, -1, 1)
   else
-    defp get_slice_range_for_package_name(c_path), do: (String.length(c_path) + 1)..-1//1
+    defp get_slice_range_for_package_name(c_path), do: Range.new(String.length(c_path) + 1, -1)
   end
 
   defp rate(valid_lines) when length(valid_lines) == 0, do: 0.0
