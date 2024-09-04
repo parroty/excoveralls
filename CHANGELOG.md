@@ -1,3 +1,9 @@
+0.18.3
+------
+#### Changes
+- Avoid warning messages for Cobertura
+  - Update Range to use function syntax (#332)
+
 0.18.2
 ------
 #### Enhancements
