@@ -13,6 +13,8 @@ jobs:
             elixir: '1.11'
           - otp: '26.0'
             elixir: '1.15'
+          - otp: '27.0'
+            elixir: '1.17'
     env:
       MIX_ENV: test
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

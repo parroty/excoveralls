@@ -15,7 +15,8 @@ defmodule Excoveralls.SettingsTest do
 
   test "returns default file path" do
     assert(Settings.Files.default_file
-           |> Path.relative_to(File.cwd!) == "lib/excoveralls/../conf/coveralls.json")
+           |> Path.expand()
+           |> Path.relative_to(File.cwd!) == "lib/conf/coveralls.json")
   end
 
   test "returns custom file path" do
