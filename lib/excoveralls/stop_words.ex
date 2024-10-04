@@ -14,7 +14,7 @@ defmodule ExCoveralls.StopWords do
     lines = String.split(source, "\n")
     list = Enum.zip(lines, coverage)
            |> Enum.map(fn(x) -> has_valid_line?(x, words) end)
-           |> List.zip
+           |> Enum.zip()
            |> Enum.map(&Tuple.to_list(&1))
     [source, coverage] = parse_filter_list(list)
     %{name: name, source: source, coverage: coverage}
@@ -25,9 +25,9 @@ defmodule ExCoveralls.StopWords do
 
   defp has_valid_line?({line, coverage}, words) do
     if find_stop_words(line, words) == false do
-      {line, coverage}
+      [line, coverage]
     else
-      {line, nil}
+      [line, nil]
     end
   end
 
