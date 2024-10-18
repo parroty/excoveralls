@@ -1,3 +1,8 @@
+0.18.4
+------
+#### Changes
+- Elixir 1.18 compatibility (#333)
+
 0.18.3
 ------
 #### Changes
