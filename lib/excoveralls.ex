@@ -63,6 +63,9 @@ defmodule ExCoveralls do
     else
       types = List.wrap(options[:type] || "local")
       stats = Stats.update_paths(stats, options)
+
+      # Push all available options down
+      options = options ++ opts
       Enum.each(types, &analyze(stats, &1, options))
     end
   after
