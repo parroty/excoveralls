@@ -101,7 +101,7 @@ defmodule ExCoveralls.JsonTest do
     report = on_entry.("custom", @test_output_dir)
 
     assert capture_io(fn ->
-      Json.execute(@source_info, [output_dir: @test_output_dir])
+      Json.execute(@source_info, [output_dir: @test_output_dir, export: "custom"])
     end) =~ @stats_result
 
     assert(
