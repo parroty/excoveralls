@@ -45,7 +45,7 @@ defmodule Chaps.Mixfile do
 
   def deps do
     [
-      {:nimble_options, "~> 0.3 and >= 0.3.7"},
+      {:nimble_options, "~> 1.0"},
       {:jason, "~> 1.0", optional: true},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:meck, "~> 0.8", only: :test},
