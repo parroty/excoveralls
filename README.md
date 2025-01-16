@@ -359,7 +359,11 @@ Output to the shell is the same as running the command `mix coveralls` (to suppr
 Upload a coverage report to Codecov using their [bash uploader](https://docs.codecov.io/docs/about-the-codecov-bash-uploader)
 or to Code Climate using their [test-reporter](https://docs.codeclimate.com/docs/configuring-test-coverage).
 
-Output reports are written to `cover/excoveralls.json` by default, however, the path can be specified by overwriting the `"output_dir"` coverage option.
+Output reports are written to `cover/excoveralls.json` by default, however, the path can be specified by overwriting the `"output_dir"` coverage option. Additionally, the filename can be specified using the `export` option under `test_coverage` in your `mix.exs` i.e.
+
+`test_coverage: [tool: ExCoveralls, export: "my_awesome_report"]`
+
+*Note:* the .json extension will be added automatically to the export name. Defaults to `excoveralls` if not specified.
 
 ### [mix coveralls.xml] Show coverage as XML report
 This task displays coverage information at the source-code level formatted as a XML document.
