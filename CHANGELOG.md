@@ -1,10 +1,8 @@
-0.18.5
+0.18.4
 ------
 #### Enhancements
 - Add Custom Filename support for coveralls.json (#335)
 
-0.18.4
-------
 #### Changes
 - Elixir 1.18 compatibility (#333)
 
