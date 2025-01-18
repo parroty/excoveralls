@@ -1,3 +1,8 @@
+0.18.5
+------
+#### Enhancements
+- Add Custom Filename support for coveralls.json (#335)
+
 0.18.4
 ------
 #### Changes
