@@ -1,3 +1,8 @@
+0.18.5
+------
+#### Changes
+- Fix Json output name when export isn't set (#337)
+
 0.18.4
 ------
 #### Enhancements
