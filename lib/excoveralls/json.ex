@@ -35,9 +35,10 @@ defmodule ExCoveralls.Json do
   end
 
   defp output_name(name) do
-    case name do
-      nil -> @file_name
-      name -> "#{name}.json"
+    if name do
+      "#{name}.json"
+    else
+      @file_name
     end
   end
 
